@@ -21,7 +21,11 @@ interface
 
 const
 {$IF Defined(MSWINDOWS)}
+  {$IFDEF WIN64}
+  SQLiteDLL = 'sqlite3_x64.dll';
+  {$ELSE}
   SQLiteDLL = 'sqlite3.dll';
+  {$ENDIF}
 {$ELSEIF Defined(DARWIN)}
   SQLiteDLL = 'libsqlite3.dylib';
   {$linklib libsqlite3}
