@@ -1,4 +1,4 @@
-unit MainForm;
+ï»¿unit MainForm;
 
 //{$D+}
 
@@ -19,49 +19,49 @@ uses
   ShellAPI, Menus, Clipbrd, Math, AppEvnts, StrUtils, LoadMapUnit, Board, SQLiteTable3, PsAPI;
 
 type
-  TSetting = record     // ³ÌĞòÉèÖÃÏîÄ¿
-    myTop: integer;            // ÉÏ´ÎÍË³öÊ±£¬´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡
+  TSetting = record     // ç¨‹åºè®¾ç½®é¡¹ç›®
+    myTop: integer;            // ä¸Šæ¬¡é€€å‡ºæ—¶ï¼Œçª—å£çš„ä½ç½®åŠå¤§å°
     myLeft: integer;
     myWidth: integer;
     myHeight: integer;
-    bwTop: integer;            // ÉÏ¹Ø¿¨ä¯ÀÀ´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡µÄ¼ÇÒä
+    bwTop: integer;            // ä¸Šå…³å¡æµè§ˆçª—å£çš„ä½ç½®åŠå¤§å°çš„è®°å¿†
     bwLeft: integer;
     bwWidth: integer;
     bwHeight: integer;
-    bwStyle: integer;          // ¹Ø¿¨ä¯ÀÀÑùÊ½
-    mySpeed: integer;          // µ±Ç°ÒÆ¶¯ËÙ¶È
-    bwBKColor: integer;        // ¹Ø¿¨ä¯ÀÀ½çÃæµÄ±³¾°É«
-    MapFileName: string;       // µ±Ç°¹Ø¿¨¼¯ÎÄµµÃû
-    SkinFileName: string;      // µ±Ç°Æ¤·ôÎÄµµÃû
-    isGoThrough: boolean;      // ´©Ô½ÊÇ·ñ¿ªÆô
-    isIM: boolean;             // Ë²ÒÆÊÇ·ñ¿ªÆô
-    isBK: boolean;             // ÊÇ·ñÄæÍÆÄ£Ê½
-    isSameGoal: boolean;       // ÄæÍÆÊ±£¬Ê¹ÓÃÕıÍÆÄ¿±êÎ»
-    isJijing: boolean;         // »¥¶¯Ë«ÍÆ
-    isNumber: boolean;         // ÊÇ·ñ¿ªÆô¡°Ë«»÷±àºÅ¡±¹¦ÄÜ
-    isRotate: boolean;         // ÊÇ·ñ¡°ÒÀ´ÎĞı×ª¡±¹Ø¿¨
-    isXSB_Saved: boolean;      // µ±´Ó¼ôÇĞ°åµ¼ÈëµÄ XSB ÊÇ·ñ±£´æ¹ıÁË
-    isLurd_Saved: boolean;     // ÍÆ¹Ø¿¨µÄ¶¯×÷ÊÇ·ñ±£´æ¹ıÁË
-    isOddEven: Boolean;        // ÊÇ·ñÏÔÊ¾ÆæÅ¼ÌØĞ§
-    isLeftBar: Boolean;        // ÊÇ·ñÏÔÊ¾×ó²à±ßÀ¸
-    isShowNoVisited: Boolean;  // ÊÇ·ñ±êÊ¶Î´Ôø·ÃÎÊ¹ıµÄ¸ñ×Ó
-    LaterList: TStringList;    // ×î½üÍÆ¹ıµÄ¹Ø¿¨¼¯
-    SubmitCountry: string;     // Ìá½»--¹ú¼Ò»òµØÇø
-    SubmitName: string;        // Ìá½»--ĞÕÃû       
-    SubmitEmail: string;       // Ìá½»--ÓÊÏä
+    bwStyle: integer;          // å…³å¡æµè§ˆæ ·å¼
+    mySpeed: integer;          // å½“å‰ç§»åŠ¨é€Ÿåº¦
+    bwBKColor: integer;        // å…³å¡æµè§ˆç•Œé¢çš„èƒŒæ™¯è‰²
+    MapFileName: string;       // å½“å‰å…³å¡é›†æ–‡æ¡£å
+    SkinFileName: string;      // å½“å‰çš®è‚¤æ–‡æ¡£å
+    isGoThrough: boolean;      // ç©¿è¶Šæ˜¯å¦å¼€å¯
+    isIM: boolean;             // ç¬ç§»æ˜¯å¦å¼€å¯
+    isBK: boolean;             // æ˜¯å¦é€†æ¨æ¨¡å¼
+    isSameGoal: boolean;       // é€†æ¨æ—¶ï¼Œä½¿ç”¨æ­£æ¨ç›®æ ‡ä½
+    isJijing: boolean;         // äº’åŠ¨åŒæ¨
+    isNumber: boolean;         // æ˜¯å¦å¼€å¯â€œåŒå‡»ç¼–å·â€åŠŸèƒ½
+    isRotate: boolean;         // æ˜¯å¦â€œä¾æ¬¡æ—‹è½¬â€å…³å¡
+    isXSB_Saved: boolean;      // å½“ä»å‰ªåˆ‡æ¿å¯¼å…¥çš„ XSB æ˜¯å¦ä¿å­˜è¿‡äº†
+    isLurd_Saved: boolean;     // æ¨å…³å¡çš„åŠ¨ä½œæ˜¯å¦ä¿å­˜è¿‡äº†
+    isOddEven: Boolean;        // æ˜¯å¦æ˜¾ç¤ºå¥‡å¶ç‰¹æ•ˆ
+    isLeftBar: Boolean;        // æ˜¯å¦æ˜¾ç¤ºå·¦ä¾§è¾¹æ 
+    isShowNoVisited: Boolean;  // æ˜¯å¦æ ‡è¯†æœªæ›¾è®¿é—®è¿‡çš„æ ¼å­
+    LaterList: TStringList;    // æœ€è¿‘æ¨è¿‡çš„å…³å¡é›†
+    SubmitCountry: string;     // æäº¤--å›½å®¶æˆ–åœ°åŒº
+    SubmitName: string;        // æäº¤--å§“å       
+    SubmitEmail: string;       // æäº¤--é‚®ç®±
   end;
 
-type                  // µ±Ç°µØÍ¼ĞÅÏ¢
+type                  // å½“å‰åœ°å›¾ä¿¡æ¯
   TMapState = record
-    CurrentLevel: integer;   // µ±Ç°¹Ø¿¨ĞòºÅ
-    ManPosition: integer;    // ÕıÍÆ³õÊ¼×´Ì¬£¬ÈËµÄÎ»ÖÃ
-    MapSize: integer;        // µØÍ¼³ß´ç
-    CellSize: integer;       // »­µØÍ¼Ê±£¬µ±Ç°µÄµ¥Ôª¸ñ³ß´ç
-    Recording: Boolean;      // ÊÇ·ñÔÚ¶¯×÷Â¼ÖÆ×´Ì¬
-    Recording_BK: Boolean;   // ÊÇ·ñÔÚ¶¯×÷Â¼ÖÆ×´Ì¬ -- ÄæÍÆ
-    StartPos: Integer;       // ¶¯×÷Â¼ÖÆµÄ¿ªÊ¼µã
-    StartPos_BK: Integer;    // ¶¯×÷Â¼ÖÆµÄ¿ªÊ¼µã -- ÄæÍÆ
-    isFinish: Boolean;       // ÊÇ·ñµÃµ½´ğ°¸£¬ÔÊĞí¹Û¿´´ğ°¸ÁË - µ±½â¹Ø³É¹¦»òµ¼ÈëÕıÈ·´ğ°¸ºó£¬´Ë±êÖ¾ÎªÕæ£¬±íÊ¾¿ÉÒÔ¡°¹Û¿´¡±´ğ°¸ÁË
+    CurrentLevel: integer;   // å½“å‰å…³å¡åºå·
+    ManPosition: integer;    // æ­£æ¨åˆå§‹çŠ¶æ€ï¼Œäººçš„ä½ç½®
+    MapSize: integer;        // åœ°å›¾å°ºå¯¸
+    CellSize: integer;       // ç”»åœ°å›¾æ—¶ï¼Œå½“å‰çš„å•å…ƒæ ¼å°ºå¯¸
+    Recording: Boolean;      // æ˜¯å¦åœ¨åŠ¨ä½œå½•åˆ¶çŠ¶æ€
+    Recording_BK: Boolean;   // æ˜¯å¦åœ¨åŠ¨ä½œå½•åˆ¶çŠ¶æ€ -- é€†æ¨
+    StartPos: Integer;       // åŠ¨ä½œå½•åˆ¶çš„å¼€å§‹ç‚¹
+    StartPos_BK: Integer;    // åŠ¨ä½œå½•åˆ¶çš„å¼€å§‹ç‚¹ -- é€†æ¨
+    isFinish: Boolean;       // æ˜¯å¦å¾—åˆ°ç­”æ¡ˆï¼Œå…è®¸è§‚çœ‹ç­”æ¡ˆäº† - å½“è§£å…³æˆåŠŸæˆ–å¯¼å…¥æ­£ç¡®ç­”æ¡ˆåï¼Œæ­¤æ ‡å¿—ä¸ºçœŸï¼Œè¡¨ç¤ºå¯ä»¥â€œè§‚çœ‹â€ç­”æ¡ˆäº†
   end;
 
 type
@@ -179,20 +179,20 @@ type
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure map_ImageMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure ContentClick(Sender: TObject);              // °ïÖú
-    procedure Restart(is_BK: Boolean);                    // ¹Ø¿¨ÖØĞÂ¿ªÊ¼
-    procedure bt_PreClick(Sender: TObject);               // ÉÏÒ»¹Ø
-    procedure bt_NextClick(Sender: TObject);              // ÏÂÒ»¹Ø
-    procedure bt_UnDoClick(Sender: TObject);              // UnDo °´Å¥
-    procedure bt_ReDoClick(Sender: TObject);              // ReDo °´Å¥
-    procedure bt_GoThroughClick(Sender: TObject);         // ´©Ô½¿ª¹Ø
-    procedure bt_IMClick(Sender: TObject);                // Ë²ÒÆ¿ª¹Ø
-    procedure bt_BKClick(Sender: TObject);                // ÄæÍÆÄ£Ê½
-    procedure SetButton();                                // ÉèÖÃ°´Å¥×´Ì¬
-    procedure bt_OpenClick(Sender: TObject);              // ´ò¿ª¹Ø¿¨ÎÄµµ
-    procedure bt_SkinClick(Sender: TObject);              // Ñ¡ÔñÆ¤·ô
-    function GetCur(x, y: Integer): string;              // ¼ÆËã±ê³ß
-    procedure DrawLine(cs: TCanvas; x1, y1: Integer; isLine: boolean);      // »­¸ñÏß
+    procedure ContentClick(Sender: TObject);              // å¸®åŠ©
+    procedure Restart(is_BK: Boolean);                    // å…³å¡é‡æ–°å¼€å§‹
+    procedure bt_PreClick(Sender: TObject);               // ä¸Šä¸€å…³
+    procedure bt_NextClick(Sender: TObject);              // ä¸‹ä¸€å…³
+    procedure bt_UnDoClick(Sender: TObject);              // UnDo æŒ‰é’®
+    procedure bt_ReDoClick(Sender: TObject);              // ReDo æŒ‰é’®
+    procedure bt_GoThroughClick(Sender: TObject);         // ç©¿è¶Šå¼€å…³
+    procedure bt_IMClick(Sender: TObject);                // ç¬ç§»å¼€å…³
+    procedure bt_BKClick(Sender: TObject);                // é€†æ¨æ¨¡å¼
+    procedure SetButton();                                // è®¾ç½®æŒ‰é’®çŠ¶æ€
+    procedure bt_OpenClick(Sender: TObject);              // æ‰“å¼€å…³å¡æ–‡æ¡£
+    procedure bt_SkinClick(Sender: TObject);              // é€‰æ‹©çš®è‚¤
+    function GetCur(x, y: Integer): string;              // è®¡ç®—æ ‡å°º
+    procedure DrawLine(cs: TCanvas; x1, y1: Integer; isLine: boolean);      // ç”»æ ¼çº¿
     procedure pnl_TrunMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure pnl_SpeedMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure bt_ViewClick(Sender: TObject);
@@ -216,7 +216,7 @@ type
     procedure so_XSB_LurdAllClick(Sender: TObject);
     procedure so_XSB_Lurd_FileClick(Sender: TObject);
     procedure so_XSB_LurdAll_FileClick(Sender: TObject);
-    procedure so_XSBAll_LurdAll1_FileClick(Sender: TObject);       // ¼ÆËã·ÃÎÊ¹ıµÄ¸ñ×Ó
+    procedure so_XSBAll_LurdAll1_FileClick(Sender: TObject);       // è®¡ç®—è®¿é—®è¿‡çš„æ ¼å­
     procedure so_DeleteClick(Sender: TObject);
     procedure so_DeleteAllClick(Sender: TObject);
     procedure StatusBar1DblClick(Sender: TObject);
@@ -272,7 +272,7 @@ type
     procedure funMenuClick(Sender: TObject);
     procedure N27Click(Sender: TObject);
     function GetWall(r, c: Integer): Integer;
-    procedure Timer1Timer(Sender: TObject);            // ¼ÆËã»­µØÍ¼Ê±£¬Ê¹ÓÃÄÇ¿éÇ½±ÚÍ¼Ôª
+    procedure Timer1Timer(Sender: TObject);            // è®¡ç®—ç”»åœ°å›¾æ—¶ï¼Œä½¿ç”¨é‚£å—å¢™å£å›¾å…ƒ
     function GetProcessMemUse(PID: Cardinal): Double;
     procedure Timer2Timer(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -283,93 +283,93 @@ type
     procedure N30Click(Sender: TObject);
 
   private
-    // µ±Ç°µØÍ¼²ÎÊı
-    MoveTimes, PushTimes: integer;                    // ÕıÍÆÍÆÒÆ²½Êı
-    MoveTimes_BK, PushTimes_BK: integer;              // ÄæÍÆÍÆÒÆ²½Êı
-    IsManAccessibleTips: boolean;                     // ÊÇ·ñÏÔÊ¾ÈËµÄÕıÍÆ¿É´ïÌáÊ¾
-    IsManAccessibleTips_BK: boolean;                  // ÊÇ·ñÏÔÊ¾ÈËµÄÄæÍÆ¿É´ïÌáÊ¾
-    IsBoxAccessibleTips: boolean;                     // ÊÇ·ñÏÔÊ¾Ïä×ÓµÄÕıÍÆ¿É´ïÌáÊ¾
-    IsBoxAccessibleTips_BK: boolean;                  // ÊÇ·ñÏÔÊ¾Ïä×ÓµÄÄæÍÆ¿É´ïÌáÊ¾
+    // å½“å‰åœ°å›¾å‚æ•°
+    MoveTimes, PushTimes: integer;                    // æ­£æ¨æ¨ç§»æ­¥æ•°
+    MoveTimes_BK, PushTimes_BK: integer;              // é€†æ¨æ¨ç§»æ­¥æ•°
+    IsManAccessibleTips: boolean;                     // æ˜¯å¦æ˜¾ç¤ºäººçš„æ­£æ¨å¯è¾¾æç¤º
+    IsManAccessibleTips_BK: boolean;                  // æ˜¯å¦æ˜¾ç¤ºäººçš„é€†æ¨å¯è¾¾æç¤º
+    IsBoxAccessibleTips: boolean;                     // æ˜¯å¦æ˜¾ç¤ºç®±å­çš„æ­£æ¨å¯è¾¾æç¤º
+    IsBoxAccessibleTips_BK: boolean;                  // æ˜¯å¦æ˜¾ç¤ºç®±å­çš„é€†æ¨å¯è¾¾æç¤º
 
-    BoxNum_Board: array[0..9999] of integer;          // Ïä×Ó±àºÅ
-    PosNum_Board: array[0..9999] of integer;          // Î»ÖÃ±àºÅ
-    BoxNum_Board_BK: array[0..9999] of integer;       // Ïä×Ó±àºÅ - ÄæÍÆ
-    PosNum_Board_BK: array[0..9999] of integer;       // Î»ÖÃ±àºÅ - ÄæÍÆ
-    map_Selected: array[0..9999] of Boolean;          // Ñ¡ÖĞµÄµ¥Ôª¸ñ
-    map_Selected_BK: array[0..9999] of Boolean;       // Ñ¡ÖĞµÄµ¥Ôª¸ñ - ÄæÍÆ
-    map_Board_Visited: array[0..9999] of Boolean;     // ·ÃÎÊ¹ıµÄ¸ñ×Ó
-    BoxNumber: integer;                               // Ïä×ÓÊı
-    GoalNumber: integer;                              // Ä¿±êµãÊı
-    ManPos: integer;                                  // ÈËµÄÎ»ÖÃ -- ÕıÍÆ
-    ManPos_BK: integer;                               // ÈËµÄÎ»ÖÃ -- ÄæÍÆ
-    OldBoxPos: integer;                               // ±»µã»÷µÄÏä×ÓµÄÎ»ÖÃ -- ÕıÍÆ
-    OldBoxPos_BK: integer;                            // ±»µã»÷µÄÏä×ÓµÄÎ»ÖÃ -- ÄæÍÆ
+    BoxNum_Board: array[0..9999] of integer;          // ç®±å­ç¼–å·
+    PosNum_Board: array[0..9999] of integer;          // ä½ç½®ç¼–å·
+    BoxNum_Board_BK: array[0..9999] of integer;       // ç®±å­ç¼–å· - é€†æ¨
+    PosNum_Board_BK: array[0..9999] of integer;       // ä½ç½®ç¼–å· - é€†æ¨
+    map_Selected: array[0..9999] of Boolean;          // é€‰ä¸­çš„å•å…ƒæ ¼
+    map_Selected_BK: array[0..9999] of Boolean;       // é€‰ä¸­çš„å•å…ƒæ ¼ - é€†æ¨
+    map_Board_Visited: array[0..9999] of Boolean;     // è®¿é—®è¿‡çš„æ ¼å­
+    BoxNumber: integer;                               // ç®±å­æ•°
+    GoalNumber: integer;                              // ç›®æ ‡ç‚¹æ•°
+    ManPos: integer;                                  // äººçš„ä½ç½® -- æ­£æ¨
+    ManPos_BK: integer;                               // äººçš„ä½ç½® -- é€†æ¨
+    OldBoxPos: integer;                               // è¢«ç‚¹å‡»çš„ç®±å­çš„ä½ç½® -- æ­£æ¨
+    OldBoxPos_BK: integer;                            // è¢«ç‚¹å‡»çš„ç®±å­çš„ä½ç½® -- é€†æ¨
 
-    LastSteps: Integer;                               // ÕıÍÆ×îºóÒ»´ÎµãÍÆÇ°µÄ²½Êı
+    LastSteps: Integer;                               // æ­£æ¨æœ€åä¸€æ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
 
-    procedure WMDROPFILES(var Msg:TWMDROPFILES);message WM_DROPFILES;   // ÍÏ¶¯ÎÄµµµ½³ÌĞò´°¿Ú
+    procedure WMDROPFILES(var Msg:TWMDROPFILES);message WM_DROPFILES;   // æ‹–åŠ¨æ–‡æ¡£åˆ°ç¨‹åºçª—å£
 
-    function GetStepLine(is_BK: Boolean): Integer;    // ½âÎö×îºóÒ»´Î¡°Ö±ÍÆ¡±
+    function GetStepLine(is_BK: Boolean): Integer;    // è§£ææœ€åä¸€æ¬¡â€œç›´æ¨â€
 
-    // µØÍ¼
-    function LoadMap(MapIndex: integer): boolean;     // ¼ÓÔØ¹Ø¿¨
-    procedure ReadQuicklyMap();                       // ÓÃ QuicklyLoadMap() ¼ÓÔØµ½µÄµØÍ¼£¬×°ÌîÓÎÏ·Êı¾İ
-    procedure InitlizeMap();                          // µØÍ¼³õÊ¼»¯
-    procedure NewMapSize();                           // ÖØĞÂ¼ÆËãµØÍ¼³ß´ç
-    procedure DrawMap();                              // »­µØÍ¼
+    // åœ°å›¾
+    function LoadMap(MapIndex: integer): boolean;     // åŠ è½½å…³å¡
+    procedure ReadQuicklyMap();                       // ç”¨ QuicklyLoadMap() åŠ è½½åˆ°çš„åœ°å›¾ï¼Œè£…å¡«æ¸¸æˆæ•°æ®
+    procedure InitlizeMap();                          // åœ°å›¾åˆå§‹åŒ–
+    procedure NewMapSize();                           // é‡æ–°è®¡ç®—åœ°å›¾å°ºå¯¸
+    procedure DrawMap();                              // ç”»åœ°å›¾
 
-    // ÈËÓëÏä×ÓµÄÒÆ¶¯
-    function IsComplete(): boolean;                   // ÊÇ·ñ¹ı¹Ø - ÕıÍÆ
-    function IsComplete_BK(): boolean;                // ÊÇ·ñ¹ı¹Ø - ÄæÍÆ
-    function IsMeets(ch: Char): Boolean;              // ÊÇ·ñÕıÄæÏàºÏ
-    procedure ReDo(Steps: Integer);                   // ÖØ×öÒ»²½ - ÕıÍÆ
-    procedure UnDo(Steps: Integer);                   // ³·ÏúÒ»²½ - ÕıÍÆ
-    procedure ReDo_BK(Steps: Integer);                // ÖØ×öÒ»²½ - ÄæÍÆ
-    procedure UnDo_BK(Steps: Integer);                // ³·ÏúÒ»²½ - ÄæÍÆ
-    procedure GameDelay();                            // ÑÓÊ±
-    procedure DoAct(n:  Integer);                     // ×Ô¶¯Ö´ĞĞ¡°¼Ä´æÆ÷¡±¶¯×÷
+    // äººä¸ç®±å­çš„ç§»åŠ¨
+    function IsComplete(): boolean;                   // æ˜¯å¦è¿‡å…³ - æ­£æ¨
+    function IsComplete_BK(): boolean;                // æ˜¯å¦è¿‡å…³ - é€†æ¨
+    function IsMeets(ch: Char): Boolean;              // æ˜¯å¦æ­£é€†ç›¸åˆ
+    procedure ReDo(Steps: Integer);                   // é‡åšä¸€æ­¥ - æ­£æ¨
+    procedure UnDo(Steps: Integer);                   // æ’¤é”€ä¸€æ­¥ - æ­£æ¨
+    procedure ReDo_BK(Steps: Integer);                // é‡åšä¸€æ­¥ - é€†æ¨
+    procedure UnDo_BK(Steps: Integer);                // æ’¤é”€ä¸€æ­¥ - é€†æ¨
+    procedure GameDelay();                            // å»¶æ—¶
+    procedure DoAct(n:  Integer);                     // è‡ªåŠ¨æ‰§è¡Œâ€œå¯„å­˜å™¨â€åŠ¨ä½œ
 
-    // ´æÈ¡ÅäÖÃĞÅÏ¢
+    // å­˜å–é…ç½®ä¿¡æ¯
     procedure LoadSttings();
     procedure SaveSttings();
-    procedure ShowStatusBar();                        // Ë¢ĞÂµ×²¿×´Ì¬À¸
-    procedure SetMapTrun();                           // ¸üĞÂµØÍ¼Ğı×ª×´Ì¬
+    procedure ShowStatusBar();                        // åˆ·æ–°åº•éƒ¨çŠ¶æ€æ 
+    procedure SetMapTrun();                           // æ›´æ–°åœ°å›¾æ—‹è½¬çŠ¶æ€
 
-    function GetStep(is_BK: Boolean): Integer;        // ½âÎöÕıÍÆ reDo ¶¯×÷½Úµã -- Ã¿ÍÆÒ»¸öÏä×ÓÎªÒ»¸ö¶¯×÷
-    function GetStep2(is_BK: Boolean): Integer;       // ½âÎöÕıÍÆ unDo ¶¯×÷½Úµã -- Ã¿ÍÆÒ»¸öÏä×ÓÎªÒ»¸ö¶¯×÷
-    function SaveXSBToFile(): Boolean;                // ±£´æ¹Ø¿¨ XSB µ½ÎÄµµ
-    function SaveSolution(n: Integer): Boolean;       // ĞÂÔö´ğ°¸
-    function SaveState(): Boolean;                    // ±£´æ×´Ì¬
-    function LoadState(): Boolean;                    // ¼ÓÔØ×´Ì¬
-    function GetSolution(mapNpde: PMapNode): string;  // ¼ÓÔØÖ¸¶¨¹Ø¿¨µÄËùÓĞ´ğ°¸
-    function GetStateFromDB(index: Integer; var x: Integer; var y: Integer; var str1: string; var str2: string): Boolean;    // ´Ó´ğ°¸¿â¼ÓÔØÒ»Ìõ×´Ì¬
-    function GetSolutionFromDB(index: Integer; var str: string): Boolean;                                                    // ´Ó´ğ°¸¿â¼ÓÔØÒ»Ìõ´ğ°¸
+    function GetStep(is_BK: Boolean): Integer;        // è§£ææ­£æ¨ reDo åŠ¨ä½œèŠ‚ç‚¹ -- æ¯æ¨ä¸€ä¸ªç®±å­ä¸ºä¸€ä¸ªåŠ¨ä½œ
+    function GetStep2(is_BK: Boolean): Integer;       // è§£ææ­£æ¨ unDo åŠ¨ä½œèŠ‚ç‚¹ -- æ¯æ¨ä¸€ä¸ªç®±å­ä¸ºä¸€ä¸ªåŠ¨ä½œ
+    function SaveXSBToFile(): Boolean;                // ä¿å­˜å…³å¡ XSB åˆ°æ–‡æ¡£
+    function SaveSolution(n: Integer): Boolean;       // æ–°å¢ç­”æ¡ˆ
+    function SaveState(): Boolean;                    // ä¿å­˜çŠ¶æ€
+    function LoadState(): Boolean;                    // åŠ è½½çŠ¶æ€
+    function GetSolution(mapNpde: PMapNode): string;  // åŠ è½½æŒ‡å®šå…³å¡çš„æ‰€æœ‰ç­”æ¡ˆ
+    function GetStateFromDB(index: Integer; var x: Integer; var y: Integer; var str1: string; var str2: string): Boolean;    // ä»ç­”æ¡ˆåº“åŠ è½½ä¸€æ¡çŠ¶æ€
+    function GetSolutionFromDB(index: Integer; var str: string): Boolean;                                                    // ä»ç­”æ¡ˆåº“åŠ è½½ä¸€æ¡ç­”æ¡ˆ
     procedure MenuItemClick(Sender: TObject);
-    function GetCountBox(): string;                   // ÊıÏä×Ó
-    procedure getANS(ans_num, level_num: Integer; var str: String);      //¸ù¾İ´ğ°¸µÄĞı×ªÊı¼ÆËã³ö¹Ø¿¨Ä³Ğı×ªµÄ´ğ°¸
+    function GetCountBox(): string;                   // æ•°ç®±å­
+    procedure getANS(ans_num, level_num: Integer; var str: String);      //æ ¹æ®ç­”æ¡ˆçš„æ—‹è½¬æ•°è®¡ç®—å‡ºå…³å¡æŸæ—‹è½¬çš„ç­”æ¡ˆ
 
   public
-    mySettings: ^TSetting;                            // ³ÌĞòÅäÖÃÏî±äÁ¿
-    curMap: TMapState;                                // µ±Ç°µÄµØÍ¼ÅäÖÃ
-    txtList: TStringList;                             // ¹Ø¿¨ÎÄµµµÄ¸÷ĞĞÄÚÈİÁĞ±í
-    maxNumber: Integer;                               // ×î´ó¹Ø¿¨ĞòºÅ
+    mySettings: ^TSetting;                            // ç¨‹åºé…ç½®é¡¹å˜é‡
+    curMap: TMapState;                                // å½“å‰çš„åœ°å›¾é…ç½®
+    txtList: TStringList;                             // å…³å¡æ–‡æ¡£çš„å„è¡Œå†…å®¹åˆ—è¡¨
+    maxNumber: Integer;                               // æœ€å¤§å…³å¡åºå·
 
-    map_Board_BK: array[0..9999] of integer;          // ÄæÍÆµØÍ¼
-    map_Board: array[0..9999] of integer;             // ÕıÍÆµØÍ¼
-    map_Board_OG: array[0..9999] of integer;          // Ô­Ê¼µØÍ¼
+    map_Board_BK: array[0..9999] of integer;          // é€†æ¨åœ°å›¾
+    map_Board: array[0..9999] of integer;             // æ­£æ¨åœ°å›¾
+    map_Board_OG: array[0..9999] of integer;          // åŸå§‹åœ°å›¾
     
-    function LoadSolution(): Boolean;                 // ¼ÓÔØ´ğ°¸
+    function LoadSolution(): Boolean;                 // åŠ è½½ç­”æ¡ˆ
 
   end;
 
 const
-  minWindowsWidth = 600;                                           // ³ÌĞò´°¿Ú×îĞ¡³ß´çÏŞÖÆ
+  minWindowsWidth = 600;                                           // ç¨‹åºçª—å£æœ€å°å°ºå¯¸é™åˆ¶
   minWindowsHeight = 400;
   
-  DelayTimes: array[0..4] of dword = (5, 150, 275, 550, 1000);     // ÓÎÏ·ÑÓÊ± -- ËÙ¶È¿ØÖÆ
+  DelayTimes: array[0..4] of dword = (5, 150, 275, 550, 1000);     // æ¸¸æˆå»¶æ—¶ -- é€Ÿåº¦æ§åˆ¶
 
-  MapTrun: array[0..7] of string = ('0×ª', '1×ª', '2×ª', '3×ª', '4×ª', '5×ª', '6×ª', '7×ª');
-  SpeedInf: array[0..4] of string = ('×î¿ì', '½Ï¿ì', 'ÖĞËÙ', '½ÏÂı', '×îÂı');
+  MapTrun: array[0..7] of string = ('0è½¬', '1è½¬', '2è½¬', '3è½¬', '4è½¬', '5è½¬', '6è½¬', '7è½¬');
+  SpeedInf: array[0..4] of string = ('æœ€å¿«', 'è¾ƒå¿«', 'ä¸­é€Ÿ', 'è¾ƒæ…¢', 'æœ€æ…¢');
   
   AppName = 'BoxMan';
   AppVer = ' V2.9';
@@ -377,21 +377,21 @@ const
 var
   main: Tmain;
 
-  BoxManDBpath: string;                             // ´ğ°¸¿âÂ·¾¶ÎÄµµÃû
+  BoxManDBpath: string;                             // ç­”æ¡ˆåº“è·¯å¾„æ–‡æ¡£å
 
   tmpTrun: integer;
-  SoltionList: Tlist;     // ´ğ°¸ÁĞ±íÏî
-  StateList: Tlist;       // ×´Ì¬ÁĞ±íÏî
+  SoltionList: Tlist;     // ç­”æ¡ˆåˆ—è¡¨é¡¹
+  StateList: Tlist;       // çŠ¶æ€åˆ—è¡¨é¡¹
 
-  // ¶¯×÷¿ØÖÆ±äÁ¿
-  isMoving: boolean;      // ÊÇ·ñÕıÔÚÒÆ¶¯»­Ãæ
-  IsStop: boolean;        // ÊÇ·ñĞèÒªÍ£Ö¹ÒÆ¶¯»­Ãæ
-  isNoDelay: Boolean;     // ÊÇ·ñÎªÎŞÑÓÊ±¶¯×÷ -- ÖÁÊ×¡¢ÖÁÎ²£¬»òµ¼Èë¶¯×÷¡¢´ò¿ª×´Ì¬Ê±Ê¹ÓÃ
-  isKeyPush: Boolean;     // ÊÇ·ñÎª¹Ø¼üÖ¡ÍÆ¶¯ -- ¿Õ¸ñ¼üºÍÍË¸ñ¼ü¿ØÖÆµÄ
+  // åŠ¨ä½œæ§åˆ¶å˜é‡
+  isMoving: boolean;      // æ˜¯å¦æ­£åœ¨ç§»åŠ¨ç”»é¢
+  IsStop: boolean;        // æ˜¯å¦éœ€è¦åœæ­¢ç§»åŠ¨ç”»é¢
+  isNoDelay: Boolean;     // æ˜¯å¦ä¸ºæ— å»¶æ—¶åŠ¨ä½œ -- è‡³é¦–ã€è‡³å°¾ï¼Œæˆ–å¯¼å…¥åŠ¨ä½œã€æ‰“å¼€çŠ¶æ€æ—¶ä½¿ç”¨
+  isKeyPush: Boolean;     // æ˜¯å¦ä¸ºå…³é”®å¸§æ¨åŠ¨ -- ç©ºæ ¼é”®å’Œé€€æ ¼é”®æ§åˆ¶çš„
 
-  // µØÍ¼Ğı×ª¿ØÖÆÊı×é
+  // åœ°å›¾æ—‹è½¬æ§åˆ¶æ•°ç»„
   MapDir: array[0..7, 0..6] of Integer = (
-    (1, 2, 4, 8, 3, 7, 11),    // 0 ×ª
+    (1, 2, 4, 8, 3, 7, 11),    // 0 è½¬
     (2, 4, 8, 1, 6, 7, 14),    // 1
     (4, 8, 1, 2, 12, 13, 14),  // 2
     (8, 1, 2, 4, 9, 13, 11),   // 3
@@ -400,7 +400,7 @@ var
     (1, 8, 4, 2, 9, 13, 11),   // 6
     (2, 1, 8, 4, 3, 7, 11));   // 7
 
-  Trun8: array[0..7, 0..7] of Integer = (  // ¹Ø¿¨8·½Î»Ğı×ªÖ®n×ª»»ËãÊı×é
+  Trun8: array[0..7, 0..7] of Integer = (  // å…³å¡8æ–¹ä½æ—‹è½¬ä¹‹nè½¬æ¢ç®—æ•°ç»„
     (0, 1, 2, 3, 4, 5, 6, 7),
     (3, 0, 1, 2, 7, 4, 5, 6),
     (2, 3, 0, 1, 6, 7, 4, 5),
@@ -410,7 +410,7 @@ var
     (6, 5, 4, 7, 2, 1, 0, 3),
     (7, 6, 5, 4, 3, 2, 1, 0));
 
-  ActDir: array[0..7, 0..7] of Char = (    // ¶¯×÷ 8 ·½Î»Ğı×ªÖ® n ×ªµÄ»»ËãÊı×é
+  ActDir: array[0..7, 0..7] of Char = (    // åŠ¨ä½œ 8 æ–¹ä½æ—‹è½¬ä¹‹ n è½¬çš„æ¢ç®—æ•°ç»„
     ('l', 'u', 'r', 'd', 'L', 'U', 'R', 'D'),
     ('d', 'l', 'u', 'r', 'D', 'L', 'U', 'R'),
     ('r', 'd', 'l', 'u', 'R', 'D', 'L', 'U'),
@@ -420,7 +420,7 @@ var
     ('l', 'd', 'r', 'u', 'L', 'D', 'R', 'U'),
     ('u', 'l', 'd', 'r', 'U', 'L', 'D', 'R'));
 
-  function AppHasRun(AppHandle: THandle): Boolean;      // Èç¹ûÒÑ¾­ÔËĞĞÔò¼¤»îËü -- Ö»ÔËĞĞÒ»´Î
+  function AppHasRun(AppHandle: THandle): Boolean;      // å¦‚æœå·²ç»è¿è¡Œåˆ™æ¿€æ´»å®ƒ -- åªè¿è¡Œä¸€æ¬¡
     
 implementation
 
@@ -433,30 +433,30 @@ const
  
 type
   
-  PShareMem = ^TShareMem;     //¹²ÏíÄÚ´æ
+  PShareMem = ^TShareMem;     //å…±äº«å†…å­˜
   TShareMem = record
-    AppHandle: THandle;       // ±£´æ³ÌĞòµÄ¾ä±ú
+    AppHandle: THandle;       // ä¿å­˜ç¨‹åºçš„å¥æŸ„
   end;
 
 var
   hMapFile: THandle;
   PSMem: PShareMem;
 
-  gotoLeft, gotoPos, gotoWidth: Integer;                  // ×´Ì¬À¸×îÓÒ±ßÒ»À¸µÄ×ó½ç¼°¿í¶È
+  gotoLeft, gotoPos, gotoWidth: Integer;                  // çŠ¶æ€æ æœ€å³è¾¹ä¸€æ çš„å·¦ç•ŒåŠå®½åº¦
 
-  LeftTopPos, RightBottomPos: TPoint;                     // Ñ¡Ôñµ¥Ôª¸ñµÄ×óÉÏºÍÓÒÏÂÎ»ÖÃ
-  LeftTopXY, RightBottomXY: TPoint;                       // µ±Ç°Ñ¡Ôñ½¹µã¿òµÄ×óÉÏºÍÓÒÏÂÎ»ÖÃ
-  isSelectMod: Boolean;                                   // ÊÇ·ñ´¥¶¯ÁËÑ¡ÔñÄ£Ê½ -- Ctrl + ×ó¼üµ¥»÷µ¥Ôª¸ñ
-  isDelSelect: Boolean;                                   // ÊÇ·ñ´¥¶¯ÁË¼õ·¨Ñ¡ÔñÄ£Ê½ -- Alt + ×ó¼üµ¥»÷µ¥Ôª¸ñ
-  isSelecting: Boolean;                                   // ÊÇ·ñÕı´¦ÓÚÑ¡ÔñÄ£Ê½ -- Ctrl + ×ó¼üÍÏ¶¯
+  LeftTopPos, RightBottomPos: TPoint;                     // é€‰æ‹©å•å…ƒæ ¼çš„å·¦ä¸Šå’Œå³ä¸‹ä½ç½®
+  LeftTopXY, RightBottomXY: TPoint;                       // å½“å‰é€‰æ‹©ç„¦ç‚¹æ¡†çš„å·¦ä¸Šå’Œå³ä¸‹ä½ç½®
+  isSelectMod: Boolean;                                   // æ˜¯å¦è§¦åŠ¨äº†é€‰æ‹©æ¨¡å¼ -- Ctrl + å·¦é”®å•å‡»å•å…ƒæ ¼
+  isDelSelect: Boolean;                                   // æ˜¯å¦è§¦åŠ¨äº†å‡æ³•é€‰æ‹©æ¨¡å¼ -- Alt + å·¦é”®å•å‡»å•å…ƒæ ¼
+  isSelecting: Boolean;                                   // æ˜¯å¦æ­£å¤„äºé€‰æ‹©æ¨¡å¼ -- Ctrl + å·¦é”®æ‹–åŠ¨
 
-  DoubleClickPos: TPoint;                                 // µ±Ç°Ë«»÷µÄÎ»ÖÃ
+  DoubleClickPos: TPoint;                                 // å½“å‰åŒå‡»çš„ä½ç½®
 
-  isCommandLine: Boolean;                                 // ÊÇ·ñÓĞÆô¶¯²ÎÊı£¬ÓĞÆô¶¯²ÎÊıÊ±£¬¹Ø¿¨ÎÄµµÃû²»¼ÇÂ¼µ½ ini
+  isCommandLine: Boolean;                                 // æ˜¯å¦æœ‰å¯åŠ¨å‚æ•°ï¼Œæœ‰å¯åŠ¨å‚æ•°æ—¶ï¼Œå…³å¡æ–‡æ¡£åä¸è®°å½•åˆ° ini
 
 {$R *.DFM}
 
-// ÈÃ³ÌĞòÖ»Æô¶¯Ò»´Î
+// è®©ç¨‹åºåªå¯åŠ¨ä¸€æ¬¡
 procedure CreateMapFile;
 begin
   hMapFile := OpenFileMapping(FILE_MAP_ALL_ACCESS, False, PChar(MapFileName));
@@ -481,14 +481,14 @@ begin
   end;
 end;
 
-// ÈÃ³ÌĞòÖ»Æô¶¯Ò»´Î
+// è®©ç¨‹åºåªå¯åŠ¨ä¸€æ¬¡
 procedure FreeMapFile;
 begin
   UnMapViewOfFile(PSMem);
   CloseHandle(hMapFile);
 end;
 
-// ÈÃ³ÌĞòÖ»Æô¶¯Ò»´Î
+// è®©ç¨‹åºåªå¯åŠ¨ä¸€æ¬¡
 function AppHasRun(AppHandle: THandle): Boolean;
 var
   TopWindow: HWnd;
@@ -510,7 +510,7 @@ begin
   end;
 end;
 
-//ÇåÀíÄÚ´æ  
+//æ¸…ç†å†…å­˜  
 procedure ClearMemory;  
 begin  
    if Win32Platform = VER_PLATFORM_WIN32_NT then  
@@ -520,15 +520,15 @@ begin
    end;  
 end;
 
-// ¶¨Ê±±¨¸æ³ÌĞòÄÚ´æÕ¼ÓÃÇé¿ö
+// å®šæ—¶æŠ¥å‘Šç¨‹åºå†…å­˜å ç”¨æƒ…å†µ
 procedure Tmain.Timer1Timer(Sender: TObject);
 begin
   ClearMemory;
   if Timer1.Interval <> 60000 then Timer1.Interval := 60000;
-  pl_Tools.Caption := Format('ÄÚ´æÕ¼ÓÃ: %.0n KB ', [GetProcessMemUse(GetCurrentProcessId)]);
+  pl_Tools.Caption := Format('å†…å­˜å ç”¨: %.0n KB ', [GetProcessMemUse(GetCurrentProcessId)]);
 end;
 
-// È¡µÃ³ÌĞòÕ¼ÓÃµÄÄÚ´æ´óĞ¡
+// å–å¾—ç¨‹åºå ç”¨çš„å†…å­˜å¤§å°
 function Tmain.GetProcessMemUse(PID: Cardinal): Double;
 var
   pmc: PPROCESS_MEMORY_COUNTERS; // uses psApi
@@ -540,7 +540,7 @@ begin
   GetMem(pmc, iSize);
   try
     pmc^.cb := iSize;
-    ProcHandle := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, PID); //ÓÉPIDÈ¡µÃ½ø³Ì¶ÔÏóµÄ¾ä±ú
+    ProcHandle := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, PID); //ç”±PIDå–å¾—è¿›ç¨‹å¯¹è±¡çš„å¥æŸ„
     if GetProcessMemoryInfo(ProcHandle, pmc, iSize) then
        Result := (pmc^.WorkingSetSize) / 1024;
   finally
@@ -548,7 +548,7 @@ begin
   end;
 end;
 
-// Çå¿Õ´ğ°¸ÁĞ±íÏî
+// æ¸…ç©ºç­”æ¡ˆåˆ—è¡¨é¡¹
 procedure SoltionListClear(var _List_: TList);
 var
   i, len: Integer;
@@ -567,7 +567,7 @@ begin
   end;
 end;
 
-// Çå¿Õ×´Ì¬ÁĞ±íÏî
+// æ¸…ç©ºçŠ¶æ€åˆ—è¡¨é¡¹
 procedure StateListClear(var _List_: TList);
 var
   i, len: Integer;
@@ -586,7 +586,7 @@ begin
   end;
 end;
 
-// ¼ÓÔØÅäÖÃĞÅÏ¢
+// åŠ è½½é…ç½®ä¿¡æ¯
 procedure Tmain.LoadSttings();
 var
   IniFile: TIniFile;
@@ -598,45 +598,45 @@ begin
   IniFile := TIniFile.Create(AppPath + AppName + '.ini');
 
   try
-    mySettings.myTop := IniFile.ReadInteger('Settings', 'Top', 100);            // ÉÏ´ÎÍË³öÊ±£¬´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡
+    mySettings.myTop := IniFile.ReadInteger('Settings', 'Top', 100);            // ä¸Šæ¬¡é€€å‡ºæ—¶ï¼Œçª—å£çš„ä½ç½®åŠå¤§å°
     mySettings.myLeft := IniFile.ReadInteger('Settings', 'Left', 100);
     mySettings.myWidth := IniFile.ReadInteger('Settings', 'Width', 800);
     mySettings.myHeight := IniFile.ReadInteger('Settings', 'Height', 600);
-    mySettings.bwTop := IniFile.ReadInteger('Settings', 'bwTop', 100);          // ¹Ø¿¨ä¯ÀÀ´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡µÄ¼ÇÒä
+    mySettings.bwTop := IniFile.ReadInteger('Settings', 'bwTop', 100);          // å…³å¡æµè§ˆçª—å£çš„ä½ç½®åŠå¤§å°çš„è®°å¿†
     mySettings.bwLeft := IniFile.ReadInteger('Settings', 'bwLeft', 100);
     mySettings.bwWidth := IniFile.ReadInteger('Settings', 'bwWidth', 800);
     mySettings.bwHeight := IniFile.ReadInteger('Settings', 'bwHeight', 600);
     mySettings.bwStyle := IniFile.ReadInteger('Settings', 'bwStyle', 0);
-    mySettings.SubmitCountry := IniFile.ReadString('Settings', 'SubmitCountry', 'CN'); // Ìá½»--¹ú¼Ò»òµØÇø
-    mySettings.SubmitName := IniFile.ReadString('Settings', 'SubmitName', '');         // Ìá½»--ĞÕÃû
-    mySettings.SubmitEmail := IniFile.ReadString('Settings', 'SubmitEmail', '');       // Ìá½»--ÓÊÏä
-    mySettings.mySpeed := IniFile.ReadInteger('Settings', 'ËÙ¶È', 2);                  // Ä¬ÈÏÒÆ¶¯ËÙ¶È
-    mySettings.bwBKColor := IniFile.ReadInteger('Settings', 'ä¯ÀÀ±³¾°É«', clWhite);    // Ä¬ÈÏ¹Ø¿¨ä¯ÀÀ½çÃæ±³¾°É«
-    mySettings.isGoThrough := IniFile.ReadBool('Settings', '´©Ô½', true);              // ´©Ô½¿ª¹Ø
-    mySettings.isIM := IniFile.ReadBool('Settings', 'Ë²ÒÆ', false);                    // Ë²ÒÆ¿ª¹Ø
-    mySettings.isSameGoal := IniFile.ReadBool('Settings', 'ÕıÍÆÄ¿±êÎ»', false);        // ÄæÍÆÊ±£¬Ê¹ÓÃÕıÍÆÄ¿±êÎ»
-    mySettings.isLeftBar := IniFile.ReadBool('Settings', '×ó²à±ßÀ¸', true);            // ÊÇ·ñ¿ªÆô×ó²à±ßÀ¸
-    mySettings.isNumber := IniFile.ReadBool('Settings', 'Ë«»÷±àºÅ', true);             // ÊÇ·ñ¿ªÆô¡°Ë«»÷±àºÅ¡±¹¦ÄÜ£¬Ä¬ÈÏ¿ªÆô
-    mySettings.isRotate := IniFile.ReadBool('Settings', 'ÒÀ´ÎĞı×ª', false);            // ÊÇ·ñ¡°ÒÀ´ÎĞı×ª¡±¹Ø¿¨£¬Ä¬ÈÏ¹Ø±Õ
-    mySettings.SkinFileName := IniFile.ReadString('Settings', 'Æ¤·ô', '');             // µ±Ç°Æ¤·ôÎÄµµÃû
-    mySettings.MapFileName := IniFile.ReadString('Settings', '¹Ø¿¨ÎÄµµ', '');          // µ±Ç°¹Ø¿¨ÎÄµµÃû
-    curMap.CurrentLevel := IniFile.ReadInteger('Settings', '¹Ø¿¨ĞòºÅ', 1);             // ÉÏ´ÎÍÆµÄ¹Ø¿¨ĞòºÅ
-    tmpTrun := IniFile.ReadInteger('Settings', '¹Ø¿¨Ğı×ª', 0);                         // ÉÏ´ÎÍÆµÄ¹Ø¿¨Ğı×ª
+    mySettings.SubmitCountry := IniFile.ReadString('Settings', 'SubmitCountry', 'CN'); // æäº¤--å›½å®¶æˆ–åœ°åŒº
+    mySettings.SubmitName := IniFile.ReadString('Settings', 'SubmitName', '');         // æäº¤--å§“å
+    mySettings.SubmitEmail := IniFile.ReadString('Settings', 'SubmitEmail', '');       // æäº¤--é‚®ç®±
+    mySettings.mySpeed := IniFile.ReadInteger('Settings', 'é€Ÿåº¦', 2);                  // é»˜è®¤ç§»åŠ¨é€Ÿåº¦
+    mySettings.bwBKColor := IniFile.ReadInteger('Settings', 'æµè§ˆèƒŒæ™¯è‰²', clWhite);    // é»˜è®¤å…³å¡æµè§ˆç•Œé¢èƒŒæ™¯è‰²
+    mySettings.isGoThrough := IniFile.ReadBool('Settings', 'ç©¿è¶Š', true);              // ç©¿è¶Šå¼€å…³
+    mySettings.isIM := IniFile.ReadBool('Settings', 'ç¬ç§»', false);                    // ç¬ç§»å¼€å…³
+    mySettings.isSameGoal := IniFile.ReadBool('Settings', 'æ­£æ¨ç›®æ ‡ä½', false);        // é€†æ¨æ—¶ï¼Œä½¿ç”¨æ­£æ¨ç›®æ ‡ä½
+    mySettings.isLeftBar := IniFile.ReadBool('Settings', 'å·¦ä¾§è¾¹æ ', true);            // æ˜¯å¦å¼€å¯å·¦ä¾§è¾¹æ 
+    mySettings.isNumber := IniFile.ReadBool('Settings', 'åŒå‡»ç¼–å·', true);             // æ˜¯å¦å¼€å¯â€œåŒå‡»ç¼–å·â€åŠŸèƒ½ï¼Œé»˜è®¤å¼€å¯
+    mySettings.isRotate := IniFile.ReadBool('Settings', 'ä¾æ¬¡æ—‹è½¬', false);            // æ˜¯å¦â€œä¾æ¬¡æ—‹è½¬â€å…³å¡ï¼Œé»˜è®¤å…³é—­
+    mySettings.SkinFileName := IniFile.ReadString('Settings', 'çš®è‚¤', '');             // å½“å‰çš®è‚¤æ–‡æ¡£å
+    mySettings.MapFileName := IniFile.ReadString('Settings', 'å…³å¡æ–‡æ¡£', '');          // å½“å‰å…³å¡æ–‡æ¡£å
+    curMap.CurrentLevel := IniFile.ReadInteger('Settings', 'å…³å¡åºå·', 1);             // ä¸Šæ¬¡æ¨çš„å…³å¡åºå·
+    tmpTrun := IniFile.ReadInteger('Settings', 'å…³å¡æ—‹è½¬', 0);                         // ä¸Šæ¬¡æ¨çš„å…³å¡æ—‹è½¬
 
     mySettings.LaterList := TStringList.Create;
     for i := 0 to 9 do begin
         s := IniFile.ReadString('Settings', 'Later_' + IntToStr(i), '');
-        if s <> '' then mySettings.LaterList.Add(s);                            // ×î½üÍÆ¹ıµÄ¹Ø¿¨¼¯
+        if s <> '' then mySettings.LaterList.Add(s);                            // æœ€è¿‘æ¨è¿‡çš„å…³å¡é›†
     end;
 
-    // Ä¬ÈÏµÄÉèÖÃÏî
-    mySettings.isBK := False;                                                   // ÊÇ·ñÄæÍÆÄ£Ê½
-    mySettings.isXSB_Saved := True;                                             // µ±´Ó¼ôÇĞ°åµ¼ÈëµÄ XSB ÊÇ·ñ±£´æ¹ıÁË
-    mySettings.isLurd_Saved := True;                                            // ÍÆ¹Ø¿¨µÄ¶¯×÷ÊÇ·ñ±£´æ¹ıÁË
-    mySettings.isJijing := False;                                               // »¥¶¯Ë«ÍÆ
-    mySettings.isOddEven := False;                                              // ÆæÅ¼¸ñĞ§¹û
-    pmGoal.Checked := mySettings.isSameGoal;                                    // ¶¨Î»Ë«ÍÆ
-    N29.Checked := mySettings.isNumber;                                         // Ë«»÷±àºÅ
+    // é»˜è®¤çš„è®¾ç½®é¡¹
+    mySettings.isBK := False;                                                   // æ˜¯å¦é€†æ¨æ¨¡å¼
+    mySettings.isXSB_Saved := True;                                             // å½“ä»å‰ªåˆ‡æ¿å¯¼å…¥çš„ XSB æ˜¯å¦ä¿å­˜è¿‡äº†
+    mySettings.isLurd_Saved := True;                                            // æ¨å…³å¡çš„åŠ¨ä½œæ˜¯å¦ä¿å­˜è¿‡äº†
+    mySettings.isJijing := False;                                               // äº’åŠ¨åŒæ¨
+    mySettings.isOddEven := False;                                              // å¥‡å¶æ ¼æ•ˆæœ
+    pmGoal.Checked := mySettings.isSameGoal;                                    // å®šä½åŒæ¨
+    N29.Checked := mySettings.isNumber;                                         // åŒå‡»ç¼–å·
 
     if (mySettings.myWidth < minWindowsWidth) then
       mySettings.myWidth := minWindowsWidth;
@@ -651,9 +651,9 @@ begin
     if (mySettings.myLeft < 0) or (mySettings.myLeft > SCREEN.HEIGHT) then
       mySettings.myLeft := 0;
     if (mySettings.mySpeed < 0) or (mySettings.mySpeed > 4) then
-      mySettings.mySpeed := 2;                                                  // Ä¬ÈÏÒÆ¶¯ËÙ¶È
+      mySettings.mySpeed := 2;                                                  // é»˜è®¤ç§»åŠ¨é€Ÿåº¦
     if (tmpTrun < 0) or (tmpTrun > 7) then
-      tmpTrun := 0;                                                             // Ä¬ÈÏ¹Ø¿¨Ğı×ª
+      tmpTrun := 0;                                                             // é»˜è®¤å…³å¡æ—‹è½¬
   finally
     if Assigned(IniFile) then begin
        IniFile.Free;
@@ -662,7 +662,7 @@ begin
 
 end;
 
-// ±£´æÅäÖÃĞÅÏ¢
+// ä¿å­˜é…ç½®ä¿¡æ¯
 procedure Tmain.SaveSttings();
 var
   IniFile: TIniFile;
@@ -672,38 +672,38 @@ begin
   IniFile := TIniFile.Create(AppPath + AppName + '.ini');
 
   try
-    IniFile.WriteInteger('Settings', 'Top', Top);                               // ÍË³öÊ±£¬´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡
+    IniFile.WriteInteger('Settings', 'Top', Top);                               // é€€å‡ºæ—¶ï¼Œçª—å£çš„ä½ç½®åŠå¤§å°
     IniFile.WriteInteger('Settings', 'Left', Left);
     IniFile.WriteInteger('Settings', 'Width', Width);
     IniFile.WriteInteger('Settings', 'Height', Height);
-    IniFile.WriteInteger('Settings', 'bwTop', BrowseForm.Top);                  // ¹Ø¿¨ä¯ÀÀ´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡µÄ¼ÇÒä
+    IniFile.WriteInteger('Settings', 'bwTop', BrowseForm.Top);                  // å…³å¡æµè§ˆçª—å£çš„ä½ç½®åŠå¤§å°çš„è®°å¿†
     IniFile.WriteInteger('Settings', 'bwLeft', BrowseForm.Left);
     IniFile.WriteInteger('Settings', 'bwWidth', BrowseForm.Width);
     IniFile.WriteInteger('Settings', 'bwHeight', BrowseForm.Height);
-    IniFile.WriteString('Settings', 'SubmitCountry', mySettings.SubmitCountry); // ¹ú¼Ò»òµØÇø
-    IniFile.WriteString('Settings', 'SubmitName', mySettings.SubmitName);       // ĞÕÃû
-    IniFile.WriteString('Settings', 'SubmitEmail', mySettings.SubmitEmail);     // ÓÊÏä
-    IniFile.WriteInteger('Settings', 'ËÙ¶È', mySettings.mySpeed);               // ÒÆ¶¯ËÙ¶È
-    IniFile.WriteInteger('Settings', 'ä¯ÀÀ±³¾°É«', mySettings.bwBKColor);       // ¹Ø¿¨ä¯ÀÀ½çÃæ±³¾°É«
-    IniFile.WriteBool('Settings', '´©Ô½', mySettings.isGoThrough);              // ´©Ô½¿ª¹Ø
-    IniFile.WriteBool('Settings', 'Ë²ÒÆ', mySettings.isIM);                     // Ë²ÒÆ¿ª¹Ø
-    IniFile.WriteBool('Settings', 'ÕıÍÆÄ¿±êÎ»', mySettings.isSameGoal);         // ÄæÍÆÊ±£¬Ê¹ÓÃÕıÍÆÄ¿±êÎ»
-    IniFile.WriteBool('Settings', '×ó²à±ßÀ¸', mySettings.isLeftBar);            // ÊÇ·ñ¿ªÆô×ó²à±ßÀ¸
-    IniFile.WriteBool('Settings', 'Ë«»÷±àºÅ', mySettings.isNumber);             // ÊÇ·ñ¿ªÆô¡°Ë«»÷±àºÅ¡±¹¦ÄÜ
-    IniFile.WriteBool('Settings', 'ÒÀ´ÎĞı×ª', mySettings.isRotate);             // ÊÇ·ñ¡°ÒÀ´ÎĞı×ª¡±¹Ø¿¨£¬Ä¬ÈÏ¹Ø±Õ
-    IniFile.WriteString('Settings', 'Æ¤·ô', mySettings.SkinFileName);           // µ±Ç°Æ¤·ôÎÄµµÃû
+    IniFile.WriteString('Settings', 'SubmitCountry', mySettings.SubmitCountry); // å›½å®¶æˆ–åœ°åŒº
+    IniFile.WriteString('Settings', 'SubmitName', mySettings.SubmitName);       // å§“å
+    IniFile.WriteString('Settings', 'SubmitEmail', mySettings.SubmitEmail);     // é‚®ç®±
+    IniFile.WriteInteger('Settings', 'é€Ÿåº¦', mySettings.mySpeed);               // ç§»åŠ¨é€Ÿåº¦
+    IniFile.WriteInteger('Settings', 'æµè§ˆèƒŒæ™¯è‰²', mySettings.bwBKColor);       // å…³å¡æµè§ˆç•Œé¢èƒŒæ™¯è‰²
+    IniFile.WriteBool('Settings', 'ç©¿è¶Š', mySettings.isGoThrough);              // ç©¿è¶Šå¼€å…³
+    IniFile.WriteBool('Settings', 'ç¬ç§»', mySettings.isIM);                     // ç¬ç§»å¼€å…³
+    IniFile.WriteBool('Settings', 'æ­£æ¨ç›®æ ‡ä½', mySettings.isSameGoal);         // é€†æ¨æ—¶ï¼Œä½¿ç”¨æ­£æ¨ç›®æ ‡ä½
+    IniFile.WriteBool('Settings', 'å·¦ä¾§è¾¹æ ', mySettings.isLeftBar);            // æ˜¯å¦å¼€å¯å·¦ä¾§è¾¹æ 
+    IniFile.WriteBool('Settings', 'åŒå‡»ç¼–å·', mySettings.isNumber);             // æ˜¯å¦å¼€å¯â€œåŒå‡»ç¼–å·â€åŠŸèƒ½
+    IniFile.WriteBool('Settings', 'ä¾æ¬¡æ—‹è½¬', mySettings.isRotate);             // æ˜¯å¦â€œä¾æ¬¡æ—‹è½¬â€å…³å¡ï¼Œé»˜è®¤å…³é—­
+    IniFile.WriteString('Settings', 'çš®è‚¤', mySettings.SkinFileName);           // å½“å‰çš®è‚¤æ–‡æ¡£å
     if not isCommandLine then begin
-        IniFile.WriteString('Settings', '¹Ø¿¨ÎÄµµ', mySettings.MapFileName);        // µ±Ç°¹Ø¿¨ÎÄµµÃû -- ÊÊÓ¦¹Ø¿¨ÎÄµµÓë³ÌĞòÔÚÍ¬Ò»Ä¿Â¼ÏÂµÄÇé¿ö
-        IniFile.WriteInteger('Settings', '¹Ø¿¨ĞòºÅ', curMap.CurrentLevel);          // µ±Ç°¹Ø¿¨ĞòºÅ
+        IniFile.WriteString('Settings', 'å…³å¡æ–‡æ¡£', mySettings.MapFileName);        // å½“å‰å…³å¡æ–‡æ¡£å -- é€‚åº”å…³å¡æ–‡æ¡£ä¸ç¨‹åºåœ¨åŒä¸€ç›®å½•ä¸‹çš„æƒ…å†µ
+        IniFile.WriteInteger('Settings', 'å…³å¡åºå·', curMap.CurrentLevel);          // å½“å‰å…³å¡åºå·
         if (not Assigned(curMapNode)) then
-          IniFile.WriteInteger('Settings', '¹Ø¿¨Ğı×ª', 0)                           // µ±Ç°¹Ø¿¨Ğı×ª
+          IniFile.WriteInteger('Settings', 'å…³å¡æ—‹è½¬', 0)                           // å½“å‰å…³å¡æ—‹è½¬
         else
-          IniFile.WriteInteger('Settings', '¹Ø¿¨Ğı×ª', curMapNode.Trun);
+          IniFile.WriteInteger('Settings', 'å…³å¡æ—‹è½¬', curMapNode.Trun);
     end;
 
     n := mySettings.LaterList.Count;
     for i := 0 to n-1 do begin
-        IniFile.WriteString('Settings', 'Later_' + IntToStr(i), mySettings.LaterList.Strings[i]);    // ×î½üÍÆ¹ıµÄ¹Ø¿¨¼¯
+        IniFile.WriteString('Settings', 'Later_' + IntToStr(i), mySettings.LaterList.Strings[i]);    // æœ€è¿‘æ¨è¿‡çš„å…³å¡é›†
     end;
 
   finally
@@ -713,7 +713,7 @@ begin
   end;
 end;
 
-// ÓÃ QuicklyLoadMap() ¼ÓÔØµ½µÄµØÍ¼£¬×°ÌîÓÎÏ·Êı¾İ
+// ç”¨ QuicklyLoadMap() åŠ è½½åˆ°çš„åœ°å›¾ï¼Œè£…å¡«æ¸¸æˆæ•°æ®
 procedure Tmain.ReadQuicklyMap();
 var
   i, j, CurCell, Rows, Cols: integer;
@@ -722,14 +722,14 @@ var
   
 begin
   if (not Assigned(curMapNode)) or (curMapNode.Cols <= 0) then begin
-     MessageBox(handle, 'ÉĞÎŞ´ò¿ªµÄ¹Ø¿¨£¡', '´íÎó', MB_ICONERROR or MB_OK);
+     MessageBox(handle, 'å°šæ— æ‰“å¼€çš„å…³å¡ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
      Exit;
   end;
 
   Map := TStringList.Create;
 
   try
-    s := '±êÌâ:'#10'-----'#10 + curMapNode.Title + #10#10#10'×÷Õß:'#10'-----'#10 + curMapNode.Author + #10#10#10'ËµÃ÷:'#10'-----'#10 + curMapNode.Comment;
+    s := 'æ ‡é¢˜:'#10'-----'#10 + curMapNode.Title + #10#10#10'ä½œè€…:'#10'-----'#10 + curMapNode.Author + #10#10#10'è¯´æ˜:'#10'-----'#10 + curMapNode.Comment;
     Map.Clear;
     Split(s, Map);
     mmo_Inf.Lines.Clear;
@@ -744,8 +744,8 @@ begin
 
     curMapNode.Boxs := 0;                                                                     
     curMapNode.Goals := 0;
-    for i := 0 to Rows - 1 do begin    // ĞĞÑ­»·
-      for j := 1 to Cols do begin      // ÁĞÑ­»·
+    for i := 0 to Rows - 1 do begin    // è¡Œå¾ªç¯
+      for j := 1 to Cols do begin      // åˆ—å¾ªç¯
         case Map[i][j] of
           '_':
             CurCell := EmptyCell;
@@ -788,12 +788,12 @@ begin
 
   pnl_Trun.Caption := MapTrun[curMapNode.Trun];
   Caption := AppName + AppVer + ' - ' + ExtractFileName(ChangeFileExt(mySettings.MapFileName, EmptyStr)) + ' ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']';
-  Caption := Caption + '£¬³ß´ç: ' + IntToStr(curMapNode.Cols) + '¡Á' + IntToStr(curMapNode.Rows) + '£¬Ïä×Ó: ' + IntToStr(curMapNode.Boxs) + '£¬Ä¿±ê: ' + IntToStr(curMapNode.Goals);
+  Caption := Caption + 'ï¼Œå°ºå¯¸: ' + IntToStr(curMapNode.Cols) + 'Ã—' + IntToStr(curMapNode.Rows) + 'ï¼Œç®±å­: ' + IntToStr(curMapNode.Boxs) + 'ï¼Œç›®æ ‡: ' + IntToStr(curMapNode.Goals);
   ed_sel_Map.Text := IntToStr(curMap.CurrentLevel);
 
 end;
 
-// ´Ó¹Ø¿¨ÁĞ±íÖĞ£¬¼ÓÔØÖ¸¶¨ĞòºÅµÄµØÍ¼
+// ä»å…³å¡åˆ—è¡¨ä¸­ï¼ŒåŠ è½½æŒ‡å®šåºå·çš„åœ°å›¾
 function Tmain.LoadMap(MapIndex: integer): boolean;
 var
   i, j, CurCell, Rows, Cols, len: integer;
@@ -838,7 +838,7 @@ begin
   Map := TStringList.Create;
 
   try
-    s := '±êÌâ:'#10'-----'#10 + curMapNode.Title + #10#10#10'×÷Õß:'#10'-----'#10 + curMapNode.Author + #10#10#10'ËµÃ÷:'#10'-----'#10 + curMapNode.Comment;
+    s := 'æ ‡é¢˜:'#10'-----'#10 + curMapNode.Title + #10#10#10'ä½œè€…:'#10'-----'#10 + curMapNode.Author + #10#10#10'è¯´æ˜:'#10'-----'#10 + curMapNode.Comment;
     Map.Clear;
     Split(s, Map);
     mmo_Inf.Lines.Clear;
@@ -848,9 +848,9 @@ begin
     Map.Delimiter := #10;
     Map.DelimitedText := curMapNode.Map;
 
-    for i := 0 to Rows - 1 do begin    // ĞĞÑ­»·
+    for i := 0 to Rows - 1 do begin    // è¡Œå¾ªç¯
       len := Length(Map[i]);
-      for j := 1 to Cols do begin     // ÁĞÑ­»·
+      for j := 1 to Cols do begin     // åˆ—å¾ªç¯
         if j > len then ch := '-'
         else ch := Map[i][j];
       
@@ -887,7 +887,7 @@ begin
   result := true;
 end;
 
-// ¼ÆËãµØÍ¼ĞÂµÄÍ¼Æ¬ÏÔÊ¾µÄ³ß´ç
+// è®¡ç®—åœ°å›¾æ–°çš„å›¾ç‰‡æ˜¾ç¤ºçš„å°ºå¯¸
 procedure Tmain.NewMapSize();
 var
   w, h: integer;
@@ -896,7 +896,7 @@ begin
      Exit;
   end;
   
-  // ¼ÆËãµØÍ¼µ¥Ôª¸ñµÄ´óĞ¡
+  // è®¡ç®—åœ°å›¾å•å…ƒæ ¼çš„å¤§å°
   if (curMapNode.Cols > 2) and (curMapNode.Rows > 2) then
   begin
     if curMapNode.Trun mod 2 = 0 then
@@ -920,12 +920,12 @@ begin
   if curMap.CellSize < 6 then
     curMap.CellSize := 6;
 
-  // Ñ¡Ôñµ¥Ôª¸ñÑÚÍ¼
+  // é€‰æ‹©å•å…ƒæ ¼æ©å›¾
   MaskPic.Width := curMap.CellSize;
   MaskPic.Height := MaskPic.Width;
 
-  // È·¶¨µØÍ¼µÄ³ß´ç
-  map_Image.Picture := nil;       // ÕâÊÇ±ØĞëµÄ£¬·ñÔò£¬µØÍ¼²»ÄÜ¸Ä±ä³ß´ç
+  // ç¡®å®šåœ°å›¾çš„å°ºå¯¸
+  map_Image.Picture := nil;       // è¿™æ˜¯å¿…é¡»çš„ï¼Œå¦åˆ™ï¼Œåœ°å›¾ä¸èƒ½æ”¹å˜å°ºå¯¸
   if curMapNode.Trun mod 2 = 0 then
   begin
     map_Image.Width := curMapNode.Cols * curMap.CellSize;
@@ -944,13 +944,13 @@ begin
    if map_Image.Top < 0 then map_Image.Top := 0;
 end;
 
-// Îª¸Õ¸Õ¼ÓÔØµ½µÄ¹Ø¿¨×ö³õÊ¼»¯
+// ä¸ºåˆšåˆšåŠ è½½åˆ°çš„å…³å¡åšåˆå§‹åŒ–
 procedure Tmain.InitlizeMap();
 var
   i, x, y, len: integer;
   s1, s2: string;
 begin
-  // Ç°ÆÚ×¼±¸
+  // å‰æœŸå‡†å¤‡
   UnDoPos := 0;
   ReDoPos := 0;
   UnDoPos_BK := 0;
@@ -959,33 +959,33 @@ begin
   PushTimes := 0;
   MoveTimes_BK := 0;
   PushTimes_BK := 0;
-  isMoving := false;           // ÕıÔÚÍÆÒÆÖĞ...
-  IsStop  := false;            // ÊÇ·ñÍ£Ö¹ÒÆ¶¯
+  isMoving := false;           // æ­£åœ¨æ¨ç§»ä¸­...
+  IsStop  := false;            // æ˜¯å¦åœæ­¢ç§»åŠ¨
   isKeyPush := False;
   BoxNumber := 0;
   GoalNumber := 0;
-  ManPos_BK := -1;              // ÈËµÄÎ»ÖÃ -- ÄæÍÆ
-  ManPos_BK_0 := -1;            // ÈËµÄÎ»ÖÃ -- ÄæÍÆ -- ±¸·İ
-  LastSteps := -1;              // ÕıÍÆ×îºóÒ»´ÎµãÍÆÇ°µÄ²½Êı
-  IsManAccessibleTips := false;           // ÊÇ·ñÏÔÊ¾ÈËµÄÕıÍÆ¿É´ïÌáÊ¾
-  IsManAccessibleTips_BK := false;        // ÊÇ·ñÏÔÊ¾ÈËµÄÄæÍÆ¿É´ïÌáÊ¾
-  IsBoxAccessibleTips := false;           // ÊÇ·ñÏÔÊ¾Ïä×ÓµÄÕıÍÆ¿É´ïÌáÊ¾
-  IsBoxAccessibleTips_BK := false;        // ÊÇ·ñÏÔÊ¾Ïä×ÓµÄÄæÍÆ¿É´ïÌáÊ¾
-  mySettings.isLurd_Saved := True;        // ÍÆ¹Ø¿¨µÄ¶¯×÷ÊÇ·ñ±£´æ¹ıÁË
-  isNoDelay := False;                     // ÊÇ·ñÎŞÑÓÊ±Ö´ĞĞ¶¯×÷
+  ManPos_BK := -1;              // äººçš„ä½ç½® -- é€†æ¨
+  ManPos_BK_0 := -1;            // äººçš„ä½ç½® -- é€†æ¨ -- å¤‡ä»½
+  LastSteps := -1;              // æ­£æ¨æœ€åä¸€æ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
+  IsManAccessibleTips := false;           // æ˜¯å¦æ˜¾ç¤ºäººçš„æ­£æ¨å¯è¾¾æç¤º
+  IsManAccessibleTips_BK := false;        // æ˜¯å¦æ˜¾ç¤ºäººçš„é€†æ¨å¯è¾¾æç¤º
+  IsBoxAccessibleTips := false;           // æ˜¯å¦æ˜¾ç¤ºç®±å­çš„æ­£æ¨å¯è¾¾æç¤º
+  IsBoxAccessibleTips_BK := false;        // æ˜¯å¦æ˜¾ç¤ºç®±å­çš„é€†æ¨å¯è¾¾æç¤º
+  mySettings.isLurd_Saved := True;        // æ¨å…³å¡çš„åŠ¨ä½œæ˜¯å¦ä¿å­˜è¿‡äº†
+  isNoDelay := False;                     // æ˜¯å¦æ— å»¶æ—¶æ‰§è¡ŒåŠ¨ä½œ
   isSelectMod := False;
   isDelSelect := False;
-  curMap.isFinish := True;                // ÊÇ·ñÕıÔÚÖ´ĞĞ¶¯×÷ÑİÊ¾
-  curMap.Recording := false;              // ÊÇ·ñÔÚ¶¯×÷Â¼ÖÆ×´Ì¬
+  curMap.isFinish := True;                // æ˜¯å¦æ­£åœ¨æ‰§è¡ŒåŠ¨ä½œæ¼”ç¤º
+  curMap.Recording := false;              // æ˜¯å¦åœ¨åŠ¨ä½œå½•åˆ¶çŠ¶æ€
   curMapNode.Boxs := 0;
   curMapNode.Goals := 0;
 
   for i := 0 to curMap.MapSize - 1 do begin
     map_Board[i] := map_Board_OG[i];
-    BoxNum_Board[i]    := -1;   // Ïä×Ó±àºÅ
-    PosNum_Board[i]    := -1;   // Î»ÖÃ±àºÅ
-    BoxNum_Board_BK[i] := -1;   // Ïä×Ó±àºÅ - ÄæÍÆ
-    PosNum_Board_BK[i] := -1;   // Î»ÖÃ±àºÅ - ÄæÍÆ
+    BoxNum_Board[i]    := -1;   // ç®±å­ç¼–å·
+    PosNum_Board[i]    := -1;   // ä½ç½®ç¼–å·
+    BoxNum_Board_BK[i] := -1;   // ç®±å­ç¼–å· - é€†æ¨
+    PosNum_Board_BK[i] := -1;   // ä½ç½®ç¼–å· - é€†æ¨
     case map_Board_OG[i] of
       GoalCell:
         begin
@@ -1026,30 +1026,30 @@ begin
     end;
   end;
 
-  curMap.ManPosition := ManPos;              // µØÍ¼ÖĞÈËµÄÔ­Ê¼Î»ÖÃ£¬½«ÔÚÄæÍÆ×´Ì¬Ê±£¬ÒÔ´ËÌáÊ¾
-  mySettings.isJijing := False;              // »¥¶¯Ë«ÍÆ
+  curMap.ManPosition := ManPos;              // åœ°å›¾ä¸­äººçš„åŸå§‹ä½ç½®ï¼Œå°†åœ¨é€†æ¨çŠ¶æ€æ—¶ï¼Œä»¥æ­¤æç¤º
+  mySettings.isJijing := False;              // äº’åŠ¨åŒæ¨
   pmJijing.Checked := False; 
-  mySettings.isBK := False;                  // Ä¬ÈÏÕıÍÆÄ£Ê½
+  mySettings.isBK := False;                  // é»˜è®¤æ­£æ¨æ¨¡å¼
   mySettings.isShowNoVisited := False;
-  OldBoxPos := -1;                           // ±»µã»÷µÄÏä×ÓµÄÎ»ÖÃ -- ÕıÍÆ
-  OldBoxPos_BK := -1;                        // ±»µã»÷µÄÏä×ÓµÄÎ»ÖÃ -- ÄæÍÆ
+  OldBoxPos := -1;                           // è¢«ç‚¹å‡»çš„ç®±å­çš„ä½ç½® -- æ­£æ¨
+  OldBoxPos_BK := -1;                        // è¢«ç‚¹å‡»çš„ç®±å­çš„ä½ç½® -- é€†æ¨
 
-  NewMapSize();    // ÖØĞÂÈ·¶¨ Image ´óĞ¡
-  DrawMap();       // »­µØÍ¼
-  SetButton();     // ÉèÖÃ°´Å¥×´Ì¬
+  NewMapSize();    // é‡æ–°ç¡®å®š Image å¤§å°
+  DrawMap();       // ç”»åœ°å›¾
+  SetButton();     // è®¾ç½®æŒ‰é’®çŠ¶æ€
 
-  LoadState();     // ¼ÓÔØ×´Ì¬
-  LoadSolution();  // ¼ÓÔØ´ğ°¸
+  LoadState();     // åŠ è½½çŠ¶æ€
+  LoadSolution();  // åŠ è½½ç­”æ¡ˆ
   curMapNode.Solved := (SoltionList.Count > 0);
 
-  // Èô¹Ø¿¨ÒÑ¾­½â¿ª£¬Ôò×Ô¶¯¼ÓÔØ´ğ°¸£¬·ñÔò£¬ÓĞ×´Ì¬±£´æ£¬ÔòÖ±½Ó´ò¿ª×îĞÂµÄ×´Ì¬
+  // è‹¥å…³å¡å·²ç»è§£å¼€ï¼Œåˆ™è‡ªåŠ¨åŠ è½½ç­”æ¡ˆï¼Œå¦åˆ™ï¼Œæœ‰çŠ¶æ€ä¿å­˜ï¼Œåˆ™ç›´æ¥æ‰“å¼€æœ€æ–°çš„çŠ¶æ€
   if curMapNode.Solved then begin
     if GetSolutionFromDB(0, s1) then begin
 
        len := Length(s1);
 
        if len > 0 then begin
-           // ´ğ°¸ËÍÈëÕıÍÆµÄ RedoList
+           // ç­”æ¡ˆé€å…¥æ­£æ¨çš„ RedoList
            ReDoPos := 0;
            for i := len downto 1 do begin
                if ReDoPos = MaxLenPath then Exit;
@@ -1058,14 +1058,14 @@ begin
            end;
            curMap.isFinish := True;
        end;
-       StatusBar1.Panels[7].Text := '´ğ°¸ÒÑÔØÈë£¡';
+       StatusBar1.Panels[7].Text := 'ç­”æ¡ˆå·²è½½å…¥ï¼';
     end;
   end else if StateList.count > 0 then begin
     if GetStateFromDB(0, x, y, s1, s2) then begin
 
        len := Length(s1);
 
-       // ×´Ì¬ËÍÈë RedoList
+       // çŠ¶æ€é€å…¥ RedoList
        if len > 0 then begin
            ReDoPos := 0;
            for i := len downto 1 do begin
@@ -1081,7 +1081,7 @@ begin
 
        len := Length(s2);
 
-       // ×´Ì¬ËÍÈë RedoList_BK
+       // çŠ¶æ€é€å…¥ RedoList_BK
        if (len > 0) and (x > 0) and (y > 0) then begin
 
            if ManPos_BK >= 0 then begin
@@ -1109,29 +1109,29 @@ begin
            isNoDelay := False;
        end;
        curMap.isFinish := True;
-       StatusBar1.Panels[7].Text := '×´Ì¬ÒÑÔØÈë£¡';
+       StatusBar1.Panels[7].Text := 'çŠ¶æ€å·²è½½å…¥ï¼';
     end;
   end;
 
   if mySettings.isXSB_Saved then begin
      Caption := AppName + AppVer + ' - ' + ExtractFileName(ChangeFileExt(mySettings.MapFileName, EmptyStr)) + ' ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']'
   end else begin
-     Caption := AppName + AppVer + ' - ¼ôÇĞ°å ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']';
+     Caption := AppName + AppVer + ' - å‰ªåˆ‡æ¿ ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']';
   end;
 
-  Caption := Caption + '£¬³ß´ç: ' + IntToStr(curMapNode.Cols) + '¡Á' + IntToStr(curMapNode.Rows) + '£¬Ïä×Ó: ' + IntToStr(curMapNode.Boxs) + '£¬Ä¿±ê: ' + IntToStr(curMapNode.Goals);
+  Caption := Caption + 'ï¼Œå°ºå¯¸: ' + IntToStr(curMapNode.Cols) + 'Ã—' + IntToStr(curMapNode.Rows) + 'ï¼Œç®±å­: ' + IntToStr(curMapNode.Boxs) + 'ï¼Œç›®æ ‡: ' + IntToStr(curMapNode.Goals);
   ed_sel_Map.Text := IntToStr(curMap.CurrentLevel);
   
-  ShowStatusBar();                                         // µ×ĞĞ×´Ì¬À¸
-  PathFinder.setThroughable(mySettings.isGoThrough);       // ´©Ô½¿ª¹Ø
+  ShowStatusBar();                                         // åº•è¡ŒçŠ¶æ€æ 
+  PathFinder.setThroughable(mySettings.isGoThrough);       // ç©¿è¶Šå¼€å…³
 
   ClearMemory;
 
   if curMapNode.Cols > 0 then
-    StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos mod curMapNode.Cols, ManPos div curMapNode.Cols) + ' - [ ' + IntToStr(ManPos mod curMapNode.Cols + 1) + ', ' + IntToStr(ManPos div curMapNode.Cols + 1) + ' ]';       // ±ê³ß
+    StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos mod curMapNode.Cols, ManPos div curMapNode.Cols) + ' - [ ' + IntToStr(ManPos mod curMapNode.Cols + 1) + ', ' + IntToStr(ManPos div curMapNode.Cols + 1) + ' ]';       // æ ‡å°º
 end;
 
-// ¼ÆËãÎŞ·ìÇ½±ÚÍ¼Ôª
+// è®¡ç®—æ— ç¼å¢™å£å›¾å…ƒ
 function Tmain.GetWall(r, c: Integer): Integer;
 var
   pos: Integer;
@@ -1141,19 +1141,19 @@ begin
   pos := r * curMapNode.Cols + c;
 
   if (c > 0) and (map_Board[r * curMapNode.Cols + c - 1] = WallCell) then
-    result := result or MapDir[curMapNode.Trun, 0];  // ×óÓĞÇ½±Ú
+    result := result or MapDir[curMapNode.Trun, 0];  // å·¦æœ‰å¢™å£
   if (r > 0) and (map_Board[(r - 1) * curMapNode.Cols + c] = WallCell) then
-    result := result or MapDir[curMapNode.Trun, 1];  // ÉÏÓĞÇ½±Ú
+    result := result or MapDir[curMapNode.Trun, 1];  // ä¸Šæœ‰å¢™å£
   if (c < curMapNode.Cols - 1) and (map_Board[r * curMapNode.Cols + c + 1] = WallCell) then
-    result := result or MapDir[curMapNode.Trun, 2];  // ÓÒÓĞÇ½±Ú
+    result := result or MapDir[curMapNode.Trun, 2];  // å³æœ‰å¢™å£
   if (r < curMapNode.Rows - 1) and (map_Board[(r + 1) * curMapNode.Cols + c] = WallCell) then
-    result := result or MapDir[curMapNode.Trun, 3];  // ÏÂÓĞÇ½±Ú
+    result := result or MapDir[curMapNode.Trun, 3];  // ä¸‹æœ‰å¢™å£
 
   if ((result = MapDir[curMapNode.Trun, 4]) or (result = MapDir[curMapNode.Trun, 5]) or (result = MapDir[curMapNode.Trun, 6]) or (result = 15)) and (c > 0) and (r > 0) and (map_Board[pos - curMapNode.Cols - 1] = WallCell) then
-    result := result or 16;  // ĞèÒª»­Ç½¶¥
+    result := result or 16;  // éœ€è¦ç”»å¢™é¡¶
 end;
 
-// Í³¼ÆÑ¡ÇøÄÚµÄÏä×ÓÊıµÈ
+// ç»Ÿè®¡é€‰åŒºå†…çš„ç®±å­æ•°ç­‰
 function Tmain.GetCountBox(): string;
 var
   i, boxNum, GoalNum, BoxGoalNum: Integer;
@@ -1161,17 +1161,17 @@ var
 begin
   boxNum := 0; GoalNum := 0; BoxGoalNum := 0;
   for i := 0 to curMap.MapSize-1 do begin
-      if mySettings.isBK then begin         // ÄæÍÆ
+      if mySettings.isBK then begin         // é€†æ¨
         if map_Selected_BK[i] then begin
-           if mySettings.isJijing then begin                 // »¥¶¯Ë«ÍÆÄ£Ê½
+           if mySettings.isJijing then begin                 // äº’åŠ¨åŒæ¨æ¨¡å¼
              if map_Board_BK[i] in [ BoxCell, BoxGoalCell ] then boxNum := boxNum+1;
              if map_Board[i] in [ BoxCell, BoxGoalCell ] then GoalNum := GoalNum+1;
              if (map_Board_BK[i] in [ BoxCell, BoxGoalCell ]) and (map_Board[i] in [ BoxCell, BoxGoalCell ]) then BoxGoalNum := BoxGoalNum+1;
-           end else if mySettings.isSameGoal then begin      // ¶¨Î»Ë«ÍÆÄ£Ê½
+           end else if mySettings.isSameGoal then begin      // å®šä½åŒæ¨æ¨¡å¼
              if map_Board_BK[i] in [ BoxCell, BoxGoalCell ] then boxNum := boxNum+1;
              if map_Board[i] in [ GoalCell, ManGoalCell, BoxGoalCell ] then GoalNum := GoalNum+1;
              if (map_Board_BK[i] in [ BoxCell, BoxGoalCell ]) and (map_Board[i] in [ GoalCell, ManGoalCell, BoxGoalCell ]) then BoxGoalNum := BoxGoalNum+1;
-           end else begin                                    // ³£¹æÄ£Ê½
+           end else begin                                    // å¸¸è§„æ¨¡å¼
              if map_Board_BK[i] in [ BoxCell, BoxGoalCell ] then boxNum := boxNum+1;
              if map_Board_BK[i] in [ GoalCell, ManGoalCell, BoxGoalCell ] then GoalNum := GoalNum+1;
              if map_Board_BK[i] = BoxGoalCell then BoxGoalNum := BoxGoalNum+1;
@@ -1179,11 +1179,11 @@ begin
         end;
       end else begin
         if map_Selected[i] then begin
-           if mySettings.isJijing then begin                 // »¥¶¯Ë«ÍÆÄ£Ê½   
+           if mySettings.isJijing then begin                 // äº’åŠ¨åŒæ¨æ¨¡å¼   
              if map_Board[i] in [ BoxCell, BoxGoalCell ] then boxNum := boxNum+1;
              if map_Board_BK[i] in [ BoxCell, BoxGoalCell ] then GoalNum := GoalNum+1;
              if (map_Board[i] in [ BoxCell, BoxGoalCell ]) and (map_Board_BK[i] in [ BoxCell, BoxGoalCell ]) then BoxGoalNum := BoxGoalNum+1;
-           end else begin                                    // ³£¹æÄ£Ê½¡¢¶¨Î»Ë«ÍÆÄ£Ê½
+           end else begin                                    // å¸¸è§„æ¨¡å¼ã€å®šä½åŒæ¨æ¨¡å¼
              if map_Board[i] in [ BoxCell, BoxGoalCell ] then boxNum := boxNum+1;
              if map_Board[i] in [ GoalCell, ManGoalCell, BoxGoalCell ] then GoalNum := GoalNum+1;
              if map_Board[i] = BoxGoalCell then BoxGoalNum := BoxGoalNum+1;
@@ -1192,11 +1192,11 @@ begin
       end;
   end;
 
-  result := 'Ñ¡ÇøÄÚ£ºÏä×ÓÊı = ' + IntToStr(boxNum) + '£»  Ä¿±êÊı = '  + IntToStr(GoalNum) + '£»  ÆäÖĞÍê³ÉÊı = '  + IntToStr(BoxGoalNum);
+  result := 'é€‰åŒºå†…ï¼šç®±å­æ•° = ' + IntToStr(boxNum) + 'ï¼›  ç›®æ ‡æ•° = '  + IntToStr(GoalNum) + 'ï¼›  å…¶ä¸­å®Œæˆæ•° = '  + IntToStr(BoxGoalNum);
 
 end;
 
-// ±È½ÏÍ¼Ôª¸ñµÚÒ»ÏñËØÑÕÉ«ÓëµØ°å¸ñÑÕÉ«ÊÇ·ñÏàÍ¬£¬ÒÔÈ·¶¨ÊÇ·ñ»­¸ñÏß
+// æ¯”è¾ƒå›¾å…ƒæ ¼ç¬¬ä¸€åƒç´ é¢œè‰²ä¸åœ°æ¿æ ¼é¢œè‰²æ˜¯å¦ç›¸åŒï¼Œä»¥ç¡®å®šæ˜¯å¦ç”»æ ¼çº¿
 procedure Tmain.DrawLine(cs: TCanvas; x1, y1: Integer; isLine: boolean);
 begin
   if isLine then
@@ -1209,7 +1209,7 @@ begin
   end;
 end;
 
-// ÎªÑ¡ÇøÄÚµÄµ¥Ôª¸ñ¼ÓÉÏ×ÏÉ«ÕÚÕÖ
+// ä¸ºé€‰åŒºå†…çš„å•å…ƒæ ¼åŠ ä¸Šç´«è‰²é®ç½©
 procedure ColorChange(SrcBmp: TBitmap);
 var
   i, j: integer;
@@ -1230,7 +1230,7 @@ begin
   end;
 end;
 
-// »æÖÆµØÍ¼
+// ç»˜åˆ¶åœ°å›¾
 procedure Tmain.DrawMap();
 var
   i, j, k, dx, dy, myCell, x1, y1, x2, y2, x3, y3, x4, y4, pos, t1, t2, i2, j2, man_Pos_: integer;
@@ -1251,8 +1251,8 @@ begin
   begin
     for j := 0 to curMapNode.Cols - 1 do
     begin
-      // 0-7, 1-6, 2-5, 3-4, »¥Îª×ªÖÃ
-      case (curMapNode.Trun) of  // ÀûÓÃ i2, j2 Ä£ÄâÍ¼ÔªËØµÄĞı×ª£¬ÕâÑù²»¹ÜÔõÃ´¡°Ğı×ª¡±£¬Êµ¼ÊÉÏµØÍ¼Ê¼ÖÕ²»±ä -- ½«µØÍ¼×ø±ê×ª»»ÎªÊÓ¾õ×ø±ê
+      // 0-7, 1-6, 2-5, 3-4, äº’ä¸ºè½¬ç½®
+      case (curMapNode.Trun) of  // åˆ©ç”¨ i2, j2 æ¨¡æ‹Ÿå›¾å…ƒç´ çš„æ—‹è½¬ï¼Œè¿™æ ·ä¸ç®¡æ€ä¹ˆâ€œæ—‹è½¬â€ï¼Œå®é™…ä¸Šåœ°å›¾å§‹ç»ˆä¸å˜ -- å°†åœ°å›¾åæ ‡è½¬æ¢ä¸ºè§†è§‰åæ ‡
       1:
         begin
           j2 := curMapNode.Rows - 1 - i;
@@ -1295,18 +1295,18 @@ begin
         end;
       end;
 
-      pos := i * curMapNode.Cols + j;    // µØÍ¼ÖĞ£¬¡°¸ñ×Ó¡±µÄÕæÊµÎ»ÖÃ
+      pos := i * curMapNode.Cols + j;    // åœ°å›¾ä¸­ï¼Œâ€œæ ¼å­â€çš„çœŸå®ä½ç½®
 
-      x1 := j2 * curMap.CellSize;        // x1, y1 ÊÇµØÍ¼ÔªËØµÄ»æÖÆ×ø±ê -- Ğı×ªºóµÄ
+      x1 := j2 * curMap.CellSize;        // x1, y1 æ˜¯åœ°å›¾å…ƒç´ çš„ç»˜åˆ¶åæ ‡ -- æ—‹è½¬åçš„
       y1 := i2 * curMap.CellSize;
 
-      R := Rect(x1, y1, x1 + curMap.CellSize, y1 + curMap.CellSize);        // µØÍ¼¸ñ×ÓµÄ»æÖÆ¾ØĞÎ
+      R := Rect(x1, y1, x1 + curMap.CellSize, y1 + curMap.CellSize);        // åœ°å›¾æ ¼å­çš„ç»˜åˆ¶çŸ©å½¢
 
       if mySettings.isBK then
-      begin            // ÄæÍÆ
+      begin            // é€†æ¨
         myCell := map_Board_BK[pos];
         if mySettings.isJijing then
-        begin  // »¥¶¯Ë«ÍÆ
+        begin  // äº’åŠ¨åŒæ¨
           case map_Board[pos] of
             BoxCell, BoxGoalCell:
               case myCell of
@@ -1329,7 +1329,7 @@ begin
           end;
         end
         else if mySettings.isSameGoal then
-        begin  // ¶¨Î»Ë«ÍÆ
+        begin  // å®šä½åŒæ¨
           case map_Board_OG[pos] of
             GoalCell, BoxGoalCell, ManGoalCell:
               case myCell of
@@ -1354,9 +1354,9 @@ begin
       end
       else
       begin
-        myCell := map_Board[pos];             // ÕıÍÆ
+        myCell := map_Board[pos];             // æ­£æ¨
         if mySettings.isJijing then
-        begin     // »¥¶¯Ë«ÍÆ
+        begin     // äº’åŠ¨åŒæ¨
           case map_Board_BK[pos] of
             BoxCell, BoxGoalCell:
               case myCell of
@@ -1384,44 +1384,44 @@ begin
       case myCell of
         WallCell:
           if isSeamless then
-          begin    // ÎŞ·ìÇ½±Ú
+          begin    // æ— ç¼å¢™å£
             k := GetWall(i, j);
             case (k and $F) of
               1:
-                map_Image.Canvas.StretchDraw(R, WallPic_l);     // ½ö×ó
+                map_Image.Canvas.StretchDraw(R, WallPic_l);     // ä»…å·¦
               2:
-                map_Image.Canvas.StretchDraw(R, WallPic_u);     // ½öÉÏ
+                map_Image.Canvas.StretchDraw(R, WallPic_u);     // ä»…ä¸Š
               3:
-                map_Image.Canvas.StretchDraw(R, WallPic_lu);    // ×ó¡¢ÉÏ
+                map_Image.Canvas.StretchDraw(R, WallPic_lu);    // å·¦ã€ä¸Š
               4:
-                map_Image.Canvas.StretchDraw(R, WallPic_r);     // ½öÓÒ
+                map_Image.Canvas.StretchDraw(R, WallPic_r);     // ä»…å³
               5:
-                map_Image.Canvas.StretchDraw(R, WallPic_lr);    // ×ó¡¢ÓÒ
+                map_Image.Canvas.StretchDraw(R, WallPic_lr);    // å·¦ã€å³
               6:
-                map_Image.Canvas.StretchDraw(R, WallPic_ru);    // ÓÒ¡¢ÉÏ
+                map_Image.Canvas.StretchDraw(R, WallPic_ru);    // å³ã€ä¸Š
               7:
-                map_Image.Canvas.StretchDraw(R, WallPic_lur);   // ×ó¡¢ÉÏ¡¢ÓÒ
+                map_Image.Canvas.StretchDraw(R, WallPic_lur);   // å·¦ã€ä¸Šã€å³
               8:
-                map_Image.Canvas.StretchDraw(R, WallPic_d);     // ½öÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_d);     // ä»…ä¸‹
               9:
-                map_Image.Canvas.StretchDraw(R, WallPic_ld);    // ×ó¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_ld);    // å·¦ã€ä¸‹
               10:
-                map_Image.Canvas.StretchDraw(R, WallPic_ud);    // ÉÏ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_ud);    // ä¸Šã€ä¸‹
               11:
-                map_Image.Canvas.StretchDraw(R, WallPic_uld);   // ×ó¡¢ÉÏ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_uld);   // å·¦ã€ä¸Šã€ä¸‹
               12:
-                map_Image.Canvas.StretchDraw(R, WallPic_rd);    // ÓÒ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_rd);    // å³ã€ä¸‹
               13:
-                map_Image.Canvas.StretchDraw(R, WallPic_ldr);   // ×ó¡¢ÓÒ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_ldr);   // å·¦ã€å³ã€ä¸‹
               14:
-                map_Image.Canvas.StretchDraw(R, WallPic_urd);   // ÉÏ¡¢ÓÒ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_urd);   // ä¸Šã€å³ã€ä¸‹
               15:
-                map_Image.Canvas.StretchDraw(R, WallPic_lurd);  // ËÄ·½ÏòÈ«ÓĞ
+                map_Image.Canvas.StretchDraw(R, WallPic_lurd);  // å››æ–¹å‘å…¨æœ‰
             else
               map_Image.Canvas.StretchDraw(R, WallPic);
             end;
             if k > 15 then
-            begin     // ĞèÒª»­ÉÏÇ½µÄ¶¥²¿ -- ¡°Á¬ÌåËÄ¿é¡±Ç½±Ú
+            begin     // éœ€è¦ç”»ä¸Šå¢™çš„é¡¶éƒ¨ -- â€œè¿ä½“å››å—â€å¢™å£
               case (curMapNode.Trun) of
                 1, 4:
                   begin
@@ -1448,44 +1448,44 @@ begin
             end;
           end
           else
-          begin                 // ¼òµ¥Ç½±Ú
+          begin                 // ç®€å•å¢™å£
             map_Image.Canvas.StretchDraw(R, WallPic);
           end;
         FloorCell:
           begin
             if mySettings.isOddEven and ((i2 + j2) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, FloorPic2)
             else map_Image.Canvas.StretchDraw(R, FloorPic);
-            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isFloorLine);  // »­Íø¸ñÏß
+            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isFloorLine);  // ç”»ç½‘æ ¼çº¿
           end;
         GoalCell:
           begin
             if mySettings.isOddEven and ((i2 + j2) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, GoalPic2)
             else map_Image.Canvas.StretchDraw(R, GoalPic);
-            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isGoalLine);   // »­Íø¸ñÏß
+            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isGoalLine);   // ç”»ç½‘æ ¼çº¿
           end;
         BoxCell:
           begin
             if mySettings.isOddEven and ((i2 + j2) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, BoxPic2)
             else map_Image.Canvas.StretchDraw(R, BoxPic);
-            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isBoxLine);    // »­Íø¸ñÏß
+            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isBoxLine);    // ç”»ç½‘æ ¼çº¿
           end;
         BoxGoalCell:
           begin
             if mySettings.isOddEven and ((i2 + j2) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, BoxGoalPic2)
             else map_Image.Canvas.StretchDraw(R, BoxGoalPic);
-            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isBoxGoalLine); // »­Íø¸ñÏß
+            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isBoxGoalLine); // ç”»ç½‘æ ¼çº¿
           end;
         ManCell:
           begin
             if mySettings.isOddEven and ((i2 + j2) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, ManPic2)
             else map_Image.Canvas.StretchDraw(R, ManPic);
-            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isManLine);    // »­Íø¸ñÏß
+            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isManLine);    // ç”»ç½‘æ ¼çº¿
           end;
         ManGoalCell:
           begin
             if mySettings.isOddEven and ((i2 + j2) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, ManGoalPic2)
             else map_Image.Canvas.StretchDraw(R, ManGoalPic);
-            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isManGoalLine); // »­Íø¸ñÏß
+            if not mySettings.isOddEven then DrawLine(map_Image.Canvas, x1, y1, isManGoalLine); // ç”»ç½‘æ ¼çº¿
           end;
       else
         if mySettings.isBK then
@@ -1496,21 +1496,21 @@ begin
         map_Image.Canvas.FillRect(R);
       end;
 
-      // ÊÇ·ñ¡°ÄæÍÆÄ£Ê½¡±
+      // æ˜¯å¦â€œé€†æ¨æ¨¡å¼â€
       if mySettings.isBK then
       begin
 
         map_Image.Canvas.Brush.Style := bsClear;
-        map_Image.Canvas.Font.Name := 'Î¢ÈíÑÅºÚ';
+        map_Image.Canvas.Font.Name := 'å¾®è½¯é›…é»‘';
         map_Image.Canvas.Font.Size := 16;
         map_Image.Canvas.Font.Color := clWhite;
         map_Image.Canvas.Font.Style := [];
         if mySettings.isJijing then
-           map_Image.Canvas.TextOut(0, 0, 'ÄæÍÆÄ£Ê½ - »¥¶¯Ë«ÍÆ')
+           map_Image.Canvas.TextOut(0, 0, 'é€†æ¨æ¨¡å¼ - äº’åŠ¨åŒæ¨')
         else
-           map_Image.Canvas.TextOut(0, 0, 'ÄæÍÆÄ£Ê½');
+           map_Image.Canvas.TextOut(0, 0, 'é€†æ¨æ¨¡å¼');
 
-        // Ïä×Ó±àºÅ
+        // ç®±å­ç¼–å·
         if mySettings.isNumber then begin
           if (myCell in [ BoxCell, BoxGoalCell ]) and (BoxNum_Board_BK[pos] >= 0) then begin
               map_Image.Canvas.Font.Color := clBlack;
@@ -1518,7 +1518,7 @@ begin
               map_Image.Canvas.Font.Size := Round(curMap.CellSize / 2.5);
               map_Image.Canvas.Font.Style := [fsBold];
               map_Image.Canvas.TextOut(R.Left + curMap.CellSize div 3, R.Top + curMap.CellSize div 5, IntToStr(BoxNum_Board_BK[pos]));
-          end else if (myCell in [ FloorCell, GoalCell, ManCell, ManGoalCell ]) and (PosNum_Board_BK[pos] >= 0) then begin    // Í¨µÀÎ»ÖÃ
+          end else if (myCell in [ FloorCell, GoalCell, ManCell, ManGoalCell ]) and (PosNum_Board_BK[pos] >= 0) then begin    // é€šé“ä½ç½®
               map_Image.Canvas.Font.Color := clWhite;
               map_Image.Canvas.Brush.Style := bsClear;
               map_Image.Canvas.Font.Size := Round(curMap.CellSize / 2.5);
@@ -1527,7 +1527,7 @@ begin
           end;
         end;
 
-        // ÄæÍÆÖĞ£¬ÏÔÊ¾ÈËÔÚÕıÍÆÖĞµÄÎ»ÖÃ£¬ÕıÄæÏàºÏºó£¬ÈËĞèÒª»Øµ½´ËÎ»ÖÃ£¬ËùÒÔ£¬ÌáÊ¾³öÀ´ÒÔ±ã²Î¿¼
+        // é€†æ¨ä¸­ï¼Œæ˜¾ç¤ºäººåœ¨æ­£æ¨ä¸­çš„ä½ç½®ï¼Œæ­£é€†ç›¸åˆåï¼Œäººéœ€è¦å›åˆ°æ­¤ä½ç½®ï¼Œæ‰€ä»¥ï¼Œæç¤ºå‡ºæ¥ä»¥ä¾¿å‚è€ƒ
         if mySettings.isJijing then man_Pos_ := ManPos
         else man_Pos_ := curMap.ManPosition;
 
@@ -1545,7 +1545,7 @@ begin
         end;
 
         if IsManAccessibleTips_BK then
-        begin   // ÏÔÊ¾ÈËµÄ¿É´ïÌáÊ¾
+        begin   // æ˜¾ç¤ºäººçš„å¯è¾¾æç¤º
           t1 := curMap.CellSize div 6;
           if t1 < 4 then t1 := 4;
           t2 := t1 - 1;
@@ -1572,7 +1572,7 @@ begin
           end;
         end;
         if IsBoxAccessibleTips_BK then
-        begin   // ÏÔÊ¾Ïä×ÓµÄ¿É´ïÌáÊ¾
+        begin   // æ˜¾ç¤ºç®±å­çš„å¯è¾¾æç¤º
           t1 := curMap.CellSize div 6;
           if t1 < 4 then t1 := 4;
           t2 := t1 - 1;
@@ -1585,9 +1585,9 @@ begin
           end;
         end;
       end
-      else                                                                      // ÕıÍÆ
+      else                                                                      // æ­£æ¨
       begin
-        // ±êÊ¶³öÎ´·ÃÎÊµÄ¸ñ×Ó
+        // æ ‡è¯†å‡ºæœªè®¿é—®çš„æ ¼å­
         if mySettings.isShowNoVisited and (not map_Board_Visited[pos]) and (map_Board[pos] in [ FloorCell, GoalCell, BoxCell, BoxGoalCell, ManCell, ManGoalCell ]) then begin
            map_Image.Canvas.Pen.Color := clWhite;
            map_Image.Canvas.Pen.Width := 2;
@@ -1598,16 +1598,16 @@ begin
         end;
 
         if mySettings.isJijing then
-        begin    // »¥¶¯Ë«ÍÆ
+        begin    // äº’åŠ¨åŒæ¨
           map_Image.Canvas.Brush.Style := bsClear;
-          map_Image.Canvas.Font.Name := 'Î¢ÈíÑÅºÚ';
+          map_Image.Canvas.Font.Name := 'å¾®è½¯é›…é»‘';
           map_Image.Canvas.Font.Size := 16;
           map_Image.Canvas.Font.Color := clWhite;
           map_Image.Canvas.Font.Style := [];
-          map_Image.Canvas.TextOut(0, 0, '»¥¶¯Ë«ÍÆ');
+          map_Image.Canvas.TextOut(0, 0, 'äº’åŠ¨åŒæ¨');
         end;
 
-        // Ïä×Ó±àºÅ
+        // ç®±å­ç¼–å·
         if mySettings.isNumber then begin
           if (myCell in [ BoxCell, BoxGoalCell ]) and (BoxNum_Board[pos] >= 0) then begin
               map_Image.Canvas.Brush.Style := bsClear;
@@ -1615,7 +1615,7 @@ begin
               map_Image.Canvas.Font.Size := Round(curMap.CellSize / 2.5);
               map_Image.Canvas.Font.Style := [fsBold];
               map_Image.Canvas.TextOut(R.Left + curMap.CellSize div 3, R.Top + curMap.CellSize div 5, IntToStr(BoxNum_Board[pos]));
-          end else if (myCell in [ FloorCell, GoalCell, ManCell, ManGoalCell ]) and (PosNum_Board[pos] >= 0) then begin  // Í¨µÀÎ»ÖÃ
+          end else if (myCell in [ FloorCell, GoalCell, ManCell, ManGoalCell ]) and (PosNum_Board[pos] >= 0) then begin  // é€šé“ä½ç½®
               map_Image.Canvas.Brush.Style := bsClear;
               map_Image.Canvas.Font.Color := clWhite;
               map_Image.Canvas.Font.Size := Round(curMap.CellSize / 2.5);
@@ -1640,7 +1640,7 @@ begin
         end;
 
         if IsManAccessibleTips then
-        begin   // ÏÔÊ¾ÈËµÄ¿É´ïÌáÊ¾
+        begin   // æ˜¾ç¤ºäººçš„å¯è¾¾æç¤º
           t1 := curMap.CellSize div 6;
           if t1 < 4 then t1 := 4;
           t2 := t1 - 1;
@@ -1667,7 +1667,7 @@ begin
           end;
         end;
         if IsBoxAccessibleTips then
-        begin   // ÏÔÊ¾Ïä×ÓµÄ¿É´ïÌáÊ¾
+        begin   // æ˜¾ç¤ºç®±å­çš„å¯è¾¾æç¤º
           t1 := curMap.CellSize div 6;
           if t1 < 4 then t1 := 4;
           t2 := t1 - 1;
@@ -1683,44 +1683,44 @@ begin
     end;
   end;
 
-  // ÊÇ·ñ²»ºÏ¸ñµÄ¹Ø¿¨ XSB
+  // æ˜¯å¦ä¸åˆæ ¼çš„å…³å¡ XSB
   if curMapNode.isEligible then begin
      if mySettings.isBK then begin
         if curMap.Recording_BK then begin
            map_Image.Canvas.Brush.Style := bsClear;
-           map_Image.Canvas.Font.Name := 'Î¢ÈíÑÅºÚ';
+           map_Image.Canvas.Font.Name := 'å¾®è½¯é›…é»‘';
            map_Image.Canvas.Font.Size := 16;
            map_Image.Canvas.Font.Color := clWhite;
            map_Image.Canvas.Font.Style := [];
-           map_Image.Canvas.TextOut(map_Image.Width-130, 0, '¶¯×÷Â¼ÖÆÖĞ...');
-           map_Image.Canvas.TextOut(map_Image.Width-130, 25, '¿ªÊ¼µã£º' + IntToStr(curMap.StartPos_BK));
+           map_Image.Canvas.TextOut(map_Image.Width-130, 0, 'åŠ¨ä½œå½•åˆ¶ä¸­...');
+           map_Image.Canvas.TextOut(map_Image.Width-130, 25, 'å¼€å§‹ç‚¹ï¼š' + IntToStr(curMap.StartPos_BK));
         end;
      end else begin
         if curMap.Recording then begin
            map_Image.Canvas.Brush.Style := bsClear;
-           map_Image.Canvas.Font.Name := 'Î¢ÈíÑÅºÚ';
+           map_Image.Canvas.Font.Name := 'å¾®è½¯é›…é»‘';
            map_Image.Canvas.Font.Size := 16;
            map_Image.Canvas.Font.Color := clWhite;
            map_Image.Canvas.Font.Style := [];
-           map_Image.Canvas.TextOut(map_Image.Width-130, 0, '¶¯×÷Â¼ÖÆÖĞ...');
-           map_Image.Canvas.TextOut(map_Image.Width-130, 25, '¿ªÊ¼µã£º' + IntToStr(curMap.StartPos));
+           map_Image.Canvas.TextOut(map_Image.Width-130, 0, 'åŠ¨ä½œå½•åˆ¶ä¸­...');
+           map_Image.Canvas.TextOut(map_Image.Width-130, 25, 'å¼€å§‹ç‚¹ï¼š' + IntToStr(curMap.StartPos));
         end;
      end;
 
-  end else begin      // ²»ºÏ¸ñ
+  end else begin      // ä¸åˆæ ¼
     map_Image.Canvas.Brush.Style := bsClear;
-    map_Image.Canvas.Font.Name := 'Î¢ÈíÑÅºÚ';
+    map_Image.Canvas.Font.Name := 'å¾®è½¯é›…é»‘';
     map_Image.Canvas.Font.Size := 16;
     map_Image.Canvas.Font.Color := clWhite;
     map_Image.Canvas.Font.Style := [];
-    map_Image.Canvas.TextOut(map_Image.Width-130, 0, '²»ºÏ¸ñµÄ¹Ø¿¨');
+    map_Image.Canvas.TextOut(map_Image.Width-130, 0, 'ä¸åˆæ ¼çš„å…³å¡');
 //    Caption := IntToStr(map_Image.Left) + ', ' + IntToStr(map_Image.Top);
   end;
 
   if isSelectMod then begin
-     // Í»³ö±»Ñ¡ÖĞµÄµ¥Ôª¸ñ
+     // çªå‡ºè¢«é€‰ä¸­çš„å•å…ƒæ ¼
      R2 := Rect(0, 0, curMap.CellSize, curMap.CellSize);
-     map_Image.Canvas.Pen.Color := $00FF66;   // ±ß¿òÏßµÄÑÕÉ«
+     map_Image.Canvas.Pen.Color := $00FF66;   // è¾¹æ¡†çº¿çš„é¢œè‰²
      map_Image.Canvas.Pen.Width := 3;
 
 //     map_Image.Canvas.CopyMode := PATPAINT;
@@ -1728,16 +1728,16 @@ begin
      begin
        for j := 0 to curMapNode.Cols - 1 do
        begin
-         pos := i * curMapNode.Cols + j;    // µØÍ¼ÖĞ£¬¡°¸ñ×Ó¡±µÄÕæÊµÎ»ÖÃ
+         pos := i * curMapNode.Cols + j;    // åœ°å›¾ä¸­ï¼Œâ€œæ ¼å­â€çš„çœŸå®ä½ç½®
 
        if (mySettings.isBK and map_Selected_BK[pos]) or (not mySettings.isBK and map_Selected[pos]) then begin
-            // 0-7, 1-6, 2-5, 3-4, »¥Îª×ªÖÃ
-            case (curMapNode.Trun) of  // ÀûÓÃ i2, j2 Ä£ÄâÍ¼ÔªËØµÄĞı×ª£¬ÕâÑù²»¹ÜÔõÃ´¡°Ğı×ª¡±£¬Êµ¼ÊÉÏµØÍ¼Ê¼ÖÕ²»±ä -- ½«µØÍ¼×ø±ê×ª»»ÎªÊÓ¾õ×ø±ê
+            // 0-7, 1-6, 2-5, 3-4, äº’ä¸ºè½¬ç½®
+            case (curMapNode.Trun) of  // åˆ©ç”¨ i2, j2 æ¨¡æ‹Ÿå›¾å…ƒç´ çš„æ—‹è½¬ï¼Œè¿™æ ·ä¸ç®¡æ€ä¹ˆâ€œæ—‹è½¬â€ï¼Œå®é™…ä¸Šåœ°å›¾å§‹ç»ˆä¸å˜ -- å°†åœ°å›¾åæ ‡è½¬æ¢ä¸ºè§†è§‰åæ ‡
             1:
               begin
                 j2 := curMapNode.Rows - 1 - i;
                 i2 := j;
-                x1 := j2 * curMap.CellSize + curMap.CellSize;        // x1, y1, x2, y2 Îª±ß¿òÏßµÄËÄ¸ö×ø±ê
+                x1 := j2 * curMap.CellSize + curMap.CellSize;        // x1, y1, x2, y2 ä¸ºè¾¹æ¡†çº¿çš„å››ä¸ªåæ ‡
                 y1 := i2 * curMap.CellSize;
                 x2 := x1;
                 y2 := y1 + curMap.CellSize;
@@ -1750,7 +1750,7 @@ begin
               begin
                 j2 := curMapNode.Cols - 1 - j;
                 i2 := curMapNode.Rows - 1 - i;
-                x1 := j2 * curMap.CellSize + curMap.CellSize;        // x1, y1, x2, y2 Îª±ß¿òÏßµÄËÄ¸ö×ø±ê
+                x1 := j2 * curMap.CellSize + curMap.CellSize;        // x1, y1, x2, y2 ä¸ºè¾¹æ¡†çº¿çš„å››ä¸ªåæ ‡
                 y1 := i2 * curMap.CellSize + curMap.CellSize;
                 x2 := x1 - curMap.CellSize;
                 y2 := y1;
@@ -1763,7 +1763,7 @@ begin
               begin
                 j2 := i;
                 i2 := curMapNode.Cols - 1 - j;
-                x1 := j2 * curMap.CellSize;                          // x1, y1, x2, y2 Îª±ß¿òÏßµÄËÄ¸ö×ø±ê
+                x1 := j2 * curMap.CellSize;                          // x1, y1, x2, y2 ä¸ºè¾¹æ¡†çº¿çš„å››ä¸ªåæ ‡
                 y1 := i2 * curMap.CellSize + curMap.CellSize;
                 x2 := x1;
                 y2 := y1 - curMap.CellSize;
@@ -1776,7 +1776,7 @@ begin
               begin
                 j2 := curMapNode.Cols - 1 - j;
                 i2 := i;
-                x1 := j2 * curMap.CellSize + curMap.CellSize;        // x1, y1, x2, y2 Îª±ß¿òÏßµÄËÄ¸ö×ø±ê
+                x1 := j2 * curMap.CellSize + curMap.CellSize;        // x1, y1, x2, y2 ä¸ºè¾¹æ¡†çº¿çš„å››ä¸ªåæ ‡
                 y1 := i2 * curMap.CellSize;
                 x2 := x1 - curMap.CellSize;
                 y2 := y1;
@@ -1789,7 +1789,7 @@ begin
               begin
                 j2 := curMapNode.Rows - 1 - i;
                 i2 := curMapNode.Cols - 1 - j;
-                x1 := j2 * curMap.CellSize + curMap.CellSize;        // x1, y1, x2, y2 Îª±ß¿òÏßµÄËÄ¸ö×ø±ê
+                x1 := j2 * curMap.CellSize + curMap.CellSize;        // x1, y1, x2, y2 ä¸ºè¾¹æ¡†çº¿çš„å››ä¸ªåæ ‡
                 y1 := i2 * curMap.CellSize + curMap.CellSize;
                 x2 := x1;
                 y2 := y1 - curMap.CellSize;
@@ -1802,7 +1802,7 @@ begin
               begin
                 j2 := j;
                 i2 := curMapNode.Rows - 1 - i;
-                x1 := j2 * curMap.CellSize;                         // x1, y1, x2, y2 Îª±ß¿òÏßµÄËÄ¸ö×ø±ê
+                x1 := j2 * curMap.CellSize;                         // x1, y1, x2, y2 ä¸ºè¾¹æ¡†çº¿çš„å››ä¸ªåæ ‡
                 y1 := i2 * curMap.CellSize + curMap.CellSize;
                 x2 := x1 + curMap.CellSize;
                 y2 := y1;
@@ -1815,7 +1815,7 @@ begin
               begin
                 j2 := i;
                 i2 := j;
-                x1 := j2 * curMap.CellSize;                        // x1, y1, x2, y2 Îª±ß¿òÏßµÄËÄ¸ö×ø±ê
+                x1 := j2 * curMap.CellSize;                        // x1, y1, x2, y2 ä¸ºè¾¹æ¡†çº¿çš„å››ä¸ªåæ ‡
                 y1 := i2 * curMap.CellSize;
                 x2 := x1;
                 y2 := y1 + curMap.CellSize;
@@ -1828,7 +1828,7 @@ begin
               begin
                 j2 := j;
                 i2 := i;
-                x1 := j2 * curMap.CellSize;                       // x1, y1, x2, y2 Îª±ß¿òÏßµÄËÄ¸ö×ø±ê
+                x1 := j2 * curMap.CellSize;                       // x1, y1, x2, y2 ä¸ºè¾¹æ¡†çº¿çš„å››ä¸ªåæ ‡
                 y1 := i2 * curMap.CellSize;
                 x2 := x1 + curMap.CellSize;
                 y2 := y1;
@@ -1839,27 +1839,27 @@ begin
               end;
             end;
             
-            R := Rect(j2 * curMap.CellSize, i2 * curMap.CellSize, (j2+1) * curMap.CellSize, (i2+1) * curMap.CellSize);        // µØÍ¼¸ñ×ÓµÄ»æÖÆ¾ØĞÎ
+            R := Rect(j2 * curMap.CellSize, i2 * curMap.CellSize, (j2+1) * curMap.CellSize, (i2+1) * curMap.CellSize);        // åœ°å›¾æ ¼å­çš„ç»˜åˆ¶çŸ©å½¢
             MaskPic.Canvas.CopyRect(R2, map_Image.Canvas, R);
             ColorChange(MaskPic);
             map_Image.Canvas.CopyRect(R, MaskPic.Canvas, R2);
 
-            // ÈôÉÏ¸ñ²»ÔÚÑ¡ÇøÄÚ£¬»­ÉÏ±ßÏß
+            // è‹¥ä¸Šæ ¼ä¸åœ¨é€‰åŒºå†…ï¼Œç”»ä¸Šè¾¹çº¿
             if (i = 0) or (mySettings.isBK and not map_Selected_BK[pos-curMapNode.Cols]) or (not mySettings.isBK and not map_Selected[pos-curMapNode.Cols]) then begin
                 map_Image.Canvas.MoveTo(x1, y1);
                 map_Image.Canvas.LineTo(x2, y2);
             end;
-            // ÈôÏÂ¸ñ²»ÔÚÑ¡ÇøÄÚ£¬»­ÏÂ±ßÏß
+            // è‹¥ä¸‹æ ¼ä¸åœ¨é€‰åŒºå†…ï¼Œç”»ä¸‹è¾¹çº¿
             if (i+1 = curMapNode.Rows) or (mySettings.isBK and not map_Selected_BK[pos+curMapNode.Cols]) or (not mySettings.isBK and not map_Selected[pos+curMapNode.Cols]) then begin
                 map_Image.Canvas.MoveTo(x4, y4);
                 map_Image.Canvas.LineTo(x3, y3);
             end;
-            // Èô×ó¸ñ²»ÔÚÑ¡ÇøÄÚ£¬»­×ó±ßÏß
+            // è‹¥å·¦æ ¼ä¸åœ¨é€‰åŒºå†…ï¼Œç”»å·¦è¾¹çº¿
             if (j = 0) or (mySettings.isBK and not map_Selected_BK[pos-1]) or (not mySettings.isBK and not map_Selected[pos-1]) then begin
                 map_Image.Canvas.MoveTo(x1, y1);
                 map_Image.Canvas.LineTo(x4, y4);
             end;
-            // ÈôÓÒ¸ñ²»ÔÚÑ¡ÇøÄÚ£¬»­ÓÒ±ßÏß
+            // è‹¥å³æ ¼ä¸åœ¨é€‰åŒºå†…ï¼Œç”»å³è¾¹çº¿
             if (j+1 = curMapNode.Cols) or (mySettings.isBK and not map_Selected_BK[pos+1]) or (not mySettings.isBK and not map_Selected[pos+1]) then begin
                 map_Image.Canvas.MoveTo(x2, y2);
                 map_Image.Canvas.LineTo(x3, y3);
@@ -1870,7 +1870,7 @@ begin
 
      map_Image.Canvas.CopyMode := SRCCOPY;
 
-     // ÏÔÊ¾µ±Ç°Ñ¡Ôñ½¹µã¿ò
+     // æ˜¾ç¤ºå½“å‰é€‰æ‹©ç„¦ç‚¹æ¡†
      if isSelecting then begin
         j := Min(LeftTopXY.X, RightBottomXY.X);
         i := Min(LeftTopXY.Y, RightBottomXY.Y);
@@ -1904,128 +1904,128 @@ begin
    LogFileInit_('Motions.log');
 {$ENDIF}
 
-  DragAcceptFiles(Handle,True);            // ÍÏ¶¯ÎÄµµµ½³ÌĞò´°¿Ú
+  DragAcceptFiles(Handle,True);            // æ‹–åŠ¨æ–‡æ¡£åˆ°ç¨‹åºçª—å£
 
-  bt_LeftBar.Hint      := 'ÏÔÊ¾»òÒş²Ø×ó²à±ßÀ¸: ¡¾H¡¿';
+  bt_LeftBar.Hint      := 'æ˜¾ç¤ºæˆ–éšè—å·¦ä¾§è¾¹æ : ã€Hã€‘';
 
-  bt_GoThrough.Caption := '´©Ô½';
-  bt_IM.Caption        := 'Ë²ÒÆ';
-  bt_BK.Caption        := 'ÄæÍÆ';
-  bt_OddEven.Caption   := 'ÆæÅ¼';
-  bt_Skin.Caption      := '»»·ô';
-  bt_Act.Caption       := '¶¯×÷±à¼­';
-  bt_Save.Caption      := '±£´æÏÖ³¡';
-  pnl_Trun.Caption     := '0×ª';
+  bt_GoThrough.Caption := 'ç©¿è¶Š';
+  bt_IM.Caption        := 'ç¬ç§»';
+  bt_BK.Caption        := 'é€†æ¨';
+  bt_OddEven.Caption   := 'å¥‡å¶';
+  bt_Skin.Caption      := 'æ¢è‚¤';
+  bt_Act.Caption       := 'åŠ¨ä½œç¼–è¾‘';
+  bt_Save.Caption      := 'ä¿å­˜ç°åœº';
+  pnl_Trun.Caption     := '0è½¬';
 
-  bt_Open.Hint         := '´ò¿ªÎÄµµ: ¡¾Ctrl + O¡¿';
-  bt_Lately.Hint       := '×î½ü´ò¿ªµÄÎÄµµ';
-  bt_Pre.Hint          := 'ÉÏÒ»¹Ø: ¡¾PgUp¡¿';
-  bt_Next.Hint         := 'ÏÂÒ»¹Ø: ¡¾PgDn¡¿';
-  bt_UnDo.Hint         := '³·Ïú: ¡¾Z¡¿';
-  bt_ReDo.Hint         := 'ÖØ×ö: ¡¾X¡¿';
-  bt_View.Hint         := 'Ñ¡Ôñ¹Ø¿¨: ¡¾F3¡¿';
-  bt_GoThrough.Hint    := '´©Ô½¿ª¹Ø: ¡¾G¡¿';
-  bt_IM.Hint           := 'Ë²ÒÆ¿ª¹Ø: ¡¾I¡¿';
-  bt_BK.Hint           := 'ÄæÍÆÄ£Ê½: ¡¾B¡¿';
-  bt_OddEven.Hint      := 'ÆæÅ¼¸ñÎ»: ¡¾E¡¿';
-  bt_Skin.Hint         := '¸ü»»Æ¤·ô: ¡¾F2¡¿';
-  bt_Act.Hint          := '¶¯×÷±à¼­: ¡¾F4¡¿';
-  bt_Save.Hint         := '±£´æÏÖ³¡£¨¹Ø¿¨Î´´æµµÊ±£¬Í¬Ê±±£´æ¹Ø¿¨£©: ¡¾Ctrl + S¡¿';
-  pnl_Trun.Hint        := 'Ğı×ª¹Ø¿¨: ¡¾*¡¢/£º0×ªºÍÒÀ´Î±ä»»£»×ó¼ü£º×óĞı£»ÓÒ¼ü£ºÓÒĞı£»Ctri + ×ó¼ü£º×óÓÒ·­×ª£»Ctri + ÓÒ¼ü£º0×ª£»Shift + ×ó¼ü£ºÉÏÏÂ·­×ª£»Shift + ÓÒ¼ü£º0×ª¡¿';
-  pnl_Speed.Hint       := '¸Ä±äÓÎÏ·ËÙ¶È: ¡¾+¡¢-¡¢×óÓÒÊó±ê¼ü¡¿';
-  sb_Help.Hint         := '°ïÖú£º¡¾F1¡¿';
-  funMenu.Hint         := 'ÆäËü¹¦ÄÜ:¡¾Alt¡¿';
+  bt_Open.Hint         := 'æ‰“å¼€æ–‡æ¡£: ã€Ctrl + Oã€‘';
+  bt_Lately.Hint       := 'æœ€è¿‘æ‰“å¼€çš„æ–‡æ¡£';
+  bt_Pre.Hint          := 'ä¸Šä¸€å…³: ã€PgUpã€‘';
+  bt_Next.Hint         := 'ä¸‹ä¸€å…³: ã€PgDnã€‘';
+  bt_UnDo.Hint         := 'æ’¤é”€: ã€Zã€‘';
+  bt_ReDo.Hint         := 'é‡åš: ã€Xã€‘';
+  bt_View.Hint         := 'é€‰æ‹©å…³å¡: ã€F3ã€‘';
+  bt_GoThrough.Hint    := 'ç©¿è¶Šå¼€å…³: ã€Gã€‘';
+  bt_IM.Hint           := 'ç¬ç§»å¼€å…³: ã€Iã€‘';
+  bt_BK.Hint           := 'é€†æ¨æ¨¡å¼: ã€Bã€‘';
+  bt_OddEven.Hint      := 'å¥‡å¶æ ¼ä½: ã€Eã€‘';
+  bt_Skin.Hint         := 'æ›´æ¢çš®è‚¤: ã€F2ã€‘';
+  bt_Act.Hint          := 'åŠ¨ä½œç¼–è¾‘: ã€F4ã€‘';
+  bt_Save.Hint         := 'ä¿å­˜ç°åœºï¼ˆå…³å¡æœªå­˜æ¡£æ—¶ï¼ŒåŒæ—¶ä¿å­˜å…³å¡ï¼‰: ã€Ctrl + Sã€‘';
+  pnl_Trun.Hint        := 'æ—‹è½¬å…³å¡: ã€*ã€/ï¼š0è½¬å’Œä¾æ¬¡å˜æ¢ï¼›å·¦é”®ï¼šå·¦æ—‹ï¼›å³é”®ï¼šå³æ—‹ï¼›Ctri + å·¦é”®ï¼šå·¦å³ç¿»è½¬ï¼›Ctri + å³é”®ï¼š0è½¬ï¼›Shift + å·¦é”®ï¼šä¸Šä¸‹ç¿»è½¬ï¼›Shift + å³é”®ï¼š0è½¬ã€‘';
+  pnl_Speed.Hint       := 'æ”¹å˜æ¸¸æˆé€Ÿåº¦: ã€+ã€-ã€å·¦å³é¼ æ ‡é”®ã€‘';
+  sb_Help.Hint         := 'å¸®åŠ©ï¼šã€F1ã€‘';
+  funMenu.Hint         := 'å…¶å®ƒåŠŸèƒ½:ã€Altã€‘';
 
-  StatusBar1.Panels[0].Text := 'ÒÆ¶¯';
-  StatusBar1.Panels[2].Text := 'ÍÆ¶¯';
-  StatusBar1.Panels[4].Text := '±ê³ß';
+  StatusBar1.Panels[0].Text := 'ç§»åŠ¨';
+  StatusBar1.Panels[2].Text := 'æ¨åŠ¨';
+  StatusBar1.Panels[4].Text := 'æ ‡å°º';
 
-  PageControl.Pages[0].Caption := '´ğ°¸';
-  PageControl.Pages[1].Caption := '×´Ì¬';
-  PageControl.Pages[2].Caption := '×ÊÁÏ';
+  PageControl.Pages[0].Caption := 'ç­”æ¡ˆ';
+  PageControl.Pages[1].Caption := 'çŠ¶æ€';
+  PageControl.Pages[2].Caption := 'èµ„æ–™';
 
-  pmSolution.Items[0].Caption := '²é¿´Ìá½»ÁĞ±í';
-  pmSolution.Items[1].Caption := 'Ìá½»±ÈÈü´ğ°¸';
+  pmSolution.Items[0].Caption := 'æŸ¥çœ‹æäº¤åˆ—è¡¨';
+  pmSolution.Items[1].Caption := 'æäº¤æ¯”èµ›ç­”æ¡ˆ';
   pmSolution.Items[2].Caption := '-';
-  pmSolution.Items[3].Caption := 'Lurd µ½¼ôÇĞ°å';
-  pmSolution.Items[4].Caption := 'XSB + Lurd µ½¼ôÇĞ°å';
-  pmSolution.Items[5].Caption := 'XSB + Lurd µ½ÎÄµµ';
-  pmSolution.Items[6].Caption := 'XSB + Lurd_All µ½¼ôÇĞ°å';
-  pmSolution.Items[7].Caption := 'XSB + Lurd_All µ½ÎÄµµ';
-  pmSolution.Items[8].Caption := 'XSB_All + Lurd_All µ½ÎÄµµ';
+  pmSolution.Items[3].Caption := 'Lurd åˆ°å‰ªåˆ‡æ¿';
+  pmSolution.Items[4].Caption := 'XSB + Lurd åˆ°å‰ªåˆ‡æ¿';
+  pmSolution.Items[5].Caption := 'XSB + Lurd åˆ°æ–‡æ¡£';
+  pmSolution.Items[6].Caption := 'XSB + Lurd_All åˆ°å‰ªåˆ‡æ¿';
+  pmSolution.Items[7].Caption := 'XSB + Lurd_All åˆ°æ–‡æ¡£';
+  pmSolution.Items[8].Caption := 'XSB_All + Lurd_All åˆ°æ–‡æ¡£';
   pmSolution.Items[9].Caption := '-';
-  pmSolution.Items[10].Caption := 'É¾³ı';
-  pmSolution.Items[11].Caption := 'É¾³ıÈ«²¿';
+  pmSolution.Items[10].Caption := 'åˆ é™¤';
+  pmSolution.Items[11].Caption := 'åˆ é™¤å…¨éƒ¨';
   pmSolution.Items[12].Caption := '-';
-  pmSolution.Items[13].Caption := 'µ¼Èë´ğ°¸';
+  pmSolution.Items[13].Caption := 'å¯¼å…¥ç­”æ¡ˆ';
 
-  pmState.Items[0].Caption := 'ÕıÍÆ Lurd µ½¼ôÇĞ°å';
-  pmState.Items[1].Caption := 'ÄæÍÆ Lurd µ½¼ôÇĞ°å';
-  pmState.Items[2].Caption := 'XSB + Lurd µ½¼ôÇĞ°å';
-  pmState.Items[3].Caption := 'XSB + Lurd µ½ÎÄµµ';
+  pmState.Items[0].Caption := 'æ­£æ¨ Lurd åˆ°å‰ªåˆ‡æ¿';
+  pmState.Items[1].Caption := 'é€†æ¨ Lurd åˆ°å‰ªåˆ‡æ¿';
+  pmState.Items[2].Caption := 'XSB + Lurd åˆ°å‰ªåˆ‡æ¿';
+  pmState.Items[3].Caption := 'XSB + Lurd åˆ°æ–‡æ¡£';
   pmState.Items[4].Caption := '-';
-  pmState.Items[5].Caption := 'É¾³ı';
-  pmState.Items[6].Caption := 'É¾³ıÈ«²¿';
+  pmState.Items[5].Caption := 'åˆ é™¤';
+  pmState.Items[6].Caption := 'åˆ é™¤å…¨éƒ¨';
 
-  pmBoardBK.Items[0].Caption := '¶¨Î»Ë«ÍÆ   ¡¾Ctrl + G¡¿';
-  pmBoardBK.Items[1].Caption := '»¥¶¯Ë«ÍÆ   ¡¾Ctrl + J¡¿';
+  pmBoardBK.Items[0].Caption := 'å®šä½åŒæ¨   ã€Ctrl + Gã€‘';
+  pmBoardBK.Items[1].Caption := 'äº’åŠ¨åŒæ¨   ã€Ctrl + Jã€‘';
   pmBoardBK.Items[2].Caption := '-';
-  pmBoardBK.Items[3].Caption := 'Ë«»÷±àºÅ   ¡¾Ctrl + N¡¿';
-  pmBoardBK.Items[4].Caption := 'ÒÀ´ÎĞı×ª   ¡¾Ctrl + R¡¿';
+  pmBoardBK.Items[3].Caption := 'åŒå‡»ç¼–å·   ã€Ctrl + Nã€‘';
+  pmBoardBK.Items[4].Caption := 'ä¾æ¬¡æ—‹è½¬   ã€Ctrl + Rã€‘';
   pmBoardBK.Items[5].Caption := '-';
-  pmBoardBK.Items[6].Caption := 'µ¼Èë¹Ø¿¨£¨XSB£© ¡û ¼ôÇĞ°å                            ¡¾Ctrl + V¡¿';
-  pmBoardBK.Items[7].Caption := 'µ¼³ö¹Ø¿¨ºÍÒÑ×ö¶¯×÷£¨XSB + Lurd£© ¡ú ¼ôÇĞ°å  ¡¾Ctrl + C¡¿';
-  pmBoardBK.Items[8].Caption := 'µ¼³öÏÖ³¡£¨XSB£© ¡ú ¼ôÇĞ°å                            ¡¾Ctrl + Alt + C¡¿';
-  pmBoardBK.Items[9].Caption := '´æÈëÖÜ×ª¿â ¡ú£¨BoxMan.xsb£©                       ¡¾Ctrl + K¡¿';
+  pmBoardBK.Items[6].Caption := 'å¯¼å…¥å…³å¡ï¼ˆXSBï¼‰ â† å‰ªåˆ‡æ¿                            ã€Ctrl + Vã€‘';
+  pmBoardBK.Items[7].Caption := 'å¯¼å‡ºå…³å¡å’Œå·²åšåŠ¨ä½œï¼ˆXSB + Lurdï¼‰ â†’ å‰ªåˆ‡æ¿  ã€Ctrl + Cã€‘';
+  pmBoardBK.Items[8].Caption := 'å¯¼å‡ºç°åœºï¼ˆXSBï¼‰ â†’ å‰ªåˆ‡æ¿                            ã€Ctrl + Alt + Cã€‘';
+  pmBoardBK.Items[9].Caption := 'å­˜å…¥å‘¨è½¬åº“ â†’ï¼ˆBoxMan.xsbï¼‰                       ã€Ctrl + Kã€‘';
   pmBoardBK.Items[10].Caption := '-';
-  pmBoardBK.Items[11].Caption := 'µ¼Èë¶¯×÷£¨Lurd£© ¡û ¼ôÇĞ°å - ÕıÄæÍÆ        ¡¾Ctrl + L¡¿';
-  pmBoardBK.Items[12].Caption := 'µ¼³öÒÑ×ö¶¯×÷£¨Lurd£© ¡ú ¼ôÇĞ°å - ÕıÄæÍÆ  ¡¾Ctrl + M¡¿';
-  pmBoardBK.Items[13].Caption := 'µ¼³öºóĞø¶¯×÷£¨Lurd£© ¡ú ¼ôÇĞ°å              ¡¾Ctrl + Alt + M¡¿';
+  pmBoardBK.Items[11].Caption := 'å¯¼å…¥åŠ¨ä½œï¼ˆLurdï¼‰ â† å‰ªåˆ‡æ¿ - æ­£é€†æ¨        ã€Ctrl + Lã€‘';
+  pmBoardBK.Items[12].Caption := 'å¯¼å‡ºå·²åšåŠ¨ä½œï¼ˆLurdï¼‰ â†’ å‰ªåˆ‡æ¿ - æ­£é€†æ¨  ã€Ctrl + Mã€‘';
+  pmBoardBK.Items[13].Caption := 'å¯¼å‡ºåç»­åŠ¨ä½œï¼ˆLurdï¼‰ â†’ å‰ªåˆ‡æ¿              ã€Ctrl + Alt + Mã€‘';
   pmBoardBK.Items[14].Caption := '-';
-  pmBoardBK.Items[15].Caption  := 'ÖØĞÂ¿ªÊ¼   ¡¾Esc¡¿';
+  pmBoardBK.Items[15].Caption  := 'é‡æ–°å¼€å§‹   ã€Escã€‘';
   pmBoardBK.Items[16].Caption  := '-';
-  pmBoardBK.Items[17].Caption  := 'Â¼ÖÆ¶¯×÷   ¡¾F9¡¿';
+  pmBoardBK.Items[17].Caption  := 'å½•åˆ¶åŠ¨ä½œ   ã€F9ã€‘';
   pmBoardBK.Items[18].Caption := '-';
-  pmBoardBK.Items[19].Caption := '·´ÏòÑİÊ¾/ÔİÍ£   ¡¾Home¡¿';
-  pmBoardBK.Items[20].Caption := 'ÕıÏòÑİÊ¾/ÔİÍ£   ¡¾End¡¿';
+  pmBoardBK.Items[19].Caption := 'åå‘æ¼”ç¤º/æš‚åœ   ã€Homeã€‘';
+  pmBoardBK.Items[20].Caption := 'æ­£å‘æ¼”ç¤º/æš‚åœ   ã€Endã€‘';
 
-  pm_Up_Bt.Items[0].Caption := 'ÉÏÒ»¹Ø              ¡¾PgUp¡¿';
-  pm_Up_Bt.Items[1].Caption := 'µÚÒ»¹Ø              ¡¾Ctrl + PgUp¡¿';
-  pm_Up_Bt.Items[2].Caption := 'ÉÏÒ»Î´½â¹Ø¿¨        ¡¾Alt + PgUp¡¿';
+  pm_Up_Bt.Items[0].Caption := 'ä¸Šä¸€å…³              ã€PgUpã€‘';
+  pm_Up_Bt.Items[1].Caption := 'ç¬¬ä¸€å…³              ã€Ctrl + PgUpã€‘';
+  pm_Up_Bt.Items[2].Caption := 'ä¸Šä¸€æœªè§£å…³å¡        ã€Alt + PgUpã€‘';
 
-  pm_Down_Bt.Items[0].Caption := 'ÏÂÒ»¹Ø            ¡¾PgDn¡¿';
-  pm_Down_Bt.Items[1].Caption := '×îºóÒ»¹Ø          ¡¾Ctrl + PgDn¡¿';
-  pm_Down_Bt.Items[2].Caption := 'ÏÂÒ»Î´½â¹Ø¿¨      ¡¾Alt + PgDn¡¿';
+  pm_Down_Bt.Items[0].Caption := 'ä¸‹ä¸€å…³            ã€PgDnã€‘';
+  pm_Down_Bt.Items[1].Caption := 'æœ€åä¸€å…³          ã€Ctrl + PgDnã€‘';
+  pm_Down_Bt.Items[2].Caption := 'ä¸‹ä¸€æœªè§£å…³å¡      ã€Alt + PgDnã€‘';
 
-  pm_UnDo_Bt.Items[0].Caption := '³·Ïúµ¥²½      ¡¾A¡¿';
-  pm_UnDo_Bt.Items[1].Caption := '³·Ïú          ¡¾Z/ÍË¸ñ¼ü/¹öÂÖ¡¿';
-  pm_UnDo_Bt.Items[2].Caption := 'ÖØ¿ªÊ¼        ¡¾Ctrl + Home¡¿';
+  pm_UnDo_Bt.Items[0].Caption := 'æ’¤é”€å•æ­¥      ã€Aã€‘';
+  pm_UnDo_Bt.Items[1].Caption := 'æ’¤é”€          ã€Z/é€€æ ¼é”®/æ»šè½®ã€‘';
+  pm_UnDo_Bt.Items[2].Caption := 'é‡å¼€å§‹        ã€Ctrl + Homeã€‘';
 
-  pm_ReDo_Bt.Items[0].Caption := 'ÖØ×öµ¥²½      ¡¾S¡¿';
-  pm_ReDo_Bt.Items[1].Caption := 'ÖØ×ö          ¡¾X/¿Õ¸ñ¼ü/»Ø³µ¼ü/¹öÂÖ¡¿';
-  pm_ReDo_Bt.Items[2].Caption := 'µ½½áÎ²        ¡¾Ctrl + End¡¿';
+  pm_ReDo_Bt.Items[0].Caption := 'é‡åšå•æ­¥      ã€Sã€‘';
+  pm_ReDo_Bt.Items[1].Caption := 'é‡åš          ã€X/ç©ºæ ¼é”®/å›è½¦é”®/æ»šè½®ã€‘';
+  pm_ReDo_Bt.Items[2].Caption := 'åˆ°ç»“å°¾        ã€Ctrl + Endã€‘';
 
 
-  // Ò»Ğ©×îÔ­Ê¼µÄÄ¬ÈÏÉèÖÃ
+  // ä¸€äº›æœ€åŸå§‹çš„é»˜è®¤è®¾ç½®
   New(mySettings);
   
-  mySettings.myTop := 100;      // ÉÏ´ÎÍË³öÊ±£¬´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡
+  mySettings.myTop := 100;      // ä¸Šæ¬¡é€€å‡ºæ—¶ï¼Œçª—å£çš„ä½ç½®åŠå¤§å°
   mySettings.myLeft := 100;
   mySettings.myWidth := 800;
   mySettings.myHeight := 600;
-  mySettings.bwTop := 100;      // ¹Ø¿¨ä¯ÀÀ´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡µÄ¼ÇÒä
+  mySettings.bwTop := 100;      // å…³å¡æµè§ˆçª—å£çš„ä½ç½®åŠå¤§å°çš„è®°å¿†
   mySettings.bwLeft := 100;
   mySettings.bwWidth := 800;
   mySettings.bwHeight := 600;
-  mySettings.mySpeed := 2;        // Ä¬ÈÏÒÆ¶¯ËÙ¶È
-  mySettings.isGoThrough := true; // ´©Ô½¿ª¹Ø
+  mySettings.mySpeed := 2;        // é»˜è®¤ç§»åŠ¨é€Ÿåº¦
+  mySettings.isGoThrough := true; // ç©¿è¶Šå¼€å…³
 
-  isSelectMod := false;           // ÊÇ·ñ´¥¶¯ÁËÑ¡ÔñÄ£Ê½ -- Ctrl + ×ó¼üµ¥»÷µ¥Ôª¸ñ
-  isSelecting := false;           // ÊÇ·ñÕı´¦ÓÚÑ¡ÔñÄ£Ê½ -- Ctrl + ×ó¼üÍÏ¶¯
+  isSelectMod := false;           // æ˜¯å¦è§¦åŠ¨äº†é€‰æ‹©æ¨¡å¼ -- Ctrl + å·¦é”®å•å‡»å•å…ƒæ ¼
+  isSelecting := false;           // æ˜¯å¦æ­£å¤„äºé€‰æ‹©æ¨¡å¼ -- Ctrl + å·¦é”®æ‹–åŠ¨
 
-  MaskPic := TBitmap.Create;      // Ñ¡Ôñµ¥Ôª¸ñÑÚÍ¼
+  MaskPic := TBitmap.Create;      // é€‰æ‹©å•å…ƒæ ¼æ©å›¾
 
-  DoubleClickPos.X := -1;         // Ë«»÷µØÍ¼Î»ÖÃ³õÊ¼»¯Öµ
+  DoubleClickPos.X := -1;         // åŒå‡»åœ°å›¾ä½ç½®åˆå§‹åŒ–å€¼
   DoubleClickPos.Y := -1;
 
   AppPath := ExtractFilePath(Application.ExeName);      //GetCurrentDir + '\';   //
@@ -2033,7 +2033,7 @@ begin
 
   sldb := TSQLiteDatabase.Create(AnsiToUtf8(BoxManDBpath));
 
-  // ¼ì²é´ğ°¸¿âºÍ×´Ì¬¿âÊÇ·ñ´æÔÚ£¬²»´æÔÚÔò´´½¨Ö®
+  // æ£€æŸ¥ç­”æ¡ˆåº“å’ŒçŠ¶æ€åº“æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨åˆ™åˆ›å»ºä¹‹
   try
     try
       if not sldb.TableExists('Tab_Solution') then begin
@@ -2095,28 +2095,28 @@ begin
     sldb.Free;
   end;
 
-  // ³ÌĞò´°¿Ú×îĞ¡³ß´çÏŞÖÆ
+  // ç¨‹åºçª—å£æœ€å°å°ºå¯¸é™åˆ¶
   Constraints.MinHeight := minWindowsHeight;
   Constraints.MinWidth := minWindowsWidth;
 
-  // undo¡¢redo Ö¸Õë³õÊ¼»¯
+  // undoã€redo æŒ‡é’ˆåˆå§‹åŒ–
   UnDoPos := 0;
   ReDoPos := 0;
   UnDoPos_BK := 0;
   ReDoPos_BK := 0;
 
-  LoadSttings();                     // ¼ÓÔØÉèÖÃÏî
+  LoadSttings();                     // åŠ è½½è®¾ç½®é¡¹
 
   N30.Checked := mySettings.isRotate;
 
-  // ½ÓÊÕÆô¶¯²ÎÊı
+  // æ¥æ”¶å¯åŠ¨å‚æ•°
   isCommandLine := false;
   if paramcount >= 1 then begin
      isCommandLine := True;
      try
-       mySettings.MapFileName := paramstr(1);             // ¹Ø¿¨ÎÄµµÃû
+       mySettings.MapFileName := paramstr(1);             // å…³å¡æ–‡æ¡£å
        if paramcount > 1 then
-          curMap.CurrentLevel := StrToInt(paramstr(2))    // ¹Ø¿¨ĞòºÅ
+          curMap.CurrentLevel := StrToInt(paramstr(2))    // å…³å¡åºå·
        else
           curMap.CurrentLevel := 1;
      except
@@ -2126,34 +2126,34 @@ begin
 
   Caption := AppName + AppVer;
 
-  curSkinFileName := mySettings.SkinFileName;      // µ±Ç°Æ¤·ô
+  curSkinFileName := mySettings.SkinFileName;      // å½“å‰çš®è‚¤
   LoadSkinForm := TLoadSkinForm.Create(Application);
   BrowseForm := TBrowseForm.Create(Application);
 
-  // »Ö¸´ÉÏ´ÎÍË³öÊ±£¬´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡
+  // æ¢å¤ä¸Šæ¬¡é€€å‡ºæ—¶ï¼Œçª—å£çš„ä½ç½®åŠå¤§å°
   Top := mySettings.myTop;
   Left := mySettings.myLeft;
   Width := mySettings.myWidth;
   Height := mySettings.myHeight;
 
-  MapList := TList.Create;                        // µØÍ¼ÁĞ±í
-  SoltionList := TList.Create;                    // ´ğ°¸ÁĞ±í
-  StateList := TList.Create;                      // ×´Ì¬ÁĞ±í
+  MapList := TList.Create;                        // åœ°å›¾åˆ—è¡¨
+  SoltionList := TList.Create;                    // ç­”æ¡ˆåˆ—è¡¨
+  StateList := TList.Create;                      // çŠ¶æ€åˆ—è¡¨
 
   New(curMapNode);
 
-  txtList := TStringList.Create;     // ×¼±¸»º´æ¹Ø¿¨ÎÄµµµÄ¸÷ĞĞ
+  txtList := TStringList.Create;     // å‡†å¤‡ç¼“å­˜å…³å¡æ–‡æ¡£çš„å„è¡Œ
        
-  curMapNode.Cols := 0;              // ±ÜÃâÃ»ÓĞµØÍ¼Ê±³öÏÖ±¨´í´°¿Ú
+  curMapNode.Cols := 0;              // é¿å…æ²¡æœ‰åœ°å›¾æ—¶å‡ºç°æŠ¥é”™çª—å£
 
-  // ÏÈÓÃ±È½ÏÇá±ãµÄ·½Ê½£¬´ò¿ªÉÏ´ÎµÄ¹Ø¿¨
+  // å…ˆç”¨æ¯”è¾ƒè½»ä¾¿çš„æ–¹å¼ï¼Œæ‰“å¼€ä¸Šæ¬¡çš„å…³å¡
   if FileExists(mySettings.MapFileName) then begin
 
      txtList.loadfromfile(mySettings.MapFileName);
 
-     QuicklyLoadMap(txtList, curMap.CurrentLevel, curMapNode);      // ¿ìËÙ¼ÓÔØÉÏ´ÎµÄ¹Ø¿¨
+     QuicklyLoadMap(txtList, curMap.CurrentLevel, curMapNode);      // å¿«é€ŸåŠ è½½ä¸Šæ¬¡çš„å…³å¡
 
-     maxNumber := GetMapNumber(txtList);                            // È¡µÃ×î´ó¹Ø¿¨ĞòºÅ
+     maxNumber := GetMapNumber(txtList);                            // å–å¾—æœ€å¤§å…³å¡åºå·
 
      if curMapNode.Rows > 2 then begin
 
@@ -2162,19 +2162,19 @@ begin
         curMapNode.Trun := tmpTrun;
         pnl_Trun.Caption := MapTrun[curMapNode.Trun];
 
-        TLoadMapThread.Create(false);                                       // ´´½¨ºóÌ¨Ïß³Ì£¬¼ÓÔØµØÍ¼
+        TLoadMapThread.Create(false);                                       // åˆ›å»ºåå°çº¿ç¨‹ï¼ŒåŠ è½½åœ°å›¾
 
-     end else StatusBar1.Panels[7].Text := '¼ÓÔØÉÏ´ÎµÄ ' + IntToStr(curMap.CurrentLevel) + ' ºÅ¹Ø¿¨Ê±£¬Óöµ½´íÎó - ' + mySettings.MapFileName;
+     end else StatusBar1.Panels[7].Text := 'åŠ è½½ä¸Šæ¬¡çš„ ' + IntToStr(curMap.CurrentLevel) + ' å·å…³å¡æ—¶ï¼Œé‡åˆ°é”™è¯¯ - ' + mySettings.MapFileName;
   end;
         
-  SetButton();             // ÉèÖÃ°´Å¥×´Ì¬
+  SetButton();             // è®¾ç½®æŒ‰é’®çŠ¶æ€
   pnl_Speed.Caption := SpeedInf[mySettings.mySpeed];
 
   KeyPreview := true;
   Edit1.Left := -16;
 end;
 
-// ÉèÖÃ°´Å¥×´Ì¬
+// è®¾ç½®æŒ‰é’®çŠ¶æ€
 procedure Tmain.SetButton();
 begin
   if mySettings.isGoThrough then
@@ -2212,7 +2212,7 @@ begin
     bt_BK.Down := True;
     if ManPos_BK < 0 then
     begin
-      StatusBar1.Panels[7].Text := 'ÇëÏÈÖ¸¶¨¡°ÈËµÄ¿ªÊ¼Î»ÖÃ¡±£¡£¡£¡';
+      StatusBar1.Panels[7].Text := 'è¯·å…ˆæŒ‡å®šâ€œäººçš„å¼€å§‹ä½ç½®â€ï¼ï¼ï¼';
     end;
   end
   else
@@ -2224,13 +2224,13 @@ begin
   end;
 end;
 
-// ¹Ø±Õ³ÌĞò
+// å…³é—­ç¨‹åº
 procedure Tmain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   ReDoPos := 0;
   ReDoPos_BK := 0;
 
-  SaveSttings();               // ±£´æÉèÖÃÏî
+  SaveSttings();               // ä¿å­˜è®¾ç½®é¡¹
 
   application.terminate;
 
@@ -2244,7 +2244,7 @@ begin
 
 end;
 
-// ÊÇ·ñ¹ı¹Ø -- ÕıÍÆ
+// æ˜¯å¦è¿‡å…³ -- æ­£æ¨
 function Tmain.IsComplete(): Boolean;
 var
   i, size: integer;
@@ -2263,7 +2263,7 @@ begin
   end;
 end;
 
-// ÊÇ·ñ¹ı¹Ø -- ÄæÍÆ
+// æ˜¯å¦è¿‡å…³ -- é€†æ¨
 function Tmain.IsComplete_BK(): Boolean;
 var
   i, size: integer;
@@ -2285,7 +2285,7 @@ begin
   end;
 end;
 
-// ÊÇ·ñÕıÄæÏàºÏ
+// æ˜¯å¦æ­£é€†ç›¸åˆ
 function Tmain.IsMeets(ch: Char): Boolean;
 var
   i, len, n: integer;
@@ -2296,7 +2296,7 @@ begin
   flg := True;
 
   if (MoveTimes < 1) or (MoveTimes_BK < 1) or (ch in [ 'l', 'r', 'u', 'd' ]) then
-    Exit;        // Ã»ÓĞÕıÍÆ»òÄæÍÆ¶¯×÷Ê±£¬²»×ö´ËÏî¼ì²é
+    Exit;        // æ²¡æœ‰æ­£æ¨æˆ–é€†æ¨åŠ¨ä½œæ—¶ï¼Œä¸åšæ­¤é¡¹æ£€æŸ¥
 
   len := curMap.MapSize;
   for i := 0 to len-1 do
@@ -2317,9 +2317,9 @@ begin
   if flg then begin
     Result := True;
      
-//     if isBK then bt_BK.Click;    // ÇĞ»»µ½ÕıÍÆ½çÃæ
+//     if isBK then bt_BK.Click;    // åˆ‡æ¢åˆ°æ­£æ¨ç•Œé¢
 
-    // Ìø¹ıÄæÍÆ´ğ°¸ÖĞ£¬Ç°ÃæÎŞÓÃµÄ¿ÕÒÆ¶¯×÷
+    // è·³è¿‡é€†æ¨ç­”æ¡ˆä¸­ï¼Œå‰é¢æ— ç”¨çš„ç©ºç§»åŠ¨ä½œ
     n := 1;
     while n <= UnDoPos_BK do begin
       if UndoList_BK[n] in [ 'L', 'R', 'U', 'D' ] then Break;
@@ -2364,7 +2364,7 @@ begin
   end;
 end;
 
-// ¶ÔÓÚ¼üÅÌµÄÉÏÏÂ×óÓÒ°´¼ü£¬¸ù¾İ¹Ø¿¨µÄµ±Ç°Ğı×ª×´Ì¬×ª»»¶¯×÷×Ö·û
+// å¯¹äºé”®ç›˜çš„ä¸Šä¸‹å·¦å³æŒ‰é”®ï¼Œæ ¹æ®å…³å¡çš„å½“å‰æ—‹è½¬çŠ¶æ€è½¬æ¢åŠ¨ä½œå­—ç¬¦
 function getTrun_Act(n: Integer; act: Char): Char;
 begin
   Result := ' ';
@@ -2380,7 +2380,7 @@ begin
   end;
 end;
 
-// È¡µÃÂ¼ÖÆµÄ¶¯×÷
+// å–å¾—å½•åˆ¶çš„åŠ¨ä½œ
 function GetRecording(isBK: Boolean; pos: Integer): string;
 begin
    Result := '';
@@ -2389,20 +2389,20 @@ begin
       if UnDoPos_BK >= pos then begin
          if UnDoPos_BK < MaxLenPath then UndoList_BK[UnDoPos_BK+1] := #0;
          Result := Copy(StrPas(@UndoList_BK), Pos, UnDoPos_BK-pos+1);
-      end else main.StatusBar1.Panels[7].Text := '½öÖ§³ÖÂ¼ÖÆ¡°¿ªÊ¼µã¡±ºóÃæµÄ¶¯×÷£¡';
+      end else main.StatusBar1.Panels[7].Text := 'ä»…æ”¯æŒå½•åˆ¶â€œå¼€å§‹ç‚¹â€åé¢çš„åŠ¨ä½œï¼';
    end else begin
       if UnDoPos >= pos then begin
          if UnDoPos < MaxLenPath then UndoList[UnDoPos+1] := #0;
          Result := Copy(StrPas(@UndoList), Pos, UnDoPos-pos+1);
-      end else main.StatusBar1.Panels[7].Text := '½öÖ§³ÖÂ¼ÖÆ¡°¿ªÊ¼µã¡±ºóÃæµÄ¶¯×÷£¡';
+      end else main.StatusBar1.Panels[7].Text := 'ä»…æ”¯æŒå½•åˆ¶â€œå¼€å§‹ç‚¹â€åé¢çš„åŠ¨ä½œï¼';
    end;
 end;
 
-// ×Ô¶¯Ö´ĞĞ¡°¼Ä´æÆ÷¡±¶¯×÷
+// è‡ªåŠ¨æ‰§è¡Œâ€œå¯„å­˜å™¨â€åŠ¨ä½œ
 procedure Tmain.DoAct(n:  Integer);
 var
   err: Boolean;
-  M_X, M_Y: Integer;        // ½âÎö³öµÄÄæÍÆÖĞÈËµÄ³õÊ¼Î»ÖÃ
+  M_X, M_Y: Integer;        // è§£æå‡ºçš„é€†æ¨ä¸­äººçš„åˆå§‹ä½ç½®
   i, j, k, len: Integer;
   str, Act: string;
   p: TStrings;
@@ -2419,39 +2419,39 @@ begin
   1:
      try
         ActionForm.MemoAct.Lines.LoadFromFile(AppPath + '\temp\reg1.txt');
-        StatusBar1.Panels[7].Text := '¼ÓÔØ¡¾¼Ä´æÆ÷ 1¡¿¶¯×÷³É¹¦£¡';
+        StatusBar1.Panels[7].Text := 'åŠ è½½ã€å¯„å­˜å™¨ 1ã€‘åŠ¨ä½œæˆåŠŸï¼';
         err := false;
      except
-        StatusBar1.Panels[7].Text := '¼ÓÔØ¡¾¼Ä´æÆ÷ 1¡¿Ê§°Ü£¡';
+        StatusBar1.Panels[7].Text := 'åŠ è½½ã€å¯„å­˜å™¨ 1ã€‘å¤±è´¥ï¼';
      end;
   2:
      try
         ActionForm.MemoAct.Lines.LoadFromFile(AppPath + '\temp\reg2.txt');
-        StatusBar1.Panels[7].Text := '¼ÓÔØ¡¾¼Ä´æÆ÷ 2¡¿¶¯×÷³É¹¦£¡';
+        StatusBar1.Panels[7].Text := 'åŠ è½½ã€å¯„å­˜å™¨ 2ã€‘åŠ¨ä½œæˆåŠŸï¼';
         err := false;
      except
-        StatusBar1.Panels[7].Text := '¼ÓÔØ¡¾¼Ä´æÆ÷ 2¡¿Ê§°Ü£¡';
+        StatusBar1.Panels[7].Text := 'åŠ è½½ã€å¯„å­˜å™¨ 2ã€‘å¤±è´¥ï¼';
      end;
   3:
      try
         ActionForm.MemoAct.Lines.LoadFromFile(AppPath + '\temp\reg3.txt');
-        StatusBar1.Panels[7].Text := '¼ÓÔØ¡¾¼Ä´æÆ÷ 3¡¿¶¯×÷³É¹¦£¡';
+        StatusBar1.Panels[7].Text := 'åŠ è½½ã€å¯„å­˜å™¨ 3ã€‘åŠ¨ä½œæˆåŠŸï¼';
         err := false;
      except
-        StatusBar1.Panels[7].Text := '¼ÓÔØ¡¾¼Ä´æÆ÷ 3¡¿Ê§°Ü£¡';
+        StatusBar1.Panels[7].Text := 'åŠ è½½ã€å¯„å­˜å™¨ 3ã€‘å¤±è´¥ï¼';
      end;
   4:
      try
         ActionForm.MemoAct.Lines.LoadFromFile(AppPath + '\temp\reg4.txt');
-        StatusBar1.Panels[7].Text := '¼ÓÔØ¡¾¼Ä´æÆ÷ 4¡¿¶¯×÷³É¹¦£¡';
+        StatusBar1.Panels[7].Text := 'åŠ è½½ã€å¯„å­˜å™¨ 4ã€‘åŠ¨ä½œæˆåŠŸï¼';
         err := false;
      except
-        StatusBar1.Panels[7].Text := '¼ÓÔØ¡¾¼Ä´æÆ÷ 4¡¿Ê§°Ü£¡';
+        StatusBar1.Panels[7].Text := 'åŠ è½½ã€å¯„å­˜å™¨ 4ã€‘å¤±è´¥ï¼';
      end;
-  5:    // Â¼ÖÆ¶¯×÷
+  5:    // å½•åˆ¶åŠ¨ä½œ
      begin
-        if mySettings.isBK then begin      // ÄæÍÆ
-           if curMap.Recording_BK then begin   // ½«Â¼ÖÆµÄ¶¯×÷±£´æµÄ¡°¼Ä´æÆ÷¡±
+        if mySettings.isBK then begin      // é€†æ¨
+           if curMap.Recording_BK then begin   // å°†å½•åˆ¶çš„åŠ¨ä½œä¿å­˜çš„â€œå¯„å­˜å™¨â€
               curMap.Recording_BK := False;
               DrawMap();
               Act := GetRecording(mySettings.isBK, curMap.StartPos_BK);
@@ -2460,16 +2460,16 @@ begin
                  ActionForm.MemoAct.Lines.Text := Act;
                  bt_Act.Click;
               end;
-           end else begin    // Æô¶¯Â¼ÖÆÄ£Ê½
-              if ManPos_BK < 0 then StatusBar1.Panels[7].Text := 'ÇëÏÈÖ¸¶¨ÈËµÄ¿ªÊ¼Î»ÖÃ'
+           end else begin    // å¯åŠ¨å½•åˆ¶æ¨¡å¼
+              if ManPos_BK < 0 then StatusBar1.Panels[7].Text := 'è¯·å…ˆæŒ‡å®šäººçš„å¼€å§‹ä½ç½®'
               else begin
                  curMap.Recording_BK := True;
                  curMap.StartPos_BK := UndoPos_BK+1;
                  DrawMap();
               end;
            end;
-        end else begin                     // ÕıÍÆ
-           if curMap.Recording then begin   // ½«Â¼ÖÆµÄ¶¯×÷±£´æµÄ¡°¼Ä´æÆ÷¡±
+        end else begin                     // æ­£æ¨
+           if curMap.Recording then begin   // å°†å½•åˆ¶çš„åŠ¨ä½œä¿å­˜çš„â€œå¯„å­˜å™¨â€
               curMap.Recording := False;
               DrawMap();
               Act := GetRecording(mySettings.isBK, curMap.StartPos);
@@ -2478,7 +2478,7 @@ begin
                  ActionForm.MemoAct.Lines.Text := Act;
                  bt_Act.Click;
               end;
-           end else begin    // Æô¶¯Â¼ÖÆÄ£Ê½
+           end else begin    // å¯åŠ¨å½•åˆ¶æ¨¡å¼
               curMap.Recording := True;
               curMap.StartPos := UndoPos+1;
               DrawMap();
@@ -2488,7 +2488,7 @@ begin
      end;
   end;
 
-  // ¼ÓÔØµ½ÁË¶¯×÷
+  // åŠ è½½åˆ°äº†åŠ¨ä½œ
   if not err then begin
       len := ActionForm.MemoAct.Lines.Count;
 
@@ -2498,16 +2498,16 @@ begin
           str := StringReplace(str, ' ', '', [rfReplaceAll]);
           if (Length(str) > 0) and (not isLurd_2(str)) then begin
              Act := '';
-             StatusBar1.Panels[7].Text := 'Óöµ½ÎŞĞ§µÄ¶¯×÷×Ö·û£¡';
+             StatusBar1.Panels[7].Text := 'é‡åˆ°æ— æ•ˆçš„åŠ¨ä½œå­—ç¬¦ï¼';
              Exit;
           end;
           Act := Act + str;
       end;
 
-      // ½âÎö¶¯×÷×Ö·û´®
+      // è§£æåŠ¨ä½œå­—ç¬¦ä¸²
       M_X := -1;
       M_Y := -1;
-      if mySettings.isBK then begin             // ÄæÍÆ
+      if mySettings.isBK then begin             // é€†æ¨
           i := pos('[', str);
           j := pos(']', str);
           if (i > 0) and (j > 0) and (j > i) then begin
@@ -2537,29 +2537,29 @@ begin
 
              if k > 0 then delete(Act, 1, k);
           end;
-      end else begin               // ÕıÍÆ
+      end else begin               // æ­£æ¨
           i := pos('[', str);
 
           if i > 0 then Act := copy(Act, 1, i-1);
       end;
 
-      // Ö´ĞĞ¶¯×÷ - °´ÏÖ³¡Ğı×ª£¬µ±Ç°µã£¬Ö´ĞĞÒ»´Î
-      // ÈôÎªÄæÍÆÄ£Ê½£¬ÏÈ¼ì²éÒ»ÏÂÈËµÄÎ»ÖÃÇé¿ö
+      // æ‰§è¡ŒåŠ¨ä½œ - æŒ‰ç°åœºæ—‹è½¬ï¼Œå½“å‰ç‚¹ï¼Œæ‰§è¡Œä¸€æ¬¡
+      // è‹¥ä¸ºé€†æ¨æ¨¡å¼ï¼Œå…ˆæ£€æŸ¥ä¸€ä¸‹äººçš„ä½ç½®æƒ…å†µ
       if mySettings.isBK then begin
          if ManPos_BK < 0 then begin
             if (M_X < 0) or (M_Y < 0) or (M_X >= curMapNode.Cols) or (M_Y >= curMapNode.Rows) or
                (not (map_Board_BK[M_Y * curMapNode.Cols + M_X] in [ FloorCell, GoalCell ])) then begin
-               StatusBar1.Panels[7].Text := 'ÈËµÄ³õÊ¼Î»ÖÃ²»ÕıÈ·£¡';
+               StatusBar1.Panels[7].Text := 'äººçš„åˆå§‹ä½ç½®ä¸æ­£ç¡®ï¼';
                Exit;
             end;
 
-            // ÏÈÈ¥µôÀÏÎ»ÖÃÉÏµÄÈË
+            // å…ˆå»æ‰è€ä½ç½®ä¸Šçš„äºº
             for i := 0 to 9999 do begin
                if map_Board_BK[i] = ManCell then map_Board_BK[i] := FloorCell
                else if map_Board_BK[i] = ManGoalCell then map_Board_BK[i] := GoalCell;
             end;
 
-            // ĞÂÎ»ÖÃ·ÅÉÏÈË 
+            // æ–°ä½ç½®æ”¾ä¸Šäºº 
             ManPos_BK := M_Y * curMapNode.Cols + M_X;
             ManPos_BK_0 := ManPos_BK;
             if map_Board_BK[ManPos_BK] = FloorCell then map_Board_BK[ManPos_BK] := ManCell
@@ -2567,10 +2567,10 @@ begin
          end;
       end;
 
-      // ½«½âÎöµ½µÄ¶¯×÷ËÍÈËredo¶ÓÁĞÖĞ
+      // å°†è§£æåˆ°çš„åŠ¨ä½œé€äººredoé˜Ÿåˆ—ä¸­
       GetLurd(Act, mySettings.isBK);
 
-      // °´ÏÖ³¡Ğı×ª×ª»» redo ÖĞµÄ¶¯×÷
+      // æŒ‰ç°åœºæ—‹è½¬è½¬æ¢ redo ä¸­çš„åŠ¨ä½œ
       if mySettings.isBK then begin
          for i := 1 to ReDoPos_BK do begin
              ch := RedoList_BK[i];
@@ -2603,7 +2603,7 @@ begin
          end;
       end;
 
-      // Ö´ĞĞÒ»´Î
+      // æ‰§è¡Œä¸€æ¬¡
       if mySettings.isBK then begin
          ReDo_BK(ReDoPos_BK);
       end else begin
@@ -2614,7 +2614,7 @@ begin
 
 end;
 
-// ¼üÅÌ°´ÏÂ
+// é”®ç›˜æŒ‰ä¸‹
 procedure Tmain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   frame_w: Integer;
@@ -2730,26 +2730,26 @@ begin
         end;
         curMap.isFinish := False;
       end;
-    VK_F1:                         // F1£¬°ïÖú
+    VK_F1:                         // F1ï¼Œå¸®åŠ©
       begin
         ShellExecute(Application.handle, nil, PChar(AppPath + 'BoxManHelp.txt'), nil, nil, SW_SHOWNORMAL);
         ContentClick(Self);
       end;
-    VK_F2:                         // F2£¬¸ü»»Æ¤·ô
+    VK_F2:                         // F2ï¼Œæ›´æ¢çš®è‚¤
       bt_Skin.Click;
-    VK_F3:                         // F3£¬ä¯ÀÀ¹Ø¿¨
+    VK_F3:                         // F3ï¼Œæµè§ˆå…³å¡
       bt_View.Click;
-    VK_F4:                         // F4£¬¶¯×÷±à¼­
+    VK_F4:                         // F4ï¼ŒåŠ¨ä½œç¼–è¾‘
       bt_Act.Click;
-    69:                            // E£¬ ÆæÅ¼¸ñĞ§¹û
+    69:                            // Eï¼Œ å¥‡å¶æ ¼æ•ˆæœ
       if not mySettings.isOddEven then
          bt_OddEvenMouseDown(Self, mbLeft, [], -1, -1);
   end;
-  Edit1.SetFocus;  // Ò»¸ö¸¨Öú¿Ø¼ş£¬¿ØÖÆÊäÈë½¹µãÓÃµÄ
+  Edit1.SetFocus;  // ä¸€ä¸ªè¾…åŠ©æ§ä»¶ï¼Œæ§åˆ¶è¾“å…¥ç„¦ç‚¹ç”¨çš„
   Key := 0;
 end;
 
-// ¼üÅÌÌ§Æğ
+// é”®ç›˜æŠ¬èµ·
 procedure Tmain.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if ed_sel_Map.Focused then begin
@@ -2759,18 +2759,18 @@ begin
   end;
   case Key of
     69:
-      bt_OddEvenMouseUp(Self, mbLeft, [], -1, -1);       // E£¬ ÆæÅ¼¸ñĞ§¹û
-    VK_F5:                         // F5£¬×Ô¶¯¼ÓÔØ²¢Ö´ĞĞ¡°¼Ä´æÆ÷ 1¡±ÖĞµÄ¶¯×÷
+      bt_OddEvenMouseUp(Self, mbLeft, [], -1, -1);       // Eï¼Œ å¥‡å¶æ ¼æ•ˆæœ
+    VK_F5:                         // F5ï¼Œè‡ªåŠ¨åŠ è½½å¹¶æ‰§è¡Œâ€œå¯„å­˜å™¨ 1â€ä¸­çš„åŠ¨ä½œ
       DoAct(1);
-    VK_F6:                         // F6£¬×Ô¶¯¼ÓÔØ²¢Ö´ĞĞ¡°¼Ä´æÆ÷ 1¡±ÖĞµÄ¶¯×÷
+    VK_F6:                         // F6ï¼Œè‡ªåŠ¨åŠ è½½å¹¶æ‰§è¡Œâ€œå¯„å­˜å™¨ 1â€ä¸­çš„åŠ¨ä½œ
       DoAct(2);
-    VK_F7:                         // F7£¬×Ô¶¯¼ÓÔØ²¢Ö´ĞĞ¡°¼Ä´æÆ÷ 3¡±ÖĞµÄ¶¯×÷
+    VK_F7:                         // F7ï¼Œè‡ªåŠ¨åŠ è½½å¹¶æ‰§è¡Œâ€œå¯„å­˜å™¨ 3â€ä¸­çš„åŠ¨ä½œ
       DoAct(3);
-    VK_F8:                         // F8£¬×Ô¶¯¼ÓÔØ²¢Ö´ĞĞ¡°¼Ä´æÆ÷ 4¡±ÖĞµÄ¶¯×÷
+    VK_F8:                         // F8ï¼Œè‡ªåŠ¨åŠ è½½å¹¶æ‰§è¡Œâ€œå¯„å­˜å™¨ 4â€ä¸­çš„åŠ¨ä½œ
       DoAct(4);
-    VK_F9:                         // F9£¬¿ªÊ¼»òÍ£Ö¹Â¼ÖÆ¶¯×÷
+    VK_F9:                         // F9ï¼Œå¼€å§‹æˆ–åœæ­¢å½•åˆ¶åŠ¨ä½œ
       DoAct(5);
-    VK_PRIOR:               // Page Up¼ü£¬  ÉÏÒ»¹Ø
+    VK_PRIOR:               // Page Upé”®ï¼Œ  ä¸Šä¸€å…³
       begin
         if (ssShift in Shift) or (ssCtrl in Shift) then begin
             N8.Click;
@@ -2778,7 +2778,7 @@ begin
             N9.Click;
         end else bt_Pre.Click;
       end;
-    VK_NEXT:                // Page Domw¼ü£¬ÏÂÒ»¹Ø
+    VK_NEXT:                // Page Domwé”®ï¼Œä¸‹ä¸€å…³
       begin
         if (ssShift in Shift) or (ssCtrl in Shift) then begin
             N10.Click;
@@ -2792,9 +2792,9 @@ begin
         else begin
           IsStop := False;
 
-          if (ssCtrl in Shift) then begin     // ÖÁÊ×£ºCtrl + Home -- ÖØ¿ªÊ¼
+          if (ssCtrl in Shift) then begin     // è‡³é¦–ï¼šCtrl + Home -- é‡å¼€å§‹
              N16.Click;
-          end else begin                      // ÍËÖÁÊ×£ºHome  -- ·´ÏòÑİÊ¾
+          end else begin                      // é€€è‡³é¦–ï¼šHome  -- åå‘æ¼”ç¤º
              N21.Click;
           end;
         end;
@@ -2805,14 +2805,14 @@ begin
         else begin
           IsStop := False;
 
-          if (ssCtrl in Shift) then begin     // ÖÁÎ²£ºCtrl + End -- Ö±½Ó½áÊø
+          if (ssCtrl in Shift) then begin     // è‡³å°¾ï¼šCtrl + End -- ç›´æ¥ç»“æŸ
              N19.Click;
-          end else begin                      // ½øÖÁÎ² £ºEnd  -- ÕıÏòÑİÊ¾
+          end else begin                      // è¿›è‡³å°¾ ï¼šEnd  -- æ­£å‘æ¼”ç¤º
              N22.Click;
           end;
         end;
       end;
-    27:                         // ESC£¬ÖØ¿ªÊ¼
+    27:                         // ESCï¼Œé‡å¼€å§‹
       begin
         if isMoving then IsStop := True
         else begin
@@ -2820,7 +2820,7 @@ begin
            pm_Home.Click;
         end;
       end;
-    8:                          // ÍË¸ñ¼ü£¬Undo
+    8:                          // é€€æ ¼é”®ï¼ŒUndo
       begin
         if isMoving then IsStop := True
         else begin
@@ -2828,7 +2828,7 @@ begin
            bt_UnDo.Click;
         end;
       end;
-    32, 13:                         // ¿Õ¸ñ¼ü/»Ø³µ¼ü£¬Redo
+    32, 13:                         // ç©ºæ ¼é”®/å›è½¦é”®ï¼ŒRedo
       begin
         if isMoving then IsStop := True
         else if (ssCtrl in Shift) or (ssAlt in Shift) or (ssShift in Shift) then begin
@@ -2842,12 +2842,12 @@ begin
         bt_Save.Click;
       end else begin
         if isMoving then IsStop := True
-        else begin    // S£¬ÖØ×öÒ»²½
+        else begin    // Sï¼Œé‡åšä¸€æ­¥
            IsStop := false;
            N17.Click;
         end;
       end;
-    90:                    // z£¬³·Ïú
+    90:                    // zï¼Œæ’¤é”€
       begin
         if isMoving then IsStop := True
         else begin
@@ -2855,7 +2855,7 @@ begin
            bt_UnDo.Click;
         end;
       end;
-    88:                    // x£¬ÖØ×ö
+    88:                    // xï¼Œé‡åš
       begin
         if isMoving then IsStop := True
         else begin
@@ -2863,7 +2863,7 @@ begin
            bt_ReDo.Click;
         end;
       end;
-    65:                     // a£¬³·ÏúÒ»²½
+    65:                     // aï¼Œæ’¤é”€ä¸€æ­¥
       begin
         if isMoving then IsStop := True
         else begin
@@ -2871,58 +2871,58 @@ begin
            N14.Click;
         end;
       end;
-    75:                // Ctrl + K£¬½«µ¼ÈëµÄ¹Ø¿¨£¬¼ÓÈëµ½¹Ø¿¨ÖÜ×ª¿â
+    75:                // Ctrl + Kï¼Œå°†å¯¼å…¥çš„å…³å¡ï¼ŒåŠ å…¥åˆ°å…³å¡å‘¨è½¬åº“
       if ssCtrl in Shift then begin
         XSB0.Click;
       end;
-    81:                // Ctrl + Q£¬ ÍË³ö
+    81:                // Ctrl + Qï¼Œ é€€å‡º
       if ssCtrl in Shift then begin
          Close();
       end;
-    71:                // Ctrl + G£¬ ¶¨Î»Ë«ÍÆ
+    71:                // Ctrl + Gï¼Œ å®šä½åŒæ¨
       if ssCtrl in Shift then begin
          pmGoal.Click;
       end else begin
         bt_GoThrough.Click;
       end;
-    74:                // Ctrl + J£¬ »¥¶¯Ë«ÍÆ
+    74:                // Ctrl + Jï¼Œ äº’åŠ¨åŒæ¨
       if ssCtrl in Shift then begin
          pmJijing.Click;
       end;
-    76:                // Ctrl + L£¬ ´Ó¼ôÇĞ°å¼ÓÔØ Lurd
+    76:                // Ctrl + Lï¼Œ ä»å‰ªåˆ‡æ¿åŠ è½½ Lurd
       if ssCtrl in Shift then begin
          Lurd1.Click;
       end;
-    77:                // Ctrl + M£¬ Lurd ËÍÈë¼ôÇĞ°å; Ctrl + Alt + N£¬ ºóĞø¶¯×÷ Lurd ËÍÈë¼ôÇĞ°å
+    77:                // Ctrl + Mï¼Œ Lurd é€å…¥å‰ªåˆ‡æ¿; Ctrl + Alt + Nï¼Œ åç»­åŠ¨ä½œ Lurd é€å…¥å‰ªåˆ‡æ¿
       if ssCtrl in Shift then begin
          if ssAlt in Shift then Lurd3.Click
          else Lurd2.Click;
       end;
-    67:                 // Ctrl + C£¬ XSB ËÍÈë¼ôÇĞ°å
+    67:                 // Ctrl + Cï¼Œ XSB é€å…¥å‰ªåˆ‡æ¿
       if ssCtrl in Shift then
       begin
-        if ssAlt in Shift then XSB4.Click       // ÏÖ³¡
-        else XSB2.Click;                        // Ô­Ê¼ xsb
+        if ssAlt in Shift then XSB4.Click       // ç°åœº
+        else XSB2.Click;                        // åŸå§‹ xsb
       end;
-    86:                // Ctrl + V£¬ ´Ó¼ôÇĞ°å¼ÓÔØ XSB
+    86:                // Ctrl + Vï¼Œ ä»å‰ªåˆ‡æ¿åŠ è½½ XSB
       if (ssCtrl in Shift) then begin
          XSB1.Click;
       end;
-    79:                         // Ctrl + o£¬´ò¿ª¹Ø¿¨ÎÄµµ
+    79:                         // Ctrl + oï¼Œæ‰“å¼€å…³å¡æ–‡æ¡£
       begin
         if isMoving then IsStop := True
         else IsStop := False;
 
         bt_Open.Click;
       end;
-    78:                         // Ctrl + n£¬Ë«»÷±àºÅ
+    78:                         // Ctrl + nï¼ŒåŒå‡»ç¼–å·
       N29.Click;
-    106, 56:                    // µÚ 0 ×ª
+    106, 56:                    // ç¬¬ 0 è½¬
       begin
         curMapNode.Trun := 0;
         SetMapTrun;
       end;
-    111, 191:                   // Ğı×ª¹Ø¿¨
+    111, 191:                   // æ—‹è½¬å…³å¡
       begin
         if curMapNode.Trun < 7 then
           inc(curMapNode.Trun)
@@ -2930,25 +2930,25 @@ begin
           curMapNode.Trun := 0; 
         SetMapTrun;
       end;
-    72:                         // H£¬ÏÔÊ¾»òÒş²Ø²à±ßÀ¸
+    72:                         // Hï¼Œæ˜¾ç¤ºæˆ–éšè—ä¾§è¾¹æ 
       begin
         bt_LeftBar.Click;
       end;
-    73:                         // I£¬Ë²ÒÆ
+    73:                         // Iï¼Œç¬ç§»
       begin
         bt_IM.Click;
       end;
-    66:                         // B£¬ÄæÍÆÄ£Ê½
+    66:                         // Bï¼Œé€†æ¨æ¨¡å¼
       begin
         bt_BK.Click;
       end;
-    109, 188, 189:              // -£¬¼õËÙ
+    109, 188, 189:              // -ï¼Œå‡é€Ÿ
       begin
         if mySettings.mySpeed < 4 then
           Inc(mySettings.mySpeed);
         pnl_Speed.Caption := SpeedInf[mySettings.mySpeed];
       end;
-    107, 187, 190:              // +£¬ÔöËÙ
+    107, 187, 190:              // +ï¼Œå¢é€Ÿ
       begin                      
         if mySettings.mySpeed > 0 then
           Dec(mySettings.mySpeed);
@@ -2958,7 +2958,7 @@ begin
   Key := 0;
 end;
 
-// ¹Ø¿¨ÖØĞÂ¿ªÊ¼
+// å…³å¡é‡æ–°å¼€å§‹
 procedure Tmain.Restart(is_BK: Boolean);
 begin
     isNoDelay := True;
@@ -2970,32 +2970,32 @@ begin
     isNoDelay := false;
 end;
 
-// µ÷Õû´°¿Ú´óĞ¡
+// è°ƒæ•´çª—å£å¤§å°
 procedure Tmain.FormResize(Sender: TObject);
 begin
   NewMapSize();
-  DrawMap();        // »­µØÍ¼
+  DrawMap();        // ç”»åœ°å›¾
 end;
 
-// Ë¢ĞÂ×´Ì¬À¸ - ÍÆ¶¯Êı¡¢ÒÆ¶¯Êı
+// åˆ·æ–°çŠ¶æ€æ  - æ¨åŠ¨æ•°ã€ç§»åŠ¨æ•°
 procedure Tmain.ShowStatusBar();
 begin
   if mySettings.isBK then
   begin
     StatusBar1.Panels[1].Text := inttostr(MoveTimes_BK);
-    StatusBar1.Panels[2].Text := 'À­¶¯';
+    StatusBar1.Panels[2].Text := 'æ‹‰åŠ¨';
     StatusBar1.Panels[3].Text := inttostr(PushTimes_BK);
   end
   else
   begin
     StatusBar1.Panels[1].Text := inttostr(MoveTimes);
-    StatusBar1.Panels[2].Text := 'ÍÆ¶¯';
+    StatusBar1.Panels[2].Text := 'æ¨åŠ¨';
     StatusBar1.Panels[3].Text := inttostr(PushTimes);
   end;
 //  StatusBar1.Panels[7].Text := ' ';
 end;
 
-// ¼ÆËã±ê³ß
+// è®¡ç®—æ ‡å°º
 function Tmain.GetCur(x, y: Integer): string;
 var
   k: Integer;
@@ -3009,7 +3009,7 @@ begin
   Result := chr(x mod 26 + 65) + IntToStr(y + 1);
 end;
 
-// ¼ÆËã·ÃÎÊ¹ıµÄ¸ñ×Ó
+// è®¡ç®—è®¿é—®è¿‡çš„æ ¼å­
 procedure Tmain.Board_Visited;
 var
   i, p, p1: Integer;
@@ -3071,32 +3071,32 @@ begin
   
 end;
 
-// µØÍ¼ÉÏË«»÷ -- Ïä×Ó±àºÅ
+// åœ°å›¾ä¸ŠåŒå‡» -- ç®±å­ç¼–å·
 procedure Tmain.map_ImageDblClick(Sender: TObject);
 var
   pos, myCell, i, j: Integer;
   
 begin
-  // ±»µã»÷µÄÍ¼ÔªÎ»ÖÃ
+  // è¢«ç‚¹å‡»çš„å›¾å…ƒä½ç½®
   pos := DoubleClickPos.y * curMapNode.Cols + DoubleClickPos.x;
-  if mySettings.isBK then begin   // ÄæÍÆ
+  if mySettings.isBK then begin   // é€†æ¨
     myCell := map_Board_BK[pos];
-    if myCell in [ BoxCell, BoxGoalCell ] then begin                       // Ë«»÷µÄÊÇÏä×Ó
+    if myCell in [ BoxCell, BoxGoalCell ] then begin                       // åŒå‡»çš„æ˜¯ç®±å­
        if BoxNum_Board_BK[pos] > 0 then begin
           BoxNum_Board_BK[pos] := -1;
           Exit;
        end;
        BoxNum_Board_BK[pos] := -1;
-    end else if myCell in [ FloorCell, GoalCell, ManCell, ManGoalCell ] then begin  // Ë«»÷µÄÊÇÍ¨µÀ
+    end else if myCell in [ FloorCell, GoalCell, ManCell, ManGoalCell ] then begin  // åŒå‡»çš„æ˜¯é€šé“
        if PosNum_Board_BK[pos] > 0 then begin
           PosNum_Board_BK[pos] := -1;
           Exit;
        end;
        PosNum_Board_BK[pos] := -1;
-    end else Exit;                                                        // Ë«»÷µÄÊÇÆäËü
-  end else begin                  // ÕıÍÆ
+    end else Exit;                                                        // åŒå‡»çš„æ˜¯å…¶å®ƒ
+  end else begin                  // æ­£æ¨
     myCell := map_Board[pos];
-    if myCell in [ BoxCell, BoxGoalCell ] then begin                       // Ë«»÷µÄÊÇÏä×Ó
+    if myCell in [ BoxCell, BoxGoalCell ] then begin                       // åŒå‡»çš„æ˜¯ç®±å­
        if mySettings.isNumber then begin
          if BoxNum_Board[pos] > 0 then begin
             BoxNum_Board[pos] := -1;
@@ -3104,7 +3104,7 @@ begin
          end;
          BoxNum_Board[pos] := -1;
        end;
-    end else if myCell in [ FloorCell, GoalCell, ManCell, ManGoalCell ] then begin  // Ë«»÷µÄÊÇÍ¨µÀ
+    end else if myCell in [ FloorCell, GoalCell, ManCell, ManGoalCell ] then begin  // åŒå‡»çš„æ˜¯é€šé“
        if mySettings.isNumber then begin
          if PosNum_Board[pos] > 0 then begin
             PosNum_Board[pos] := -1;
@@ -3112,7 +3112,7 @@ begin
          end;
          PosNum_Board[pos] := -1;
        end;
-    end else if myCell = WallCell then begin  // Ë«»÷µÄÊÇÇ½±Ú
+    end else if myCell = WallCell then begin  // åŒå‡»çš„æ˜¯å¢™å£
        if mySettings.isShowNoVisited then mySettings.isShowNoVisited := False
        else begin
          Board_Visited;
@@ -3122,14 +3122,14 @@ begin
   end;
 
   if mySettings.isNumber then begin
-    if myCell in [ BoxCell, BoxGoalCell ] then begin                      // Ë«»÷µÄÊÇÏä×Ó
+    if myCell in [ BoxCell, BoxGoalCell ] then begin                      // åŒå‡»çš„æ˜¯ç®±å­
        i := 1;
        while i <= 9 do begin
            j := 0;
            while j < curMap.MapSize do begin
-               if mySettings.isBK then begin    // ÄæÍÆ
+               if mySettings.isBK then begin    // é€†æ¨
                   if BoxNum_Board_BK[j] = i then Break;
-               end else begin                   // ÕıÍÆ
+               end else begin                   // æ­£æ¨
                   if BoxNum_Board[j] = i then Break;
                end;
                inc(j);
@@ -3138,17 +3138,17 @@ begin
            inc(i);
        end;
        if i <= 9 then begin
-          if mySettings.isBK then BoxNum_Board_BK[pos] := i     // ÄæÍÆ
-          else BoxNum_Board[pos] := i;                          // ÕıÍÆ
+          if mySettings.isBK then BoxNum_Board_BK[pos] := i     // é€†æ¨
+          else BoxNum_Board[pos] := i;                          // æ­£æ¨
        end;
     end else begin
-       i := 1;                                                            // Ë«»÷µÄÊÇÍ¨µÀ
+       i := 1;                                                            // åŒå‡»çš„æ˜¯é€šé“
        while i <= 26 do begin
            j := 0;
            while j < curMap.MapSize do begin
-               if mySettings.isBK then begin    // ÄæÍÆ
+               if mySettings.isBK then begin    // é€†æ¨
                   if PosNum_Board_BK[j] = i then Break;
-               end else begin                   // ÕıÍÆ
+               end else begin                   // æ­£æ¨
                   if PosNum_Board[j] = i then Break;
                end;
                inc(j);
@@ -3157,14 +3157,14 @@ begin
            inc(i);
        end;
        if i <= 26 then begin
-          if mySettings.isBK then PosNum_Board_BK[pos] := i     // ÄæÍÆ
-          else PosNum_Board[pos] := i;                          // ÕıÍÆ
+          if mySettings.isBK then PosNum_Board_BK[pos] := i     // é€†æ¨
+          else PosNum_Board[pos] := i;                          // æ­£æ¨
        end;
     end;
   end;
 end;
 
-// ½âÎö×îºóÒ»´Î¡°Ö±ÍÆ¡±
+// è§£ææœ€åä¸€æ¬¡â€œç›´æ¨â€
 function Tmain.GetStepLine(is_BK: Boolean): Integer;
 var
   k, len: Integer;
@@ -3203,7 +3203,7 @@ begin
   result := len - k;
 end;
 
-// µØÍ¼ÉÏµ¥»÷
+// åœ°å›¾ä¸Šå•å‡»
 procedure Tmain.map_ImageMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   MapClickPos: TPoint;
@@ -3233,7 +3233,7 @@ begin
   RightBottomXY.X := x2;
   RightBottomXY.Y := y2;
 
-  case curMapNode.Trun of // °Ñµã»÷µÄÎ»ÖÃ£¬×ª»»µØÍ¼µÄÕæÊµ×ø±ê -- ½«ÊÓ¾õ×ø±ê×ª»»ÎªµØÍ¼×ø±ê
+  case curMapNode.Trun of // æŠŠç‚¹å‡»çš„ä½ç½®ï¼Œè½¬æ¢åœ°å›¾çš„çœŸå®åæ ‡ -- å°†è§†è§‰åæ ‡è½¬æ¢ä¸ºåœ°å›¾åæ ‡
     1:
       begin
         MapClickPos.X := y2;
@@ -3276,10 +3276,10 @@ begin
     end;
   end;
 
-  StatusBar1.Panels[5].Text := ' ' + GetCur(x2, y2) + ' - [ ' + IntToStr(x2 + 1) + ', ' + IntToStr(y2 + 1) + ' ]';       // ±ê³ß
+  StatusBar1.Panels[5].Text := ' ' + GetCur(x2, y2) + ' - [ ' + IntToStr(x2 + 1) + ', ' + IntToStr(y2 + 1) + ' ]';       // æ ‡å°º
 
-  // ±»µã»÷µÄÍ¼ÔªÎ»ÖÃ
-  DoubleClickPos.X := MapClickPos.x;      // ÎªË«»÷¼ÇÂ¼Î»ÖÃ
+  // è¢«ç‚¹å‡»çš„å›¾å…ƒä½ç½®
+  DoubleClickPos.X := MapClickPos.x;      // ä¸ºåŒå‡»è®°å½•ä½ç½®
   DoubleClickPos.Y := MapClickPos.y;
   pos := MapClickPos.y * curMapNode.Cols + MapClickPos.x;
   if mySettings.isBK then
@@ -3288,11 +3288,11 @@ begin
     myCell := map_Board[pos];
 
   case Button of
-    mbleft:             // µ¥»÷ -- Ö¸×ó¼ü
-      if ssAlt in Shift then begin     // °´ÁË   Alt ¼ü -- Ñ¡Ôñµ¥Ôª¸ñ¶¯×÷ -- ´ÓÏÖÓĞÑ¡ÇøÖĞ£¬¼õÈ¥Ò»²¿·ÖÑ¡Çø
+    mbleft:             // å•å‡» -- æŒ‡å·¦é”®
+      if ssAlt in Shift then begin     // æŒ‰äº†   Alt é”® -- é€‰æ‹©å•å…ƒæ ¼åŠ¨ä½œ -- ä»ç°æœ‰é€‰åŒºä¸­ï¼Œå‡å»ä¸€éƒ¨åˆ†é€‰åŒº
          if isSelectMod then begin
             isDelSelect := True;
-            isSelecting := True;            // ´¥¶¯ÁËµ¥Ôª¸ñÑ¡ÔñÄ£Ê½ -- ÍÏ¶¯¿ªÊ¼
+            isSelecting := True;            // è§¦åŠ¨äº†å•å…ƒæ ¼é€‰æ‹©æ¨¡å¼ -- æ‹–åŠ¨å¼€å§‹
             
             LeftTopPos.X := MapClickPos.x;
             LeftTopPos.Y := MapClickPos.y;
@@ -3302,16 +3302,16 @@ begin
             DrawMap();
             
          end;
-      end else if ssCtrl in Shift then begin     // °´ÁË   Ctrl ¼ü -- Ñ¡Ôñµ¥Ôª¸ñ¶¯×÷
-         if not isSelectMod then begin  // Ê×´Î´¥¶¯Ñ¡ÔñÄ£Ê½ -- ÏÈÇå¿ÕÑ¡ÖĞµÄµ¥Ôª¸ñ
+      end else if ssCtrl in Shift then begin     // æŒ‰äº†   Ctrl é”® -- é€‰æ‹©å•å…ƒæ ¼åŠ¨ä½œ
+         if not isSelectMod then begin  // é¦–æ¬¡è§¦åŠ¨é€‰æ‹©æ¨¡å¼ -- å…ˆæ¸…ç©ºé€‰ä¸­çš„å•å…ƒæ ¼
             for k := 0 to curMap.MapSize-1 do begin
                 if mySettings.isBK then map_Selected_BK[k] := False
                 else map_Selected[k] := False;
             end;
          end;
          isDelSelect := False;
-         isSelectMod := True;            // ´¥¶¯ÁËµ¥Ôª¸ñÑ¡ÔñÄ£Ê½ -- ÊıÏä×Ó
-         isSelecting := True;            // ´¥¶¯ÁËµ¥Ôª¸ñÑ¡ÔñÄ£Ê½ -- ÍÏ¶¯¿ªÊ¼
+         isSelectMod := True;            // è§¦åŠ¨äº†å•å…ƒæ ¼é€‰æ‹©æ¨¡å¼ -- æ•°ç®±å­
+         isSelecting := True;            // è§¦åŠ¨äº†å•å…ƒæ ¼é€‰æ‹©æ¨¡å¼ -- æ‹–åŠ¨å¼€å§‹
          LeftTopPos.X := MapClickPos.x;
          LeftTopPos.Y := MapClickPos.y;
          RightBottomPos.X := MapClickPos.x;
@@ -3320,17 +3320,17 @@ begin
          DrawMap();
          
 //         Caption := '[' + IntToStr(LeftTopPos.X) + ', ' + IntToStr(LeftTopPos.Y) + '] -- [' + IntToStr(RightBottomPos.X) + ', ' + IntToStr(RightBottomPos.Y) + ']';
-      end else begin                    // Ã»ÓĞ°´ Ctrl ¼ü -- ÍÆÏä×Ó¶¯×÷
-        isSelecting := False;           // È¡Ïûµ¥Ôª¸ñÑ¡ÔñÄ£Ê½ -- ÊıÏä×Ó
-        isSelectMod := False;           // È¡Ïûµ¥Ôª¸ñÑ¡ÔñÄ£Ê½ -- ÊıÏä×Ó
+      end else begin                    // æ²¡æœ‰æŒ‰ Ctrl é”® -- æ¨ç®±å­åŠ¨ä½œ
+        isSelecting := False;           // å–æ¶ˆå•å…ƒæ ¼é€‰æ‹©æ¨¡å¼ -- æ•°ç®±å­
+        isSelectMod := False;           // å–æ¶ˆå•å…ƒæ ¼é€‰æ‹©æ¨¡å¼ -- æ•°ç®±å­
         case myCell of
           FloorCell, GoalCell:
-            begin            // µ¥»÷µØ°å
+            begin            // å•å‡»åœ°æ¿
               if mySettings.isBK then
-              begin                                            // ÄæÍÆ
+              begin                                            // é€†æ¨
                 if IsBoxAccessibleTips_BK then
-                begin                      // ÓĞÏä×Ó¿É´ïÌáÊ¾Ê±
-                         // ÊÓµã»÷Î»ÖÃÊÇ·ñ¿É´ï¶ø¶¨
+                begin                      // æœ‰ç®±å­å¯è¾¾æç¤ºæ—¶
+                         // è§†ç‚¹å‡»ä½ç½®æ˜¯å¦å¯è¾¾è€Œå®š
                   if not PathFinder.isBoxReachable_BK(pos) then
                     IsBoxAccessibleTips_BK := False
                   else
@@ -3341,7 +3341,7 @@ begin
                     begin
                       for k := 1 to ReDoPos_BK do
                         RedoList_BK[k] := BoxPath[ReDoPos_BK - k + 1];
-                      mySettings.isLurd_Saved := False;             // ÓĞÁËĞÂµÄ¶¯×÷
+                      mySettings.isLurd_Saved := False;             // æœ‰äº†æ–°çš„åŠ¨ä½œ
                       curMap.isFinish := False;
                       IsStop := false;
                       ReDo_BK(ReDoPos_BK);
@@ -3351,7 +3351,7 @@ begin
                 else
                 begin
                   if (ManPos_BK < 0) or (PushTimes_BK <= 0) then
-                  begin                      // ÄæÍÆÖĞ£¬µ÷ÕûÈËµÄ¶¨Î»
+                  begin                      // é€†æ¨ä¸­ï¼Œè°ƒæ•´äººçš„å®šä½
                     IsManAccessibleTips_BK := False;
                     IsBoxAccessibleTips_BK := False;
                     ReDoPos_BK := 0;
@@ -3376,7 +3376,7 @@ begin
                   begin
                     IsManAccessibleTips_BK := False;
                     IsBoxAccessibleTips_BK := False;
-                    ReDoPos_BK := PathFinder.manTo(mySettings.isBK, map_Board_BK, ManPos_BK, pos);   // ¼ÆËãÈË¿É´ï
+                    ReDoPos_BK := PathFinder.manTo(mySettings.isBK, map_Board_BK, ManPos_BK, pos);   // è®¡ç®—äººå¯è¾¾
                     if ReDoPos_BK > 0 then
                     begin
                       for k := 1 to ReDoPos_BK do
@@ -3388,10 +3388,10 @@ begin
                 end;
               end
               else
-              begin                                                // ÕıÍÆ
+              begin                                                // æ­£æ¨
                 if IsBoxAccessibleTips then
-                begin                          // ÓĞÏä×Ó¿É´ïÌáÊ¾Ê±
-                  // ÊÓµã»÷Î»ÖÃÊÇ·ñ¿É´ï¶ø¶¨
+                begin                          // æœ‰ç®±å­å¯è¾¾æç¤ºæ—¶
+                  // è§†ç‚¹å‡»ä½ç½®æ˜¯å¦å¯è¾¾è€Œå®š
                   if not PathFinder.isBoxReachable(pos) then
                     IsBoxAccessibleTips := False
                   else
@@ -3403,8 +3403,8 @@ begin
                     begin
                       for k := 1 to ReDoPos do
                         RedoList[k] := BoxPath[ReDoPos - k + 1];
-                      LastSteps := UnDoPos;              // ÕıÍÆ×îºóÒ»´ÎµãÍÆÇ°µÄ²½Êı
-                      mySettings.isLurd_Saved := False;             // ÓĞÁËĞÂµÄ¶¯×÷
+                      LastSteps := UnDoPos;              // æ­£æ¨æœ€åä¸€æ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
+                      mySettings.isLurd_Saved := False;             // æœ‰äº†æ–°çš„åŠ¨ä½œ
                       curMap.isFinish := False;
                       IsStop := false;
                       ReDo(ReDoPos);
@@ -3415,10 +3415,10 @@ begin
                 begin
                   IsManAccessibleTips := False;
                   IsBoxAccessibleTips := False;
-                  ReDoPos := PathFinder.manTo(mySettings.isBK, map_Board, ManPos, pos);               // ¼ÆËãÈË¿É´ï
+                  ReDoPos := PathFinder.manTo(mySettings.isBK, map_Board, ManPos, pos);               // è®¡ç®—äººå¯è¾¾
                   if ReDoPos > 0 then
                   begin
-                    LastSteps := UnDoPos;              // ÕıÍÆ×îºóÒ»´ÎµãÍÆÇ°µÄ²½Êı
+                    LastSteps := UnDoPos;              // æ­£æ¨æœ€åä¸€æ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
                     for k := 1 to ReDoPos do
                       RedoList[k] := ManPath[k];
                     IsStop := false;
@@ -3428,36 +3428,36 @@ begin
               end;
             end;
           ManCell, ManGoalCell:
-            begin           // µ¥»÷ÈË
+            begin           // å•å‡»äºº
               if mySettings.isBK then
-              begin                                            // ÄæÍÆ
+              begin                                            // é€†æ¨
                 if IsBoxAccessibleTips_BK and PathFinder.isBoxReachable_BK(ManPos_BK) then
-                begin  // ÓĞÏä×Ó¿É´ïÌáÊ¾Ê±
+                begin  // æœ‰ç®±å­å¯è¾¾æç¤ºæ—¶
                   IsBoxAccessibleTips_BK := False;
                   ReDoPos_BK := PathFinder.boxTo(mySettings.isBK, OldBoxPos_BK, pos, ManPos_BK);
                   if ReDoPos_BK > 0 then
                   begin
                     for k := 1 to ReDoPos_BK do
                       RedoList_BK[k] := BoxPath[ReDoPos_BK - k + 1];
-                    mySettings.isLurd_Saved := False;             // ÓĞÁËĞÂµÄ¶¯×÷
+                    mySettings.isLurd_Saved := False;             // æœ‰äº†æ–°çš„åŠ¨ä½œ
                     curMap.isFinish := False;
                     IsStop := false;
                     ReDo_BK(ReDoPos_BK);
                   end;
                 end
                 else if IsManAccessibleTips_BK then
-                  IsManAccessibleTips_BK := False  // ÔÚÏÔÊ¾ÈËµÄ¿É´ïÌáÊ¾Ê±£¬ÓÖµã»÷ÁËÈË
+                  IsManAccessibleTips_BK := False  // åœ¨æ˜¾ç¤ºäººçš„å¯è¾¾æç¤ºæ—¶ï¼Œåˆç‚¹å‡»äº†äºº
                 else
                 begin
-                  PathFinder.manReachable(mySettings.isBK, map_Board_BK, ManPos_BK);            // ¼ÆËãÈË¿É´ï
+                  PathFinder.manReachable(mySettings.isBK, map_Board_BK, ManPos_BK);            // è®¡ç®—äººå¯è¾¾
                   IsManAccessibleTips_BK := True;
                   IsBoxAccessibleTips_BK := False;
                 end;
               end
               else
-              begin                                                // ÕıÍÆ
+              begin                                                // æ­£æ¨
                 if IsBoxAccessibleTips and PathFinder.isBoxReachable(ManPos) then
-                begin   // ÓĞÏä×Ó¿É´ïÌáÊ¾Ê±
+                begin   // æœ‰ç®±å­å¯è¾¾æç¤ºæ—¶
                   IsBoxAccessibleTips := False;
 
                   ReDoPos := PathFinder.boxTo(mySettings.isBK, OldBoxPos, pos, ManPos);
@@ -3465,27 +3465,27 @@ begin
                   begin
                     for k := 1 to ReDoPos do
                       RedoList[k] := BoxPath[ReDoPos - k + 1];
-                    LastSteps := UnDoPos;              // ÕıÍÆ×îºóÒ»´ÎµãÍÆÇ°µÄ²½Êı
-                    mySettings.isLurd_Saved := False;             // ÓĞÁËĞÂµÄ¶¯×÷
+                    LastSteps := UnDoPos;              // æ­£æ¨æœ€åä¸€æ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
+                    mySettings.isLurd_Saved := False;             // æœ‰äº†æ–°çš„åŠ¨ä½œ
                     curMap.isFinish := False;
                     IsStop := false;
                     ReDo(ReDoPos);
                   end;
                 end
                 else if IsManAccessibleTips then
-                  IsManAccessibleTips := False        // ÔÚÏÔÊ¾ÈËµÄ¿É´ïÌáÊ¾Ê±£¬ÓÖµã»÷ÁËÈË
+                  IsManAccessibleTips := False        // åœ¨æ˜¾ç¤ºäººçš„å¯è¾¾æç¤ºæ—¶ï¼Œåˆç‚¹å‡»äº†äºº
                 else
                 begin
-                  PathFinder.manReachable(mySettings.isBK, map_Board, ManPos);                  // ¼ÆËãÈË¿É´ï
+                  PathFinder.manReachable(mySettings.isBK, map_Board, ManPos);                  // è®¡ç®—äººå¯è¾¾
                   IsManAccessibleTips := True;
                   IsBoxAccessibleTips := False;
                 end;
               end;
             end;
           BoxCell, BoxGoalCell:
-            begin           // µ¥»÷Ïä×Ó
+            begin           // å•å‡»ç®±å­
               if mySettings.isBK then
-              begin                                            // ÄæÍÆ
+              begin                                            // é€†æ¨
                 if ManPos_BK < 0 then
                 begin
                   IsStop := false;
@@ -3500,28 +3500,28 @@ begin
                   begin
                     IsBoxAccessibleTips_BK := True;
                     IsManAccessibleTips_BK := False;
-                    PathFinder.FindBlock(map_Board_BK, pos);                       // ¸ù¾İ±»µã»÷µÄÏä×Ó£¬¼ÆËã¸îµã
-                    PathFinder.boxReachable(mySettings.isBK, pos, ManPos_BK);                 // ¼ÆËãÏä×Ó¿É´ï
+                    PathFinder.FindBlock(map_Board_BK, pos);                       // æ ¹æ®è¢«ç‚¹å‡»çš„ç®±å­ï¼Œè®¡ç®—å‰²ç‚¹
+                    PathFinder.boxReachable(mySettings.isBK, pos, ManPos_BK);                 // è®¡ç®—ç®±å­å¯è¾¾
                     OldBoxPos_BK := pos;
                   end;
                 end;
               end
               else
-              begin                                                // ÕıÍÆ
+              begin                                                // æ­£æ¨
                 if IsBoxAccessibleTips and (OldBoxPos = pos) then
                   IsBoxAccessibleTips := False
                 else
                 begin
                   IsBoxAccessibleTips := True;
                   IsManAccessibleTips := False;
-                  PathFinder.FindBlock(map_Board, pos);                              // ¸ù¾İ±»µã»÷µÄÏä×Ó£¬¼ÆËã¸îµã
-                  PathFinder.boxReachable(mySettings.isBK, pos, ManPos);                        // ¼ÆËãÏä×Ó¿É´ï
+                  PathFinder.FindBlock(map_Board, pos);                              // æ ¹æ®è¢«ç‚¹å‡»çš„ç®±å­ï¼Œè®¡ç®—å‰²ç‚¹
+                  PathFinder.boxReachable(mySettings.isBK, pos, ManPos);                        // è®¡ç®—ç®±å­å¯è¾¾
                   OldBoxPos := pos;
                 end;
               end;
             end;
         else
-          begin                            // È¡Ïû¿É´ïÌáÊ¾
+          begin                            // å–æ¶ˆå¯è¾¾æç¤º
             if mySettings.isBK then
             begin
               IsManAccessibleTips_BK := False;
@@ -3536,7 +3536,7 @@ begin
         end;
       end;
     mbright:
-      begin    // ÓÒ»÷ -- Ö¸ÓÒ¼ü£¬³·ÏúÒ»¸öÖ±ÍÆ
+      begin    // å³å‡» -- æŒ‡å³é”®ï¼Œæ’¤é”€ä¸€ä¸ªç›´æ¨
          if isMoving then IsStop := True
          else IsStop := False;
 
@@ -3548,7 +3548,7 @@ begin
   DrawMap();
 end;
 
-// Êó±êÔÚµØÍ¼ÉÏÒÆ¶¯
+// é¼ æ ‡åœ¨åœ°å›¾ä¸Šç§»åŠ¨
 procedure Tmain.map_ImageMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 var
@@ -3561,7 +3561,7 @@ begin
   y2 := Y div curMap.CellSize;
 
   if curMapNode.Cols > 0 then
-    StatusBar1.Panels[5].Text := ' ' + GetCur(x2, y2) + ' - [ ' + IntToStr(x2 + 1) + ', ' + IntToStr(y2 + 1) + ' ]';       // ±ê³ß
+    StatusBar1.Panels[5].Text := ' ' + GetCur(x2, y2) + ' - [ ' + IntToStr(x2 + 1) + ', ' + IntToStr(y2 + 1) + ' ]';       // æ ‡å°º
 
   if isSelecting then begin
 
@@ -3577,7 +3577,7 @@ begin
   end;
 end;
 
-// Êó±êµ¯Æğ
+// é¼ æ ‡å¼¹èµ·
 procedure Tmain.map_ImageMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
@@ -3585,7 +3585,7 @@ var
   x2, y2, i, j, i1, j1, i2, j2: Integer;
 
 begin
-  Edit1.SetFocus;  // Ò»¸ö¸¨Öú¿Ø¼ş£¬¿ØÖÆÊäÈë½¹µãÓÃµÄ
+  Edit1.SetFocus;  // ä¸€ä¸ªè¾…åŠ©æ§ä»¶ï¼Œæ§åˆ¶è¾“å…¥ç„¦ç‚¹ç”¨çš„
 
   if (not curMapNode.isEligible) then begin
      Msg.Left := Left + ((Width - Msg.Width + pl_Side.Width) div 2);
@@ -3596,7 +3596,7 @@ begin
 
   if isDelSelect then begin
      if not (ssAlt in Shift) then begin
-        isSelecting := False;           // È¡Ïûµ¥Ôª¸ñÑ¡ÔñÄ£Ê½ -- ÊıÏä×Ó
+        isSelecting := False;           // å–æ¶ˆå•å…ƒæ ¼é€‰æ‹©æ¨¡å¼ -- æ•°ç®±å­
         isDelSelect := False;
         DrawMap();
         Exit;
@@ -3615,7 +3615,7 @@ begin
          RightBottomXY.Y := Min(Max(y2, 0), curMapNode.Cols - 1);
       end;
       
-      case curMapNode.Trun of // °Ñµã»÷µÄÎ»ÖÃ£¬×ª»»µØÍ¼µÄÕæÊµ×ø±ê -- ½«ÊÓ¾õ×ø±ê×ª»»ÎªµØÍ¼×ø±ê
+      case curMapNode.Trun of // æŠŠç‚¹å‡»çš„ä½ç½®ï¼Œè½¬æ¢åœ°å›¾çš„çœŸå®åæ ‡ -- å°†è§†è§‰åæ ‡è½¬æ¢ä¸ºåœ°å›¾åæ ‡
         1:
           begin
             MapClickPos.X := y2;
@@ -3658,7 +3658,7 @@ begin
         end;
       end;
 
-      isSelecting := False;           // È¡Ïûµ¥Ôª¸ñÑ¡ÔñÄ£Ê½ -- ÊıÏä×Ó     
+      isSelecting := False;           // å–æ¶ˆå•å…ƒæ ¼é€‰æ‹©æ¨¡å¼ -- æ•°ç®±å­     
       RightBottomPos.X := MapClickPos.x;
       RightBottomPos.Y := MapClickPos.y;
 
@@ -3684,16 +3684,16 @@ begin
   end;
 end;
 
-// ÓÎÏ·ÑÓÊ±
+// æ¸¸æˆå»¶æ—¶
 procedure Tmain.GameDelay();
 var
   CurTime: dword;
   ch1, ch2: Char;
   
 begin
-  if isNoDelay then Exit;       // ÈôÎªÎŞÑÓÊ±ÒÆ¶¯£¬Ö±½Ó·µ»Ø
+  if isNoDelay then Exit;       // è‹¥ä¸ºæ— å»¶æ—¶ç§»åŠ¨ï¼Œç›´æ¥è¿”å›
 
-  if isKeyPush then begin       // ÈôÎªÑİÊ¾¶¯»­£¬Ôò°´Ö±ÍÆ·½Ê½Ë²ÒÆÏÔÊ¾¶¯»­
+  if isKeyPush then begin       // è‹¥ä¸ºæ¼”ç¤ºåŠ¨ç”»ï¼Œåˆ™æŒ‰ç›´æ¨æ–¹å¼ç¬ç§»æ˜¾ç¤ºåŠ¨ç”»
     if mySettings.isIM then begin
        try
          if mySettings.isBK then begin
@@ -3712,17 +3712,17 @@ begin
          if (ch1 in [ 'l', 'r', 'u' ,'d' ]) and (ch2 in [ 'l', 'r', 'u' ,'d'] ) or
             (ch1 in [ 'L', 'R', 'U' ,'D' ]) and (ch1 = ch2)then Exit;
 
-         DrawMap();             // Ë¢ĞÂµØÍ¼»­Ãæ
+         DrawMap();             // åˆ·æ–°åœ°å›¾ç”»é¢
        except
        end;
     end;
     StatusBar1.Repaint;
-  end else begin              // ³£¹æ¶¯»­£¬½ö¼ì²éÊÇ·ñË²ÒÆÀ´¾õµÃÊÇ·ñÖ´ĞĞÑÓÊ±²Ù×÷
+  end else begin              // å¸¸è§„åŠ¨ç”»ï¼Œä»…æ£€æŸ¥æ˜¯å¦ç¬ç§»æ¥è§‰å¾—æ˜¯å¦æ‰§è¡Œå»¶æ—¶æ“ä½œ
     if mySettings.isIM then
-      exit;                   // Ë²ÒÆ´ò¿ªÊ±
+      exit;                   // ç¬ç§»æ‰“å¼€æ—¶
   end;
 
-  CurTime := GetTickCount;    // ÑÓÊ±
+  CurTime := GetTickCount;    // å»¶æ—¶
 
   while (GetTickCount - CurTime) < DelayTimes[mySettings.mySpeed] do begin
      if IsStop then Break;
@@ -3731,12 +3731,12 @@ begin
 end;
 
 procedure Tmain.ContentClick(Sender: TObject);
-begin   // °ïÖú
+begin   // å¸®åŠ©
 //  Application.HelpFile := ChangeFileExt(Application.ExeName, '.HLP');
 //  Application.HelpCommand(HELP_FINDER, 0);
 end;
 
-// ±£´æ×´Ì¬
+// ä¿å­˜çŠ¶æ€
 function Tmain.SaveState(): Boolean;
 var
   sldb: TSQLiteDatabase;
@@ -3749,7 +3749,7 @@ begin
 
   if (not Assigned(curMapNode)) or (not curMapNode.isEligible) then Exit;
 
-  // Ã»ÓĞÍÆ¶¯¶¯×÷Ê±£¬²»×ö±£´æ´¦Àí
+  // æ²¡æœ‰æ¨åŠ¨åŠ¨ä½œæ—¶ï¼Œä¸åšä¿å­˜å¤„ç†
   if (PushTimes = 0) and (PushTimes_BK = 0) then Exit;
 
   if MoveTimes > 0 then
@@ -3773,7 +3773,7 @@ begin
     y := ManPos_BK_0 div curMapNode.Cols;
   end;
 
-  // ²éÖØ
+  // æŸ¥é‡
   i := 0;
   size := StateList.Count;
   while i < size do
@@ -3787,7 +3787,7 @@ begin
   actNode := nil;
 
   if i = size then
-  begin           // ÎŞÖØ¸´
+  begin           // æ— é‡å¤
     if UnDoPos < MaxLenPath then
       UndoList[UnDoPos + 1] := #0;
     act := PChar(@UndoList);
@@ -3848,10 +3848,10 @@ begin
 
               StateList.Insert(0, actNode);
 
-              // µ±Ç°×´Ì¬²åÈëµ½ÁĞ±íµÄ×îÇ°Ãæ
+              // å½“å‰çŠ¶æ€æ’å…¥åˆ°åˆ—è¡¨çš„æœ€å‰é¢
               List_State.Items.Insert(0, IntToStr(actNode.Pushs) + '/' + IntToStr(actNode.Moves) + #10 + ' [' + IntToStr(actNode.Man_X) + ',' + IntToStr(actNode.Man_Y) + ']' + IntToStr(actNode.Pushs_BK) + '/' + IntToStr(actNode.Moves_BK) + #10 + FormatDateTime(' yyyy-mm-dd hh:nn', actNode.DateTime));
 
-              StatusBar1.Panels[7].Text := '×´Ì¬ÒÑ±£´æ£¡';
+              StatusBar1.Panels[7].Text := 'çŠ¶æ€å·²ä¿å­˜ï¼';
            end;
         end;
       finally
@@ -3859,13 +3859,13 @@ begin
         actNode := nil;
       end;
     except
-        MessageBox(handle, '×´Ì¬¿â³ö´í£¬' + #10 + '×´Ì¬Î´ÄÜ±£´æ£¡', '´íÎó', MB_ICONERROR or MB_OK);
+        MessageBox(handle, 'çŠ¶æ€åº“å‡ºé”™ï¼Œ' + #10 + 'çŠ¶æ€æœªèƒ½ä¿å­˜ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
         Exit;
     end;
 
-  end else begin        // ÓĞÖØ¸´
+  end else begin        // æœ‰é‡å¤
 
-    // µ÷Õû×´Ì¬ÁĞ±íÌõÄ¿µÄ´ÎĞò -- µ±Ç°×´Ì¬Ìáµ½×îÇ°Ãæ
+    // è°ƒæ•´çŠ¶æ€åˆ—è¡¨æ¡ç›®çš„æ¬¡åº -- å½“å‰çŠ¶æ€æåˆ°æœ€å‰é¢
     if i > 0 then begin
       actNode := StateList.Items[i];
       actNode.DateTime := Now;
@@ -3882,16 +3882,16 @@ begin
             sldb.ExecSQL('UPDATE Tab_State set Act_DateTime = ''' + FormatDateTime(' yyyy-mm-dd hh:nn', actNode.DateTime) + ''' WHERE ID = ' + inttostr(actNode.id));
             sldb.Commit;
           end;
-          StatusBar1.Panels[7].Text := '×´Ì¬ÓĞÖØ¸´£¬ÒÑµ÷Õû´æ´¢´ÎĞò£¡';
+          StatusBar1.Panels[7].Text := 'çŠ¶æ€æœ‰é‡å¤ï¼Œå·²è°ƒæ•´å­˜å‚¨æ¬¡åºï¼';
         Finally
           sldb.free;
           actNode := nil;
         end;
       except
-        MessageBox(handle, '×´Ì¬¿â³ö´í£¬' + #10 + 'Î´ÄÜÕıÈ·µ÷Õû×´Ì¬µÄ´æ´¢´ÎĞò£¡', '´íÎó', MB_ICONERROR or MB_OK);
+        MessageBox(handle, 'çŠ¶æ€åº“å‡ºé”™ï¼Œ' + #10 + 'æœªèƒ½æ­£ç¡®è°ƒæ•´çŠ¶æ€çš„å­˜å‚¨æ¬¡åºï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
         Exit;
       end;
-    end else StatusBar1.Panels[7].Text := '×´Ì¬ÒÑÓĞ±£´æ£¡';;
+    end else StatusBar1.Panels[7].Text := 'çŠ¶æ€å·²æœ‰ä¿å­˜ï¼';;
   end;
 
   PageControl.ActivePageIndex := 1;
@@ -3901,7 +3901,7 @@ begin
   Result := True;
 end;
 
-// ½«±¾ÏµÍ³ÖĞµÄÈÕÆÚÊ±¼ä×Ö·û´®£¬×ª»»Îª¡°ÈÕÆÚÊ±¼ä¡±
+// å°†æœ¬ç³»ç»Ÿä¸­çš„æ—¥æœŸæ—¶é—´å­—ç¬¦ä¸²ï¼Œè½¬æ¢ä¸ºâ€œæ—¥æœŸæ—¶é—´â€
 function MyStrToDate(str: string; SysFrset: TFormatSettings): TDateTime;
 var
   s: string;
@@ -3911,7 +3911,7 @@ begin
   Result := StrToDateTime(s, SysFrset);
 end;
 
-// ¼ÓÔØ×´Ì¬
+// åŠ è½½çŠ¶æ€
 function Tmain.LoadState(): Boolean;
 var
   sldb: TSQLiteDatabase;
@@ -3936,11 +3936,11 @@ begin
 
       sltb := slDb.GetTable(sSQL);
 
-      // ¼ì²éµ±Ç°ÏµÍ³µÄÈÕÆÚ·Ö¸ô·û
+      // æ£€æŸ¥å½“å‰ç³»ç»Ÿçš„æ—¥æœŸåˆ†éš”ç¬¦
       GetLocaleFormatSettings(GetUserDefaultLCID, SysFrset);
 
       try
-         // ¼ÓÔØ×´Ì¬
+         // åŠ è½½çŠ¶æ€
         if sltb.Count > 0 then begin
           SysFrset.ShortDateFormat:='yyyy-MM-dd';
           SysFrset.DateSeparator:='-';
@@ -3975,14 +3975,14 @@ begin
       sldb.free;
     end;
   except
-    StatusBar1.Panels[7].Text := '×´Ì¬¿â³ö´í£¬¹Ø¿¨µÄ×´Ì¬Î´ÄÜÕıÈ·¼ÓÔØ£¡';
+    StatusBar1.Panels[7].Text := 'çŠ¶æ€åº“å‡ºé”™ï¼Œå…³å¡çš„çŠ¶æ€æœªèƒ½æ­£ç¡®åŠ è½½ï¼';
     Exit;
   end;
 
   Result := True;
 end;
 
-// ĞÂÔö´ğ°¸£¬´æÈë´ğ°¸¿â - n=1£¬ÕıÍÆ¹ı¹Ø£»n=2£¬ÕıÄæÏàºÏ»òÄæÍÆ¹ı¹Ø
+// æ–°å¢ç­”æ¡ˆï¼Œå­˜å…¥ç­”æ¡ˆåº“ - n=1ï¼Œæ­£æ¨è¿‡å…³ï¼›n=2ï¼Œæ­£é€†ç›¸åˆæˆ–é€†æ¨è¿‡å…³
 function Tmain.SaveSolution(n: Integer): Boolean;
 var
   sldb: TSQLiteDatabase;
@@ -3999,14 +3999,14 @@ begin
      PMapNode(MapList[curMap.CurrentLevel-1])^.Solved := True;
   end;
 
-  // ¼ÆËã´ğ°¸ CRC
-  if n = 1 then begin      // ÕıÍÆ¹ı¹Ø
+  // è®¡ç®—ç­”æ¡ˆ CRC
+  if n = 1 then begin      // æ­£æ¨è¿‡å…³
      solCRC := Calcu_CRC_32_2(@UndoList, MoveTimes);
      m := MoveTimes;
      p := PushTimes;
-  end else begin           // ÕıÄæÏàºÏ»òÄæÍÆ¹ı¹Ø
-     // ÕıÄæÏàºÏ»òÄæÍÆ¹ı¹ØÊ±£¬´ğ°¸ÒÑ¾­µ½ÁËÕıÍÆ undolistºÍredolistÖĞ
-     // ½èÓÃÒ»ÏÂ ManPath Êı×é×öÏà¹ØµÄ¼ÆËã
+  end else begin           // æ­£é€†ç›¸åˆæˆ–é€†æ¨è¿‡å…³
+     // æ­£é€†ç›¸åˆæˆ–é€†æ¨è¿‡å…³æ—¶ï¼Œç­”æ¡ˆå·²ç»åˆ°äº†æ­£æ¨ undolistå’Œredolistä¸­
+     // å€Ÿç”¨ä¸€ä¸‹ ManPath æ•°ç»„åšç›¸å…³çš„è®¡ç®—
      for i := 1 to UnDoPos do begin
          ManPath[i] := UndoList[i];
      end;
@@ -4024,7 +4024,7 @@ begin
      end;
   end;
 
-  // ²éÖØ
+  // æŸ¥é‡
   i := 0;
   size := SoltionList.Count;
   while i < size do
@@ -4036,13 +4036,13 @@ begin
   end;
   solNode := nil;
 
-  // ÎŞÖØ¸´£¬´æÈë´ğ°¸¿â
+  // æ— é‡å¤ï¼Œå­˜å…¥ç­”æ¡ˆåº“
   if i = size then
   begin
-    if n = 1 then begin      // ÕıÍÆ¹ı¹Ø
+    if n = 1 then begin      // æ­£æ¨è¿‡å…³
        if UnDoPos < MaxLenPath then UndoList[UnDoPos + 1] := #0;
        sol := PChar(@UndoList);
-    end else begin           // ÄæÍÆ¹ı¹Ø»òÕıÄæÏàºÏ
+    end else begin           // é€†æ¨è¿‡å…³æˆ–æ­£é€†ç›¸åˆ
        sol := PChar(@ManPath);
     end;
     New(solNode);
@@ -4054,7 +4054,7 @@ begin
 
     sldb := TSQLiteDatabase.Create(AnsiToUtf8(BoxManDBpath));
 
-    // ±£´æµ½Êı¾İ¿â
+    // ä¿å­˜åˆ°æ•°æ®åº“
     try
       try
         if sldb.TableExists('Tab_Solution') then begin
@@ -4088,7 +4088,7 @@ begin
         solNode := nil;
       end;
     except
-      MessageBox(handle, '´ğ°¸¿â³ö´í£¬' + #10 + '´ğ°¸Î´ÄÜ±£´æ£¡', '´íÎó', MB_ICONERROR or MB_OK);
+      MessageBox(handle, 'ç­”æ¡ˆåº“å‡ºé”™ï¼Œ' + #10 + 'ç­”æ¡ˆæœªèƒ½ä¿å­˜ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
       exit;
     end;
 
@@ -4102,7 +4102,7 @@ begin
   if pl_Side.Visible then List_Solution.SetFocus;
 end;
 
-//¸ù¾İ´ğ°¸µÄĞı×ªÊı¼ÆËã³ö¹Ø¿¨Ä³Ğı×ªµÄ´ğ°¸
+//æ ¹æ®ç­”æ¡ˆçš„æ—‹è½¬æ•°è®¡ç®—å‡ºå…³å¡æŸæ—‹è½¬çš„ç­”æ¡ˆ
 procedure Tmain.getANS(ans_num, level_num: Integer; var str: String);
 var
   len, k: Integer;
@@ -4132,7 +4132,7 @@ begin
   end;
 end;
 
-// ¼ÓÔØ´ğ°¸
+// åŠ è½½ç­”æ¡ˆ
 function Tmain.LoadSolution(): Boolean;
 var
   sldb: TSQLiteDatabase;
@@ -4151,9 +4151,9 @@ begin
 
   sldb := TSQLiteDatabase.Create(AnsiToUtf8(BoxManDBpath));
 
-  // ¼ÓÔØ´ğ°¸
+  // åŠ è½½ç­”æ¡ˆ
   try
-    // ¼ì²éµ±Ç°ÏµÍ³µÄÈÕÆÚ·Ö¸ô·û
+    // æ£€æŸ¥å½“å‰ç³»ç»Ÿçš„æ—¥æœŸåˆ†éš”ç¬¦
     GetLocaleFormatSettings(GetUserDefaultLCID, SysFrset);
     try
       sSQL := 'select * from Tab_Solution where XSB_CRC32 = ' + IntToStr(curMapNode.CRC32) + ' and Goals = ' + IntToStr(curMapNode.Goals) + ' order by Moves, Pushs';
@@ -4165,7 +4165,7 @@ begin
           SysFrset.ShortDateFormat:='yyyy-MM-dd';
           SysFrset.DateSeparator:='-';
           SysFrset.LongTimeFormat:='hh:mm:ss.zzz';
-           // ¶ÁÈ¡´ğ°¸
+           // è¯»å–ç­”æ¡ˆ
           sltb.MoveFirst;
           while not sltb.EOF do begin
             New(solNode);
@@ -4178,12 +4178,12 @@ begin
             str           := sltb.FieldAsString(sltb.FieldIndex['Sol_Text']);
             xsbStr        := sltb.FieldAsString(sltb.FieldIndex['XSB_Text']);
             t             := sltb.FieldAsInteger(sltb.FieldIndex['XSB_CRC_TrunNum']);
-            // ´ğ°¸ÑéÖ¤
-            getANS(t, curMapNode.CRC_Num, str);    // ´ğ°¸°´¹Ø¿¨Ğı×ª½øĞĞ×ª»»
+            // ç­”æ¡ˆéªŒè¯
+            getANS(t, curMapNode.CRC_Num, str);    // ç­”æ¡ˆæŒ‰å…³å¡æ—‹è½¬è¿›è¡Œè½¬æ¢
             if isSolution(curMapNode, PChar(str)) then begin
                SoltionList.Add(solNode);
                List_Solution.Items.Add(IntToStr(solNode.Pushs) + '/' + IntToStr(solNode.Moves) + #10 + FormatDateTime(' yyyy-mm-dd hh:nn', solNode.DateTime));
-               if xsbStr = '' then begin        // Îª¾É°æ´ğ°¸²¹ÉÏ XSB_Text
+               if xsbStr = '' then begin        // ä¸ºæ—§ç‰ˆç­”æ¡ˆè¡¥ä¸Š XSB_Text
                   sldb.BeginTransaction;
                   sldb.ExecSQL('UPDATE Tab_Solution set XSB_Text = ''' + curMapNode.Map_Thin + ''' WHERE ID = ' + inttostr(solNode.id));
                   sldb.Commit;
@@ -4202,14 +4202,14 @@ begin
       solNode := nil;
     end;
   except
-    StatusBar1.Panels[7].Text := '´ğ°¸¿â³ö´í£¬¹Ø¿¨´ğ°¸Î´ÄÜÕıÈ·¼ÓÔØ£¡';
+    StatusBar1.Panels[7].Text := 'ç­”æ¡ˆåº“å‡ºé”™ï¼Œå…³å¡ç­”æ¡ˆæœªèƒ½æ­£ç¡®åŠ è½½ï¼';
     Exit;
   end;
 
   Result := True;
 end;
 
-// ¼ÓÔØÖ¸¶¨¹Ø¿¨µÄËùÓĞ´ğ°¸
+// åŠ è½½æŒ‡å®šå…³å¡çš„æ‰€æœ‰ç­”æ¡ˆ
 function Tmain.GetSolution(mapNpde: PMapNode): string;
 var
   sldb: TSQLiteDatabase;
@@ -4231,7 +4231,7 @@ begin
 
       try
         if sltb.Count > 0 then begin
-           // ¶ÁÈ¡´ğ°¸
+           // è¯»å–ç­”æ¡ˆ
           sltb.MoveFirst;
           while not sltb.EOF do begin
             Sol_DateTime := sltb.FieldAsString(sltb.FieldIndex['Sol_DateTime']);
@@ -4240,8 +4240,8 @@ begin
             str       := sltb.FieldAsString(sltb.FieldIndex['Sol_Text']);
             t         := sltb.FieldAsInteger(sltb.FieldIndex['XSB_CRC_TrunNum']);
             
-            // ´ğ°¸ÑéÖ¤
-            getANS(t, mapNpde.CRC_Num, str);    // ´ğ°¸°´¹Ø¿¨Ğı×ª½øĞĞ×ª»»
+            // ç­”æ¡ˆéªŒè¯
+            getANS(t, mapNpde.CRC_Num, str);    // ç­”æ¡ˆæŒ‰å…³å¡æ—‹è½¬è¿›è¡Œè½¬æ¢
             if isSolution(mapNpde, PChar(str)) then begin
                Result := Result + 'Solution (Moves: ' + inttostr(Sol_Moves) + ', Pushs: '+ inttostr(Sol_Pushs) + ', DateTime: ' + Sol_DateTime + '): ' + str + #10;
             end;
@@ -4256,12 +4256,12 @@ begin
       sldb.Free;
     end;
   except
-    StatusBar1.Panels[7].Text := '´ğ°¸¿â³ö´í£¬¹Ø¿¨µÄ´ğ°¸²»ÄÜÕıÈ·¼ÓÔØ£¡';
+    StatusBar1.Panels[7].Text := 'ç­”æ¡ˆåº“å‡ºé”™ï¼Œå…³å¡çš„ç­”æ¡ˆä¸èƒ½æ­£ç¡®åŠ è½½ï¼';
     Exit;
   end;
 end;
 
-// ÖØ×öÒ»²½ -- ÕıÍÆ
+// é‡åšä¸€æ­¥ -- æ­£æ¨
 procedure Tmain.ReDo(Steps: Integer);
 var
   ch, ch_: Char;
@@ -4277,7 +4277,7 @@ begin
   StatusBar1.Panels[7].Text := '';
 
   isSelectMod := False;
-  isMoving := True;                                                             // ÒÆ¶¯ÖĞ...
+  isMoving := True;                                                             // ç§»åŠ¨ä¸­...
 
   mySettings.isShowNoVisited := False;                                                           
   IsBoxAccessibleTips := False;
@@ -4290,10 +4290,10 @@ begin
   try
     while (not IsStop) and (Steps > 0) and (ReDoPos > 0) and (UnDoPos < MaxLenPath) do begin
 
-      // ÈËµÄÎ»ÖÃ³öÏÖÒì³£
+      // äººçš„ä½ç½®å‡ºç°å¼‚å¸¸
       if (ManPos < 0) or (ManPos >= curMap.MapSize) or
          (not (map_Board[ManPos] in [ManCell, ManGoalCell])) then begin
-         StatusBar1.Panels[7].Text := format('ÈËµÄÎ»ÖÃÒì³££¡- [%d, %d]', [ManPos mod curMapNode.Cols + 1, ManPos div curMapNode.Cols + 1]);
+         StatusBar1.Panels[7].Text := format('äººçš„ä½ç½®å¼‚å¸¸ï¼- [%d, %d]', [ManPos mod curMapNode.Cols + 1, ManPos div curMapNode.Cols + 1]);
          Break;
       end;
 
@@ -4329,74 +4329,74 @@ begin
           end;
       end;
 
-      if (pos1 < 0) or (pos1 >= curMap.MapSize) then begin                        // pos1 ½çÍâ
-         StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch_;
+      if (pos1 < 0) or (pos1 >= curMap.MapSize) then begin                        // pos1 ç•Œå¤–
+         StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch_;
          Break;
       end;
 
-      // Óöµ½µØ°å£¬½ö½öÒÆ¶¯ÈË¼´¿É£»ÈôÓöµ½Ïä×Ó£¬ĞèÒªÍ¬Ê±ÒÆ¶¯Ïä×ÓºÍÈË£»·ñÔò£¬Óöµ½ÁË´íÎó£¬Ö±½Ó½áÊø±¾´ÎµÄÒÆ¶¯
-      if (map_Board[pos1] in [ FloorCell, GoalCell]) then begin                   // pos1 ÊÇÍ¨µÀ
+      // é‡åˆ°åœ°æ¿ï¼Œä»…ä»…ç§»åŠ¨äººå³å¯ï¼›è‹¥é‡åˆ°ç®±å­ï¼Œéœ€è¦åŒæ—¶ç§»åŠ¨ç®±å­å’Œäººï¼›å¦åˆ™ï¼Œé‡åˆ°äº†é”™è¯¯ï¼Œç›´æ¥ç»“æŸæœ¬æ¬¡çš„ç§»åŠ¨
+      if (map_Board[pos1] in [ FloorCell, GoalCell]) then begin                   // pos1 æ˜¯é€šé“
 
          if map_Board[pos1] = FloorCell then map_Board[pos1] := ManCell
          else map_Board[pos1] := ManGoalCell;
 
-      end else if (map_Board[pos1] in [ BoxCell, BoxGoalCell]) then begin         // pos1 ÊÇÏä×Ó
+      end else if (map_Board[pos1] in [ BoxCell, BoxGoalCell]) then begin         // pos1 æ˜¯ç®±å­
 
-        if (pos2 < 0) or (pos2 >= curMap.MapSize) then begin                      // pos2 ½çÍâ
-           StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch_;
+        if (pos2 < 0) or (pos2 >= curMap.MapSize) then begin                      // pos2 ç•Œå¤–
+           StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch_;
            Break;
         end;
 
-        if (map_Board[pos2] in [ FloorCell, GoalCell]) then begin                 // pos2 ÊÇÍ¨µÀ
+        if (map_Board[pos2] in [ FloorCell, GoalCell]) then begin                 // pos2 æ˜¯é€šé“
 
-           if map_Board[pos2] = FloorCell then map_Board[pos2] := BoxCell         // Ïä×Óµ½Î»
+           if map_Board[pos2] = FloorCell then map_Board[pos2] := BoxCell         // ç®±å­åˆ°ä½
            else map_Board[pos2] := BoxGoalCell;
 
-           if map_Board[pos1] = BoxCell then map_Board[pos1] := ManCell           // ÈËµ½Î»
+           if map_Board[pos1] = BoxCell then map_Board[pos1] := ManCell           // äººåˆ°ä½
            else map_Board[pos1] := ManGoalCell;
 
-           ch := Char(Ord(ch) - 32);                                              // ±ä³É´óĞ´ -- ÍÆ¶¯
-           BoxNum_Board[pos2] := BoxNum_Board[pos1];                              // ĞÂÏä×Ó±àºÅ
-           BoxNum_Board[pos1] := -1;                                              // Ô­Ïä×Ó±àºÅ
+           ch := Char(Ord(ch) - 32);                                              // å˜æˆå¤§å†™ -- æ¨åŠ¨
+           BoxNum_Board[pos2] := BoxNum_Board[pos1];                              // æ–°ç®±å­ç¼–å·
+           BoxNum_Board[pos1] := -1;                                              // åŸç®±å­ç¼–å·
 
-           Inc(PushTimes);                                                        // ÍÆ¶¯²½Êı
-        end else begin                                                            // ´íÎó¶¯×÷
-           StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch_;
+           Inc(PushTimes);                                                        // æ¨åŠ¨æ­¥æ•°
+        end else begin                                                            // é”™è¯¯åŠ¨ä½œ
+           StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch_;
            Break;
         end;
-      end else begin                                                              // ´íÎó¶¯×÷
-         StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch_;
+      end else begin                                                              // é”™è¯¯åŠ¨ä½œ
+         StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch_;
          Break;
       end;
 
-      // µ½ÁËÕâÀï£¬¶¯×÷ÕıÈ·£¬½«ÈËÒÆ×ß
-      if map_Board[ManPos] = ManCell then map_Board[ManPos] := FloorCell          // ÈËÒÆ×ß
+      // åˆ°äº†è¿™é‡Œï¼ŒåŠ¨ä½œæ­£ç¡®ï¼Œå°†äººç§»èµ°
+      if map_Board[ManPos] = ManCell then map_Board[ManPos] := FloorCell          // äººç§»èµ°
       else map_Board[ManPos] := GoalCell;
 
-      Inc(MoveTimes);                                                             // ÒÆ¶¯²½Êı
+      Inc(MoveTimes);                                                             // ç§»åŠ¨æ­¥æ•°
 
       Dec(ReDoPos);
       Inc(UnDoPos);
 
       UndoList[UnDoPos] := ch;
-      ManPos := pos1;                                                             // ÈËµÄĞÂÎ»ÖÃ
+      ManPos := pos1;                                                             // äººçš„æ–°ä½ç½®
 
-      if (not mySettings.isIM) and (not isNoDelay) then DrawMap();                // ¸üĞÂµØÍ¼ÏÔÊ¾
+      if (not mySettings.isIM) and (not isNoDelay) then DrawMap();                // æ›´æ–°åœ°å›¾æ˜¾ç¤º
 
       ShowStatusBar();
-      StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos mod curMapNode.Cols, ManPos div curMapNode.Cols) + ' - [ ' + IntToStr((ManPos mod curMapNode.Cols) + 1) + ', ' + IntToStr((ManPos div curMapNode.Cols) + 1) + ' ]';       // ±ê³ß
+      StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos mod curMapNode.Cols, ManPos div curMapNode.Cols) + ' - [ ' + IntToStr((ManPos mod curMapNode.Cols) + 1) + ', ' + IntToStr((ManPos div curMapNode.Cols) + 1) + ' ]';       // æ ‡å°º
 
       Dec(Steps);
-      if Steps > 0 then GameDelay();                                              // ÑÓÊ±
+      if Steps > 0 then GameDelay();                                              // å»¶æ—¶
 
       if (not curMap.isFinish) and (ch in [ 'L', 'R', 'U', 'D' ]) and (PushTimes > 0)then begin
-        if IsComplete() then                                      // ½â¹Ø³É¹¦
+        if IsComplete() then                                      // è§£å…³æˆåŠŸ
         begin
           IsCompleted := True;
           Break;
         end
         else if IsMeets(ch) then
-        begin                                                                     // ÕıÄæÏàºÏ
+        begin                                                                     // æ­£é€†ç›¸åˆ
           isMeet := True;
           Break;
         end;
@@ -4404,26 +4404,26 @@ begin
 
     end;
 
-    if mySettings.isIM or isNoDelay then DrawMap();                               // ¸üĞÂµØÍ¼ÏÔÊ¾
+    if mySettings.isIM or isNoDelay then DrawMap();                               // æ›´æ–°åœ°å›¾æ˜¾ç¤º
 
     StatusBar1.Repaint;
 
     if IsCompleted then begin
       ReDoPos := 0;
 
-      // ×Ô¶¯±£´æÒ»ÏÂ´ğ°¸
-      SaveSolution(1);                                                            // ÕıÍÆ¹ı¹Ø
+      // è‡ªåŠ¨ä¿å­˜ä¸€ä¸‹ç­”æ¡ˆ
+      SaveSolution(1);                                                            // æ­£æ¨è¿‡å…³
 
       mySettings.isLurd_Saved := True;
 
       curMap.isFinish := True;
-      ShowMyInfo('ÕıÍÆ¹ı¹Ø£¡', '¹§Ï²');
+      ShowMyInfo('æ­£æ¨è¿‡å…³ï¼', 'æ­å–œ');
 
     end else if isMeet then begin
-      // ×Ô¶¯±£´æÒ»ÏÂ´ğ°¸
+      // è‡ªåŠ¨ä¿å­˜ä¸€ä¸‹ç­”æ¡ˆ
       SaveSolution(2);
-      curMap.isFinish := True;                                                    // ÕıÄæÏàºÏ
-      ShowMyInfo('ÕıÄæÏàºÏ£¡', '¹§Ï²');
+      curMap.isFinish := True;                                                    // æ­£é€†ç›¸åˆ
+      ShowMyInfo('æ­£é€†ç›¸åˆï¼', 'æ­å–œ');
     end;
   except
 {$IFDEF LASTACT}
@@ -4440,12 +4440,12 @@ begin
 {$ENDIF}
   end;
   IsStop    := false;
-  isNoDelay := false;                                                           // ÊÇ·ñÎªÎŞÑÓÊ±¶¯×÷ -- ÖÁÊ×¡¢ÖÁÎ²¹¦ÄÜÓÃ
-  isKeyPush := false;                                                           // ÊÇ·ñÕıÔÚÑİÊ¾ÖĞ -- ¿Õ¸ñ¼üºÍÍË¸ñ¼ü¿ØÖÆµÄ
+  isNoDelay := false;                                                           // æ˜¯å¦ä¸ºæ— å»¶æ—¶åŠ¨ä½œ -- è‡³é¦–ã€è‡³å°¾åŠŸèƒ½ç”¨
+  isKeyPush := false;                                                           // æ˜¯å¦æ­£åœ¨æ¼”ç¤ºä¸­ -- ç©ºæ ¼é”®å’Œé€€æ ¼é”®æ§åˆ¶çš„
   isMoving  := False;
 end;
 
-// ³·ÏúÒ»²½ -- ÕıÍÆ
+// æ’¤é”€ä¸€æ­¥ -- æ­£æ¨
 procedure Tmain.UnDo(Steps: Integer);
 var
   ch: Char;
@@ -4459,7 +4459,7 @@ begin
   StatusBar1.Panels[7].Text := '';
 
   isSelectMod := False;
-  isMoving := True;                                                             // ÒÆ¶¯ÖĞ...
+  isMoving := True;                                                             // ç§»åŠ¨ä¸­...
 
   mySettings.isShowNoVisited := False;
   IsBoxAccessibleTips := False;
@@ -4469,10 +4469,10 @@ begin
   try
     while (not IsStop) and (Steps > 0) and (UnDoPos > 0) and (ReDoPos < MaxLenPath) do begin
 
-      // ÈËµÄÎ»ÖÃ³öÏÖÒì³£
+      // äººçš„ä½ç½®å‡ºç°å¼‚å¸¸
       if (ManPos < 0) or (ManPos >= curMap.MapSize) or
          (not (map_Board[ManPos] in [ManCell, ManGoalCell])) then begin
-         StatusBar1.Panels[7].Text := format('ÈËµÄÎ»ÖÃÒì³££¡- [%d, %d]', [ManPos mod curMapNode.Cols + 1, ManPos div curMapNode.Cols + 1]);
+         StatusBar1.Panels[7].Text := format('äººçš„ä½ç½®å¼‚å¸¸ï¼- [%d, %d]', [ManPos mod curMapNode.Cols + 1, ManPos div curMapNode.Cols + 1]);
          Break;
       end;
     
@@ -4503,15 +4503,15 @@ begin
           end;
       end;
 
-      // ¼ì²âÊÇ·ñ°üº¬Ïä×ÓµÄÍË»Ø
+      // æ£€æµ‹æ˜¯å¦åŒ…å«ç®±å­çš„é€€å›
       if ch in ['L', 'R', 'U', 'D'] then
       begin
 
-        if (pos1 < 0) or (pos1 >= curMap.MapSize) or                              // ½çÍâ£¬µÈ
+        if (pos1 < 0) or (pos1 >= curMap.MapSize) or                              // ç•Œå¤–ï¼Œç­‰
            (pos2 < 0) or (pos2 >= curMap.MapSize) or
            (not (map_Board[pos1] in [BoxCell, BoxGoalCell])) or
            (not (map_Board[pos2] in [FloorCell, GoalCell])) then begin
-           StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+           StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
            Break;
         end;
 
@@ -4525,22 +4525,22 @@ begin
         else
           map_Board[ManPos] := BoxGoalCell;
 
-        // ÈËµÄ»ØÍË
+        // äººçš„å›é€€
         if map_Board[pos2] = FloorCell then
           map_Board[pos2] := ManCell
         else
           map_Board[pos2] := ManGoalCell;
 
-        BoxNum_Board[ManPos] := BoxNum_Board[pos1];                               // ĞÂÏä×Ó±àºÅ
-        BoxNum_Board[pos1] := -1;                                                 // Ô­Ïä×Ó±àºÅ
+        BoxNum_Board[ManPos] := BoxNum_Board[pos1];                               // æ–°ç®±å­ç¼–å·
+        BoxNum_Board[pos1] := -1;                                                 // åŸç®±å­ç¼–å·
 
-        Dec(PushTimes);                                                           // ÍÆ¶¯²½Êı
+        Dec(PushTimes);                                                           // æ¨åŠ¨æ­¥æ•°
       end
       else
       begin
-        if (pos2 < 0) or (pos2 >= curMap.MapSize) or                              // ½çÍâ£¬µÈ
+        if (pos2 < 0) or (pos2 >= curMap.MapSize) or                              // ç•Œå¤–ï¼Œç­‰
            (not (map_Board[pos2] in [FloorCell, GoalCell])) then begin
-           StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+           StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
            Break;
         end;
 
@@ -4549,30 +4549,30 @@ begin
         else
           map_Board[ManPos] := GoalCell;
 
-        // ÈËµÄ»ØÍË
+        // äººçš„å›é€€
         if map_Board[pos2] = FloorCell then
           map_Board[pos2] := ManCell
         else
           map_Board[pos2] := ManGoalCell;
       end;
 
-      Dec(MoveTimes);                                                             // ÒÆ¶¯²½Êı
+      Dec(MoveTimes);                                                             // ç§»åŠ¨æ­¥æ•°
 
       Dec(UnDoPos);
       inc(ReDoPos);
       RedoList[ReDoPos] := ch;
-      ManPos := pos2;                                                             // ÈËµÄĞÂÎ»ÖÃ
+      ManPos := pos2;                                                             // äººçš„æ–°ä½ç½®
 
-      if (not mySettings.isIM) and (not isNoDelay) then DrawMap();                // ¸üĞÂµØÍ¼ÏÔÊ¾
+      if (not mySettings.isIM) and (not isNoDelay) then DrawMap();                // æ›´æ–°åœ°å›¾æ˜¾ç¤º
       ShowStatusBar();
-      StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos mod curMapNode.Cols, ManPos div curMapNode.Cols) + ' - [ ' + IntToStr((ManPos mod curMapNode.Cols) + 1) + ', ' + IntToStr((ManPos div curMapNode.Cols) + 1) + ' ]';       // ±ê³ß
+      StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos mod curMapNode.Cols, ManPos div curMapNode.Cols) + ' - [ ' + IntToStr((ManPos mod curMapNode.Cols) + 1) + ', ' + IntToStr((ManPos div curMapNode.Cols) + 1) + ' ]';       // æ ‡å°º
 
       Dec(Steps);
-      if Steps > 0 then GameDelay();                                              // ÑÓÊ±
+      if Steps > 0 then GameDelay();                                              // å»¶æ—¶
 
     end;
 
-    if mySettings.isIM or isNoDelay then DrawMap();                               // ¸üĞÂµØÍ¼ÏÔÊ¾
+    if mySettings.isIM or isNoDelay then DrawMap();                               // æ›´æ–°åœ°å›¾æ˜¾ç¤º
 
     StatusBar1.Repaint;
   except
@@ -4590,12 +4590,12 @@ begin
 {$ENDIF}
   end;
   IsStop    := false;
-  isNoDelay := false;                                                           // ÊÇ·ñÎªÎŞÑÓÊ±¶¯×÷ -- ÖÁÊ×¡¢ÖÁÎ²¹¦ÄÜÓÃ
-  isKeyPush := false;                                                           // ÊÇ·ñÕıÔÚÑİÊ¾ÖĞ -- ¿Õ¸ñ¼üºÍÍË¸ñ¼ü¿ØÖÆµÄ
+  isNoDelay := false;                                                           // æ˜¯å¦ä¸ºæ— å»¶æ—¶åŠ¨ä½œ -- è‡³é¦–ã€è‡³å°¾åŠŸèƒ½ç”¨
+  isKeyPush := false;                                                           // æ˜¯å¦æ­£åœ¨æ¼”ç¤ºä¸­ -- ç©ºæ ¼é”®å’Œé€€æ ¼é”®æ§åˆ¶çš„
   isMoving  := False;
 end;
 
-// ÖØ×öÒ»²½ -- ÄæÍÆ
+// é‡åšä¸€æ­¥ -- é€†æ¨
 procedure Tmain.ReDo_BK(Steps: Integer);
 var
   ch: Char;
@@ -4612,7 +4612,7 @@ begin
   
   isSelectMod := False;
   isMoving := True;
-                                                                                // ÒÆ¶¯ÖĞ...
+                                                                                // ç§»åŠ¨ä¸­...
   IsBoxAccessibleTips_BK := False;
   IsManAccessibleTips_BK := False;
 
@@ -4622,10 +4622,10 @@ begin
   try
     while (not IsStop) and (Steps > 0) and (ReDoPos_BK > 0) and (UnDoPos_BK < MaxLenPath) do begin
 
-      // ÈËµÄÎ»ÖÃ³öÏÖÒì³£
+      // äººçš„ä½ç½®å‡ºç°å¼‚å¸¸
       if (ManPos_BK < 0) or (ManPos_BK >= curMap.MapSize) or
          (not (map_Board_BK[ManPos_BK] in [ManCell, ManGoalCell])) then begin
-         StatusBar1.Panels[7].Text := format('ÈËµÄÎ»ÖÃÒì³££¡- [%d, %d]', [ManPos_BK mod curMapNode.Cols + 1, ManPos_BK div curMapNode.Cols + 1]);
+         StatusBar1.Panels[7].Text := format('äººçš„ä½ç½®å¼‚å¸¸ï¼- [%d, %d]', [ManPos_BK mod curMapNode.Cols + 1, ManPos_BK div curMapNode.Cols + 1]);
          Break;
       end;
 
@@ -4666,11 +4666,11 @@ begin
         if ch in [ 'L', 'R', 'U', 'D' ] then
         begin
 
-          if (pos2 < 0) or (pos2 >= curMap.MapSize) or                              // ½çÍâ£¬µÈ
+          if (pos2 < 0) or (pos2 >= curMap.MapSize) or                              // ç•Œå¤–ï¼Œç­‰
              (pos1 < 0) or (pos1 >= curMap.MapSize) or
              (not (map_Board_BK[pos2] in [BoxCell, BoxGoalCell])) or
              (not (map_Board_BK[pos1] in [FloorCell, GoalCell]))then begin
-             StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+             StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
              Break;
           end;
 
@@ -4679,7 +4679,7 @@ begin
           else
             map_Board_BK[pos2] := GoalCell;
 
-          if (map_Board_BK[pos1] = FloorCell) then                                // ÏÂÒ»¸ñÊÇµØ°å
+          if (map_Board_BK[pos1] = FloorCell) then                                // ä¸‹ä¸€æ ¼æ˜¯åœ°æ¿
             map_Board_BK[pos1] := ManCell
           else
             map_Board_BK[pos1] := ManGoalCell;
@@ -4689,22 +4689,22 @@ begin
           else
             map_Board_BK[ManPos_BK] := BoxGoalCell;
 
-          BoxNum_Board_BK[ManPos_BK] := BoxNum_Board_BK[pos2];                    // ĞÂÏä×Ó±àºÅ
-          BoxNum_Board_BK[pos2] := -1;                                            // Ô­Ïä×Ó±àºÅ
+          BoxNum_Board_BK[ManPos_BK] := BoxNum_Board_BK[pos2];                    // æ–°ç®±å­ç¼–å·
+          BoxNum_Board_BK[pos2] := -1;                                            // åŸç®±å­ç¼–å·
 
-          Inc(PushTimes_BK);                                                      // ÍÆ¶¯²½Êı
+          Inc(PushTimes_BK);                                                      // æ¨åŠ¨æ­¥æ•°
         end
         else
         begin
 
-          if (pos1 < 0) or (pos1 >= curMap.MapSize) or                            // ½çÍâ£¬µÈ
+          if (pos1 < 0) or (pos1 >= curMap.MapSize) or                            // ç•Œå¤–ï¼Œç­‰
              (not (map_Board_BK[pos1] in [FloorCell, GoalCell]))then begin
-             StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+             StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
              Break;
           end;
 
-          // ÈËµ½Î»
-          if (map_Board_BK[pos1] = FloorCell) then                                // ÏÂÒ»¸ñÊÇµØ°å
+          // äººåˆ°ä½
+          if (map_Board_BK[pos1] = FloorCell) then                                // ä¸‹ä¸€æ ¼æ˜¯åœ°æ¿
             map_Board_BK[pos1] := ManCell          
           else
             map_Board_BK[pos1] := ManGoalCell;
@@ -4715,25 +4715,25 @@ begin
             map_Board_BK[ManPos_BK] := GoalCell;
         end;
 
-        Inc(MoveTimes_BK);                                                        // ÒÆ¶¯²½Êı
+        Inc(MoveTimes_BK);                                                        // ç§»åŠ¨æ­¥æ•°
 
         Dec(ReDoPos_BK);
         Inc(UnDoPos_BK);
         UndoList_BK[UnDoPos_BK] := ch;
-        ManPos_BK := pos1;                                                        // ÈËµÄĞÂÎ»ÖÃ
+        ManPos_BK := pos1;                                                        // äººçš„æ–°ä½ç½®
 
-        if (not mySettings.isIM) and (not isNoDelay) then DrawMap();              // ¸üĞÂµØÍ¼ÏÔÊ¾
+        if (not mySettings.isIM) and (not isNoDelay) then DrawMap();              // æ›´æ–°åœ°å›¾æ˜¾ç¤º
         ShowStatusBar();
-        StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos_BK mod curMapNode.Cols, ManPos_BK div curMapNode.Cols) + ' - [ ' + IntToStr((ManPos_BK mod curMapNode.Cols) + 1) + ', ' + IntToStr((ManPos_BK div curMapNode.Cols) + 1) + ' ]';       // ±ê³ß
+        StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos_BK mod curMapNode.Cols, ManPos_BK div curMapNode.Cols) + ' - [ ' + IntToStr((ManPos_BK mod curMapNode.Cols) + 1) + ', ' + IntToStr((ManPos_BK div curMapNode.Cols) + 1) + ' ]';       // æ ‡å°º
 
         Dec(Steps);
-        if Steps > 0 then GameDelay();                                            // ÑÓÊ±
+        if Steps > 0 then GameDelay();                                            // å»¶æ—¶
 
         if (not curMap.isFinish) and (ch in [ 'L', 'R', 'U', 'D' ]) and (PushTimes_BK > 0)then begin
-          if IsComplete_BK() then begin                                           // ÄæÍÆ¹ı¹Ø
+          if IsComplete_BK() then begin                                           // é€†æ¨è¿‡å…³
             IsCompleted := True;                             
             Break;
-          end else if IsMeets(ch) then begin                                      // ÕıÄæÏàºÏ
+          end else if IsMeets(ch) then begin                                      // æ­£é€†ç›¸åˆ
             isMeet := True;
             Break;
           end;
@@ -4743,24 +4743,24 @@ begin
 
     StatusBar1.Repaint;
 
-    if mySettings.isIM or isNoDelay then DrawMap();                               // ¸üĞÂµØÍ¼ÏÔÊ¾
+    if mySettings.isIM or isNoDelay then DrawMap();                               // æ›´æ–°åœ°å›¾æ˜¾ç¤º
 
-    if IsCompleted then begin                                                     // ÄæÍÆ¹ı¹Ø£¬´ğ°¸×ª´æµ½ÕıÍÆ
+    if IsCompleted then begin                                                     // é€†æ¨è¿‡å…³ï¼Œç­”æ¡ˆè½¬å­˜åˆ°æ­£æ¨
 
-      Restart(false);                                                             // ÕıÍÆµØÍ¼¸´Î»
+      Restart(false);                                                             // æ­£æ¨åœ°å›¾å¤ä½
       ReDoPos := 0;
 
-      len := PathFinder.manTo(false, map_Board, ManPos, ManPos_BK);             // È¡µÃÈËµÄ¡°ÏàºÏ¡±Â·¾¶
+      len := PathFinder.manTo(false, map_Board, ManPos, ManPos_BK);             // å–å¾—äººçš„â€œç›¸åˆâ€è·¯å¾„
 
-      // Ìø¹ıÄæÍÆ×ªÕıÍÆ´ğ°¸Ê±£¬×îºóÒ»ÍÆºóÃæÎŞÓÃµÄ¿ÕÒÆ¶¯×÷
+      // è·³è¿‡é€†æ¨è½¬æ­£æ¨ç­”æ¡ˆæ—¶ï¼Œæœ€åä¸€æ¨åé¢æ— ç”¨çš„ç©ºç§»åŠ¨ä½œ
       n := 1;
       while n <= UnDoPos_BK do begin
         if UndoList_BK[n] in [ 'L', 'R', 'U', 'D' ] then Break;
         inc(n);
       end;
 
-      // °ÑÄæÍÆundolist_bkÖĞµÄ¶¯×÷£¬×ªËÍÈëÕıÍÆµÄresolistÖĞ
-      if len + UnDoPos_BK - n <= MaxLenPath then begin                                                          // ½«ÄæÍÆ´ğ°¸×ªËÍÕıÍÆÖĞ
+      // æŠŠé€†æ¨undolist_bkä¸­çš„åŠ¨ä½œï¼Œè½¬é€å…¥æ­£æ¨çš„resolistä¸­
+      if len + UnDoPos_BK - n <= MaxLenPath then begin                                                          // å°†é€†æ¨ç­”æ¡ˆè½¬é€æ­£æ¨ä¸­
         ReDoPos := 0;
         for i := n to UnDoPos_BK do begin
           Inc(ReDoPos);
@@ -4783,24 +4783,24 @@ begin
               RedoList[ReDoPos] := 'U';
           end
         end;
-        // ²¹×ãÈËµÄ¡°ÏàºÏ¡±¶¯×÷
+        // è¡¥è¶³äººçš„â€œç›¸åˆâ€åŠ¨ä½œ
         for i := 1 to len do begin
             Inc(ReDoPos);
             RedoList[ReDoPos] := ManPath[i];
         end;
-        // ×Ô¶¯±£´æÒ»ÏÂ´ğ°¸
+        // è‡ªåŠ¨ä¿å­˜ä¸€ä¸‹ç­”æ¡ˆ
         SaveSolution(2);
         curMap.isFinish := True;
-        ShowMyInfo('ÄæÍÆ¹ı¹Ø£¡', '¹§Ï²');
+        ShowMyInfo('é€†æ¨è¿‡å…³ï¼', 'æ­å–œ');
       end else begin
-        SaveState();                                                            // ±£´æ¹Ø¿¨ XSB µ½ÎÄµµ£¬×´Ì¬µ½Êı¾İ¿â
-        ShowMyInfo('ÄæÍÆ¹ı¹Ø£¡' + #10 + 'Òò´ğ°¸¹ı³¤£¬½öÒÔ×´Ì¬·½Ê½±£´æ£¡', '¹§Ï²');
+        SaveState();                                                            // ä¿å­˜å…³å¡ XSB åˆ°æ–‡æ¡£ï¼ŒçŠ¶æ€åˆ°æ•°æ®åº“
+        ShowMyInfo('é€†æ¨è¿‡å…³ï¼' + #10 + 'å› ç­”æ¡ˆè¿‡é•¿ï¼Œä»…ä»¥çŠ¶æ€æ–¹å¼ä¿å­˜ï¼', 'æ­å–œ');
       end;
-    end else if isMeet then begin                                                 // ÕıÄæÏàºÏ
-      // ×Ô¶¯±£´æÒ»ÏÂ´ğ°¸
+    end else if isMeet then begin                                                 // æ­£é€†ç›¸åˆ
+      // è‡ªåŠ¨ä¿å­˜ä¸€ä¸‹ç­”æ¡ˆ
       SaveSolution(2);
       curMap.isFinish := True;
-      ShowMyInfo('ÕıÄæÏàºÏ£¡', '¹§Ï²');
+      ShowMyInfo('æ­£é€†ç›¸åˆï¼', 'æ­å–œ');
     end;
   except
 {$IFDEF LASTACT}
@@ -4818,12 +4818,12 @@ begin
   end;
   
   IsStop    := false;
-  isNoDelay := false;                                                           // ÊÇ·ñÎªÎŞÑÓÊ±¶¯×÷ -- ÖÁÊ×¡¢ÖÁÎ²¹¦ÄÜÓÃ
-  isKeyPush := false;                                                           // ÊÇ·ñÕıÔÚÑİÊ¾ÖĞ -- ¿Õ¸ñ¼üºÍÍË¸ñ¼ü¿ØÖÆµÄ
+  isNoDelay := false;                                                           // æ˜¯å¦ä¸ºæ— å»¶æ—¶åŠ¨ä½œ -- è‡³é¦–ã€è‡³å°¾åŠŸèƒ½ç”¨
+  isKeyPush := false;                                                           // æ˜¯å¦æ­£åœ¨æ¼”ç¤ºä¸­ -- ç©ºæ ¼é”®å’Œé€€æ ¼é”®æ§åˆ¶çš„
   isMoving  := False;
 end;
 
-// ³·ÏúÒ»²½ -- ÄæÍÆ
+// æ’¤é”€ä¸€æ­¥ -- é€†æ¨
 procedure Tmain.UnDo_BK(Steps: Integer);
 var
   ch: Char;
@@ -4838,7 +4838,7 @@ begin
   StatusBar1.Panels[7].Text := '';
 
   isSelectMod := False;
-  isMoving := True;                                                             // ÒÆ¶¯ÖĞ...
+  isMoving := True;                                                             // ç§»åŠ¨ä¸­...
                                                         
   IsBoxAccessibleTips_BK := False;
   IsManAccessibleTips_BK := False;
@@ -4846,10 +4846,10 @@ begin
   try
     while (not IsStop) and (Steps > 0) and (UnDoPos_BK > 0) and (ReDoPos_BK < MaxLenPath) do begin
 
-      // ÈËµÄÎ»ÖÃ³öÏÖÒì³£
+      // äººçš„ä½ç½®å‡ºç°å¼‚å¸¸
       if (ManPos_BK < 0) or (ManPos_BK >= curMap.MapSize) or
          (not (map_Board_BK[ManPos_BK] in [ManCell, ManGoalCell])) then begin
-         StatusBar1.Panels[7].Text := format('ÈËµÄÎ»ÖÃÒì³££¡- [%d, %d]', [ManPos_BK mod curMapNode.Cols + 1, ManPos_BK div curMapNode.Cols + 1]);
+         StatusBar1.Panels[7].Text := format('äººçš„ä½ç½®å¼‚å¸¸ï¼- [%d, %d]', [ManPos_BK mod curMapNode.Cols + 1, ManPos_BK div curMapNode.Cols + 1]);
          Break;
       end;
 
@@ -4880,14 +4880,14 @@ begin
           end;
       end;
 
-      // ¼ì²âÊÇ·ñ°üº¬Ïä×ÓµÄ¶¯×÷
+      // æ£€æµ‹æ˜¯å¦åŒ…å«ç®±å­çš„åŠ¨ä½œ
       if ch in [ 'L', 'R', 'U', 'D' ] then begin
 
-        if (pos2 < 0) or (pos2 >= curMap.MapSize) or                              // ½çÍâ£¬µÈ
+        if (pos2 < 0) or (pos2 >= curMap.MapSize) or                              // ç•Œå¤–ï¼Œç­‰
            (pos1 < 0) or (pos1 >= curMap.MapSize) or
            (not (map_Board_BK[pos1] in [BoxCell, BoxGoalCell])) or
            (not (map_Board_BK[pos2] in [FloorCell, GoalCell]))then begin
-           StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+           StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
            Break;
         end;
 
@@ -4901,14 +4901,14 @@ begin
         else
           map_Board_BK[pos2] := BoxGoalCell;
 
-        BoxNum_Board_BK[pos2] := BoxNum_Board_BK[pos1];                           // ĞÂÏä×Ó±àºÅ
-        BoxNum_Board_BK[pos1] := -1;                                              // Ô­Ïä×Ó±àºÅ
+        BoxNum_Board_BK[pos2] := BoxNum_Board_BK[pos1];                           // æ–°ç®±å­ç¼–å·
+        BoxNum_Board_BK[pos1] := -1;                                              // åŸç®±å­ç¼–å·
 
-        Dec(PushTimes_BK);                                                        // ÍÆ¶¯²½Êı
+        Dec(PushTimes_BK);                                                        // æ¨åŠ¨æ­¥æ•°
       end else begin
-        if (pos1 < 0) or (pos1 >= curMap.MapSize) or                              // ½çÍâ£¬µÈ
+        if (pos1 < 0) or (pos1 >= curMap.MapSize) or                              // ç•Œå¤–ï¼Œç­‰
            (not (map_Board_BK[pos1] in [FloorCell, GoalCell])) then begin
-           StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+           StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
            Break;
         end;
         if (map_Board_BK[pos1] = FloorCell) then
@@ -4917,31 +4917,31 @@ begin
           map_Board_BK[pos1] := ManGoalCell;
       end;
 
-      // ÈËµÄÍË»Ø
+      // äººçš„é€€å›
       if (map_Board_BK[ManPos_BK] = ManCell) then
         map_Board_BK[ManPos_BK] := FloorCell
       else
         map_Board_BK[ManPos_BK] := GoalCell;
 
-      Dec(MoveTimes_BK);                                                          // ÒÆ¶¯²½Êı
+      Dec(MoveTimes_BK);                                                          // ç§»åŠ¨æ­¥æ•°
 
       Dec(UnDoPos_BK);
       Inc(ReDoPos_BK);
       RedoList_BK[ReDoPos_BK] := ch;
-      ManPos_BK := pos1;                                                          // ÈËµÄĞÂÎ»ÖÃ
+      ManPos_BK := pos1;                                                          // äººçš„æ–°ä½ç½®
 
-      if (not mySettings.isIM) and (not isNoDelay) then DrawMap();                // ¸üĞÂµØÍ¼ÏÔÊ¾
+      if (not mySettings.isIM) and (not isNoDelay) then DrawMap();                // æ›´æ–°åœ°å›¾æ˜¾ç¤º
       ShowStatusBar();
-      StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos_BK mod curMapNode.Cols, ManPos_BK div curMapNode.Cols) + ' - [ ' + IntToStr((ManPos_BK mod curMapNode.Cols) + 1) + ', ' + IntToStr((ManPos_BK div curMapNode.Cols) + 1) + ' ]';       // ±ê³ß
+      StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos_BK mod curMapNode.Cols, ManPos_BK div curMapNode.Cols) + ' - [ ' + IntToStr((ManPos_BK mod curMapNode.Cols) + 1) + ', ' + IntToStr((ManPos_BK div curMapNode.Cols) + 1) + ' ]';       // æ ‡å°º
 
       Dec(Steps);
-      if Steps > 0 then GameDelay();                                              // ÑÓÊ±
+      if Steps > 0 then GameDelay();                                              // å»¶æ—¶
 
     end;
 
     StatusBar1.Repaint;
 
-    if mySettings.isIM or isNoDelay then DrawMap();                               // ¸üĞÂµØÍ¼ÏÔÊ¾
+    if mySettings.isIM or isNoDelay then DrawMap();                               // æ›´æ–°åœ°å›¾æ˜¾ç¤º
   except
 {$IFDEF LASTACT}
    Writeln(myLogFile_, '');
@@ -4958,23 +4958,23 @@ begin
   end;
   
   IsStop    := false;
-  isNoDelay := false;                                                           // ÊÇ·ñÎªÎŞÑÓÊ±¶¯×÷ -- ÖÁÊ×¡¢ÖÁÎ²¹¦ÄÜÓÃ
-  isKeyPush := false;                                                           // ÊÇ·ñÕıÔÚÑİÊ¾ÖĞ -- ¿Õ¸ñ¼üºÍÍË¸ñ¼ü¿ØÖÆµÄ
+  isNoDelay := false;                                                           // æ˜¯å¦ä¸ºæ— å»¶æ—¶åŠ¨ä½œ -- è‡³é¦–ã€è‡³å°¾åŠŸèƒ½ç”¨
+  isKeyPush := false;                                                           // æ˜¯å¦æ­£åœ¨æ¼”ç¤ºä¸­ -- ç©ºæ ¼é”®å’Œé€€æ ¼é”®æ§åˆ¶çš„
   isMoving  := False;
 end;
 
-// ÉÏÒ»¹Ø
+// ä¸Šä¸€å…³
 procedure Tmain.bt_PreClick(Sender: TObject);
 var
   bt: LongWord;
-  tmpMapNode : PMapNode;        // ¹Ø¿¨½Úµã
+  tmpMapNode : PMapNode;        // å…³å¡èŠ‚ç‚¹
 
 begin
   if isMoving then IsStop := True
   else IsStop := False;
 
   if (not Assigned(curMapNode)) then begin      //  or (not curMapNode.isEligible)
-     StatusBar1.Panels[7].Text := 'ÉĞÎŞ´ò¿ªµÄ¹Ø¿¨£¡';
+     StatusBar1.Panels[7].Text := 'å°šæ— æ‰“å¼€çš„å…³å¡ï¼';
      Exit;
   end;
 
@@ -4983,13 +4983,13 @@ begin
   if curMap.CurrentLevel > 1 then
   begin
     if not mySettings.isLurd_Saved then
-    begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-      bt := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+    begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+      bt := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
       if bt = idyes then begin
-         SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+         SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
       end else if bt = idno then begin
          mySettings.isLurd_Saved := True;
-         StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+         StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
       end else exit;
     end;
 
@@ -5033,33 +5033,33 @@ begin
     end;
   end
   else
-    StatusBar1.Panels[7].Text := 'Ç°ÃæÃ»ÓĞÁË!';
+    StatusBar1.Panels[7].Text := 'å‰é¢æ²¡æœ‰äº†!';
 end;
 
-// ÏÂÒ»¹Ø
+// ä¸‹ä¸€å…³
 procedure Tmain.bt_NextClick(Sender: TObject);
 var
   bt: LongWord;
-  tmpMapNode : PMapNode;        // ¹Ø¿¨½Úµã
+  tmpMapNode : PMapNode;        // å…³å¡èŠ‚ç‚¹
 begin
   if isMoving then IsStop := True
   else IsStop := False;
 
   if (not Assigned(curMapNode)) then begin     //   or (not curMapNode.isEligible)
-     StatusBar1.Panels[7].Text := 'ÉĞÎŞ´ò¿ªµÄ¹Ø¿¨£¡';
+     StatusBar1.Panels[7].Text := 'å°šæ— æ‰“å¼€çš„å…³å¡ï¼';
      Exit;
   end;
 
   ed_sel_Map.SetFocus;
   
   if not mySettings.isLurd_Saved then
-  begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-    bt := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+    bt := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if bt = idyes then begin
-       SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+       SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
     end else if bt = idno then begin
        mySettings.isLurd_Saved := True;
-       StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+       StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
     end else exit;
   end;
 
@@ -5071,7 +5071,7 @@ begin
         InitlizeMap();
         SetMapTrun();
       end;
-    end else StatusBar1.Panels[7].Text := 'ºóÃæÃ»ÓĞÁË...';
+    end else StatusBar1.Panels[7].Text := 'åé¢æ²¡æœ‰äº†...';
   end else begin
     New(tmpMapNode);
     try
@@ -5096,7 +5096,7 @@ begin
             curMapNode.Num := tmpMapNode.Num;
             ReadQuicklyMap();
          end;
-       end else StatusBar1.Panels[7].Text := 'ºóÃæÃ»ÓĞÁË...';
+       end else StatusBar1.Panels[7].Text := 'åé¢æ²¡æœ‰äº†...';
     finally
       if Assigned(tmpMapNode) then begin
          Dispose(PMapNode(tmpMapNode));
@@ -5106,34 +5106,34 @@ begin
   end;
 end;
 
-// UnDo °´Å¥
+// UnDo æŒ‰é’®
 procedure Tmain.bt_UnDoClick(Sender: TObject);
 begin
   N15.Click;
 end;
 
-// ReDo°´Å¥
+// ReDoæŒ‰é’®
 procedure Tmain.bt_ReDoClick(Sender: TObject);
 begin
   N18.Click;
 end;
 
-// ´©Ô½¿ª¹Ø
+// ç©¿è¶Šå¼€å…³
 procedure Tmain.bt_GoThroughClick(Sender: TObject);
 begin
   mySettings.isGoThrough := not mySettings.isGoThrough;
   PathFinder.setThroughable(mySettings.isGoThrough);
-  SetButton();             // ÉèÖÃ°´Å¥×´Ì¬
+  SetButton();             // è®¾ç½®æŒ‰é’®çŠ¶æ€
 end;
 
-// Ë²ÒÆ¿ª¹Ø
+// ç¬ç§»å¼€å…³
 procedure Tmain.bt_IMClick(Sender: TObject);
 begin
   mySettings.isIM := not mySettings.isIM;
-  SetButton();             // ÉèÖÃ°´Å¥×´Ì¬
+  SetButton();             // è®¾ç½®æŒ‰é’®çŠ¶æ€
 end;
 
-// ÄæÍÆÄ£Ê½¿ª¹Ø
+// é€†æ¨æ¨¡å¼å¼€å…³
 procedure Tmain.bt_BKClick(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -5143,7 +5143,7 @@ begin
   StatusBar1.Panels[7].Text := '';
   mySettings.isBK := not mySettings.isBK;
   DrawMap();
-  SetButton();             // ÉèÖÃ°´Å¥×´Ì¬
+  SetButton();             // è®¾ç½®æŒ‰é’®çŠ¶æ€
   if Assigned(curMapNode) and (curMapNode.Cols > 0) then
   begin
     if mySettings.isBK then
@@ -5151,14 +5151,14 @@ begin
       if ManPos_BK < 0 then
         StatusBar1.Panels[5].Text := ' '
       else
-        StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos_BK mod curMapNode.Cols, ManPos_BK div curMapNode.Cols) + ' - [ ' + IntToStr(ManPos_BK mod curMapNode.Cols + 1) + ', ' + IntToStr(ManPos_BK div curMapNode.Cols + 1) + ' ]'       // ±ê³ß
+        StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos_BK mod curMapNode.Cols, ManPos_BK div curMapNode.Cols) + ' - [ ' + IntToStr(ManPos_BK mod curMapNode.Cols + 1) + ', ' + IntToStr(ManPos_BK div curMapNode.Cols + 1) + ' ]'       // æ ‡å°º
     end
     else
-      StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos mod curMapNode.Cols, ManPos div curMapNode.Cols) + ' - [ ' + IntToStr(ManPos mod curMapNode.Cols + 1) + ', ' + IntToStr(ManPos div curMapNode.Cols + 1) + ' ]';       // ±ê³ß
+      StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos mod curMapNode.Cols, ManPos div curMapNode.Cols) + ' - [ ' + IntToStr(ManPos mod curMapNode.Cols + 1) + ', ' + IntToStr(ManPos div curMapNode.Cols + 1) + ' ]';       // æ ‡å°º
   end;
 end;
 
-// ¼ÓÔØ¹Ø¿¨ÎÄµµ¶Ô»°¿ò
+// åŠ è½½å…³å¡æ–‡æ¡£å¯¹è¯æ¡†
 procedure Tmain.bt_OpenClick(Sender: TObject);
 var
   bt: LongWord;
@@ -5169,12 +5169,12 @@ begin
   if isMoving then IsStop := True
   else IsStop := False;
 
-  // Ç¿ÖÆ¼ÓÔØµØÍ¼ÎÄµµµÄºóÌ¨Ïß³Ì
+  // å¼ºåˆ¶åŠ è½½åœ°å›¾æ–‡æ¡£çš„åå°çº¿ç¨‹
   isStopThread := True;
 
   if not mySettings.isXSB_Saved then
-  begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-    bt := MessageBox(Handle, 'µ±Ç°¹Ø¿¨ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+    bt := MessageBox(Handle, 'å½“å‰å…³å¡å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if bt = idyes then
     begin
       SaveXSBToFile();
@@ -5187,13 +5187,13 @@ begin
   end;
 
   if not mySettings.isLurd_Saved then
-  begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-    bt := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+    bt := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if bt = idyes then begin
-       SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+       SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
     end else if bt = idno then begin
        mySettings.isLurd_Saved := True;
-       StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+       StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
     end else exit;
   end;
 
@@ -5217,14 +5217,14 @@ begin
 
   if OpenDialog1.Execute then begin
 
-    if AnsiSameText(AppPath + mySettings.MapFileName, OpenDialog1.FileName) then Exit;     // µ±Ç°ÎÄµµ£¬²»ĞèÒªÖØĞÂ´ò¿ª
+    if AnsiSameText(AppPath + mySettings.MapFileName, OpenDialog1.FileName) then Exit;     // å½“å‰æ–‡æ¡£ï¼Œä¸éœ€è¦é‡æ–°æ‰“å¼€
 
     if OpenDialog1.FileName <> '' then begin
 
        txtList.Clear;
        txtList.loadfromfile(OpenDialog1.FileName);
-       QuicklyLoadMap(txtList, 1, curMapNode);                        // ´ò¿ªĞÂÎÄµµÊ±ÏÈ¿ìËÙ´ò¿ªµÚÒ»¸ö¹Ø¿¨£¬ÒÔÃâÎÄµµÌ«´óÊ±£¬Ôì³ÉÓÃ¼ÒµÈ´ı¹ı¾Ã
-       maxNumber := GetMapNumber(txtList);                            // È¡µÃ×î´ó¹Ø¿¨ĞòºÅ
+       QuicklyLoadMap(txtList, 1, curMapNode);                        // æ‰“å¼€æ–°æ–‡æ¡£æ—¶å…ˆå¿«é€Ÿæ‰“å¼€ç¬¬ä¸€ä¸ªå…³å¡ï¼Œä»¥å…æ–‡æ¡£å¤ªå¤§æ—¶ï¼Œé€ æˆç”¨å®¶ç­‰å¾…è¿‡ä¹…
+       maxNumber := GetMapNumber(txtList);                            // å–å¾—æœ€å¤§å…³å¡åºå·
 
        if Assigned(curMapNode) and (curMapNode.Rows > 2) then begin
 
@@ -5237,7 +5237,7 @@ begin
           ReadQuicklyMap();
 
           mySettings.isXSB_Saved := True;
-          // ÏÈÇ¿ÖÆÍ£Ö¹ºóÌ¨Ïß³Ì£¬ÔÙ´´½¨ĞÂµÄºóÌ¨Ïß³Ì£¬¼ÓÔØµØÍ¼
+          // å…ˆå¼ºåˆ¶åœæ­¢åå°çº¿ç¨‹ï¼Œå†åˆ›å»ºæ–°çš„åå°çº¿ç¨‹ï¼ŒåŠ è½½åœ°å›¾
           isStopThread := True;
           TLoadMapThread.Create(False);
 
@@ -5255,12 +5255,12 @@ begin
           end;
 
           StatusBar1.Panels[7].Text := '';
-       end else StatusBar1.Panels[7].Text := 'ÎŞĞ§µÄ¹Ø¿¨ÎÄµµ - ' + OpenDialog1.FileName;
+       end else StatusBar1.Panels[7].Text := 'æ— æ•ˆçš„å…³å¡æ–‡æ¡£ - ' + OpenDialog1.FileName;
     end;
   end;
 end;
 
-// ¸ü»»Æ¤·ô¶Ô»°¿ò
+// æ›´æ¢çš®è‚¤å¯¹è¯æ¡†
 procedure Tmain.bt_SkinClick(Sender: TObject);
 begin
   if LoadSkinForm.ShowModal = mrOK then
@@ -5268,27 +5268,27 @@ begin
     mySettings.SkinFileName := LoadSkinForm.SkinFileName;
     if not LoadSkinForm.LoadSkin(AppPath + 'Skins\' + mySettings.SkinFileName) then
     begin
-      LoadSkinForm.LoadDefaultSkin();         // Ê¹ÓÃÄ¬ÈÏµÄ¼òµ¥Æ¤·ô
+      LoadSkinForm.LoadDefaultSkin();         // ä½¿ç”¨é»˜è®¤çš„ç®€å•çš®è‚¤
     end;
     DrawMap();
   end;
 end;
 
-// ÏÔÊ¾ÆæÅ¼ÌØĞ§
+// æ˜¾ç¤ºå¥‡å¶ç‰¹æ•ˆ
 procedure Tmain.bt_OddEvenMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   mySettings.isOddEven := true;
   DrawMap();
 end;
 
-// ¹Ø±ÕÆæÅ¼ÌØĞ§
+// å…³é—­å¥‡å¶ç‰¹æ•ˆ
 procedure Tmain.bt_OddEvenMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   mySettings.isOddEven := false;
   DrawMap();
 end;
 
-// ½áÊø³ÌĞòÊÇ·ñÄÚ´æ
+// ç»“æŸç¨‹åºæ˜¯å¦å†…å­˜
 procedure Tmain.FormDestroy(Sender: TObject);
 begin
   isStopThread := True;
@@ -5305,19 +5305,19 @@ begin
      Dispose(mySettings);     
   end;
 
-  if Assigned(MaskPic) then begin                         // Ñ¡Ôñµ¥Ôª¸ñÑÚÍ¼
+  if Assigned(MaskPic) then begin                         // é€‰æ‹©å•å…ƒæ ¼æ©å›¾
      MaskPic.Free;
   end;
 
-  SoltionListClear(SoltionList);                          // ´ğ°¸ÁĞ±í
+  SoltionListClear(SoltionList);                          // ç­”æ¡ˆåˆ—è¡¨
   if Assigned(SoltionList) then SoltionList.Free;
 
-  StateListClear(StateList);                              // ×´Ì¬ÁĞ±í
+  StateListClear(StateList);                              // çŠ¶æ€åˆ—è¡¨
   if Assigned(StateList) then StateList.Free;
 
-  MyStringListFree(txtList);                              // ¹Ø¿¨ÎÄµµµÄ»º´æ
+  MyStringListFree(txtList);                              // å…³å¡æ–‡æ¡£çš„ç¼“å­˜
 
-  MyListClear(MapList);                                   // µØÍ¼ÁĞ±í
+  MyListClear(MapList);                                   // åœ°å›¾åˆ—è¡¨
   if Assigned(MapList) then MapList.Free;
 
   if Assigned(curMapNode) then begin
@@ -5326,7 +5326,7 @@ begin
 
 end;
 
-// ½âÎöÕıÍÆ reDo ¶¯×÷½Úµã -- Ã¿ÍÆÒ»¸öÏä×ÓÎªÒ»¸ö¶¯×÷
+// è§£ææ­£æ¨ reDo åŠ¨ä½œèŠ‚ç‚¹ -- æ¯æ¨ä¸€ä¸ªç®±å­ä¸ºä¸€ä¸ªåŠ¨ä½œ
 function Tmain.GetStep(is_BK: Boolean): Integer;
 var
   i, j, k, n, len: Integer;
@@ -5351,8 +5351,8 @@ begin
   boxRC[0] := 1000;
   boxRC[1] := 1000;
 
-    // Ñ°ÕÒ¶¯×÷½Úµã
-  n := 0;  // Ó¦¸ÃÍ£ÔÚµÚ¼¸¸ö¶¯×÷ÉÏ
+    // å¯»æ‰¾åŠ¨ä½œèŠ‚ç‚¹
+  n := 0;  // åº”è¯¥åœåœ¨ç¬¬å‡ ä¸ªåŠ¨ä½œä¸Š
   flg := false;
 
   k := len;
@@ -5368,69 +5368,69 @@ begin
 
     case (mAct) of
       'l':
-        Dec(j);      // ×óÒÆ
+        Dec(j);      // å·¦ç§»
       'u':
-        Dec(i);      // ÉÏÒÆ
+        Dec(i);      // ä¸Šç§»
       'r':
-        Inc(j);      // ÓÒÒÆ
+        Inc(j);      // å³ç§»
       'd':
-        Inc(i);      // ÏÂÒÆ
+        Inc(i);      // ä¸‹ç§»
       'L':
-        begin        // ×óÍÆ
+        begin        // å·¦æ¨
           Dec(j);
 
           if (boxRC[0] <> i) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
 
           boxRC[0] := i;
           boxRC[1] := j - 1;
         end;
       'U':
-        begin        // ÉÏÍÆ
+        begin        // ä¸Šæ¨
           Dec(i);
 
           if (boxRC[0] <> i) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
 
           boxRC[0] := i - 1;
           boxRC[1] := j;
         end;
       'R':
-        begin        // ÓÒÍÆ
+        begin        // å³æ¨
           Inc(j);
 
           if (boxRC[0] <> i) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
 
           boxRC[0] := i;
           boxRC[1] := j + 1;
         end;
       'D':
-        begin        // ÏÂÍÆ
+        begin        // ä¸‹æ¨
           Inc(i);
 
           if (boxRC[0] <> i) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
 
           boxRC[0] := i + 1;
           boxRC[1] := j;
@@ -5438,12 +5438,12 @@ begin
     end;
   end;
   if flg then
-    result := len - n  // ×îºóÒ»¸ö¶¯×÷²»ÊÇÍÆ£¬µ«Ç°ÃæÓĞÍÆµÄ¶¯×÷Ê±
+    result := len - n  // æœ€åä¸€ä¸ªåŠ¨ä½œä¸æ˜¯æ¨ï¼Œä½†å‰é¢æœ‰æ¨çš„åŠ¨ä½œæ—¶
   else
-    result := len;  // Ê£ÓàµÄÈ«²¿¶¯×÷
+    result := len;  // å‰©ä½™çš„å…¨éƒ¨åŠ¨ä½œ
 end;
 
-// ½âÎöÕıÍÆ unDo ¶¯×÷½Úµã -- Ã¿ÍÆÒ»¸öÏä×ÓÎªÒ»¸ö¶¯×÷
+// è§£ææ­£æ¨ unDo åŠ¨ä½œèŠ‚ç‚¹ -- æ¯æ¨ä¸€ä¸ªç®±å­ä¸ºä¸€ä¸ªåŠ¨ä½œ
 function Tmain.GetStep2(is_BK: Boolean): Integer;
 var
   i, j, k, n, len: Integer;
@@ -5468,8 +5468,8 @@ begin
   boxRC[0] := 1000;
   boxRC[1] := 1000;
 
-    // Ñ°ÕÒ¶¯×÷½Úµã
-  n := 0;  // Ó¦¸ÃÍ£ÔÚµÚ¼¸¸ö¶¯×÷ÉÏ
+    // å¯»æ‰¾åŠ¨ä½œèŠ‚ç‚¹
+  n := 0;  // åº”è¯¥åœåœ¨ç¬¬å‡ ä¸ªåŠ¨ä½œä¸Š
   flg := false;
 
   k := len;
@@ -5485,61 +5485,61 @@ begin
 
     case (mAct) of
       'l':
-        Dec(j);      // ×óÒÆ
+        Dec(j);      // å·¦ç§»
       'u':
-        Dec(i);      // ÉÏÒÆ
+        Dec(i);      // ä¸Šç§»
       'r':
-        Inc(j);      // ÓÒÒÆ
+        Inc(j);      // å³ç§»
       'd':
-        Inc(i);      // ÏÂÒÆ
+        Inc(i);      // ä¸‹ç§»
       'L':
-        begin        // ×óÍÆ
+        begin        // å·¦æ¨
           if (boxRC[0] <> i) or (boxRC[1] <> j + 1) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
           boxRC[0] := i;
           boxRC[1] := j;
           Dec(j);
         end;
       'U':
-        begin        // ÉÏÍÆ
+        begin        // ä¸Šæ¨
           if (boxRC[0] <> i + 1) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
           boxRC[0] := i;
           boxRC[1] := j;
           Dec(i);
         end;
       'R':
-        begin        // ÓÒÍÆ
+        begin        // å³æ¨
           if (boxRC[0] <> i) or (boxRC[1] <> j - 1) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
           boxRC[0] := i;
           boxRC[1] := j;
           Inc(j);
         end;
       'D':
-        begin        // ÏÂÍÆ
+        begin        // ä¸‹æ¨
           if (boxRC[0] <> i - 1) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
           boxRC[0] := i;
           boxRC[1] := j;
           Inc(i);
@@ -5547,12 +5547,12 @@ begin
     end;
   end;
   if flg then
-    result := len - n  // ×îºóÒ»¸ö¶¯×÷²»ÊÇÍÆ£¬µ«Ç°ÃæÓĞÍÆµÄ¶¯×÷Ê±
+    result := len - n  // æœ€åä¸€ä¸ªåŠ¨ä½œä¸æ˜¯æ¨ï¼Œä½†å‰é¢æœ‰æ¨çš„åŠ¨ä½œæ—¶
   else
     result := len;
 end;
 
-// ¿ØÖÆµØÍ¼Ğı×ªµÄ°´Å¥
+// æ§åˆ¶åœ°å›¾æ—‹è½¬çš„æŒ‰é’®
 procedure Tmain.pnl_TrunMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
     if (not Assigned(curMapNode)) or (not curMapNode.isEligible) then Exit;
@@ -5560,22 +5560,22 @@ begin
     if mySettings.isRotate then begin
         case Button of
           mbleft:
-            begin     // µ¥»÷ -- Ö¸×ó¼ü
+            begin     // å•å‡» -- æŒ‡å·¦é”®
               if curMapNode.Trun < 7 then
                 inc(curMapNode.Trun)
               else
-                curMapNode.Trun := 0;    // µÚ 0 ×ª
+                curMapNode.Trun := 0;    // ç¬¬ 0 è½¬
             end;
           mbright:
-            begin    // ÓÒ»÷ -- Ö¸ÓÒ¼ü
+            begin    // å³å‡» -- æŒ‡å³é”®
               if curMapNode.Trun > 0 then
                 dec(curMapNode.Trun)
               else
-                curMapNode.Trun := 7;    // µÚ 0 ×ª
+                curMapNode.Trun := 7;    // ç¬¬ 0 è½¬
             end;
         end;
     end else begin
-        if ssShift in Shift then begin              // ÉÏÏÂ·­×ª
+        if ssShift in Shift then begin              // ä¸Šä¸‹ç¿»è½¬
            case Button of
               mbleft: begin
                   case curMapNode.Trun of
@@ -5593,7 +5593,7 @@ begin
                   curMapNode.Trun := 0;
                 end;
            end;
-        end else if ssCtrl in Shift then begin      // ×óÓÒ·­×ª
+        end else if ssCtrl in Shift then begin      // å·¦å³ç¿»è½¬
            case Button of
               mbleft: begin
                   case curMapNode.Trun of
@@ -5611,10 +5611,10 @@ begin
                   curMapNode.Trun := 0;
                 end;
            end;
-        end else begin                              // ×óĞı¡¢ÓÒĞı
+        end else begin                              // å·¦æ—‹ã€å³æ—‹
             case Button of
               mbleft:
-                begin     // µ¥»÷ -- Ö¸×ó¼ü
+                begin     // å•å‡» -- æŒ‡å·¦é”®
                   case curMapNode.Trun of
                      0:   curMapNode.Trun := 3;
                      1:   curMapNode.Trun := 0;
@@ -5627,7 +5627,7 @@ begin
                   end;
                 end;
               mbright:
-                begin    // ÓÒ»÷ -- Ö¸ÓÒ¼ü
+                begin    // å³å‡» -- æŒ‡å³é”®
                   case curMapNode.Trun of
                      0:   curMapNode.Trun := 1;
                      1:   curMapNode.Trun := 2;
@@ -5646,36 +5646,36 @@ begin
     SetMapTrun();
 end;
 
-// ¸ù¾İĞı×ªºÅ»æÖÆµØÍ¼
+// æ ¹æ®æ—‹è½¬å·ç»˜åˆ¶åœ°å›¾
 procedure Tmain.SetMapTrun();
 begin
   pnl_Trun.Caption := MapTrun[curMapNode.Trun];
   NewMapSize();
-  DrawMap();       // »­µØÍ¼
+  DrawMap();       // ç”»åœ°å›¾
   case curMapNode.Trun of
-  0: StatusBar1.Panels[7].Text := '0×ª = ¹Ø¿¨µÄÔ­Ê¼Ğı×ª×´Ì¬¡£';
-  1: StatusBar1.Panels[7].Text := '1×ª = ¹Ø¿¨µÄË³Ê±ÕëĞı×ª90¶È';
-  2: StatusBar1.Panels[7].Text := '2×ª = ¹Ø¿¨µÄË³Ê±ÕëĞı×ª180¶È';
-  3: StatusBar1.Panels[7].Text := '3×ª = ¹Ø¿¨µÄË³Ê±ÕëĞı×ª270¶È£¨ÄæÊ±ÕëĞı×ª90¶È£©';
-  4: StatusBar1.Panels[7].Text := '4×ª = ¹Ø¿¨µÄ×óÓÒ·­×ª';
-  5: StatusBar1.Panels[7].Text := '5×ª = ¹Ø¿¨µÄÉÏÏÂ·­×ªºó£¬ÄæÊ±ÕëĞı×ª90¶È£¨¹Ø¿¨µÄ×óÓÒ·­×ªºó£¬Ë³Ê±ÕëĞı×ª90¶È£©';
-  6: StatusBar1.Panels[7].Text := '6×ª = ¹Ø¿¨µÄÉÏÏÂ·­×ª£¨¹Ø¿¨µÄ×óÓÒ·­×ªºó£¬Ë³Ê±ÕëĞı×ª180¶È£©';
-  7: StatusBar1.Panels[7].Text := '7×ª = ¹Ø¿¨µÄ×ªÖÃ£¬¼´ĞĞÁĞ»¥»»£¨¹Ø¿¨µÄ×óÓÒ·­×ªºó£¬Ë³Ê±ÕëĞı×ª270¶È£¬»òÄæÊ±ÕëĞı×ª90¶È£©';
+  0: StatusBar1.Panels[7].Text := '0è½¬ = å…³å¡çš„åŸå§‹æ—‹è½¬çŠ¶æ€ã€‚';
+  1: StatusBar1.Panels[7].Text := '1è½¬ = å…³å¡çš„é¡ºæ—¶é’ˆæ—‹è½¬90åº¦';
+  2: StatusBar1.Panels[7].Text := '2è½¬ = å…³å¡çš„é¡ºæ—¶é’ˆæ—‹è½¬180åº¦';
+  3: StatusBar1.Panels[7].Text := '3è½¬ = å…³å¡çš„é¡ºæ—¶é’ˆæ—‹è½¬270åº¦ï¼ˆé€†æ—¶é’ˆæ—‹è½¬90åº¦ï¼‰';
+  4: StatusBar1.Panels[7].Text := '4è½¬ = å…³å¡çš„å·¦å³ç¿»è½¬';
+  5: StatusBar1.Panels[7].Text := '5è½¬ = å…³å¡çš„ä¸Šä¸‹ç¿»è½¬åï¼Œé€†æ—¶é’ˆæ—‹è½¬90åº¦ï¼ˆå…³å¡çš„å·¦å³ç¿»è½¬åï¼Œé¡ºæ—¶é’ˆæ—‹è½¬90åº¦ï¼‰';
+  6: StatusBar1.Panels[7].Text := '6è½¬ = å…³å¡çš„ä¸Šä¸‹ç¿»è½¬ï¼ˆå…³å¡çš„å·¦å³ç¿»è½¬åï¼Œé¡ºæ—¶é’ˆæ—‹è½¬180åº¦ï¼‰';
+  7: StatusBar1.Panels[7].Text := '7è½¬ = å…³å¡çš„è½¬ç½®ï¼Œå³è¡Œåˆ—äº’æ¢ï¼ˆå…³å¡çš„å·¦å³ç¿»è½¬åï¼Œé¡ºæ—¶é’ˆæ—‹è½¬270åº¦ï¼Œæˆ–é€†æ—¶é’ˆæ—‹è½¬90åº¦ï¼‰';
   end;
 end;
 
-// ¿ØÖÆÓÎÏ·ËÙ¶ÈµÄ°´Å¥
+// æ§åˆ¶æ¸¸æˆé€Ÿåº¦çš„æŒ‰é’®
 procedure Tmain.pnl_SpeedMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   case Button of
     mbleft:
-      begin     // µ¥»÷ -- Ö¸×ó¼ü
+      begin     // å•å‡» -- æŒ‡å·¦é”®
         if mySettings.mySpeed > 0 then
           dec(mySettings.mySpeed)
         else mySettings.mySpeed := 4;
       end;
     mbright:
-      begin    // ÓÒ»÷ -- Ö¸ÓÒ¼ü
+      begin    // å³å‡» -- æŒ‡å³é”®
         if mySettings.mySpeed < 4 then
           inc(mySettings.mySpeed)
         else mySettings.mySpeed := 0;
@@ -5684,13 +5684,13 @@ begin
   pnl_Speed.Caption := SpeedInf[mySettings.mySpeed];
 end;
 
-// ±£´æ¹Ø¿¨ XSB µ½ÎÄµµ
+// ä¿å­˜å…³å¡ XSB åˆ°æ–‡æ¡£
 function Tmain.SaveXSBToFile(): Boolean;
 var
   myXSBFile: Textfile;
   myFileName, myExtName: string;
   i, size, n: Integer;
-  mapNode: PMapNode;               // ¹Ø¿¨½Úµã
+  mapNode: PMapNode;               // å…³å¡èŠ‚ç‚¹
 
 begin
   Result := False;
@@ -5711,10 +5711,10 @@ begin
     if (myExtName = '') or (myExtName = '.') then
       myFileName := changefileext(myFileName, '.xsb');
 
-    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' ÎÄµµÒÑ¾­´æÔÚ£¬¸²Ğ´ËüÂğ£¿'), '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
+    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' æ–‡æ¡£å·²ç»å­˜åœ¨ï¼Œè¦†å†™å®ƒå—ï¼Ÿ'), 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
 
       AssignFile(myXSBFile, myFileName);
-      if AnsiSameText(myFileName, AppPath + 'BoxMan.xsb') and FileExists(myFileName) then Append(myXSBFile)   // ÖÜ×ª¹Ø¿¨¿â£¬ÒÔ×·¼Ó·½Ê½±£´æ
+      if AnsiSameText(myFileName, AppPath + 'BoxMan.xsb') and FileExists(myFileName) then Append(myXSBFile)   // å‘¨è½¬å…³å¡åº“ï¼Œä»¥è¿½åŠ æ–¹å¼ä¿å­˜
       else ReWrite(myXSBFile);
 
       try
@@ -5747,7 +5747,7 @@ begin
     n := Pos(AppPath, mySettings.MapFileName);
     if n > 0 then Delete(mySettings.MapFileName, 1, Length(AppPath));
 
-    mySettings.isXSB_Saved := True;            // µ±´Ó¼ôÇĞ°åµ¼ÈëµÄ XSB ÊÇ·ñ±£´æ¹ıÁË
+    mySettings.isXSB_Saved := True;            // å½“ä»å‰ªåˆ‡æ¿å¯¼å…¥çš„ XSB æ˜¯å¦ä¿å­˜è¿‡äº†
 
     if not AnsiSameText(mySettings.MapFileName, 'BoxMan.xsb') then begin
        mySettings.LaterList.Insert(0, mySettings.MapFileName);
@@ -5767,20 +5767,20 @@ begin
   end;
 end;
 
-// ´ò¿ªÑ¡¹Ø½çÃæ
+// æ‰“å¼€é€‰å…³ç•Œé¢
 procedure Tmain.bt_ViewClick(Sender: TObject);
 begin
   if MapList.Count = 0 then begin
-     StatusBar1.Panels[7].Text := 'ºóÌ¨ÕıÃ¦£¬ÇëÉÔºóÔÙÊÔ£¡';
+     StatusBar1.Panels[7].Text := 'åå°æ­£å¿™ï¼Œè¯·ç¨åå†è¯•ï¼';
      Exit;
   end;
 
   if isMoving then IsStop := True
   else IsStop := False;
 
-  BrowseForm.sb_Delete.Visible := AnsiSameText(mySettings.MapFileName, 'BoxMan.xsb');      // ÖÜ×ª¿âÎÄµµÔÊĞíÉ¾³ı¹Ø¿¨
+  BrowseForm.sb_Delete.Visible := AnsiSameText(mySettings.MapFileName, 'BoxMan.xsb');      // å‘¨è½¬åº“æ–‡æ¡£å…è®¸åˆ é™¤å…³å¡
 
-  BrowseForm.curIndex := curMap.CurrentLevel-1;        // ·µ»ØÊ±Ñ¡ÔñµÄ item
+  BrowseForm.curIndex := curMap.CurrentLevel-1;        // è¿”å›æ—¶é€‰æ‹©çš„ item
   BrowseForm.BK_Color := mySettings.bwBKColor;
   BrowseForm.ShowModal;
   mySettings.bwBKColor := BrowseForm.BK_Color;
@@ -5794,7 +5794,7 @@ begin
 
 end;
 
-// ¶¯×÷±à¼­°´Å¥
+// åŠ¨ä½œç¼–è¾‘æŒ‰é’®
 procedure Tmain.bt_ActClick(Sender: TObject);
 var
   i, RepTimes, n: Integer;
@@ -5805,11 +5805,11 @@ begin
   else IsStop := False;
 
   if (not Assigned(curMapNode)) or (not curMapNode.isEligible) then begin
-     MessageBox(handle, 'ÉĞÎŞ´ò¿ªµÄ¹Ø¿¨»ò¹Ø¿¨²»ºÏ¸ñ£¡', '´íÎó', MB_ICONERROR or MB_OK);
+     MessageBox(handle, 'å°šæ— æ‰“å¼€çš„å…³å¡æˆ–å…³å¡ä¸åˆæ ¼ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
      Exit;
   end;
 
-  // ²ÎÊı´«µİ -- ÊÇ·ñÄæÍÆ¡¢Ä¬ÈÏÂ·¾¶
+  // å‚æ•°ä¼ é€’ -- æ˜¯å¦é€†æ¨ã€é»˜è®¤è·¯å¾„
   ActionForm.isBK := mySettings.isBK;
   if (ExtractFilePath(mySettings.MapFileName) <> '') then
     ActionForm.MyPath := ExtractFilePath(mySettings.MapFileName)
@@ -5831,19 +5831,19 @@ begin
 
      curMap.isFinish := False;
   
-     RepTimes := ActionForm.Rep_Times.Value;          // ÖØ¸´´ÎÊı
+     RepTimes := ActionForm.Rep_Times.Value;          // é‡å¤æ¬¡æ•°
 
-     // ÄæÍÆÊ±£¬ĞèÒª´¦ÀíÈËµÄ³õÊ¼Î»ÖÃ
-     if ActionForm.Run_CurPos.Checked then begin  // ´Óµ±Ç°µãÖ´ĞĞ
+     // é€†æ¨æ—¶ï¼Œéœ€è¦å¤„ç†äººçš„åˆå§‹ä½ç½®
+     if ActionForm.Run_CurPos.Checked then begin  // ä»å½“å‰ç‚¹æ‰§è¡Œ
         if mySettings.isBK then begin
            if ManPos_BK < 0 then begin
               if (ActionForm.M_X < 0) or (ActionForm.M_Y < 0) or (ActionForm.M_X >= curMapNode.Cols) or (ActionForm.M_Y >= curMapNode.Rows) or
                  (not (map_Board_BK[ActionForm.M_Y * curMapNode.Cols + ActionForm.M_X] in [ FloorCell, GoalCell ])) then begin
-                 MessageBox(handle, 'ÈËµÄ³õÊ¼Î»ÖÃ²»ÕıÈ·£¡', '´íÎó', MB_ICONERROR or MB_OK);
+                 MessageBox(handle, 'äººçš„åˆå§‹ä½ç½®ä¸æ­£ç¡®ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
                  Exit;
               end;
 
-              // ĞÂÎ»ÖÃ·ÅÉÏÈË 
+              // æ–°ä½ç½®æ”¾ä¸Šäºº 
               ManPos_BK := ActionForm.M_Y * curMapNode.Cols + ActionForm.M_X;
               ManPos_BK_0 := ManPos_BK;
               if map_Board_BK[ManPos_BK] = FloorCell then map_Board_BK[ManPos_BK] := ManCell
@@ -5858,18 +5858,18 @@ begin
               (not (map_Board_BK[ActionForm.M_Y * curMapNode.Cols + ActionForm.M_X] in [ FloorCell, GoalCell, ManCell, ManGoalCell ])) then begin
 
               if ManPos_BK < 0 then begin
-                 MessageBox(handle, 'ÈËµÄ³õÊ¼Î»ÖÃ²»ÕıÈ·£¡', '´íÎó', MB_ICONERROR or MB_OK);
+                 MessageBox(handle, 'äººçš„åˆå§‹ä½ç½®ä¸æ­£ç¡®ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
                  Exit;
               end;
            end;
 
-           // ¼ÓÔØµÄÈËµÄÎ»ÖÃÕıÈ·£¬ÏÈÇåÀíÔ­À´µÄÈËµÄÎ»ÖÃ
+           // åŠ è½½çš„äººçš„ä½ç½®æ­£ç¡®ï¼Œå…ˆæ¸…ç†åŸæ¥çš„äººçš„ä½ç½®
            if ManPos_BK >= 0 then begin
               if map_Board_BK[ManPos_BK] = ManCell then map_Board_BK[ManPos_BK] := FloorCell
               else map_Board_BK[ManPos_BK] := GoalCell;
            end;
 
-           // ĞÂÎ»ÖÃ·ÅÉÏÈË
+           // æ–°ä½ç½®æ”¾ä¸Šäºº
            ManPos_BK := ActionForm.M_Y * curMapNode.Cols + ActionForm.M_X;
            ManPos_BK_0 := ManPos_BK;
            if map_Board_BK[ManPos_BK] = FloorCell then map_Board_BK[ManPos_BK] := ManCell
@@ -5879,7 +5879,7 @@ begin
 
      GetLurd(ActionForm.Act, mySettings.isBK);
 
-     // °´ÏÖ³¡Ğı×ª×ª»» redo ÖĞµÄ¶¯×÷
+     // æŒ‰ç°åœºæ—‹è½¬è½¬æ¢ redo ä¸­çš„åŠ¨ä½œ
      if ActionForm.Run_CurTru.Checked then begin
         if mySettings.isBK then begin
            for i := 1 to ReDoPos_BK do begin
@@ -5919,7 +5919,7 @@ begin
      end else begin
         n := ReDoPos;
      end;
-     // Ö´ĞĞ´ÎÊı
+     // æ‰§è¡Œæ¬¡æ•°
      for i := 1 to RepTimes do begin
          if mySettings.isBK then begin
             ReDoPos_BK := n;
@@ -5937,7 +5937,7 @@ begin
   end;
 end;
 
-// ¹Ø±ÕÓÎÏ·Ê±£¬¼ì²éÊÇ·ñÓĞĞèÒª±£´æµÄÊı¾İ£¬ÒÔ±ã½øĞĞÌáĞÑ
+// å…³é—­æ¸¸æˆæ—¶ï¼Œæ£€æŸ¥æ˜¯å¦æœ‰éœ€è¦ä¿å­˜çš„æ•°æ®ï¼Œä»¥ä¾¿è¿›è¡Œæé†’
 procedure Tmain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 var
   bt: LongWord;
@@ -5953,8 +5953,8 @@ begin
   CanClose := True;
 
   if not mySettings.isXSB_Saved then
-  begin    // ÓĞĞÂµÄXSBÉĞÎ´±£´æ
-    bt := MessageBox(Handle, 'µ±Ç°¹Ø¿¨ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„XSBå°šæœªä¿å­˜
+    bt := MessageBox(Handle, 'å½“å‰å…³å¡å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if bt = idyes then
     begin
       SaveXSBToFile();
@@ -5968,12 +5968,12 @@ begin
   end;
 
   if CanClose and (not mySettings.isLurd_Saved) then
-  begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-    bt := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+    bt := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if bt = idyes then
     begin
       mySettings.isLurd_Saved := True;
-      SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+      SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
     end
     else if bt = idno then
     begin
@@ -5984,7 +5984,7 @@ begin
   end;
 end;
 
-// »æÖÆÖ÷´°¿Ú×ó²à±ßÀ¸µÄ´ğ°¸ÁĞ±í
+// ç»˜åˆ¶ä¸»çª—å£å·¦ä¾§è¾¹æ çš„ç­”æ¡ˆåˆ—è¡¨
 procedure Tmain.List_SolutionDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
   lpstr: PChar;
@@ -5999,7 +5999,7 @@ begin
   end;
 end;
 
-// »æÖÆÖ÷´°¿Ú×ó²à±ßÀ¸µÄ´ğ°¸ÁĞ±í
+// ç»˜åˆ¶ä¸»çª—å£å·¦ä¾§è¾¹æ çš„ç­”æ¡ˆåˆ—è¡¨
 procedure Tmain.List_SolutionMeasureItem(Control: TWinControl; Index: Integer; var Height: Integer);
 var
   lpstr: PChar;
@@ -6018,7 +6018,7 @@ begin
   Height := h + 4;
 end;
 
-// ÕıÍÆÄ¿±êÎ»ÇĞ»»
+// æ­£æ¨ç›®æ ‡ä½åˆ‡æ¢
 procedure Tmain.pmGoalClick(Sender: TObject);
 begin
   isSelectMod := False;
@@ -6027,11 +6027,11 @@ begin
     pmGoal.Checked := True
   else
     pmGoal.Checked := False;
-  DrawMap();                                  // ¸üĞÂµØÍ¼ÏÔÊ¾
+  DrawMap();                                  // æ›´æ–°åœ°å›¾æ˜¾ç¤º
   ShowStatusBar();
 end;
 
-// »¥¶¯Ë«ÍÆÇĞ»»°´Å¥
+// äº’åŠ¨åŒæ¨åˆ‡æ¢æŒ‰é’®
 procedure Tmain.pmJijingClick(Sender: TObject);
 begin
   isSelectMod := False;
@@ -6042,11 +6042,11 @@ begin
   else
     pmJijing.Checked := False;
 
-  DrawMap();                                  // ¸üĞÂµØÍ¼ÏÔÊ¾
+  DrawMap();                                  // æ›´æ–°åœ°å›¾æ˜¾ç¤º
   ShowStatusBar();
 end;
 
-// Ö÷´°¿Ú×ó²à±ßÀ¸µÄ×´Ì¬ÁĞ±í -- Ë«»÷ -- ¼ÓÔØ´ğ°¸
+// ä¸»çª—å£å·¦ä¾§è¾¹æ çš„çŠ¶æ€åˆ—è¡¨ -- åŒå‡» -- åŠ è½½ç­”æ¡ˆ
 procedure Tmain.List_SolutionDblClick(Sender: TObject);
 var
   s: string;
@@ -6060,14 +6060,14 @@ begin
     else IsStop := False;
 
     if not mySettings.isLurd_Saved then
-    begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-      i := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+    begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+      i := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
       if i = idyes then begin
-         SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+         SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
          PageControl.ActivePageIndex := 0;
       end else if i = idno then begin
          mySettings.isLurd_Saved := True;
-         StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+         StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
       end else exit;
     end;
 
@@ -6078,7 +6078,7 @@ begin
        if len > 0 then begin
            Restart(False);
 
-           // ´ğ°¸ËÍÈëÕıÍÆµÄ RedoList
+           // ç­”æ¡ˆé€å…¥æ­£æ¨çš„ RedoList
            ReDoPos := 0;
            for i := len downto 1 do begin
                if ReDoPos = MaxLenPath then Exit;
@@ -6087,12 +6087,12 @@ begin
            end;
            curMap.isFinish := True;
        end;
-       StatusBar1.Panels[7].Text := '´ğ°¸ÒÑÔØÈë£¡';
+       StatusBar1.Panels[7].Text := 'ç­”æ¡ˆå·²è½½å…¥ï¼';
        StatusBar1.Repaint;
     end;
 end;
 
-// Ö÷´°¿Ú×ó²à±ßÀ¸µÄ×´Ì¬ÁĞ±í -- Ë«»÷ -- ¼ÓÔØ×´Ì¬
+// ä¸»çª—å£å·¦ä¾§è¾¹æ çš„çŠ¶æ€åˆ—è¡¨ -- åŒå‡» -- åŠ è½½çŠ¶æ€
 procedure Tmain.List_StateDblClick(Sender: TObject);
 var
   s1, s2: string;
@@ -6109,12 +6109,12 @@ begin
     n := List_State.ItemIndex;
 
     if not mySettings.isLurd_Saved then
-    begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-      i := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+    begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+      i := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
       if i = idyes then begin
          actNode := StateList[n];
          id := actNode.id;
-         SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+         SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
          len := StateList.Count;
          for x := 0 to len-1 do begin
              actNode := StateList[x];
@@ -6125,18 +6125,18 @@ begin
          end;
       end else if i = idno then begin
          mySettings.isLurd_Saved := True;
-         StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+         StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
       end else exit;
     end;
 
     if GetStateFromDB(n, x, y, s1, s2) then begin
   
-       Restart(False);                 // ¹Ø¿¨¸´Î»
-       Restart(True);                  // ¹Ø¿¨¸´Î»
+       Restart(False);                 // å…³å¡å¤ä½
+       Restart(True);                  // å…³å¡å¤ä½
 
        len := Length(s1);
 
-       // ×´Ì¬ËÍÈë RedoList
+       // çŠ¶æ€é€å…¥ RedoList
        if len > 0 then begin
            ReDoPos := 0;
            for i := len downto 1 do begin
@@ -6152,14 +6152,14 @@ begin
 
        len := Length(s2);
 
-       // ×´Ì¬ËÍÈë RedoList_BK
+       // çŠ¶æ€é€å…¥ RedoList_BK
        if (len > 0) and (x > 0) and (y > 0) and (x <= curMapNode.Cols) and ( y <= curMapNode.Rows) then begin
 
            if ManPos_BK >= 0 then begin
               if map_Board_BK[ManPos_BK] = ManCell then map_Board_BK[ManPos_BK] := FloorCell
               else if map_Board_BK[ManPos_BK] = ManGoalCell then map_Board_BK[ManPos_BK] := GoalCell
               else begin
-                StatusBar1.Panels[7].Text := '¹Ø¿¨ÏÖ³¡Êı¾İÓöµ½´íÎó£¡';
+                StatusBar1.Panels[7].Text := 'å…³å¡ç°åœºæ•°æ®é‡åˆ°é”™è¯¯ï¼';
                 Exit;
               end;
            end;
@@ -6169,7 +6169,7 @@ begin
            if map_Board_BK[ManPos_BK] = FloorCell then map_Board_BK[ManPos_BK] := ManCell
            else if map_Board_BK[ManPos_BK] = GoalCell then map_Board_BK[ManPos_BK] := ManGoalCell
            else begin
-             StatusBar1.Panels[7].Text := '×´Ì¬Êı¾İ²»ÕıÈ·£¡';
+             StatusBar1.Panels[7].Text := 'çŠ¶æ€æ•°æ®ä¸æ­£ç¡®ï¼';
              Exit;
            end;
 
@@ -6187,12 +6187,12 @@ begin
            isNoDelay := False;
        end;
        curMap.isFinish := True;
-       StatusBar1.Panels[7].Text := '×´Ì¬ÒÑÔØÈë£¡';
+       StatusBar1.Panels[7].Text := 'çŠ¶æ€å·²è½½å…¥ï¼';
        StatusBar1.Repaint;
     end;
 end;
 
-// ´Ó×´Ì¬¿â¶ÁÈ¡Ò»Ìõ×´Ì¬
+// ä»çŠ¶æ€åº“è¯»å–ä¸€æ¡çŠ¶æ€
 function Tmain.GetStateFromDB(index: Integer; var x: Integer; var y: Integer; var str1: string; var str2: string): Boolean;
 var
   sldb: TSQLiteDatabase;
@@ -6217,7 +6217,7 @@ begin
       if sltb.Count > 0 then begin
         sltb.MoveFirst;
         while not sltb.EOF do begin
-           str1 := sltb.FieldAsString(sltb.FieldIndex['Act_Text']);      // ¶ÁÈ¡×´Ì¬
+           str1 := sltb.FieldAsString(sltb.FieldIndex['Act_Text']);      // è¯»å–çŠ¶æ€
            str2 := sltb.FieldAsString(sltb.FieldIndex['Act_Text_BK']);
            x    := sltb.FieldAsInteger(sltb.FieldIndex['Man_X']);
            y    := sltb.FieldAsInteger(sltb.FieldIndex['Man_Y']);
@@ -6231,13 +6231,13 @@ begin
       actNode := nil;
     end;
   except
-    StatusBar1.Panels[7].Text := '×´Ì¬¿â³ö´í£¬×´Ì¬Î´ÄÜÕıÈ·¼ÓÔØ£¡';
+    StatusBar1.Panels[7].Text := 'çŠ¶æ€åº“å‡ºé”™ï¼ŒçŠ¶æ€æœªèƒ½æ­£ç¡®åŠ è½½ï¼';
   end;
 
   Result := True;
 end;
 
-// ´Ó´ğ°¸¿â¶ÁÈ¡Ò»Ìõ´ğ°¸
+// ä»ç­”æ¡ˆåº“è¯»å–ä¸€æ¡ç­”æ¡ˆ
 function Tmain.GetSolutionFromDB(index: Integer; var str: string): Boolean;
 var
   sldb: TSQLiteDatabase;
@@ -6263,9 +6263,9 @@ begin
         try
            if sltb.Count > 0 then begin
              sltb.MoveFirst;
-             str := sltb.FieldAsString(sltb.FieldIndex['Sol_Text']);         // ¶ÁÈ¡´ğ°¸
-             t := sltb.FieldAsInteger(sltb.FieldIndex['XSB_CRC_TrunNum']);   // ´ğ°¸µÄĞı×ª
-             getANS(t, curMapNode.CRC_Num, str);                             // ´ğ°¸°´¹Ø¿¨Ğı×ª½øĞĞ×ª»»
+             str := sltb.FieldAsString(sltb.FieldIndex['Sol_Text']);         // è¯»å–ç­”æ¡ˆ
+             t := sltb.FieldAsInteger(sltb.FieldIndex['XSB_CRC_TrunNum']);   // ç­”æ¡ˆçš„æ—‹è½¬
+             getANS(t, curMapNode.CRC_Num, str);                             // ç­”æ¡ˆæŒ‰å…³å¡æ—‹è½¬è¿›è¡Œè½¬æ¢
            end;
         Finally
            sltb.Free;
@@ -6275,13 +6275,13 @@ begin
         solNode := nil;
       end;
     except
-      StatusBar1.Panels[7].Text := '´ğ°¸¿â³ö´í£¬´ğ°¸Î´ÄÜÕıÈ·¼ÓÔØ£¡';
+      StatusBar1.Panels[7].Text := 'ç­”æ¡ˆåº“å‡ºé”™ï¼Œç­”æ¡ˆæœªèƒ½æ­£ç¡®åŠ è½½ï¼';
     end;
 
     Result := True;
 end;
 
-// ×´Ì¬ -- ÕıÍÆ Lurd µ½¼ôÇĞ°å
+// çŠ¶æ€ -- æ­£æ¨ Lurd åˆ°å‰ªåˆ‡æ¿
 procedure Tmain.sa_LurdClick(Sender: TObject);
 var
   s1, s2: string;
@@ -6292,12 +6292,12 @@ begin
       len := Length(s1);
       if len > 0 then begin
          Clipboard.SetTextBuf(PChar(s1));
-         StatusBar1.Panels[7].Text := 'ÕıÍÆ Lurd µ½¼ôÇĞ°å£¡';
-      end else StatusBar1.Panels[7].Text := '¼ÓÔØÕıÍÆ Lurd Ê§°Ü£¡';
+         StatusBar1.Panels[7].Text := 'æ­£æ¨ Lurd åˆ°å‰ªåˆ‡æ¿ï¼';
+      end else StatusBar1.Panels[7].Text := 'åŠ è½½æ­£æ¨ Lurd å¤±è´¥ï¼';
    end;
 end;
 
-// ×´Ì¬ -- ÄæÍÆ Lurd µ½¼ôÇĞ°å
+// çŠ¶æ€ -- é€†æ¨ Lurd åˆ°å‰ªåˆ‡æ¿
 procedure Tmain.sa_Lurd_BKClick(Sender: TObject);
 var
   s1, s2: string;
@@ -6308,12 +6308,12 @@ begin
       len := Length(s2);
       if (len > 0) and (x > 0) and (y > 0) then begin
          Clipboard.SetTextBuf(PChar('[' + IntToStr(x) + ', ' + IntToStr(y) + ']' + s2));
-         StatusBar1.Panels[7].Text := 'ÄæÍÆ Lurd µ½¼ôÇĞ°å£¡';
-      end else StatusBar1.Panels[7].Text := '¼ÓÔØÄæÍÆ Lurd Ê§°Ü£¡';
+         StatusBar1.Panels[7].Text := 'é€†æ¨ Lurd åˆ°å‰ªåˆ‡æ¿ï¼';
+      end else StatusBar1.Panels[7].Text := 'åŠ è½½é€†æ¨ Lurd å¤±è´¥ï¼';
    end;
 end;
 
-// ×´Ì¬ -- XSB + Lurd µ½¼ôÇĞ°å
+// çŠ¶æ€ -- XSB + Lurd åˆ°å‰ªåˆ‡æ¿
 procedure Tmain.sa_XSB_LurdClick(Sender: TObject);
 var
   s, s1, s2: string;
@@ -6330,11 +6330,11 @@ begin
       if (len > 0) and (x > 0) and (y > 0) then Clipboard.SetTextBuf(PChar(s+#10+'[' + IntToStr(x) + ', ' + IntToStr(y) + ']' + s2))
       else Clipboard.SetTextBuf(PChar(s));
 
-      StatusBar1.Panels[7].Text := 'XSB + Lurd µ½¼ôÇĞ°å£¡';
+      StatusBar1.Panels[7].Text := 'XSB + Lurd åˆ°å‰ªåˆ‡æ¿ï¼';
    end;
 end;
 
-// ×´Ì¬ -- XSB + Lurd µ½ÎÄµµ
+// çŠ¶æ€ -- XSB + Lurd åˆ°æ–‡æ¡£
 procedure Tmain.sa_XSB_Lurd_FileClick(Sender: TObject);
 var
   myXSBFile: Textfile;
@@ -6353,7 +6353,7 @@ begin
     if (myExtName = '') or (myExtName = '.') then
       myFileName := changefileext(myFileName, '.txt');
 
-    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' ÎÄµµÒÑ¾­´æÔÚ£¬¸²Ğ´ËüÂğ£¿'), '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
+    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' æ–‡æ¡£å·²ç»å­˜åœ¨ï¼Œè¦†å†™å®ƒå—ï¼Ÿ'), 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
       AssignFile(myXSBFile, myFileName);
       ReWrite(myXSBFile);
 
@@ -6368,7 +6368,7 @@ begin
           len := Length(s2);
           if (len > 0) and (x > 0) and (y > 0) then Write(myXSBFile, PChar('[' + IntToStr(x) + ', ' + IntToStr(y) + ']' + s2 + #10));
 
-          StatusBar1.Panels[7].Text := 'XSB + Lurd µ½ÎÄµµ£¡';
+          StatusBar1.Panels[7].Text := 'XSB + Lurd åˆ°æ–‡æ¡£ï¼';
         end;
       finally
         Closefile(myXSBFile);
@@ -6377,7 +6377,7 @@ begin
   end;
 end;
 
-// ×´Ì¬ -- É¾³ıÒ»Ìõ
+// çŠ¶æ€ -- åˆ é™¤ä¸€æ¡
 procedure Tmain.sa_DeleteClick(Sender: TObject);
 var
   sldb: TSQLiteDatabase;
@@ -6387,7 +6387,7 @@ var
 begin
   if List_State.ItemIndex < 0 then Exit;
 
-  if MessageBox(Handle, 'É¾³ıÑ¡ÖĞµÄ×´Ì¬£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) <> idOK then Exit;
+  if MessageBox(Handle, 'åˆ é™¤é€‰ä¸­çš„çŠ¶æ€ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) <> idOK then Exit;
 
   sldb := TSQLiteDatabase.Create(AnsiToUtf8(BoxManDBpath));
 
@@ -6409,11 +6409,11 @@ begin
       actNode := nil;
     end;
   except
-    MessageBox(handle, '×´Ì¬¿â³ö´í£¬' + #10 + 'Î´ÄÜÕıÈ·É¾³ı×´Ì¬£¡', '´íÎó', MB_ICONERROR or MB_OK);
+    MessageBox(handle, 'çŠ¶æ€åº“å‡ºé”™ï¼Œ' + #10 + 'æœªèƒ½æ­£ç¡®åˆ é™¤çŠ¶æ€ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
   end;
 end;
 
-// ×´Ì¬ -- É¾³ıÈ«²¿
+// çŠ¶æ€ -- åˆ é™¤å…¨éƒ¨
 procedure Tmain.sa_DeleteAllClick(Sender: TObject);
 var
   sldb: TSQLiteDatabase;
@@ -6423,7 +6423,7 @@ var
   s: string;
   
 begin
-  if MessageBox(Handle, 'É¾³ıÈ«²¿µÄ×´Ì¬£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) <> idOK then Exit;
+  if MessageBox(Handle, 'åˆ é™¤å…¨éƒ¨çš„çŠ¶æ€ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) <> idOK then Exit;
 
   len := List_State.Count;
 
@@ -6450,11 +6450,11 @@ begin
       actNode := nil;
     end;
   except
-    MessageBox(handle, '×´Ì¬¿â³ö´í£¬' + #10 + 'Î´ÄÜÕıÈ·É¾³ı×´Ì¬£¡', '´íÎó', MB_ICONERROR or MB_OK);
+    MessageBox(handle, 'çŠ¶æ€åº“å‡ºé”™ï¼Œ' + #10 + 'æœªèƒ½æ­£ç¡®åˆ é™¤çŠ¶æ€ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
   end;
 end;
 
-// ÇåÀí×´Ì¬ -- ·Ç±¾¹Ø¿¨µÄÈ«²¿×´Ì¬
+// æ¸…ç†çŠ¶æ€ -- éæœ¬å…³å¡çš„å…¨éƒ¨çŠ¶æ€
 procedure Tmain.sa_ClraeAllClick(Sender: TObject);
 var
   sldb: TSQLiteDatabase;
@@ -6464,7 +6464,7 @@ var
   s: string;
   
 begin
-  if MessageBox(Handle, 'ÇåÀí·Ç±¾¹Ø¿¨µÄÈ«²¿×´Ì¬£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING  + MB_OKCANCEL) <> idOK then Exit;
+  if MessageBox(Handle, 'æ¸…ç†éæœ¬å…³å¡çš„å…¨éƒ¨çŠ¶æ€ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING  + MB_OKCANCEL) <> idOK then Exit;
 
   len := List_State.Count;
 
@@ -6488,11 +6488,11 @@ begin
       actNode := nil;
     end;
   except
-    MessageBox(handle, '×´Ì¬¿â³ö´í£¬' + #10 + 'Î´ÄÜÕıÈ·ÇåÀí×´Ì¬£¡', '´íÎó', MB_ICONERROR or MB_OK);
+    MessageBox(handle, 'çŠ¶æ€åº“å‡ºé”™ï¼Œ' + #10 + 'æœªèƒ½æ­£ç¡®æ¸…ç†çŠ¶æ€ï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
   end;
 end;
 
-// ´ğ°¸ -- Lurd µ½¼ôÇĞ°å
+// ç­”æ¡ˆ -- Lurd åˆ°å‰ªåˆ‡æ¿
 procedure Tmain.so_LurdClick(Sender: TObject);
 var
   s1: string;
@@ -6503,12 +6503,12 @@ begin
       len := Length(s1);
       if len > 0 then begin
          Clipboard.SetTextBuf(PChar(s1));
-         StatusBar1.Panels[7].Text := 'Lurd µ½¼ôÇĞ°å£¡';
-      end else StatusBar1.Panels[7].Text := '¼ÓÔØ Lurd Ê§°Ü£¡';
+         StatusBar1.Panels[7].Text := 'Lurd åˆ°å‰ªåˆ‡æ¿ï¼';
+      end else StatusBar1.Panels[7].Text := 'åŠ è½½ Lurd å¤±è´¥ï¼';
    end;
 end;
 
-// ´ğ°¸ -- XSB + Lurd µ½¼ôÇĞ°å
+// ç­”æ¡ˆ -- XSB + Lurd åˆ°å‰ªåˆ‡æ¿
 procedure Tmain.so_XSB_LurdClick(Sender: TObject);
 var
   s, s1: string;
@@ -6523,13 +6523,13 @@ begin
       if len > 0 then begin
          solNode := SoltionList.items[List_Solution.ItemIndex];
          Clipboard.SetTextBuf(PChar(s + 'Solution (Moves: ' + IntToStr(solNode.Moves) + ', Pushs: ' + IntToStr(solNode.Pushs) + '): ' + s1 + #10));
-         StatusBar1.Panels[7].Text := 'XSB + Lurd µ½¼ôÇĞ°å£¡';
+         StatusBar1.Panels[7].Text := 'XSB + Lurd åˆ°å‰ªåˆ‡æ¿ï¼';
          solNode := nil;
-      end else StatusBar1.Panels[7].Text := 'XSB + Lurd µ½¼ôÇĞ°åÊ§°Ü£¡';
+      end else StatusBar1.Panels[7].Text := 'XSB + Lurd åˆ°å‰ªåˆ‡æ¿å¤±è´¥ï¼';
    end;
 end;
 
-// ´ğ°¸ -- XSB + Lurd_All µ½¼ôÇĞ°å
+// ç­”æ¡ˆ -- XSB + Lurd_All åˆ°å‰ªåˆ‡æ¿
 procedure Tmain.so_XSB_LurdAllClick(Sender: TObject);
 var
   s, s1, ss: string;
@@ -6552,11 +6552,11 @@ begin
    end;
 
    Clipboard.SetTextBuf(PChar(s + ss));
-   StatusBar1.Panels[7].Text := 'XSB + Lurd_All µ½¼ôÇĞ°å£¡';
+   StatusBar1.Panels[7].Text := 'XSB + Lurd_All åˆ°å‰ªåˆ‡æ¿ï¼';
    solNode := nil;
 end;
 
-// ´ğ°¸ -- XSB + Lurd µ½ÎÄµµ
+// ç­”æ¡ˆ -- XSB + Lurd åˆ°æ–‡æ¡£
 procedure Tmain.so_XSB_Lurd_FileClick(Sender: TObject);
 var
   myXSBFile: Textfile;
@@ -6576,7 +6576,7 @@ begin
     if (myExtName = '') or (myExtName = '.') then
         myFileName := changefileext(myFileName, '.txt');
 
-    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' ÎÄµµÒÑ¾­´æÔÚ£¬¸²Ğ´ËüÂğ£¿'), '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
+    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' æ–‡æ¡£å·²ç»å­˜åœ¨ï¼Œè¦†å†™å®ƒå—ï¼Ÿ'), 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
       if GetSolutionFromDB(List_Solution.ItemIndex, s1) then begin
 
         len := Length(s1);
@@ -6589,16 +6589,16 @@ begin
 
            solNode := SoltionList.items[List_Solution.ItemIndex];
            Write(myXSBFile, 'Solution (Moves: ' + IntToStr(solNode.Moves) + ', Pushs: ' + IntToStr(solNode.Pushs) + '): ' + s1 + #10);
-           StatusBar1.Panels[7].Text := 'XSB + Lurd µ½ÎÄµµ£¡';
+           StatusBar1.Panels[7].Text := 'XSB + Lurd åˆ°æ–‡æ¡£ï¼';
            Closefile(myXSBFile);
            solNode := nil;
-        end else StatusBar1.Panels[7].Text := '±£´æ XSB + Lurd µ½ÎÄµµÊ§°Ü£¡';
+        end else StatusBar1.Panels[7].Text := 'ä¿å­˜ XSB + Lurd åˆ°æ–‡æ¡£å¤±è´¥ï¼';
       end;
     end;
   end;
 end;
 
-// µ¼³öµ±Ç°¹Ø¿¨¼°ÆäËùÓĞ´ğ°¸
+// å¯¼å‡ºå½“å‰å…³å¡åŠå…¶æ‰€æœ‰ç­”æ¡ˆ
 procedure Tmain.so_XSB_LurdAll_FileClick(Sender: TObject);
 var
   myXSBFile: Textfile;
@@ -6618,7 +6618,7 @@ begin
     if (myExtName = '') or (myExtName = '.') then
        myFileName := changefileext(myFileName, '.txt');
 
-    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' ÎÄµµÒÑ¾­´æÔÚ£¬¸²Ğ´ËüÂğ£¿'), '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
+    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' æ–‡æ¡£å·²ç»å­˜åœ¨ï¼Œè¦†å†™å®ƒå—ï¼Ÿ'), 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
 
       AssignFile(myXSBFile, myFileName);
       ReWrite(myXSBFile);
@@ -6639,7 +6639,7 @@ begin
         end;
 
         solNode := nil;
-        StatusBar1.Panels[7].Text := 'XSB + Lurd_All µ½ÎÄµµ£¡';
+        StatusBar1.Panels[7].Text := 'XSB + Lurd_All åˆ°æ–‡æ¡£ï¼';
       finally
         Closefile(myXSBFile);
       end;
@@ -6647,7 +6647,7 @@ begin
   end;
 end;
 
-// µ¼³öÈ«²¿¹Ø¿¨¼°Æä´ğ°¸
+// å¯¼å‡ºå…¨éƒ¨å…³å¡åŠå…¶ç­”æ¡ˆ
 procedure Tmain.so_XSBAll_LurdAll1_FileClick(Sender: TObject);
 var
   myXSBFile: Textfile;
@@ -6658,7 +6658,7 @@ var
 
 begin
   if MapList.Count = 0 then begin
-     StatusBar1.Panels[7].Text := 'ÕıÔÚ½âÎö¹Ø¿¨ÎÄµµ£¬ÇëÉÔºóÔÙÊÔ£¡';
+     StatusBar1.Panels[7].Text := 'æ­£åœ¨è§£æå…³å¡æ–‡æ¡£ï¼Œè¯·ç¨åå†è¯•ï¼';
      Exit;
   end;
 
@@ -6673,7 +6673,7 @@ begin
     if (myExtName = '') or (myExtName = '.') then
        myFileName := changefileext(myFileName, '.txt');
 
-    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' ÎÄµµÒÑ¾­´æÔÚ£¬¸²Ğ´ËüÂğ£¿'), '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
+    if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' æ–‡æ¡£å·²ç»å­˜åœ¨ï¼Œè¦†å†™å®ƒå—ï¼Ÿ'), 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
 
       AssignFile(myXSBFile, myFileName);
       ReWrite(myXSBFile);
@@ -6681,7 +6681,7 @@ begin
       try
         size := MapList.Count;
         for n := 0 to size-1 do begin
-            StatusBar1.Panels[7].Text := 'µ¼³ö£º' + IntToStr(n+1) + '/' + IntToStr(size);
+            StatusBar1.Panels[7].Text := 'å¯¼å‡ºï¼š' + IntToStr(n+1) + '/' + IntToStr(size);
             mapNode := MapList[n];
             Write(myXSBFile, GetXSB(mapNode));
 
@@ -6691,7 +6691,7 @@ begin
         end;
 
         solNode := nil;
-        StatusBar1.Panels[7].Text := 'µ¼³öÈ«²¿¹Ø¿¨¼°´ğ°¸£¡';
+        StatusBar1.Panels[7].Text := 'å¯¼å‡ºå…¨éƒ¨å…³å¡åŠç­”æ¡ˆï¼';
       finally
         Closefile(myXSBFile);
       end;
@@ -6699,7 +6699,7 @@ begin
   end;
 end;
 
-// ´ğ°¸ -- É¾³ıÒ»Ìõ
+// ç­”æ¡ˆ -- åˆ é™¤ä¸€æ¡
 procedure Tmain.so_DeleteClick(Sender: TObject);
 var
   sldb: TSQLiteDatabase;
@@ -6710,11 +6710,11 @@ begin
   if List_Solution.ItemIndex < 0 then Exit;
 
   if not isStopThread then begin
-     MessageBox(Handle, 'ºóÌ¨ÕıÃ¦£¬ÇëÉÔºóÔÙÊÔ£¡', 'ÌáÊ¾', MB_ICONINFORMATION  + MB_OK);
+     MessageBox(Handle, 'åå°æ­£å¿™ï¼Œè¯·ç¨åå†è¯•ï¼', 'æç¤º', MB_ICONINFORMATION  + MB_OK);
      Exit;
   end;
 
-  if MessageBox(Handle, 'É¾³ıÑ¡ÖĞµÄ´ğ°¸£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) <> idOK then Exit;
+  if MessageBox(Handle, 'åˆ é™¤é€‰ä¸­çš„ç­”æ¡ˆï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) <> idOK then Exit;
 
   sldb := TSQLiteDatabase.Create(AnsiToUtf8(BoxManDBpath));
 
@@ -6736,12 +6736,12 @@ begin
       solNode := nil;
     end;
   except
-    MessageBox(handle, '´ğ°¸¿â³ö´í£¬' + #10 + 'Î´ÄÜÕıÈ·É¾³ı´ğ°¸£¡', '´íÎó', MB_ICONERROR or MB_OK);
+    MessageBox(handle, 'ç­”æ¡ˆåº“å‡ºé”™ï¼Œ' + #10 + 'æœªèƒ½æ­£ç¡®åˆ é™¤ç­”æ¡ˆï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
   end;
   curMapNode.Solved := SoltionList.Count > 0;
 end;
 
-// ´ğ°¸ -- É¾³ıÈ«²¿
+// ç­”æ¡ˆ -- åˆ é™¤å…¨éƒ¨
 procedure Tmain.so_DeleteAllClick(Sender: TObject);
 var
   sldb: TSQLiteDatabase;
@@ -6752,11 +6752,11 @@ var
   
 begin
   if not isStopThread then begin
-     MessageBox(Handle, 'ºóÌ¨ÕıÃ¦£¬ÇëÉÔºóÔÙÊÔ£¡', 'ÌáÊ¾', MB_ICONINFORMATION  + MB_OK);
+     MessageBox(Handle, 'åå°æ­£å¿™ï¼Œè¯·ç¨åå†è¯•ï¼', 'æç¤º', MB_ICONINFORMATION  + MB_OK);
      Exit;
   end;
 
-  if MessageBox(Handle, 'É¾³ıÈ«²¿µÄ´ğ°¸£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) <> idOK then Exit;
+  if MessageBox(Handle, 'åˆ é™¤å…¨éƒ¨çš„ç­”æ¡ˆï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) <> idOK then Exit;
 
   len := List_Solution.Count;
 
@@ -6783,12 +6783,12 @@ begin
       solNode := nil;
     end;
   except
-    MessageBox(handle, '´ğ°¸¿â³ö´í£¬' + #10 + 'Î´ÄÜÕıÈ·É¾³ı´ğ°¸£¡', '´íÎó', MB_ICONERROR or MB_OK);
+    MessageBox(handle, 'ç­”æ¡ˆåº“å‡ºé”™ï¼Œ' + #10 + 'æœªèƒ½æ­£ç¡®åˆ é™¤ç­”æ¡ˆï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
   end;
   curMapNode.Solved := False;
 end;
 
-// Ë«»÷×´Ì¬À¸×îÓÒ±ßµÄÒ»À¸ -- ¶¯×÷½ø¶ÈµÄ¿ìËÙ¶¨Î»
+// åŒå‡»çŠ¶æ€æ æœ€å³è¾¹çš„ä¸€æ  -- åŠ¨ä½œè¿›åº¦çš„å¿«é€Ÿå®šä½
 procedure Tmain.StatusBar1DblClick(Sender: TObject);
 var
   mpt: TPoint;
@@ -6810,7 +6810,7 @@ begin
      if mySettings.isBK then ReDo_BK(ReDoPos_BK)
      else ReDo(ReDoPos);
   end else begin
-     per := (mpt.x - gotoLeft) / gotoWidth;        // goto µÄÎ»ÖÃ
+     per := (mpt.x - gotoLeft) / gotoWidth;        // goto çš„ä½ç½®
      if mySettings.isBK then begin
         len := UnDoPos_BK + ReDoPos_BK;
         gotoPos := Trunc(len * per);
@@ -6827,7 +6827,7 @@ begin
   isNoDelay := False;
 end;
 
-// ×´Ì¬À¸ - ĞÅÏ¢À¸¿ØÖÆ
+// çŠ¶æ€æ  - ä¿¡æ¯æ æ§åˆ¶
 procedure Tmain.StatusBar1DrawPanel(StatusBar: TStatusBar;
   Panel: TStatusPanel; const Rt: TRect);
 var
@@ -6851,23 +6851,23 @@ begin
          pos := Trunc(gotoWidth * per);
          R0 := Rect(gotoLeft, Rt.Top, gotoWidth + gotoLeft, Rt.Bottom);
          R1 := Rect(gotoLeft, Rt.Top, pos + gotoLeft, Rt.Bottom);
-         StatusBar.Canvas.Brush.Color := clMoneyGreen;        // µ×É«
+         StatusBar.Canvas.Brush.Color := clMoneyGreen;        // åº•è‰²
          StatusBar.Canvas.FillRect(R0);
-         StatusBar.Canvas.Brush.Color := clTeal;              // µ×É«
+         StatusBar.Canvas.Brush.Color := clTeal;              // åº•è‰²
          StatusBar.Canvas.FillRect(R1);
      end;
 
      if mySettings.isBK and (UnDoPos_BK > 0) or (not mySettings.isBK) and (UnDoPos > 0) then begin
-        StatusBar.Canvas.Brush.Color := clTeal;               // µ×É«
+        StatusBar.Canvas.Brush.Color := clTeal;               // åº•è‰²
      end else begin
-        StatusBar.Canvas.Brush.Color := clMoneyGreen;         // µ×É«
+        StatusBar.Canvas.Brush.Color := clMoneyGreen;         // åº•è‰²
      end;
-     StatusBar.Canvas.Font.Color  := clBlack;                 // ×ÖÌåÑÕÉ«
+     StatusBar.Canvas.Font.Color  := clBlack;                 // å­—ä½“é¢œè‰²
      StatusBar.Canvas.TextOut(Rt.Left, Rt.Top, Panel.Text);
   end;
 end;
 
-// ×´Ì¬À¸³ß´çµ÷Õû
+// çŠ¶æ€æ å°ºå¯¸è°ƒæ•´
 procedure Tmain.StatusBar1Resize(Sender: TObject);
 var
   j: integer;
@@ -6882,16 +6882,16 @@ begin
   gotoWidth := StatusBar1.Width - gotoLeft - 20;
 end;
 
-// Ö÷´°¿ÚÏÔÊ¾Ê±µÄÒ»Ğ©´¦Àí
+// ä¸»çª—å£æ˜¾ç¤ºæ—¶çš„ä¸€äº›å¤„ç†
 procedure Tmain.FormShow(Sender: TObject);
 begin
-  // ¹Ø¿¨ä¯ÀÀ´°¿ÚµÄÎ»ÖÃ¼°´óĞ¡
+  // å…³å¡æµè§ˆçª—å£çš„ä½ç½®åŠå¤§å°
   BrowseForm.Top := mySettings.bwTop;
   BrowseForm.Left := mySettings.bwLeft;
   BrowseForm.Width := mySettings.bwWidth;
   BrowseForm.Height := mySettings.bwHeight;
 
-  // ×ó²à±ßÀ¸
+  // å·¦ä¾§è¾¹æ 
   if mySettings.isLeftBar then begin
      pl_Side.Visible := True;
      bt_LeftBar.Caption := '<';
@@ -6900,11 +6900,11 @@ begin
      bt_LeftBar.Caption := '>';
   end;
   NewMapSize();
-  DrawMap();        // »­µØÍ¼
+  DrawMap();        // ç”»åœ°å›¾
   Edit1.SetFocus;
 end;
 
-// ¾«È·ÑÓÊ±
+// ç²¾ç¡®å»¶æ—¶
 procedure Delay(msecs: dword);
 var
   FirstTickCount: dword;
@@ -6914,43 +6914,43 @@ begin
   while GetTickCount-FirstTickCount < msecs do Application.ProcessMessages;
 end;
 
-// Êó±ê¹öÂÖ -- ¿ØÖÆ½øÍË
+// é¼ æ ‡æ»šè½® -- æ§åˆ¶è¿›é€€
 procedure Tmain.FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
   if isMoving then IsStop := True
-  else N15.Click;          // z£¬³·Ïú
+  else N15.Click;          // zï¼Œæ’¤é”€
   Handled := True;
   Delay(10);
 end;
 
-// Êó±ê¹öÂÖ -- ¿ØÖÆ½øÍË
+// é¼ æ ‡æ»šè½® -- æ§åˆ¶è¿›é€€
 procedure Tmain.FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
   if isMoving then IsStop := True
-  else N18.Click;          // x£¬ÖØ×ö
+  else N18.Click;          // xï¼Œé‡åš
   Handled := True;
   Delay(10);
 end;
 
-// GET ÇëÇó -- ¶ÔÓ¦´Ó±ÈÈüÍøÕ¾¼ÓÔØ±ÈÈü¹Ø¿¨µÄXSBµÄ API
+// GET è¯·æ±‚ -- å¯¹åº”ä»æ¯”èµ›ç½‘ç«™åŠ è½½æ¯”èµ›å…³å¡çš„XSBçš„ API
 function MyGetMatch: string;
 var
   IdHttp : TIdHTTP;
-  Url : string;                   // ÇëÇóµØÖ·
-  ResponseStream : TStringStream; // ·µ»ØĞÅÏ¢
+  Url : string;                   // è¯·æ±‚åœ°å€
+  ResponseStream : TStringStream; // è¿”å›ä¿¡æ¯
   ResponseStr : string;
   
 begin
-  // ´´½¨IDHTTP¿Ø¼ş
+  // åˆ›å»ºIDHTTPæ§ä»¶
   IdHttp := TIdHTTP.Create(nil);
 
-  // TStringStream¶ÔÏóÓÃÓÚ±£´æÏìÓ¦ĞÅÏ¢
+  // TStringStreamå¯¹è±¡ç”¨äºä¿å­˜å“åº”ä¿¡æ¯
   ResponseStream := TStringStream.Create('');
 
   try
-    // ÇëÇóµØÖ·
+    // è¯·æ±‚åœ°å€
     Url := 'http://sokoban.ws/api/competition/';
     try
       IdHttp.Get(Url, ResponseStream);
@@ -6961,10 +6961,10 @@ begin
 //      end;
     end;
 
-    // »ñÈ¡ÍøÒ³·µ»ØµÄĞÅÏ¢
+    // è·å–ç½‘é¡µè¿”å›çš„ä¿¡æ¯
     ResponseStr := ResponseStream.DataString;
 
-    // ÍøÒ³ÖĞµÄ´æÔÚÖĞÎÄÊ±£¬ĞèÒª½øĞĞUTF8½âÂë
+    // ç½‘é¡µä¸­çš„å­˜åœ¨ä¸­æ–‡æ—¶ï¼Œéœ€è¦è¿›è¡ŒUTF8è§£ç 
     ResponseStr := UTF8Decode(ResponseStr);
 
   finally
@@ -6975,20 +6975,20 @@ begin
   Result := ResponseStr;
 end;
 
-// ÏàÓ¦×î½ü´ò¿ªµÄ¹Ø¿¨¼¯ÎÄµµ²Ëµ¥ÏîµÄµ¥»÷ÊÂ¼ş
+// ç›¸åº”æœ€è¿‘æ‰“å¼€çš„å…³å¡é›†æ–‡æ¡£èœå•é¡¹çš„å•å‡»äº‹ä»¶
 procedure Tmain.MenuItemClick(Sender: TObject);
 var
   fn: string;
   i, size, n: Integer;
-  // ½âÎö Json
+  // è§£æ Json
   jRet, jLevel: ISuperObject;
   strBegin, strEnd, strLevel, level, author, title, str: string;
   id: integer;
 
 begin
    if not mySettings.isXSB_Saved then
-   begin    // ÓĞĞÂµÄXSBÉĞÎ´±£´æ
-      i := MessageBox(Handle, 'µ±Ç°¹Ø¿¨ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+   begin    // æœ‰æ–°çš„XSBå°šæœªä¿å­˜
+      i := MessageBox(Handle, 'å½“å‰å…³å¡å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
       if i = idyes then begin
         SaveXSBToFile();
       end else if i = idno then begin
@@ -6997,19 +6997,19 @@ begin
    end;
 
    if not mySettings.isLurd_Saved then
-   begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-      i := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+   begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+      i := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
       if i = idyes then begin
         mySettings.isLurd_Saved := True;
-        SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+        SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
       end else if i = idno then begin
         mySettings.isLurd_Saved := True;
-        StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+        StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
       end else exit;
    end;
 
   fn := TmenuItem(sender).caption;
-  if fn = 'ÌáÈ¡±ÈÈü¹Ø¿¨' then begin
+  if fn = 'æå–æ¯”èµ›å…³å¡' then begin
 
      jRet := SO(MyGetMatch);
      if (jRet.O['id'] <> nil) then begin
@@ -7062,28 +7062,28 @@ begin
         txtList.Clear;
         Split(str, txtList);
 
-        if LoadMapsFromTextList(txtList, False) then begin               // ¼ÓÔØ±ÈÈü XSB
-          if MapList.Count > 0 then begin   // ½âÎöµ½ÁËÓĞĞ§¹Ø¿¨£¬×Ô¶¯´ò¿ªµÚÒ»¸ö¹Ø¿¨
+        if LoadMapsFromTextList(txtList, False) then begin               // åŠ è½½æ¯”èµ› XSB
+          if MapList.Count > 0 then begin   // è§£æåˆ°äº†æœ‰æ•ˆå…³å¡ï¼Œè‡ªåŠ¨æ‰“å¼€ç¬¬ä¸€ä¸ªå…³å¡
             maxNumber := MapList.Count;
             mySettings.MapFileName := '';
             if LoadMap(1) then begin
-              curMapNode.Trun := 0;    // Ä¬ÈÏ¹Ø¿¨µÚ 0 ×ª
+              curMapNode.Trun := 0;    // é»˜è®¤å…³å¡ç¬¬ 0 è½¬
               SetMapTrun();
               InitlizeMap();
-              mySettings.isXSB_Saved := False;              // µ±´Ó¼ôÇĞ°åµ¼ÈëµÄ XSB ÊÇ·ñ±£´æ¹ıÁË
-              mySettings.isLurd_Saved := True;              // ÍÆ¹Ø¿¨µÄ¶¯×÷ÊÇ·ñ±£´æ¹ıÁË
-              Caption := AppName + AppVer + ' - ±ÈÈü¹Ø¿¨ ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']';
-              StatusBar1.Panels[7].Text := 'µÚ' + inttostr(id) + 'ÆÚ±ÈÈü£¬' + strBegin + ' ÖÁ ' + strEnd;
+              mySettings.isXSB_Saved := False;              // å½“ä»å‰ªåˆ‡æ¿å¯¼å…¥çš„ XSB æ˜¯å¦ä¿å­˜è¿‡äº†
+              mySettings.isLurd_Saved := True;              // æ¨å…³å¡çš„åŠ¨ä½œæ˜¯å¦ä¿å­˜è¿‡äº†
+              Caption := AppName + AppVer + ' - æ¯”èµ›å…³å¡ ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']';
+              StatusBar1.Panels[7].Text := 'ç¬¬' + inttostr(id) + 'æœŸæ¯”èµ›ï¼Œ' + strBegin + ' è‡³ ' + strEnd;
             end;
           end;
         end
-        else StatusBar1.Panels[7].Text := 'ÌáÈ¡±ÈÈü¹Ø¿¨Ê§°Ü£¡';
+        else StatusBar1.Panels[7].Text := 'æå–æ¯”èµ›å…³å¡å¤±è´¥ï¼';
 
-     end else StatusBar1.Panels[7].Text := 'Ã»ÓĞÌáÈ¡µ½±ÈÈü¹Ø¿¨£¡';
+     end else StatusBar1.Panels[7].Text := 'æ²¡æœ‰æå–åˆ°æ¯”èµ›å…³å¡ï¼';
   end
   else begin
 
-    if fn = '¹Ø¿¨ÖÜ×ª¿â(BoxMan.xsb)' then fn := 'BoxMan.xsb'
+    if fn = 'å…³å¡å‘¨è½¬åº“(BoxMan.xsb)' then fn := 'BoxMan.xsb'
     else if AnsiSameText(fn, AppPath + mySettings.MapFileName) then Exit;
 
     if Pos(':', fn) = 0 then fn := AppPath + fn;
@@ -7091,8 +7091,8 @@ begin
     if FileExists(fn) then begin
       txtList.Clear;
       txtList.loadfromfile(fn);
-      QuicklyLoadMap(txtList, 1, curMapNode);       // ¿ìËÙ´ò¿ªµÚÒ»¸öµØÍ¼
-      maxNumber := GetMapNumber(txtList);                            // È¡µÃ×î´ó¹Ø¿¨ĞòºÅ
+      QuicklyLoadMap(txtList, 1, curMapNode);       // å¿«é€Ÿæ‰“å¼€ç¬¬ä¸€ä¸ªåœ°å›¾
+      maxNumber := GetMapNumber(txtList);                            // å–å¾—æœ€å¤§å…³å¡åºå·
 
       if curMapNode.Rows > 2 then begin
 
@@ -7102,7 +7102,7 @@ begin
           curMap.CurrentLevel := 1;
 
           if not AnsiSameText(mySettings.MapFileName, 'BoxMan.xsb') then begin
-             // µ÷Õû×î½ü´ò¿ªµÄÎÄµµµÄË³Ğò
+             // è°ƒæ•´æœ€è¿‘æ‰“å¼€çš„æ–‡æ¡£çš„é¡ºåº
              size := mySettings.LaterList.Count;
              i := 0;
              while i < size do begin
@@ -7116,17 +7116,17 @@ begin
           mySettings.isXSB_Saved := True;
           ReadQuicklyMap();
 
-          // ÏÈÇ¿ÖÆÍ£Ö¹ºóÌ¨Ïß³Ì£¬ÔÙ´´½¨ĞÂµÄºóÌ¨Ïß³Ì£¬¼ÓÔØµØÍ¼
+          // å…ˆå¼ºåˆ¶åœæ­¢åå°çº¿ç¨‹ï¼Œå†åˆ›å»ºæ–°çš„åå°çº¿ç¨‹ï¼ŒåŠ è½½åœ°å›¾
           isStopThread := True;
           TLoadMapThread.Create(False);
 
           StatusBar1.Panels[7].Text := '';
-      end else StatusBar1.Panels[7].Text := 'ÎŞĞ§µÄ¹Ø¿¨ÎÄµµ - ' + fn;
-    end else StatusBar1.Panels[7].Text := '¸ÃÎÄµµÒÑ¶ªÊ§ - ' + fn;
+      end else StatusBar1.Panels[7].Text := 'æ— æ•ˆçš„å…³å¡æ–‡æ¡£ - ' + fn;
+    end else StatusBar1.Panels[7].Text := 'è¯¥æ–‡æ¡£å·²ä¸¢å¤± - ' + fn;
   end;
 end;
 
-// ×î½ü´ò¿ªµÄ¹Ø¿¨¼¯ÎÄµµ -- ×Ô¶¯Éú³É²Ëµ¥Ïî
+// æœ€è¿‘æ‰“å¼€çš„å…³å¡é›†æ–‡æ¡£ -- è‡ªåŠ¨ç”Ÿæˆèœå•é¡¹
 procedure Tmain.bt_LatelyClick(Sender: TObject);
 var
   i, size: Integer;
@@ -7136,7 +7136,7 @@ begin
   if isMoving then IsStop := True
   else IsStop := False;
 
-  // Ç¿ÖÆÍ£Ö¹¼ÓÔØµØÍ¼ÎÄµµµÄºóÌ¨Ïß³Ì
+  // å¼ºåˆ¶åœæ­¢åŠ è½½åœ°å›¾æ–‡æ¡£çš„åå°çº¿ç¨‹
   isStopThread := True;
 
   size := mySettings.LaterList.Count;
@@ -7154,11 +7154,11 @@ begin
   ItemL1.Caption := '-';
   pm_Later.Items.Add(ItemL1);
   ItemL1 := TMenuItem.Create(Nil);
-  ItemL1.Caption := '¹Ø¿¨ÖÜ×ª¿â(BoxMan.xsb)';
+  ItemL1.Caption := 'å…³å¡å‘¨è½¬åº“(BoxMan.xsb)';
   ItemL1.OnClick := MenuItemClick;
   pm_Later.Items.Add(ItemL1);
   ItemL1 := TMenuItem.Create(Nil);
-  ItemL1.Caption := 'ÌáÈ¡±ÈÈü¹Ø¿¨';
+  ItemL1.Caption := 'æå–æ¯”èµ›å…³å¡';
   ItemL1.OnClick := MenuItemClick;
   pm_Later.Items.Add(ItemL1);
 
@@ -7168,7 +7168,7 @@ begin
 //  mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
 end;
 
-// ±£´æ×´Ì¬°´Å¥
+// ä¿å­˜çŠ¶æ€æŒ‰é’®
 procedure Tmain.bt_SaveClick(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7177,48 +7177,48 @@ begin
   isKeyPush := False;
   
   if mySettings.isXSB_Saved then begin
-    SaveState();                                   // ±£´æ×´Ì¬µ½Êı¾İ¿â
+    SaveState();                                   // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
   end else begin
-    if SaveXSBToFile() then SaveState();           // ±£´æ¹Ø¿¨ XSB µ½ÎÄµµ£¬×´Ì¬µ½Êı¾İ¿â
+    if SaveXSBToFile() then SaveState();           // ä¿å­˜å…³å¡ XSB åˆ°æ–‡æ¡£ï¼ŒçŠ¶æ€åˆ°æ•°æ®åº“
   end;
 end;
 
-// ÓÎÏ·ÖØ¿ªÊ¼
+// æ¸¸æˆé‡å¼€å§‹
 procedure Tmain.pm_HomeClick(Sender: TObject);
 begin
   N16.Click;
 end;
 
-// Ìá½»´ğ°¸µ½±ÈÈüÍøÕ¾
+// æäº¤ç­”æ¡ˆåˆ°æ¯”èµ›ç½‘ç«™
 procedure Tmain.N1Click(Sender: TObject);
 var
    len: Integer;
 
 begin
-   if GetSolutionFromDB(List_Solution.ItemIndex, MySubmit.SubmitLurd) then begin   // Ìá½»--Lurd
+   if GetSolutionFromDB(List_Solution.ItemIndex, MySubmit.SubmitLurd) then begin   // æäº¤--Lurd
       len := Length(MySubmit.SubmitLurd);
       if len > 0 then begin
-          MySubmit.SubmitCountry := mySettings.SubmitCountry;       // Ìá½»--¹ú¼Ò»òµØÇø
-          MySubmit.SubmitName    := mySettings.SubmitName;          // Ìá½»--ĞÕÃû
-          MySubmit.SubmitEmail   := mySettings.SubmitEmail;         // Ìá½»--ÓÊÏä
+          MySubmit.SubmitCountry := mySettings.SubmitCountry;       // æäº¤--å›½å®¶æˆ–åœ°åŒº
+          MySubmit.SubmitName    := mySettings.SubmitName;          // æäº¤--å§“å
+          MySubmit.SubmitEmail   := mySettings.SubmitEmail;         // æäº¤--é‚®ç®±
           if MySubmit.ShowModal = mrOK then begin
-             mySettings.SubmitCountry := MySubmit.SubmitCountry;       // Ìá½»--¹ú¼Ò»òµØÇø
-             mySettings.SubmitName    := MySubmit.SubmitName;          // Ìá½»--ĞÕÃû
-             mySettings.SubmitEmail   := MySubmit.SubmitEmail;         // Ìá½»--ÓÊÏä
-             StatusBar1.Panels[7].Text := MySubmit.Caption;            // Ìá½»½á¹û
+             mySettings.SubmitCountry := MySubmit.SubmitCountry;       // æäº¤--å›½å®¶æˆ–åœ°åŒº
+             mySettings.SubmitName    := MySubmit.SubmitName;          // æäº¤--å§“å
+             mySettings.SubmitEmail   := MySubmit.SubmitEmail;         // æäº¤--é‚®ç®±
+             StatusBar1.Panels[7].Text := MySubmit.Caption;            // æäº¤ç»“æœ
           end;
-      end else StatusBar1.Panels[7].Text := '¼ÓÔØ´ğ°¸Ê§°Ü£¡';
-   end else StatusBar1.Panels[7].Text := 'ÇëÏÈÑ¡ÔñĞèÒªÌá½»µÄ´ğ°¸£¡';
+      end else StatusBar1.Panels[7].Text := 'åŠ è½½ç­”æ¡ˆå¤±è´¥ï¼';
+   end else StatusBar1.Panels[7].Text := 'è¯·å…ˆé€‰æ‹©éœ€è¦æäº¤çš„ç­”æ¡ˆï¼';
 end;
 
-// ÏÔÊ¾±ÈÈüÍøÕ¾ -- ´ğ°¸ÁĞ±í
+// æ˜¾ç¤ºæ¯”èµ›ç½‘ç«™ -- ç­”æ¡ˆåˆ—è¡¨
 procedure Tmain.N2Click(Sender: TObject);
 begin
   ShowSolutuionList.Show;
 //  ShellExecute(handle,nil,pchar('http://sokoban.cn/solution_table.php'),nil,nil,SW_shownormal);
 end;
 
-// µ¼³ö xsb ÏÖ³¡ -- ¼ôÇĞ°å
+// å¯¼å‡º xsb ç°åœº -- å‰ªåˆ‡æ¿
 procedure Tmain.XSB4Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7229,10 +7229,10 @@ begin
   if (not Assigned(curMapNode)) then Exit;
 
   XSBToClipboard_2();
-  StatusBar1.Panels[7].Text := 'ÏÖ³¡ XSB ÒÑËÍÈë¼ôÇĞ°å£¡';
+  StatusBar1.Panels[7].Text := 'ç°åœº XSB å·²é€å…¥å‰ªåˆ‡æ¿ï¼';
 end;
 
-// µ¼³ö¹Ø¿¨xsbºÍÒÑ×ö¶¯×÷ -- ¼ôÇĞ°å
+// å¯¼å‡ºå…³å¡xsbå’Œå·²åšåŠ¨ä½œ -- å‰ªåˆ‡æ¿
 procedure Tmain.XSB2Click(Sender: TObject);
 var
   str: string;
@@ -7246,16 +7246,16 @@ begin
 
   if (not Assigned(curMapNode)) then Exit;
 
-  // ¹Ø¿¨ XSB
+  // å…³å¡ XSB
   str := GetXSB(curMapNode);
 
-  // ÕıÍÆ¶¯×÷
+  // æ­£æ¨åŠ¨ä½œ
   if UnDoPos > 0 then begin
      if UnDoPos < MaxLenPath then UndoList[UnDoPos+1] := #0;
      str := str + PChar(@UndoList) + #10;
   end;
 
-  // ÄæÍÆ¶¯×÷
+  // é€†æ¨åŠ¨ä½œ
   if (ManPos_BK >= 0) and (UnDoPos_BK > 0) then begin
     c := ManPos_BK_0 mod curMapNode.Cols + 1;
     r := ManPos_BK_0 div curMapNode.Cols + 1;
@@ -7264,13 +7264,13 @@ begin
     str := str + '[' + IntToStr(c) + ', ' + IntToStr(r) + ']' + PChar(@UndoList_BK) + #10;
   end;
 
-  // ËÍÈë¼ôÇĞ°å
+  // é€å…¥å‰ªåˆ‡æ¿
   Clipboard.SetTextBuf(PChar(str));
 
-  StatusBar1.Panels[7].Text := '¹Ø¿¨ºÍÒÑ×ö¶¯×÷(XSB + Lurd)ÒÑËÍÈë¼ôÇĞ°å£¡';
+  StatusBar1.Panels[7].Text := 'å…³å¡å’Œå·²åšåŠ¨ä½œ(XSB + Lurd)å·²é€å…¥å‰ªåˆ‡æ¿ï¼';
 end;
 
-// µ¼Èë¹Ø¿¨ xsb -- ¼ôÇĞ°å
+// å¯¼å…¥å…³å¡ xsb -- å‰ªåˆ‡æ¿
 procedure Tmain.XSB1Click(Sender: TObject);
 var
   i: Integer;
@@ -7281,8 +7281,8 @@ begin
 
   StatusBar1.Panels[7].Text := '';
   if not mySettings.isXSB_Saved then
-  begin    // ÓĞĞÂµÄXSBÉĞÎ´±£´æ
-    i := MessageBox(Handle, 'µ±Ç°¹Ø¿¨ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„XSBå°šæœªä¿å­˜
+    i := MessageBox(Handle, 'å½“å‰å…³å¡å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if i = idyes then begin
       SaveXSBToFile();
     end else if i = idno then begin
@@ -7291,18 +7291,18 @@ begin
   end;
 
   if not mySettings.isLurd_Saved then
-  begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-    i := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+    i := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if i = idyes then begin
       mySettings.isLurd_Saved := True;
-      SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+      SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
     end else if i = idno then begin
       mySettings.isLurd_Saved := True;
-      StatusBar1.Panels[7].Text := 'Î´±£´æĞÂ¶¯×÷£¡';
+      StatusBar1.Panels[7].Text := 'æœªä¿å­˜æ–°åŠ¨ä½œï¼';
     end else exit;
   end;
 
-  // ¼ôÇĞ°åµ¼Èë XSB£¬°üº¬´ğ°¸
+  // å‰ªåˆ‡æ¿å¯¼å…¥ XSBï¼ŒåŒ…å«ç­”æ¡ˆ
   if (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_OEMTEXT)) then begin
       XSB_Text := Clipboard.asText;
       txtList.Clear;
@@ -7310,52 +7310,52 @@ begin
   end else Exit;
 
   if LoadMapsFromTextList(txtList, True) then begin
-    if MapList.Count > 0 then begin   // ½âÎöµ½ÁËÓĞĞ§¹Ø¿¨£¬×Ô¶¯´ò¿ªµÚÒ»¸ö¹Ø¿¨
+    if MapList.Count > 0 then begin   // è§£æåˆ°äº†æœ‰æ•ˆå…³å¡ï¼Œè‡ªåŠ¨æ‰“å¼€ç¬¬ä¸€ä¸ªå…³å¡
       maxNumber := MapList.Count;
       mySettings.MapFileName := '';
       if LoadMap(1) then begin
         InitlizeMap();
-        curMapNode.Trun := 0;    // Ä¬ÈÏ¹Ø¿¨µÚ 0 ×ª
+        curMapNode.Trun := 0;    // é»˜è®¤å…³å¡ç¬¬ 0 è½¬
         SetMapTrun();
-        mySettings.isXSB_Saved := False;              // µ±´Ó¼ôÇĞ°åµ¼ÈëµÄ XSB ÊÇ·ñ±£´æ¹ıÁË
-        mySettings.isLurd_Saved := True;              // ÍÆ¹Ø¿¨µÄ¶¯×÷ÊÇ·ñ±£´æ¹ıÁË
-        Caption := AppName + AppVer + ' - ¼ôÇĞ°å ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']';
-        StatusBar1.Panels[7].Text := '´Ó¼ôÇĞ°å¼ÓÔØ¹Ø¿¨ XSB ³É¹¦£¡';
+        mySettings.isXSB_Saved := False;              // å½“ä»å‰ªåˆ‡æ¿å¯¼å…¥çš„ XSB æ˜¯å¦ä¿å­˜è¿‡äº†
+        mySettings.isLurd_Saved := True;              // æ¨å…³å¡çš„åŠ¨ä½œæ˜¯å¦ä¿å­˜è¿‡äº†
+        Caption := AppName + AppVer + ' - å‰ªåˆ‡æ¿ ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']';
+        StatusBar1.Panels[7].Text := 'ä»å‰ªåˆ‡æ¿åŠ è½½å…³å¡ XSB æˆåŠŸï¼';
       end;
     end;
   end
-  else StatusBar1.Panels[7].Text := '¼ÓÔØ¼ôÇĞ°åÖĞµÄ¹Ø¿¨ XSB Ê§°Ü£¡';
+  else StatusBar1.Panels[7].Text := 'åŠ è½½å‰ªåˆ‡æ¿ä¸­çš„å…³å¡ XSB å¤±è´¥ï¼';
 end;
 
-// ´°¿Ú×îĞ¡»¯ºÍÊ§È¥½¹µãµÄÊ±ºò£¬Í£Ö¹¶¯»­
+// çª—å£æœ€å°åŒ–å’Œå¤±å»ç„¦ç‚¹çš„æ—¶å€™ï¼Œåœæ­¢åŠ¨ç”»
 procedure Tmain.ApplicationEvents1Minimize(Sender: TObject);
 begin
   if isMoving then IsStop := True;
 end;
 
-// ×îºóÒ»¹Ø
+// æœ€åä¸€å…³
 procedure Tmain.N10Click(Sender: TObject);
 var
   n: Integer;
-  tmpMapNode : PMapNode;        // ¹Ø¿¨½Úµã
+  tmpMapNode : PMapNode;        // å…³å¡èŠ‚ç‚¹
   
 begin
   if isMoving then IsStop := True
   else IsStop := False;
 
   if (not Assigned(curMapNode)) or (MapList.Count <= 0) then begin      //  or (not curMapNode.isEligible)
-     StatusBar1.Panels[7].Text := 'ÉĞÎŞ´ò¿ªµÄ¹Ø¿¨£¡';
+     StatusBar1.Panels[7].Text := 'å°šæ— æ‰“å¼€çš„å…³å¡ï¼';
      Exit;
   end;
 
   if not mySettings.isLurd_Saved then
-  begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-    n := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+    n := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if n = idyes then begin
-       SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+       SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
     end else if n = idno then begin
        mySettings.isLurd_Saved := True;
-       StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+       StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
     end else exit;
   end;
 
@@ -7368,7 +7368,7 @@ begin
           InitlizeMap();
           SetMapTrun();
         end;
-     end else StatusBar1.Panels[7].Text := 'ºóÃæÃ»ÓĞÁË!';
+     end else StatusBar1.Panels[7].Text := 'åé¢æ²¡æœ‰äº†!';
   end else begin
     if maxNumber > curMap.CurrentLevel then begin
        New(tmpMapNode);
@@ -7397,35 +7397,35 @@ begin
              tmpMapNode := nil;
           end;
        end;
-    end else StatusBar1.Panels[7].Text := 'ºóÃæÃ»ÓĞÁË!';
+    end else StatusBar1.Panels[7].Text := 'åé¢æ²¡æœ‰äº†!';
   end;
 end;
 
-// µÚÒ»¹Ø
+// ç¬¬ä¸€å…³
 procedure Tmain.N8Click(Sender: TObject);
 var
   bt: Integer;
-  tmpMapNode : PMapNode;        // ¹Ø¿¨½Úµã
+  tmpMapNode : PMapNode;        // å…³å¡èŠ‚ç‚¹
 
 begin
   if isMoving then IsStop := True
   else IsStop := False;
 
   if (not Assigned(curMapNode)) or (MapList.Count <= 0) then begin      //  or (not curMapNode.isEligible)
-     StatusBar1.Panels[7].Text := 'ÉĞÎŞ´ò¿ªµÄ¹Ø¿¨£¡';
+     StatusBar1.Panels[7].Text := 'å°šæ— æ‰“å¼€çš„å…³å¡ï¼';
      Exit;
   end;
 
   if curMap.CurrentLevel > 1 then
   begin
     if not mySettings.isLurd_Saved then
-    begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-      bt := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+    begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+      bt := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
       if bt = idyes then begin
-         SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+         SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
       end else if bt = idno then begin
          mySettings.isLurd_Saved := True;
-         StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+         StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
       end else exit;
     end;
 
@@ -7467,10 +7467,10 @@ begin
       end;
     end;
   end
-  else StatusBar1.Panels[7].Text := 'Ç°ÃæÃ»ÓĞÁË!';
+  else StatusBar1.Panels[7].Text := 'å‰é¢æ²¡æœ‰äº†!';
 end;
 
-// ÉÏÒ»¹ØÎ´½â¹Ø¿¨
+// ä¸Šä¸€å…³æœªè§£å…³å¡
 procedure Tmain.N9Click(Sender: TObject);
 var
   i: Integer;
@@ -7482,11 +7482,11 @@ begin
   else IsStop := False;
 
   if (not Assigned(curMapNode)) or (MapList.Count <= 0) then begin  //  or (not curMapNode.isEligible)
-     StatusBar1.Panels[7].Text := 'ÉĞÎŞ´ò¿ªµÄ¹Ø¿¨£¡';
+     StatusBar1.Panels[7].Text := 'å°šæ— æ‰“å¼€çš„å…³å¡ï¼';
      Exit;
   end;
 
-  s := 'Ç°ÃæÃ»ÓĞÕÒµ½Î´½â¹Ø¿¨!';
+  s := 'å‰é¢æ²¡æœ‰æ‰¾åˆ°æœªè§£å…³å¡!';
   if curMap.CurrentLevel > 1 then
   begin
     i := curMap.CurrentLevel;
@@ -7505,14 +7505,14 @@ begin
         InitlizeMap();
         SetMapTrun();
       end;
-      s := 'ÉÏÒ»¹ØÎ´½â¹Ø¿¨£¡';
+      s := 'ä¸Šä¸€å…³æœªè§£å…³å¡ï¼';
     end;
   end;
   StatusBar1.Panels[7].Text := s;
 
 end;
 
-// ÏÂÒ»¹ØÎ´½â¹Ø¿¨
+// ä¸‹ä¸€å…³æœªè§£å…³å¡
 procedure Tmain.N11Click(Sender: TObject);
 var
   i: Integer;
@@ -7524,11 +7524,11 @@ begin
   else IsStop := False;
 
   if (not Assigned(curMapNode)) or (MapList.Count <= 0) then begin     // or (not curMapNode.isEligible) 
-     StatusBar1.Panels[7].Text := 'ÉĞÎŞ´ò¿ªµÄ¹Ø¿¨£¡';
+     StatusBar1.Panels[7].Text := 'å°šæ— æ‰“å¼€çš„å…³å¡ï¼';
      Exit;
   end;
 
-  s := 'ºóÃæÃ»ÓĞÕÒµ½Î´½â¹Ø¿¨!';
+  s := 'åé¢æ²¡æœ‰æ‰¾åˆ°æœªè§£å…³å¡!';
   if curMap.CurrentLevel < MapList.Count then
   begin
     i := curMap.CurrentLevel;
@@ -7547,13 +7547,13 @@ begin
         InitlizeMap();
         SetMapTrun();
       end;
-      s := 'ÏÂÒ»¹ØÎ´½â¹Ø¿¨£¡';
+      s := 'ä¸‹ä¸€å…³æœªè§£å…³å¡ï¼';
     end;
   end;
   StatusBar1.Panels[7].Text := s;
 end;
 
-// ³·Ïú°´Å¥µÄÓÒ¼ü²Ëµ¥ -- ³·Ïú
+// æ’¤é”€æŒ‰é’®çš„å³é”®èœå• -- æ’¤é”€
 procedure Tmain.N15Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7571,11 +7571,11 @@ begin
       UnDo(GetStep2(mySettings.isBK))
     else
       UnDo(UnDoPos - LastSteps);
-    LastSteps := -1;              // ÕıÍÆ×îºóÒ»´ÎµãÍÆÇ°µÄ²½Êı
+    LastSteps := -1;              // æ­£æ¨æœ€åä¸€æ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
   end;
 end;
 
-// ÖØ×ö°´Å¥µÄÓÒ¼ü²Ëµ¥ -- ÖØ×ö
+// é‡åšæŒ‰é’®çš„å³é”®èœå• -- é‡åš
 procedure Tmain.N18Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7589,7 +7589,7 @@ begin
     ReDo(GetStep(mySettings.isBK));
 end;
 
-// ³·Ïú°´Å¥µÄÓÒ¼ü²Ëµ¥ -- ³·Ïúµ¥²½
+// æ’¤é”€æŒ‰é’®çš„å³é”®èœå• -- æ’¤é”€å•æ­¥
 procedure Tmain.N14Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7601,7 +7601,7 @@ begin
   else UnDo(1);
 end;
 
-// ÖØ×ö°´Å¥µÄÓÒ¼ü²Ëµ¥ -- ÖØ×öµ¥²½
+// é‡åšæŒ‰é’®çš„å³é”®èœå• -- é‡åšå•æ­¥
 procedure Tmain.N17Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7613,7 +7613,7 @@ begin
   else ReDo(1);
 end;
 
-// ³·Ïú°´Å¥µÄÓÒ¼ü²Ëµ¥ -- ÍËÖÁÊ×
+// æ’¤é”€æŒ‰é’®çš„å³é”®èœå• -- é€€è‡³é¦–
 procedure Tmain.N16Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7625,10 +7625,10 @@ begin
   if mySettings.isBK then UnDo_BK(UnDoPos_BK)
   else UnDo(UnDoPos);
   isNoDelay := false;
-  StatusBar1.Panels[7].Text := 'ÒÑÖÁÊ×£¡';
+  StatusBar1.Panels[7].Text := 'å·²è‡³é¦–ï¼';
 end;
 
-// ÖØ×ö°´Å¥µÄÓÒ¼ü²Ëµ¥ -- ½øÖÁÎ²
+// é‡åšæŒ‰é’®çš„å³é”®èœå• -- è¿›è‡³å°¾
 procedure Tmain.N19Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7640,10 +7640,10 @@ begin
   if mySettings.isBK then ReDo_BK(ReDoPos_BK)
   else ReDo(ReDoPos);
   isNoDelay := false;
-  StatusBar1.Panels[7].Text := 'ÒÑÖÁÎ²£¡';
+  StatusBar1.Panels[7].Text := 'å·²è‡³å°¾ï¼';
 end;
 
-// ½øÖÁÎ² -- ¸ü¶à¹¦ÄÜ°´Å¥
+// è¿›è‡³å°¾ -- æ›´å¤šåŠŸèƒ½æŒ‰é’®
 procedure Tmain.N21Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7659,7 +7659,7 @@ begin
   end;
 end;
 
-// ÍËÖÁÊ× -- ¸ü¶à¹¦ÄÜ°´Å¥
+// é€€è‡³é¦– -- æ›´å¤šåŠŸèƒ½æŒ‰é’®
 procedure Tmain.N22Click(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -7675,62 +7675,62 @@ begin
   end;
 end;
 
-// ÉÏÒ»¸ö°´Å¥ -- Êó±ê°´ÏÂ
+// ä¸Šä¸€ä¸ªæŒ‰é’® -- é¼ æ ‡æŒ‰ä¸‹
 procedure Tmain.bt_PreMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   if isMoving then IsStop := True;
 end;
 
-// Ö÷´°¿Ú¶¥²¿µÄ¹Ø¿¨ĞòºÅÊäÈë¿ò -- ¿ØÖÆÔÊĞíÊäÈëµÄ×Ö·û
+// ä¸»çª—å£é¡¶éƒ¨çš„å…³å¡åºå·è¾“å…¥æ¡† -- æ§åˆ¶å…è®¸è¾“å…¥çš„å­—ç¬¦
 procedure Tmain.ed_sel_MapKeyPress(Sender: TObject; var Key: Char);
 begin
-   // ÏŞÖÆÊäÈëÊı×Ö/Ğ¡Êıµã/ÍË¸ñ¼ü
+   // é™åˆ¶è¾“å…¥æ•°å­—/å°æ•°ç‚¹/é€€æ ¼é”®
    if not (Key in ['0'..'9']) then Key := #0;
    ed_sel_Map.Tag := 1;
 end;
 
-// Ö÷´°¿Ú¶¥²¿µÄ¹Ø¿¨ĞòºÅÊäÈë¿ò -- ÊäÈëĞòºÅ -- ¿ìËÙ´ò¿ª¸ÃĞòºÅµÄ¹Ø¿¨µØÍ¼
+// ä¸»çª—å£é¡¶éƒ¨çš„å…³å¡åºå·è¾“å…¥æ¡† -- è¾“å…¥åºå· -- å¿«é€Ÿæ‰“å¼€è¯¥åºå·çš„å…³å¡åœ°å›¾
 procedure Tmain.ed_sel_MapChange(Sender: TObject);
 var
  edt: TEdit;
  str: string;
  n, bt: integer;
- tmpMapNode : PMapNode;        // ¹Ø¿¨½Úµã
+ tmpMapNode : PMapNode;        // å…³å¡èŠ‚ç‚¹
  
 begin
-   // ÅÅ³ı·Ç¼üÅÌÊäÈëµÄ OnChange ÊÂ¼ş
+   // æ’é™¤éé”®ç›˜è¾“å…¥çš„ OnChange äº‹ä»¶
    if ed_sel_Map.Tag = 0 then Exit;
    ed_sel_Map.Tag := 0;
    
-   // »ñÈ¡µ±Ç°ÎÄ±¾ÄÚÈİ
+   // è·å–å½“å‰æ–‡æœ¬å†…å®¹
    edt := TEdit(Sender);
    str := edt.Text;
 
    try
       n := StrToInt(str);
    except
-      StatusBar1.Panels[7].Text := 'ÎŞĞ§µÄ¹Ø¿¨ĞòºÅ£¡';
+      StatusBar1.Panels[7].Text := 'æ— æ•ˆçš„å…³å¡åºå·ï¼';
       Exit;
    end;
 
    if n > 0 then begin
       if not mySettings.isLurd_Saved then
-      begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-        bt := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+      begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+        bt := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
         if bt = idyes then begin
-           SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+           SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
         end else if bt = idno then begin
            mySettings.isLurd_Saved := True;
-           StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+           StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
         end else exit;
       end;
       try
          if MapList.Count = 0 then begin
-            // ¿ìËÙ´ò¿ªÖ¸¶¨µÄµØÍ¼
+            // å¿«é€Ÿæ‰“å¼€æŒ‡å®šçš„åœ°å›¾
             New(tmpMapNode);
             try
-              if n > maxNumber then n := maxNumber;     // µ±ÊäÈëµÄÊı×Ö´óÓÚ¹Ø¿¨ÊıÊ±£¬×Ô¶¯¼ÓÔØ×îºóÄÇ¸ö¹Ø¿¨
+              if n > maxNumber then n := maxNumber;     // å½“è¾“å…¥çš„æ•°å­—å¤§äºå…³å¡æ•°æ—¶ï¼Œè‡ªåŠ¨åŠ è½½æœ€åé‚£ä¸ªå…³å¡
 
               QuicklyLoadMap(txtList, n, tmpMapNode);
               if tmpMapNode.Rows > 2 then begin
@@ -7777,23 +7777,23 @@ begin
             end;
          end;
       except
-         StatusBar1.Panels[7].Text := 'Ã»ÕÒµ½Ö¸¶¨µÄ¹Ø¿¨£¡';
+         StatusBar1.Panels[7].Text := 'æ²¡æ‰¾åˆ°æŒ‡å®šçš„å…³å¡ï¼';
       end;
    end;
 end;
 
-// Â¼ÖÆ¶¯×÷
+// å½•åˆ¶åŠ¨ä½œ
 procedure Tmain.F91Click(Sender: TObject);
 begin
   DoAct(5);
 end;
 
-// ½«¸Õ¸Õµ¼ÈëµÄ¹Ø¿¨£¬¼ÓÈëµ½¹Ø¿¨ÖÜ×ª¿â -- ¶ÔÓ¦¡¾Ctrl + K¡¿¿ì¼ü
+// å°†åˆšåˆšå¯¼å…¥çš„å…³å¡ï¼ŒåŠ å…¥åˆ°å…³å¡å‘¨è½¬åº“ -- å¯¹åº”ã€Ctrl + Kã€‘å¿«é”®
 procedure Tmain.XSB0Click(Sender: TObject);
 var
   myXSBFile, myBakFile: Textfile;
   i: Integer;
-  mapNode: PMapNode;               // ¹Ø¿¨½Úµã
+  mapNode: PMapNode;               // å…³å¡èŠ‚ç‚¹
   line: string;
 
 begin
@@ -7803,19 +7803,19 @@ begin
   if (not Assigned(curMapNode)) or (not curMapNode.isEligible) then Exit;
 
   if mySettings.MapFileName = '' then begin
-    if MessageBox(Handle, PChar('½«¸Õ¸Õµ¼ÈëµÄ' + inttostr(MapList.Count) + '¸ö¹Ø¿¨£¬¼ÓÈëµ½¹Ø¿¨ÖÜ×ª¿â£¬' + #10 + 'È·¶¨Âğ£¿'), 'ÌáĞÑ', MB_ICONINFORMATION + MB_OKCANCEL) <> idOK then Exit;
+    if MessageBox(Handle, PChar('å°†åˆšåˆšå¯¼å…¥çš„' + inttostr(MapList.Count) + 'ä¸ªå…³å¡ï¼ŒåŠ å…¥åˆ°å…³å¡å‘¨è½¬åº“ï¼Œ' + #10 + 'ç¡®å®šå—ï¼Ÿ'), 'æé†’', MB_ICONINFORMATION + MB_OKCANCEL) <> idOK then Exit;
 
     mySettings.MapFileName := 'BoxMan.xsb';
 
     AssignFile(myXSBFile, AppPath + mySettings.MapFileName);
 
-    // ±¸·İ
-    if FileExists(AppPath + mySettings.MapFileName) then CopyFile(PChar(AppPath + mySettings.MapFileName), PChar(AppPath + 'BoxMan.xsb.bak'), False);   // ±£´æµ½ÖÜ×ª¹Ø¿¨¿â
+    // å¤‡ä»½
+    if FileExists(AppPath + mySettings.MapFileName) then CopyFile(PChar(AppPath + mySettings.MapFileName), PChar(AppPath + 'BoxMan.xsb.bak'), False);   // ä¿å­˜åˆ°å‘¨è½¬å…³å¡åº“
 
-    Rewrite(myXSBFile);                                                 // ´´½¨
+    Rewrite(myXSBFile);                                                 // åˆ›å»º
 
     try
-      // ÏÈĞ´ÈëĞÂµÄÄÚÈİ
+      // å…ˆå†™å…¥æ–°çš„å†…å®¹
       for i := 0 to MapList.Count - 1 do
       begin
         mapNode := MapList.Items[i];
@@ -7837,14 +7837,14 @@ begin
 //        end;
       end;
 
-      // ÔÙ°Ñ±¸·İµÄÄÚÈİ×·¼Ó½øÀ´
+      // å†æŠŠå¤‡ä»½çš„å†…å®¹è¿½åŠ è¿›æ¥
       if FileExists(AppPath + 'BoxMan.xsb.bak') then begin
          AssignFile(myBakFile, AppPath + 'BoxMan.xsb.bak');
          Reset(myBakFile);
          try
            Writeln(myXSBFile, '');
            while not eof(myBakFile) do begin
-              readln(myBakFile, line);        // ¶ÁÈ¡Ò»ĞĞ
+              readln(myBakFile, line);        // è¯»å–ä¸€è¡Œ
               Writeln(myXSBFile, line);
            end;
          finally
@@ -7855,21 +7855,21 @@ begin
       Closefile(myXSBFile);
     end;
 
-    mySettings.isXSB_Saved := True;            // µ±´Ó¼ôÇĞ°åµ¼ÈëµÄ XSB ÊÇ·ñ±£´æ¹ıÁË
+    mySettings.isXSB_Saved := True;            // å½“ä»å‰ªåˆ‡æ¿å¯¼å…¥çš„ XSB æ˜¯å¦ä¿å­˜è¿‡äº†
 
-    // ÏÈÇ¿ÖÆÍ£Ö¹ºóÌ¨Ïß³Ì£¬ÔÙ´´½¨ĞÂµÄºóÌ¨Ïß³Ì£¬¼ÓÔØµØÍ¼
+    // å…ˆå¼ºåˆ¶åœæ­¢åå°çº¿ç¨‹ï¼Œå†åˆ›å»ºæ–°çš„åå°çº¿ç¨‹ï¼ŒåŠ è½½åœ°å›¾
     isStopThread := True;
     txtList.Clear;
     txtList.loadfromfile('BoxMan.xsb');
     TLoadMapThread.Create(False);
-    maxNumber := GetMapNumber(txtList);                            // È¡µÃ×î´ó¹Ø¿¨ĞòºÅ
+    maxNumber := GetMapNumber(txtList);                            // å–å¾—æœ€å¤§å…³å¡åºå·
 
-    StatusBar1.Panels[7].Text := 'ÒÑÈë¹Ø¿¨ÖÜ×ª¿â¡£';
+    StatusBar1.Panels[7].Text := 'å·²å…¥å…³å¡å‘¨è½¬åº“ã€‚';
     Caption := AppName + AppVer + ' - ' + ExtractFileName(ChangeFileExt(mySettings.MapFileName, EmptyStr)) + ' ~ [' + inttostr(curMap.CurrentLevel) + '/' + inttostr(maxNumber) + ']';
   end;
 end;
 
-// Ö÷´°¿ÚµÄ×ó²à±ßÀ¸¡°ÏÔÊ¾/Òş²Ø¡±°´Å¥
+// ä¸»çª—å£çš„å·¦ä¾§è¾¹æ â€œæ˜¾ç¤º/éšè—â€æŒ‰é’®
 procedure Tmain.bt_LeftBarClick(Sender: TObject);
 begin
   mySettings.isLeftBar := not mySettings.isLeftBar;
@@ -7882,10 +7882,10 @@ begin
      bt_LeftBar.Caption := '>';
   end;
   NewMapSize();
-  DrawMap();        // »­µØÍ¼
+  DrawMap();        // ç”»åœ°å›¾
 end;
 
-// µ¼Èëlurd - ¼ôÇĞ°å
+// å¯¼å…¥lurd - å‰ªåˆ‡æ¿
 procedure Tmain.Lurd1Click(Sender: TObject);
 var
   i, myCell: Integer;
@@ -7897,8 +7897,8 @@ begin
   if (not Assigned(curMapNode)) or (not curMapNode.isEligible) then Exit;
 
   if LoadLurdFromClipboard(mySettings.isBK) then begin
-    StatusBar1.Panels[7].Text := '´Ó¼ôÇĞ°å¼ÓÔØ Lurd£¡';
-    if mySettings.isBK and (ManPos_BK_0_2 >= 0) then begin   // ´¦ÀíÈËµÄÎ»ÖÃ
+    StatusBar1.Panels[7].Text := 'ä»å‰ªåˆ‡æ¿åŠ è½½ Lurdï¼';
+    if mySettings.isBK and (ManPos_BK_0_2 >= 0) then begin   // å¤„ç†äººçš„ä½ç½®
       myCell := map_Board_OG[ManPos_BK_0_2];
       if (myCell = FloorCell) or (myCell = BoxCell) or (myCell = ManCell) then begin
         for i := 0 to curMap.MapSize - 1 do begin
@@ -7927,13 +7927,13 @@ begin
         UnDoPos_BK := 0;
         MoveTimes_BK := 0;
         PushTimes_BK := 0;
-        LastSteps := -1;                           // ÕıÍÆ×îºóÒ»´ÎµãÍÆÇ°µÄ²½Êı
-        IsManAccessibleTips_BK := false;           // ÊÇ·ñÏÔÊ¾ÈËµÄÄæÍÆ¿É´ïÌáÊ¾
-        IsBoxAccessibleTips_BK := false;           // ÊÇ·ñÏÔÊ¾Ïä×ÓµÄÄæÍÆ¿É´ïÌáÊ¾
-        DrawMap();         // »­µØÍ¼
-        SetButton();       // ÉèÖÃ°´Å¥×´Ì¬
-        ShowStatusBar();   // µ×ĞĞ×´Ì¬À¸
-        StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos_BK mod curMapNode.Cols, ManPos_BK div curMapNode.Cols) + ' - [ ' + IntToStr(ManPos_BK mod curMapNode.Cols + 1) + ', ' + IntToStr(ManPos_BK div curMapNode.Cols + 1) + ' ]';       // ±ê³ß
+        LastSteps := -1;                           // æ­£æ¨æœ€åä¸€æ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
+        IsManAccessibleTips_BK := false;           // æ˜¯å¦æ˜¾ç¤ºäººçš„é€†æ¨å¯è¾¾æç¤º
+        IsBoxAccessibleTips_BK := false;           // æ˜¯å¦æ˜¾ç¤ºç®±å­çš„é€†æ¨å¯è¾¾æç¤º
+        DrawMap();         // ç”»åœ°å›¾
+        SetButton();       // è®¾ç½®æŒ‰é’®çŠ¶æ€
+        ShowStatusBar();   // åº•è¡ŒçŠ¶æ€æ 
+        StatusBar1.Panels[5].Text := ' ' + GetCur(ManPos_BK mod curMapNode.Cols, ManPos_BK div curMapNode.Cols) + ' - [ ' + IntToStr(ManPos_BK mod curMapNode.Cols + 1) + ', ' + IntToStr(ManPos_BK div curMapNode.Cols + 1) + ' ]';       // æ ‡å°º
       end;
     end;
     curMap.isFinish := False;
@@ -7951,7 +7951,7 @@ begin
   if (not Assigned(curMapNode)) or (not curMapNode.isEligible) then Exit;
 
   if LurdToClipboard(ManPos_BK_0 mod curMapNode.Cols, ManPos_BK_0 div curMapNode.Cols) then
-     StatusBar1.Panels[7].Text := 'ÒÑ×ö¶¯×÷ Lurd ËÍÈë¼ôÇĞ°å£¡';
+     StatusBar1.Panels[7].Text := 'å·²åšåŠ¨ä½œ Lurd é€å…¥å‰ªåˆ‡æ¿ï¼';
 end;
 
 procedure Tmain.Lurd3Click(Sender: TObject);
@@ -7962,17 +7962,17 @@ begin
   if (not Assigned(curMapNode)) or (not curMapNode.isEligible) then Exit;
 
   if LurdToClipboard2(mySettings.isBK) then
-     StatusBar1.Panels[7].Text := 'ºóĞø¶¯×÷ Lurd ËÍÈë¼ôÇĞ°å£¡';
+     StatusBar1.Panels[7].Text := 'åç»­åŠ¨ä½œ Lurd é€å…¥å‰ªåˆ‡æ¿ï¼';
 end;
 
-// °ïÖú
+// å¸®åŠ©
 procedure Tmain.sb_HelpClick(Sender: TObject);
 begin
   ShellExecute(Application.handle, nil, PChar(AppPath + 'BoxManHelp.txt'), nil, nil, SW_SHOWNORMAL);
   ContentClick(Self);
 end;
 
-// ×ó²à±ßÀ¸£¬ÓÒ¼üÊ±Ñ¡ÔñÌõÄ¿
+// å·¦ä¾§è¾¹æ ï¼Œå³é”®æ—¶é€‰æ‹©æ¡ç›®
 procedure Tmain.List_SolutionMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
@@ -7990,7 +7990,7 @@ begin
   end;
 end;
 
-// ÊÇ·ñ¡°Ë«»÷±àºÅ¡±¿ª¹ØÑ¡Ïî
+// æ˜¯å¦â€œåŒå‡»ç¼–å·â€å¼€å…³é€‰é¡¹
 procedure Tmain.N29Click(Sender: TObject);
 begin
   isSelectMod := False;
@@ -8001,12 +8001,12 @@ begin
   else
     N29.Checked := False;
 
-  DrawMap();                                  // ¸üĞÂµØÍ¼ÏÔÊ¾
+  DrawMap();                                  // æ›´æ–°åœ°å›¾æ˜¾ç¤º
   ShowStatusBar();
 
 end;
 
-// Ö÷´°¿Ú¶¥²¿¡°¸ü¶à¡±¹¦ÄÜ²Ëµ¥°´Å¥
+// ä¸»çª—å£é¡¶éƒ¨â€œæ›´å¤šâ€åŠŸèƒ½èœå•æŒ‰é’®
 procedure Tmain.funMenuClick(Sender: TObject);
 begin
   if isMoving then IsStop := True
@@ -8015,7 +8015,7 @@ begin
   pmBoardBK.Popup(mouse.CursorPos.X,mouse.CursorPos.y);
 end;
 
-// ÍÏ×§¹Ø¿¨ÎÄµµµ½³ÌĞò´°¿ÚÊ±£¬×Ô¶¯´ò¿ª
+// æ‹–æ‹½å…³å¡æ–‡æ¡£åˆ°ç¨‹åºçª—å£æ—¶ï¼Œè‡ªåŠ¨æ‰“å¼€
 procedure Tmain.WMDROPFILES(var Msg: TWMDROPFILES);
 var
   DropFileName: string;
@@ -8041,12 +8041,12 @@ begin
   if isMoving then IsStop := True
   else IsStop := False;
 
-  // Ç¿ÖÆ¼ÓÔØµØÍ¼ÎÄµµµÄºóÌ¨Ïß³Ì
+  // å¼ºåˆ¶åŠ è½½åœ°å›¾æ–‡æ¡£çš„åå°çº¿ç¨‹
   isStopThread := True;
 
   if not mySettings.isXSB_Saved then
-  begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-    bt := MessageBox(Handle, 'µ±Ç°¹Ø¿¨ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+    bt := MessageBox(Handle, 'å½“å‰å…³å¡å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if bt = idyes then
     begin
       SaveXSBToFile();
@@ -8059,22 +8059,22 @@ begin
   end;
 
   if not mySettings.isLurd_Saved then
-  begin    // ÓĞĞÂµÄ¶¯×÷ÉĞÎ´±£´æ
-    bt := MessageBox(Handle, '¸Õ¸ÕµÄÍÆ¶¯ÉĞÎ´±£´æ£¬ÊÇ·ñ±£´æ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+  begin    // æœ‰æ–°çš„åŠ¨ä½œå°šæœªä¿å­˜
+    bt := MessageBox(Handle, 'åˆšåˆšçš„æ¨åŠ¨å°šæœªä¿å­˜ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if bt = idyes then begin
-       SaveState();          // ±£´æ×´Ì¬µ½Êı¾İ¿â
+       SaveState();          // ä¿å­˜çŠ¶æ€åˆ°æ•°æ®åº“
     end else if bt = idno then begin
        mySettings.isLurd_Saved := True;
-       StatusBar1.Panels[7].Text := '¶¯×÷ÒÑÉáÆú£¡';
+       StatusBar1.Panels[7].Text := 'åŠ¨ä½œå·²èˆå¼ƒï¼';
     end else exit;
   end;
 
-  if AnsiSameText(AppPath + mySettings.MapFileName, DropFileName) then Exit;     // µ±Ç°ÎÄµµ£¬²»ĞèÒªÖØĞÂ´ò¿ª
+  if AnsiSameText(AppPath + mySettings.MapFileName, DropFileName) then Exit;     // å½“å‰æ–‡æ¡£ï¼Œä¸éœ€è¦é‡æ–°æ‰“å¼€
 
   txtList.Clear;
   txtList.LoadFromFile(DropFileName);
   QuicklyLoadMap(txtList, 1, curMapNode);
-  maxNumber := GetMapNumber(txtList);                            // È¡µÃ×î´ó¹Ø¿¨ĞòºÅ
+  maxNumber := GetMapNumber(txtList);                            // å–å¾—æœ€å¤§å…³å¡åºå·
 
   if (Assigned(curMapNode)) and (curMapNode.Rows  > 2) then begin
       curMap.CurrentLevel := 1;
@@ -8087,7 +8087,7 @@ begin
 
       mySettings.isXSB_Saved := True;
 
-      // ÏÈÇ¿ÖÆÍ£Ö¹ºóÌ¨¼ÓÔØÏß³Ì£¬ÔÙ´´½¨ĞÂµÄºóÌ¨Ïß³Ì£¬¼ÓÔØµØÍ¼
+      // å…ˆå¼ºåˆ¶åœæ­¢åå°åŠ è½½çº¿ç¨‹ï¼Œå†åˆ›å»ºæ–°çš„åå°çº¿ç¨‹ï¼ŒåŠ è½½åœ°å›¾
       isStopThread := True;
       TLoadMapThread.Create(False);
 
@@ -8105,10 +8105,10 @@ begin
       end;
 
       StatusBar1.Panels[7].Text := '';
-  end else StatusBar1.Panels[7].Text := 'ÎŞĞ§µÄ¹Ø¿¨ÎÄµµ - ' + DropFileName;
+  end else StatusBar1.Panels[7].Text := 'æ— æ•ˆçš„å…³å¡æ–‡æ¡£ - ' + DropFileName;
 end;
 
-// µ¼Èë´ğ°¸Ïß³Ì -- ¿ÉÔÚºóÌ¨½øĞĞ
+// å¯¼å…¥ç­”æ¡ˆçº¿ç¨‹ -- å¯åœ¨åå°è¿›è¡Œ
 procedure Tmain.N27Click(Sender: TObject);
 var
   curFileName: string;
@@ -8138,22 +8138,22 @@ begin
   MyOpenFile.WindowState := wsNormal;
 end;
 
-// ¶¨Ê±ÇåÀí»ØÊÕ±»³ÌĞòÊÍ·ÅµÄÄÚ´æ
+// å®šæ—¶æ¸…ç†å›æ”¶è¢«ç¨‹åºé‡Šæ”¾çš„å†…å­˜
 procedure Tmain.Timer2Timer(Sender: TObject);
 begin
 end;
 
-// ÈÃÖ÷´°¿Ú¶¥²¿µÄ¹Ø¿¨ĞòºÅ±à¼­¿ò²»ÔÙÖ§³Ö¡°ÍË¸ñ¼ü¡±
+// è®©ä¸»çª—å£é¡¶éƒ¨çš„å…³å¡åºå·ç¼–è¾‘æ¡†ä¸å†æ”¯æŒâ€œé€€æ ¼é”®â€
 procedure Tmain.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if Ord(Key) = 8 then Key := #0;
 end;
 
-// ÈÃ³ÌĞòÖ»Æô¶¯Ò»´ÎµÄÒ»Ğ©´¦Àí
+// è®©ç¨‹åºåªå¯åŠ¨ä¸€æ¬¡çš„ä¸€äº›å¤„ç†
 procedure Tmain.pl_GroundMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  Edit1.SetFocus;  // Ò»¸ö¸¨Öú¿Ø¼ş£¬¿ØÖÆÊäÈë½¹µãÓÃµÄ
+  Edit1.SetFocus;  // ä¸€ä¸ªè¾…åŠ©æ§ä»¶ï¼Œæ§åˆ¶è¾“å…¥ç„¦ç‚¹ç”¨çš„
 end;
 
 procedure Tmain.pnl_TrunMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -8162,7 +8162,7 @@ begin
   StatusBar1.Panels[7].Text := pnl_Trun.Hint;
 end;
 
-// ÊÇ·ñÒÀ´ÎĞı×ª¹Ø¿¨
+// æ˜¯å¦ä¾æ¬¡æ—‹è½¬å…³å¡
 procedure Tmain.N30Click(Sender: TObject);
 begin
   isSelectMod := False;
@@ -8173,7 +8173,7 @@ begin
   else
     N30.Checked := False;
 
-  DrawMap();                                  // ¸üĞÂµØÍ¼ÏÔÊ¾
+  DrawMap();                                  // æ›´æ–°åœ°å›¾æ˜¾ç¤º
   ShowStatusBar();
 end;
 

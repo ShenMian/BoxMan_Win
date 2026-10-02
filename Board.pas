@@ -1,54 +1,54 @@
-unit Board;
+ï»¿unit Board;
 
 interface
 
 type
-  TMapNode = record             // ¹Ø¿¨½Úµã -- ¹Ø¿¨¼¯ÖĞµÄ¸÷¸ö¹Ø¿¨
-    Map_Thin: string;           // ×î¼ò¹Ø¿¨ XSB
-    Map: string;                // ¹Ø¿¨ XSB
-    Rows, Cols: integer;        // ¹Ø¿¨³ß´ç
-    Boxs: integer;              // Ïä×ÓÊı
-    Goals: integer;             // Ä¿±êÊı
-    Trun: integer;              // ¹Ø¿¨Ğı×ªµÇ¼Ç
-    Title: string;              // ±êÌâ
-    Author: string;             // ×÷Õß
-    Comment: string;            // ¹Ø¿¨ÃèÊöĞÅÏ¢
+  TMapNode = record             // å…³å¡èŠ‚ç‚¹ -- å…³å¡é›†ä¸­çš„å„ä¸ªå…³å¡
+    Map_Thin: string;           // æœ€ç®€å…³å¡ XSB
+    Map: string;                // å…³å¡ XSB
+    Rows, Cols: integer;        // å…³å¡å°ºå¯¸
+    Boxs: integer;              // ç®±å­æ•°
+    Goals: integer;             // ç›®æ ‡æ•°
+    Trun: integer;              // å…³å¡æ—‹è½¬ç™»è®°
+    Title: string;              // æ ‡é¢˜
+    Author: string;             // ä½œè€…
+    Comment: string;            // å…³å¡æè¿°ä¿¡æ¯
     CRC32: integer;             // CRC32
-    CRC_Num: integer;           // Èôµ±Ç°µØÍ¼Îª 0 ×ª£¬×îĞ¡ CRC Î»ÓÚµÚ¼¸×ª£¿
-    Solved: Boolean;            // ÊÇ·ñÓÉ´ğ°¸
-    isEligible: Boolean;        // ÊÇ·ñºÏ¸ñµÄ¹Ø¿¨XSB
-    Num: integer;               // ¹Ø¿¨ĞòºÅ -- ½ö¼ÓÔØÎÄµµ×îºóÒ»¸ö¹Ø¿¨Ê±Ê¹ÓÃ
+    CRC_Num: integer;           // è‹¥å½“å‰åœ°å›¾ä¸º 0 è½¬ï¼Œæœ€å° CRC ä½äºç¬¬å‡ è½¬ï¼Ÿ
+    Solved: Boolean;            // æ˜¯å¦ç”±ç­”æ¡ˆ
+    isEligible: Boolean;        // æ˜¯å¦åˆæ ¼çš„å…³å¡XSB
+    Num: integer;               // å…³å¡åºå· -- ä»…åŠ è½½æ–‡æ¡£æœ€åä¸€ä¸ªå…³å¡æ—¶ä½¿ç”¨
   end;
-  PMapNode = ^TMapNode;         // ¹Ø¿¨½ÚµãÖ¸Õë
+  PMapNode = ^TMapNode;         // å…³å¡èŠ‚ç‚¹æŒ‡é’ˆ
 
 var
-  curMapNode: PMapNode;    // µ±Ç°¹Ø¿¨½Úµã
+  curMapNode: PMapNode;    // å½“å‰å…³å¡èŠ‚ç‚¹
 
-  Map_Thin: string;        // ×î¼ò¹Ø¿¨ XSB
-  Map: string;             // ¹Ø¿¨ XSB
-  Title: string;           // ±êÌâ
-  Author: string;          // ×÷Õß
-  Comment: string;         // ¹Ø¿¨ÃèÊöĞÅÏ¢
-  Rows, Cols: integer;     // ¹Ø¿¨³ß´ç
-  Boxs, Goals: integer;    // Ïä×ÓÊı£¬Ä¿±êÊı
-  Trun: integer;           // ¹Ø¿¨Ğı×ªµÇ¼Ç
+  Map_Thin: string;        // æœ€ç®€å…³å¡ XSB
+  Map: string;             // å…³å¡ XSB
+  Title: string;           // æ ‡é¢˜
+  Author: string;          // ä½œè€…
+  Comment: string;         // å…³å¡æè¿°ä¿¡æ¯
+  Rows, Cols: integer;     // å…³å¡å°ºå¯¸
+  Boxs, Goals: integer;    // ç®±å­æ•°ï¼Œç›®æ ‡æ•°
+  Trun: integer;           // å…³å¡æ—‹è½¬ç™»è®°
   CRC32: integer;          // CRC32
-  CRC_Num: integer;        // Èôµ±Ç°µØÍ¼Îª 0 ×ª£¬×îĞ¡ CRC Î»ÓÚµÚ¼¸×ª£¿
-  Solved: Boolean;         // ÊÇ·ñÓÉ´ğ°¸
-  isEligible: Boolean;     // ÊÇ·ñºÏ¸ñµÄ¹Ø¿¨XSB
+  CRC_Num: integer;        // è‹¥å½“å‰åœ°å›¾ä¸º 0 è½¬ï¼Œæœ€å° CRC ä½äºç¬¬å‡ è½¬ï¼Ÿ
+  Solved: Boolean;         // æ˜¯å¦ç”±ç­”æ¡ˆ
+  isEligible: Boolean;     // æ˜¯å¦åˆæ ¼çš„å…³å¡XSB
 
-  CurrentLevel: integer;   // µ±Ç°¹Ø¿¨ĞòºÅ
-  ManPosition: integer;    // ÕıÍÆ³õÊ¼×´Ì¬£¬ÈËµÄÎ»ÖÃ
-  MapSize: integer;        // µØÍ¼³ß´ç
-  CellSize: integer;       // »­µØÍ¼Ê±£¬µ±Ç°µÄµ¥Ôª¸ñ³ß´ç
-  Recording: Boolean;      // ÊÇ·ñÔÚ¶¯×÷Â¼ÖÆ×´Ì¬
-  Recording_BK: Boolean;   // ÊÇ·ñÔÚ¶¯×÷Â¼ÖÆ×´Ì¬ -- ÄæÍÆ
-  StartPos: Integer;       // ¶¯×÷Â¼ÖÆµÄ¿ªÊ¼µã
-  StartPos_BK: Integer;    // ¶¯×÷Â¼ÖÆµÄ¿ªÊ¼µã -- ÄæÍÆ
-  isFinish: Boolean;       // ÊÇ·ñµÃµ½´ğ°¸£¬ÔÊĞí¹Û¿´´ğ°¸ÁË - µ±½â¹Ø³É¹¦»òµ¼ÈëÕıÈ·´ğ°¸ºó£¬´Ë±êÖ¾ÎªÕæ£¬±íÊ¾¿ÉÒÔ¡°¹Û¿´¡±´ğ°¸ÁË
+  CurrentLevel: integer;   // å½“å‰å…³å¡åºå·
+  ManPosition: integer;    // æ­£æ¨åˆå§‹çŠ¶æ€ï¼Œäººçš„ä½ç½®
+  MapSize: integer;        // åœ°å›¾å°ºå¯¸
+  CellSize: integer;       // ç”»åœ°å›¾æ—¶ï¼Œå½“å‰çš„å•å…ƒæ ¼å°ºå¯¸
+  Recording: Boolean;      // æ˜¯å¦åœ¨åŠ¨ä½œå½•åˆ¶çŠ¶æ€
+  Recording_BK: Boolean;   // æ˜¯å¦åœ¨åŠ¨ä½œå½•åˆ¶çŠ¶æ€ -- é€†æ¨
+  StartPos: Integer;       // åŠ¨ä½œå½•åˆ¶çš„å¼€å§‹ç‚¹
+  StartPos_BK: Integer;    // åŠ¨ä½œå½•åˆ¶çš„å¼€å§‹ç‚¹ -- é€†æ¨
+  isFinish: Boolean;       // æ˜¯å¦å¾—åˆ°ç­”æ¡ˆï¼Œå…è®¸è§‚çœ‹ç­”æ¡ˆäº† - å½“è§£å…³æˆåŠŸæˆ–å¯¼å…¥æ­£ç¡®ç­”æ¡ˆåï¼Œæ­¤æ ‡å¿—ä¸ºçœŸï¼Œè¡¨ç¤ºå¯ä»¥â€œè§‚çœ‹â€ç­”æ¡ˆäº†
 
-  ManPos_BK_0: integer;    // ÈËµÄÎ»ÖÃ -- ÄæÍÆ£¬Íæ¼ÒÒÑ¾­Ö¸¶¨µÄÎ»ÖÃ
-  ManPos_BK_0_2: integer;  // ÈËµÄÎ»ÖÃ -- ÄæÍÆ£¬½âÎö³öÀ´µÄÎ»ÖÃ
+  ManPos_BK_0: integer;    // äººçš„ä½ç½® -- é€†æ¨ï¼Œç©å®¶å·²ç»æŒ‡å®šçš„ä½ç½®
+  ManPos_BK_0_2: integer;  // äººçš„ä½ç½® -- é€†æ¨ï¼Œè§£æå‡ºæ¥çš„ä½ç½®
 
 implementation
 

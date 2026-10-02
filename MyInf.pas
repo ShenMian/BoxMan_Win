@@ -1,4 +1,4 @@
-unit MyInf;
+锘縰nit MyInf;
 
 interface
 
@@ -21,7 +21,7 @@ type
 
   end;
 
-  procedure ShowMyInfo(info: String; title: string = '提示'; timeout: Integer = 1000);
+  procedure ShowMyInfo(info: String; title: string = '鎻愮ず'; timeout: Integer = 1000);
   
 var
   MyInfForm: TMyInfForm;
@@ -31,7 +31,7 @@ implementation
 {$R *.dfm}
 
 
-procedure ShowMyInfo(info: String; title: string = '提示'; timeout: Integer = 1000);
+procedure ShowMyInfo(info: String; title: string = '鎻愮ず'; timeout: Integer = 1000);
 Var
   frminfo: TMyInfForm;
 

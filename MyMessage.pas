@@ -1,4 +1,4 @@
-unit MyMessage;
+锘縰nit MyMessage;
 
 interface
 
@@ -28,7 +28,7 @@ implementation
 
 procedure TMsg.FormCreate(Sender: TObject);
 begin
-  Panel1.Caption := '不合格的关卡';
+  Panel1.Caption := '涓嶅悎鏍肩殑鍏冲崱';
 end;
 
 procedure TMsg.Timer1Timer(Sender: TObject);

@@ -1,4 +1,4 @@
-unit Submit;
+ï»¿unit Submit;
 
 interface
 
@@ -40,12 +40,12 @@ implementation
 
 procedure TMySubmit.FormCreate(Sender: TObject);
 begin
-  Caption := 'Ìá½»±ÈÈü´ğ°¸';
-  Label1.Caption := '¹ú¼Ò/µØÇø:';
-  Label2.Caption := 'ĞÕÃû:';
-  Button1.Caption := 'È¡Ïû(&C)';
-  Button2.Caption := 'È·¶¨(&O)';
-  ComboBox1.Items[1] := 'ÖĞ¹ú';
+  Caption := 'æäº¤æ¯”èµ›ç­”æ¡ˆ';
+  Label1.Caption := 'å›½å®¶/åœ°åŒº:';
+  Label2.Caption := 'å§“å:';
+  Button1.Caption := 'å–æ¶ˆ(&C)';
+  Button2.Caption := 'ç¡®å®š(&O)';
+  ComboBox1.Items[1] := 'ä¸­å›½';
   SubmitLurd := '';
 end;
 
@@ -67,21 +67,21 @@ begin
   Edit2.Text := SubmitEmail;
 end;
 
-// Post ÇëÇó
+// Post è¯·æ±‚
 function MyPost: string;
 var
   IdHttp : TIdHTTP;
-  Url : string;                   // ÇëÇóµØÖ·
-  ResponseStream : TStringStream; // ·µ»ØĞÅÏ¢
+  Url : string;                   // è¯·æ±‚åœ°å€
+  ResponseStream : TStringStream; // è¿”å›ä¿¡æ¯
   ResponseStr : string;
-  RequestList : TStringList;      // ÇëÇóĞÅÏ¢
+  RequestList : TStringList;      // è¯·æ±‚ä¿¡æ¯
 //  RequestStream : TStringStream;
 
 begin
-  // ´´½¨IDHTTP¿Ø¼ş
+  // åˆ›å»ºIDHTTPæ§ä»¶
   IdHttp := TIdHTTP.Create(nil);
 
-  // TStringStream¶ÔÏóÓÃÓÚ±£´æÏìÓ¦ĞÅÏ¢
+  // TStringStreamå¯¹è±¡ç”¨äºä¿å­˜å“åº”ä¿¡æ¯
   ResponseStream := TStringStream.Create('');
 
 //  RequestStream := TStringStream.Create('');
@@ -91,14 +91,14 @@ begin
     Url := 'http://sokoban.cn/submit_result.php';
     
     try
-      // ÒÔÁĞ±íµÄ·½Ê½Ìá½»²ÎÊı
+      // ä»¥åˆ—è¡¨çš„æ–¹å¼æäº¤å‚æ•°
       RequestList.Add('nickname=' + MySubmit.SubmitName);
       RequestList.Add('country=' + MySubmit.SubmitCountry);
       RequestList.Add('email=' + MySubmit.SubmitEmail);
       RequestList.Add('lurd=' + MySubmit.SubmitLurd);
       IdHttp.Post(Url, RequestList, ResponseStream);
 
-      // ÒÔÁ÷µÄ·½Ê½Ìá½»²ÎÊı
+      // ä»¥æµçš„æ–¹å¼æäº¤å‚æ•°
 //      RequestStream.WriteString('nickname=' + MySubmit.SubmitName);
 //      RequestStream.WriteString('country=' + MySubmit.SubmitCountry);
 //      RequestStream.WriteString('email=' + MySubmit.SubmitEmail);
@@ -112,10 +112,10 @@ begin
 //      end;
     end;
 
-    // »ñÈ¡ÍøÒ³·µ»ØµÄĞÅÏ¢
+    // è·å–ç½‘é¡µè¿”å›çš„ä¿¡æ¯
     ResponseStr := ResponseStream.DataString;
     
-    // ÍøÒ³ÖĞµÄ´æÔÚÖĞÎÄÊ±£¬ĞèÒª½øĞĞUTF8½âÂë
+    // ç½‘é¡µä¸­çš„å­˜åœ¨ä¸­æ–‡æ—¶ï¼Œéœ€è¦è¿›è¡ŒUTF8è§£ç 
 //    ResponseStr := UTF8Decode(ResponseStr);
   finally
     if Assigned(IdHttp) then begin
@@ -144,12 +144,12 @@ begin
 
   inf := AnsiLowerCase(MyPost);
 
-  if Pos('correct (for ', inf) > 0 then Caption := 'Ìá½»³É¹¦£¡'
-  else if Pos('not correct', inf) > 0 then Caption := '´ğ°¸²»ÕıÈ·£¡'
-  else if Pos('competition has ended', inf) > 0 then Caption := '±ÈÈüÒÑ¹ıÆÚ£¬Çë¹Ø×¢ÏÂÒ»ÆÚ£¡'
-  else if Pos('not begin yet', inf) > 0 then Caption := '±ÈÈüÉĞÎ´¿ªÊ¼£¬ÇëÄÍĞÄµÈ´ı£¡'
-  else if Pos('name cannot be empty', inf) > 0 then Caption := 'ĞÕÃû²»ÄÜ¿Õ×Å£¡'
-  else Caption := 'Î´ÖªÇé¿ö£¡'
+  if Pos('correct (for ', inf) > 0 then Caption := 'æäº¤æˆåŠŸï¼'
+  else if Pos('not correct', inf) > 0 then Caption := 'ç­”æ¡ˆä¸æ­£ç¡®ï¼'
+  else if Pos('competition has ended', inf) > 0 then Caption := 'æ¯”èµ›å·²è¿‡æœŸï¼Œè¯·å…³æ³¨ä¸‹ä¸€æœŸï¼'
+  else if Pos('not begin yet', inf) > 0 then Caption := 'æ¯”èµ›å°šæœªå¼€å§‹ï¼Œè¯·è€å¿ƒç­‰å¾…ï¼'
+  else if Pos('name cannot be empty', inf) > 0 then Caption := 'å§“åä¸èƒ½ç©ºç€ï¼'
+  else Caption := 'æœªçŸ¥æƒ…å†µï¼'
 end;
 
 procedure TMySubmit.ComboBox1Change(Sender: TObject);

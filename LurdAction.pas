@@ -1,4 +1,4 @@
-unit LurdAction;
+ï»¿unit LurdAction;
 
 interface
 
@@ -6,53 +6,53 @@ uses
   windows, classes, StrUtils, SysUtils, Contnrs, Clipbrd, Math, CRC_32;
 
 type
-  TSoltionNode = record        // Ö÷´°¿Ú×ó±ßÀ¸£¬´ğ°¸ÁĞ±í½Úµã
-      id      : Integer;           // ÔÚ db ÖĞµÄ id
-      Moves   : Integer;           // ÒÆ¶¯²½Êı
-      Pushs   : Integer;           // ÍÆ¶¯²½Êı
-      CRC32   : Integer;           // ´ğ°¸ CRC
-      DateTime: TDateTime;            // Ê±¼ä´Á
+  TSoltionNode = record        // ä¸»çª—å£å·¦è¾¹æ ï¼Œç­”æ¡ˆåˆ—è¡¨èŠ‚ç‚¹
+      id      : Integer;           // åœ¨ db ä¸­çš„ id
+      Moves   : Integer;           // ç§»åŠ¨æ­¥æ•°
+      Pushs   : Integer;           // æ¨åŠ¨æ­¥æ•°
+      CRC32   : Integer;           // ç­”æ¡ˆ CRC
+      DateTime: TDateTime;            // æ—¶é—´æˆ³
   end;
   PTSoltionNode = ^TSoltionNode;
 
-  TStateNode = record         // Ö÷´°¿Ú×ó±ßÀ¸£¬×´Ì¬ÁĞ±í½Úµã
-      id           : Integer;      // ÔÚ db ÖĞµÄ id
-      Moves        : Integer;      // ÒÆ¶¯²½Êı
-      Pushs        : Integer;      // ÍÆ¶¯²½Êı
-      Moves_BK     : Integer;      // ÄæÍÆÒÆ¶¯²½Êı
-      Pushs_BK     : Integer;      // ÄæÍÆÍÆ¶¯²½Êı
-      CRC32        : Integer;      // ´ğ°¸ CRC
-      CRC32_BK     : Integer;      // ´ğ°¸ CRC
-      Man_X        : Integer;      // ÈËµÄÎ»ÖÃ -- ÁĞ
-      Man_Y        : Integer;      // ÈËµÄÎ»ÖÃ -- ĞĞ
-      DateTime     : TDateTime;    // Ê±¼ä´Á
+  TStateNode = record         // ä¸»çª—å£å·¦è¾¹æ ï¼ŒçŠ¶æ€åˆ—è¡¨èŠ‚ç‚¹
+      id           : Integer;      // åœ¨ db ä¸­çš„ id
+      Moves        : Integer;      // ç§»åŠ¨æ­¥æ•°
+      Pushs        : Integer;      // æ¨åŠ¨æ­¥æ•°
+      Moves_BK     : Integer;      // é€†æ¨ç§»åŠ¨æ­¥æ•°
+      Pushs_BK     : Integer;      // é€†æ¨æ¨åŠ¨æ­¥æ•°
+      CRC32        : Integer;      // ç­”æ¡ˆ CRC
+      CRC32_BK     : Integer;      // ç­”æ¡ˆ CRC
+      Man_X        : Integer;      // äººçš„ä½ç½® -- åˆ—
+      Man_Y        : Integer;      // äººçš„ä½ç½® -- è¡Œ
+      DateTime     : TDateTime;    // æ—¶é—´æˆ³
   end;
   PTStateNode = ^TStateNode;
 
 const
-  MaxLenPath = 500000;       // Â·¾¶×î´ó³¤¶ÈÏŞÖÆ
+  MaxLenPath = 500000;       // è·¯å¾„æœ€å¤§é•¿åº¦é™åˆ¶
 
-  // ËÄÁÚ³£Á¿£º×ó¡¢ÓÒ¡¢ÉÏ¡¢ÏÂ
+  // å››é‚»å¸¸é‡ï¼šå·¦ã€å³ã€ä¸Šã€ä¸‹
   dr4 : array[0..3] of Integer = (  0, 0, -1, 1 );
   dc4 : array[0..3] of Integer = ( -1, 1,  0, 0 );
   
 var
-  UndoList, RedoList, UndoList_BK, RedoList_BK: array[1..MaxLenPath+1] of Char; // ±£´æÕıÄæÍÆ Undo¡¢Redo ¶¯×÷µÄÊı×é
-  UnDoPos, ReDoPos, UnDoPos_BK, ReDoPos_BK: Integer;                            // undo¡¢redo Î»ÖÃÖ¸Õë
+  UndoList, RedoList, UndoList_BK, RedoList_BK: array[1..MaxLenPath+1] of Char; // ä¿å­˜æ­£é€†æ¨ Undoã€Redo åŠ¨ä½œçš„æ•°ç»„
+  UnDoPos, ReDoPos, UnDoPos_BK, ReDoPos_BK: Integer;                            // undoã€redo ä½ç½®æŒ‡é’ˆ
 
-  function LurdToClipboard(c, r: Integer): Boolean;        // Lurd ËÍÈë¼ôÇĞ°å
-  function LurdToClipboard2(isBK: Boolean): Boolean;       // ºóĞø¶¯×÷ Lurd ËÍÈë¼ôÇĞ°å
-  function LoadLurdFromClipboard(isBK: Boolean): boolean;  // ´Ó¼ôÇĞ°å¼ÓÔØ Lurd
-  function isLurd(str: String): boolean;                   // ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§µÄ Lurd ĞĞ
-  function isLurd_2(str: String): boolean;                 // ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§µÄ Lurd ĞĞ -- ÔÊĞíÄæÍÆµÄ¶¯×÷×Ö·û
-  procedure GetLurd(strLurd: string; isBK: Boolean);       // ´Ó×Ö·û´®ÖĞÌáÈ¡ Lurd ËÍÈë Redo
+  function LurdToClipboard(c, r: Integer): Boolean;        // Lurd é€å…¥å‰ªåˆ‡æ¿
+  function LurdToClipboard2(isBK: Boolean): Boolean;       // åç»­åŠ¨ä½œ Lurd é€å…¥å‰ªåˆ‡æ¿
+  function LoadLurdFromClipboard(isBK: Boolean): boolean;  // ä»å‰ªåˆ‡æ¿åŠ è½½ Lurd
+  function isLurd(str: String): boolean;                   // åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆçš„ Lurd è¡Œ
+  function isLurd_2(str: String): boolean;                 // åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆçš„ Lurd è¡Œ -- å…è®¸é€†æ¨çš„åŠ¨ä½œå­—ç¬¦
+  procedure GetLurd(strLurd: string; isBK: Boolean);       // ä»å­—ç¬¦ä¸²ä¸­æå– Lurd é€å…¥ Redo
 
 implementation
 
 uses
   Board;
 
-// ÊÍ·Å TStrings µÄÄÚ´æ
+// é‡Šæ”¾ TStrings çš„å†…å­˜
 procedure MyStringsFree(var _Strings_: TStrings);
 var
   i, len: Integer;
@@ -66,7 +66,7 @@ begin
   end;
 end;
 
-// ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§µÄ Lurd ĞĞ -- ½öÕıÍÆ¶¯×÷×Ö·û
+// åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆçš„ Lurd è¡Œ -- ä»…æ­£æ¨åŠ¨ä½œå­—ç¬¦
 function isLurd(str: String): boolean;
 var
   n, k: Integer;
@@ -87,7 +87,7 @@ begin
   result := k > n;
 end;
 
-// ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§µÄ Lurd ĞĞ -- °üº¬ÄæÍÆ¶¯×÷×Ö·û
+// åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆçš„ Lurd è¡Œ -- åŒ…å«é€†æ¨åŠ¨ä½œå­—ç¬¦
 function isLurd_2(str: String): boolean;
 var
   n, k: Integer;
@@ -108,7 +108,7 @@ begin
   result := k > n;
 end;
   
-// Lurd ËÍÈë¼ôÇĞ°å
+// Lurd é€å…¥å‰ªåˆ‡æ¿
 function LurdToClipboard(c, r: Integer): Boolean;
 var
   str, str1, str2: string;
@@ -141,7 +141,7 @@ begin
    end;
 end;
 
-// ºóĞø¶¯×÷ Lurd ËÍÈë¼ôÇĞ°å
+// åç»­åŠ¨ä½œ Lurd é€å…¥å‰ªåˆ‡æ¿
 function LurdToClipboard2(isBK: Boolean): Boolean;
 var
   str: string;
@@ -166,7 +166,7 @@ begin
    end;
 end;
 
-// ´Ó×Ö·û´®ÖĞÌáÈ¡ Lurd
+// ä»å­—ç¬¦ä¸²ä¸­æå– Lurd
 procedure GetLurd(strLurd: string; isBK: Boolean);
 var
   i, len: Integer;
@@ -177,7 +177,7 @@ begin
 
   if len > MaxLenPath then Exit;
 
-  if isBK then begin     // ËÍÈëÄæÍÆ redo
+  if isBK then begin     // é€å…¥é€†æ¨ redo
      ReDoPos_BK := 0;
      for i := len downto 1 do begin
          ch := strLurd[i];
@@ -186,7 +186,7 @@ begin
             RedoList_BK[ReDoPos_BK] := ch;
          end;
      end;
-  end else begin         // ËÍÈëÕıÍÆ redo
+  end else begin         // é€å…¥æ­£æ¨ redo
      ReDoPos := 0;
      for i := len downto 1 do begin
          ch := strLurd[i];
@@ -198,7 +198,7 @@ begin
   end;
 end;
 
-// ´Ó¼ôÇĞ°å¼ÓÔØ Lurd
+// ä»å‰ªåˆ‡æ¿åŠ è½½ Lurd
 function LoadLurdFromClipboard(isBK: Boolean): Boolean;
 var
   i, j, k: Integer;
@@ -208,7 +208,7 @@ var
 begin
    Result := False;
    
-   // ²éÑ¯¼ôÌù°åÖĞÌØ¶¨¸ñÊ½µÄÊı¾İÄÚÈİ
+   // æŸ¥è¯¢å‰ªè´´æ¿ä¸­ç‰¹å®šæ ¼å¼çš„æ•°æ®å†…å®¹
    if (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_OEMTEXT)) then begin
       str := Clipboard.asText;
    end else Exit;
@@ -230,14 +230,14 @@ begin
 
    MyStringsFree(q);
 
-   if isBK then begin             // ÄæÍÆ
+   if isBK then begin             // é€†æ¨
    
       ManPos_BK_0_2 := -1;
       
       i := pos('[', str);
       j := pos(']', str);
 
-      // Èô°üº¬ÁËÈËµÄ³õÊ¼Î»ÖÃĞÅÏ¢
+      // è‹¥åŒ…å«äº†äººçš„åˆå§‹ä½ç½®ä¿¡æ¯
       if (i > 0) and (j > 0) and (j > i) then begin
          str2 := copy(str, i+1, j-i-1);
          delete(str, 1, j);
@@ -247,7 +247,7 @@ begin
 
          if p.Count = 2 then begin
             try
-              j := strToInt(p[0])-1;         // ÓÃ¼Ò¿´µ½µÄ×ø±ê£¬´Ó[1, 1]¿ªÊ¼£¬³ÌĞòÄÚ²¿ÊÇ´Ó[0, 0]¿ªÊ¼
+              j := strToInt(p[0])-1;         // ç”¨å®¶çœ‹åˆ°çš„åæ ‡ï¼Œä»[1, 1]å¼€å§‹ï¼Œç¨‹åºå†…éƒ¨æ˜¯ä»[0, 0]å¼€å§‹
               i := strToInt(p[1])-1;
               if (i >= 0) and (j >= 0) and (i < curMapNode.Rows) and (j < curMapNode.Cols) then ManPos_BK_0_2 := i * curMapNode.Cols + j;
             except
@@ -262,7 +262,7 @@ begin
       end;
       
       GetLurd(str, isBK);
-   end else begin                 // ÕıÍÆ
+   end else begin                 // æ­£æ¨
       i := pos('[', str);
 
       if i > 0 then str := copy(str, 1, i-1);

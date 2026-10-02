@@ -1,10 +1,10 @@
-unit DeadLockDetection;
+ï»¿unit DeadLockDetection;
 
 interface
 
-  function  is_Fang(var map: array of Byte; pos: Integer): boolean;                                                   // ¡°·½¡±ĞÍËÀËø¼ì²é
-  function  is_Zhi(var map: array of Byte; pos: Integer; var m_Zhi_Dir: array of Integer): boolean;                   // ¡°Ö®¡±×ÖĞÍËÀËø¼ì²é
-  function  isLock_Double_L(var map: array of Byte; pos: Integer; var m_Double_L_Top: array of Integer): boolean;     // ¡°¶Ô½Ç¡±ĞÍËÀËø¼ì²â
+  function  is_Fang(var map: array of Byte; pos: Integer): boolean;                                                   // â€œæ–¹â€å‹æ­»é”æ£€æŸ¥
+  function  is_Zhi(var map: array of Byte; pos: Integer; var m_Zhi_Dir: array of Integer): boolean;                   // â€œä¹‹â€å­—å‹æ­»é”æ£€æŸ¥
+  function  isLock_Double_L(var map: array of Byte; pos: Integer; var m_Double_L_Top: array of Integer): boolean;     // â€œå¯¹è§’â€å‹æ­»é”æ£€æµ‹
 
 implementation
 
@@ -12,69 +12,69 @@ uses
   Math;
 
 const
-  BT_OUTSIDE           = 0;             // Ç½Íâ
-  BT_WALL              = 1;             // Ç½±Ú
-  BT_FLOOR             = 2;             // µØ°å
-  BT_GOAL              = 3;             // Ä¿±êµã
-  BT_BOX               = 4;             // Ïä×Ó
-  BT_BOX_ON_GOAL       = 5;             // Ä¿±êµãÉÏµÄÏä×Ó
-  BT_PLAYER            = 6;             // ÈË
-  BT_PLAYER_ON_GOAL    = 7;             // Ä¿±êµãÉÏµÄÈË
+  BT_OUTSIDE           = 0;             // å¢™å¤–
+  BT_WALL              = 1;             // å¢™å£
+  BT_FLOOR             = 2;             // åœ°æ¿
+  BT_GOAL              = 3;             // ç›®æ ‡ç‚¹
+  BT_BOX               = 4;             // ç®±å­
+  BT_BOX_ON_GOAL       = 5;             // ç›®æ ‡ç‚¹ä¸Šçš„ç®±å­
+  BT_PLAYER            = 6;             // äºº
+  BT_PLAYER_ON_GOAL    = 7;             // ç›®æ ‡ç‚¹ä¸Šçš„äºº
 
 var
-  // ·½ÏòÊ¸Á¿£¨ÓëµØÍ¼Ïà¹Ø£¬²Ù×÷Ò»Î¬µØÍ¼Êı×éÊ±Ê¹ÓÃ£©£º×ó¡¢ÉÏ¡¢ÓÒ¡¢ÏÂ
+  // æ–¹å‘çŸ¢é‡ï¼ˆä¸åœ°å›¾ç›¸å…³ï¼Œæ“ä½œä¸€ç»´åœ°å›¾æ•°ç»„æ—¶ä½¿ç”¨ï¼‰ï¼šå·¦ã€ä¸Šã€å³ã€ä¸‹
   diff                : array of Integer;
 
-  m_Zhi_Dir:      array[0..2] of Integer = ( 0, 0, 0 );   // ¼ì²â¡°Ö®¡±×ÖĞÍËÀËøÊ±£¬µÚÒ»¸öÔªËØ±êÊ¶ÊÇ·ñ°üÀ¨²»ÔÚÄ¿±êµãÉÏµÄÏä×Ó£¬ºóÁ½¸öÔªËØ±êÊ¶¶¯×÷·½Ïò£º1 -- ×ó£¬2 -- ÓÒ£¬3 -- ÉÏ£¬4 -- ÏÂ
-  m_Double_L_Top: array[0..2] of Integer = ( 0, 0, 0 );   // ¼ì²â¡°Ë« L¡±ĞÍËÀËøÊ±µÄÁ½¸ö¶¥µã¼°ÊÇ·ñ°üº¬ÉĞÎ´µ½Î»µÄÏä×Ó
+  m_Zhi_Dir:      array[0..2] of Integer = ( 0, 0, 0 );   // æ£€æµ‹â€œä¹‹â€å­—å‹æ­»é”æ—¶ï¼Œç¬¬ä¸€ä¸ªå…ƒç´ æ ‡è¯†æ˜¯å¦åŒ…æ‹¬ä¸åœ¨ç›®æ ‡ç‚¹ä¸Šçš„ç®±å­ï¼Œåä¸¤ä¸ªå…ƒç´ æ ‡è¯†åŠ¨ä½œæ–¹å‘ï¼š1 -- å·¦ï¼Œ2 -- å³ï¼Œ3 -- ä¸Šï¼Œ4 -- ä¸‹
+  m_Double_L_Top: array[0..2] of Integer = ( 0, 0, 0 );   // æ£€æµ‹â€œåŒ Lâ€å‹æ­»é”æ—¶çš„ä¸¤ä¸ªé¡¶ç‚¹åŠæ˜¯å¦åŒ…å«å°šæœªåˆ°ä½çš„ç®±å­
 
-  Map_Dead            : array of Byte;              // ½ûÖ¹Ïä×Ó½øÈëµÄÇøÓò
-  dir                 : array of Byte;              // Ñ°¾¶ÁÙÊ±Êı×é
-  pt                  : array of Integer;           // Ñ°¾¶ÁÙÊ±Êı×é
+  Map_Dead            : array of Byte;              // ç¦æ­¢ç®±å­è¿›å…¥çš„åŒºåŸŸ
+  dir                 : array of Byte;              // å¯»å¾„ä¸´æ—¶æ•°ç»„
+  pt                  : array of Integer;           // å¯»å¾„ä¸´æ—¶æ•°ç»„
 
-  // µØÍ¼Ïà¹Ø²ÎÊı
-  nRows               : Integer;                    // ĞĞÊı
-  nCols               : Integer;                    // ÁĞÊı
-  nArea               : Integer;                    // ¸ñ×Ó×ÜÊı
-  nManPos             : Integer;                    // ÈËµÄ³õÊ¼Î»ÖÃ
-  bNoSolution         : Boolean;                    // ÊÇ·ñÎŞ½â
+  // åœ°å›¾ç›¸å…³å‚æ•°
+  nRows               : Integer;                    // è¡Œæ•°
+  nCols               : Integer;                    // åˆ—æ•°
+  nArea               : Integer;                    // æ ¼å­æ€»æ•°
+  nManPos             : Integer;                    // äººçš„åˆå§‹ä½ç½®
+  bNoSolution         : Boolean;                    // æ˜¯å¦æ— è§£
 
-// ÊÇ·ñÊÇÏä×Ó»òÇ½
+// æ˜¯å¦æ˜¯ç®±å­æˆ–å¢™
 function isBoxWall(var map: array of Byte; pos: Integer): Boolean;
 begin
     Result := (map[pos] = BT_BOX) or (map[pos] = BT_BOX_ON_GOAL) or (map[pos] = BT_WALL);
 end;
 
-// ÊÇ·ñÊÇÏä×Ó
+// æ˜¯å¦æ˜¯ç®±å­
 function isBox(var map: array of Byte; pos: Integer): Boolean;
 begin
     Result := (map[pos] = BT_BOX) or (map[pos] = BT_BOX_ON_GOAL);
 end;
 
-// ÊÇ·ñÊÇµãÎ»
+// æ˜¯å¦æ˜¯ç‚¹ä½
 function isGoal(var map: array of Byte; pos: Integer): Boolean;
 begin
     Result := (map[pos] = BT_GOAL) or (map[pos] = BT_BOX_ON_GOAL);
 end;
 
-// ÊÇ·ñÊÇÈË
+// æ˜¯å¦æ˜¯äºº
 function isMan(var map: array of Byte; pos: Integer): Boolean;
 begin
     Result := (map[pos] = BT_PLAYER) or (map[pos] = BT_PLAYER_ON_GOAL);
 end;
 
-// ÊÇ·ñÊÇÍ¨µÀ
+// æ˜¯å¦æ˜¯é€šé“
 function isPass(var map: array of Byte; pos: Integer): Boolean;
 begin
     Result := (map[pos] = BT_FLOOR) or (map[pos] = BT_GOAL);
 end;
 
 
-// ÄæÍÆ·¨¼ÆËãÏä×Ó²»¿É½øÈëµÄÇøÓò -- Ö÷³ÌĞò
-procedure dead_Zone(var map1, map2, mark: array of Byte);  // 0:ÔÊĞí½øÈë  1:½ûÖ¹½øÈë
+// é€†æ¨æ³•è®¡ç®—ç®±å­ä¸å¯è¿›å…¥çš„åŒºåŸŸ -- ä¸»ç¨‹åº
+procedure dead_Zone(var map1, map2, mark: array of Byte);  // 0:å…è®¸è¿›å…¥  1:ç¦æ­¢è¿›å…¥
 var
   i: Integer;
-  // ÄæÍÆ·¨¼ÆËãÏä×Ó²»¿É½øÈëµÄÇøÓò -- ¸±³ÌĞò
+  // é€†æ¨æ³•è®¡ç®—ç®±å­ä¸å¯è¿›å…¥çš„åŒºåŸŸ -- å‰¯ç¨‹åº
   procedure dead_Zone_sub(pos: Integer; var map2, mark: array of Byte);
   var
     pos1, pos2, k: Integer;
@@ -83,7 +83,7 @@ var
       for k := 0 to 3 do begin
           pos1 := pos  + diff[k];
           pos2 := pos1 + diff[k];
-          if (mark[pos1] = 1) and (isPass(map2, pos1)) and (isPass(map2, pos2)) then dead_Zone_sub(pos1, map2, mark);  // Èç¹û´øÉÏÏä×ÓµÄ»°
+          if (mark[pos1] = 1) and (isPass(map2, pos1)) and (isPass(map2, pos2)) then dead_Zone_sub(pos1, map2, mark);  // å¦‚æœå¸¦ä¸Šç®±å­çš„è¯
       end;
   end;
 begin
@@ -93,28 +93,28 @@ begin
         else if isGoal(map1, i) then map2[i] := BT_GOAL
         else map2[i] := BT_FLOOR;
     end;
-    for i := nCols + 1 to nArea - nCols - 1 do begin  // ´ÓÄ¿±êµã½øĞĞµ÷²é
+    for i := nCols + 1 to nArea - nCols - 1 do begin  // ä»ç›®æ ‡ç‚¹è¿›è¡Œè°ƒæŸ¥
         if (map2[i] = BT_GOAL) and (mark[i] = 1) then dead_Zone_sub(i, map2, mark);
     end;
 end;
 
-// ½«³õÌ¬µÄËÀËøÏä×Ó±ä³ÉÇ½±Ú
+// å°†åˆæ€çš„æ­»é”ç®±å­å˜æˆå¢™å£
 procedure set_Dead2Wall(var map: array of Byte);
 var
     i: Integer;
 begin
     for i := nCols + 1 to nArea - nCols - 2 do begin
-        if is_Fang(map, i) then begin                                              // Ïä×Ó¹¹³É·½ĞÍËÀËø
+        if is_Fang(map, i) then begin                                              // ç®±å­æ„æˆæ–¹å‹æ­»é”
             map[i] := BT_WALL;
-            if map[i] = BT_BOX then bNoSolution := true;                           // ³õÌ¬ÓĞËÀËøµÄÏä×Ó
-        end else if is_Zhi(map, i, m_Zhi_Dir) then begin                           // Ïä×Ó¹¹³É¡°Ö®×Ö¡±ĞÍËÀËø
+            if map[i] = BT_BOX then bNoSolution := true;                           // åˆæ€æœ‰æ­»é”çš„ç®±å­
+        end else if is_Zhi(map, i, m_Zhi_Dir) then begin                           // ç®±å­æ„æˆâ€œä¹‹å­—â€å‹æ­»é”
             map[i] := BT_WALL;
-            if (not bNoSolution) and (m_Zhi_Dir[0] > 0) then bNoSolution := true;  // ³õÌ¬ÓĞËÀËøµÄÏä×Ó
+            if (not bNoSolution) and (m_Zhi_Dir[0] > 0) then bNoSolution := true;  // åˆæ€æœ‰æ­»é”çš„ç®±å­
         end;
     end;
 end;
 
-// ½«³õÌ¬³ÉÍøµÄÏä×Ó±ä³ÉÇ½±Ú
+// å°†åˆæ€æˆç½‘çš„ç®±å­å˜æˆå¢™å£
 procedure set_Net2Wall(var map, mark: array of Byte);
 var
     k, i: Integer;
@@ -126,7 +126,7 @@ var
 
         for k := 0 to nArea - 1 do mark[k] := 0;
     
-        p := 0; tail := 0; pt[0] := pos;       // ³õÊ¼Î»ÖÃÈë¶ÓÁĞ£¬´ı²éÆäËÄÁÚ
+        p := 0; tail := 0; pt[0] := pos;       // åˆå§‹ä½ç½®å…¥é˜Ÿåˆ—ï¼Œå¾…æŸ¥å…¶å››é‚»
         mark[pos] := 1;
         while (p <= tail) do begin
             for k := 0 to 3 do begin
@@ -135,12 +135,12 @@ var
 
                 if (map[p1] = BT_WALL) or
                    (p2 < 0) or (p2 >= nArea) or (1 = mark[p2]) or
-                   (map[p2] = BT_OUTSIDE) or (map[p2] = BT_WALL) then continue  // ÓöÇ½¡¢½çÍâµÈ
-                else if map[p2] = BT_BOX_ON_GOAL then begin                     // Óöµ½ÍøÄÚµÄÏä×Ó
+                   (map[p2] = BT_OUTSIDE) or (map[p2] = BT_WALL) then continue  // é‡å¢™ã€ç•Œå¤–ç­‰
+                else if map[p2] = BT_BOX_ON_GOAL then begin                     // é‡åˆ°ç½‘å†…çš„ç®±å­
                     Inc(tail);
                     pt[tail] := p2;
                     mark[p2] := 1;
-                end else begin                                                  // ·ÇÍø
+                end else begin                                                  // éç½‘
                     Result := false;
                     Exit;
                 end;
@@ -152,7 +152,7 @@ var
     end;
 begin
     for k := nCols + 1 to nArea - nCols - 2 do begin
-        if (map[k] = BT_BOX_ON_GOAL) and (netChesk(k, map, mark)) then begin  // Óöµ½Ä¿±êµãÉÏµÄÏä×Ó£¬ÇÒ³ÉÍø£¬Ôò°ÑÍøÄÚµÄÏä×Ó±ä³ÉÇ½±Ú
+        if (map[k] = BT_BOX_ON_GOAL) and (netChesk(k, map, mark)) then begin  // é‡åˆ°ç›®æ ‡ç‚¹ä¸Šçš„ç®±å­ï¼Œä¸”æˆç½‘ï¼Œåˆ™æŠŠç½‘å†…çš„ç®±å­å˜æˆå¢™å£
             for i := k to nArea - nCols - 2 do begin
                 if 1 = mark[i] then map[i] := BT_WALL;
             end;
@@ -160,53 +160,53 @@ begin
     end;
 end;
 
-// ÊÇ·ñ¡°·½ĞÍ¡±£¨°üº¬Ç½±ßµÄË«Ïä²¢ÁĞµÈ£©
+// æ˜¯å¦â€œæ–¹å‹â€ï¼ˆåŒ…å«å¢™è¾¹çš„åŒç®±å¹¶åˆ—ç­‰ï¼‰
 function is_Fang(var map: array of Byte; pos: Integer): boolean;
 var
     p1, p2, p3, p4, p5, p6, p7, p8: Integer;
 begin
     if isBox(map, pos) then begin
-        p1 := pos + diff[0];  // ×ó
-        p2 := pos + diff[1];  // ÉÏ
-        p3 := pos + diff[2];  // ÓÒ
-        p4 := pos + diff[3];  // ÏÂ
-        p5 := pos + diff[0] + diff[1];  // ×óÉÏ
-        p6 := pos + diff[1] + diff[2];  // ÉÏÓÒ
-        p7 := pos + diff[2] + diff[3];  // ÓÒÏÂ
-        p8 := pos + diff[3] + diff[0];  // ÏÂ×ó
+        p1 := pos + diff[0];  // å·¦
+        p2 := pos + diff[1];  // ä¸Š
+        p3 := pos + diff[2];  // å³
+        p4 := pos + diff[3];  // ä¸‹
+        p5 := pos + diff[0] + diff[1];  // å·¦ä¸Š
+        p6 := pos + diff[1] + diff[2];  // ä¸Šå³
+        p7 := pos + diff[2] + diff[3];  // å³ä¸‹
+        p8 := pos + diff[3] + diff[0];  // ä¸‹å·¦
 
-        if isBoxWall(map, p1) then begin  // ×ó
-            if (isBoxWall(map, p2)) and (isBoxWall(map, p5)) and ((map[pos] = BT_BOX) or (map[p1] = BT_BOX) or (map[p2] = BT_BOX) or (map[p5] = BT_BOX)) then begin  // ÉÏ
-                Result := true;  // ×óÉÏ·½ĞÍ
+        if isBoxWall(map, p1) then begin  // å·¦
+            if (isBoxWall(map, p2)) and (isBoxWall(map, p5)) and ((map[pos] = BT_BOX) or (map[p1] = BT_BOX) or (map[p2] = BT_BOX) or (map[p5] = BT_BOX)) then begin  // ä¸Š
+                Result := true;  // å·¦ä¸Šæ–¹å‹
                 Exit;
             end;
-            if (isBoxWall(map, p4)) and (isBoxWall(map, p8)) and ((map[pos] = BT_BOX) or (map[p1] = BT_BOX) or (map[p4] = BT_BOX) or (map[p8] = BT_BOX)) then begin  // ÏÂ
-                Result := true;  // ×óÏÂ·½ĞÍ
+            if (isBoxWall(map, p4)) and (isBoxWall(map, p8)) and ((map[pos] = BT_BOX) or (map[p1] = BT_BOX) or (map[p4] = BT_BOX) or (map[p8] = BT_BOX)) then begin  // ä¸‹
+                Result := true;  // å·¦ä¸‹æ–¹å‹
                 Exit;
             end;
-        end else if isBoxWall(map, p3) then begin  // ÓÒ
-            if (isBoxWall(map, p2)) and (isBoxWall(map, p6)) and ((map[pos] = BT_BOX) or (map[p3] = BT_BOX) or (map[p2] = BT_BOX) or (map[p6] = BT_BOX)) then begin  // ÉÏ
-                Result := true;  // ÓÒÉÏ·½ĞÍ
+        end else if isBoxWall(map, p3) then begin  // å³
+            if (isBoxWall(map, p2)) and (isBoxWall(map, p6)) and ((map[pos] = BT_BOX) or (map[p3] = BT_BOX) or (map[p2] = BT_BOX) or (map[p6] = BT_BOX)) then begin  // ä¸Š
+                Result := true;  // å³ä¸Šæ–¹å‹
                 Exit;
             end;
-            if (isBoxWall(map, p4)) and (isBoxWall(map, p7)) and ((map[pos] = BT_BOX) or (map[p3] = BT_BOX) or (map[p4] = BT_BOX) or (map[p7] = BT_BOX)) then begin  // ÏÂ
-                Result := true;  // ÓÒÏÂ·½ĞÍ
+            if (isBoxWall(map, p4)) and (isBoxWall(map, p7)) and ((map[pos] = BT_BOX) or (map[p3] = BT_BOX) or (map[p4] = BT_BOX) or (map[p7] = BT_BOX)) then begin  // ä¸‹
+                Result := true;  // å³ä¸‹æ–¹å‹
                 Exit;
             end;
         end;
     end;
-    Result := false;  // Î´¹¹³É·½ĞÍ
+    Result := false;  // æœªæ„æˆæ–¹å‹
 end;
 
-//ÊÇ·ñ¹¹³É¡°Ö®×Ö¡±ĞÍ£¬m_Zhi_Dir£ºµÚÒ»¸öÔªËØ±êÊ¶ÊÇ·ñ°üÀ¨²»ÔÚÄ¿±êµãÉÏµÄÏä×Ó£¬ºóÁ½¸öÔªËØ±êÊ¶¶¯×÷·½Ïò£º1 -- ×ó£¬2 -- ÓÒ£¬3 -- ÉÏ£¬4 -- ÏÂ
+//æ˜¯å¦æ„æˆâ€œä¹‹å­—â€å‹ï¼Œm_Zhi_Dirï¼šç¬¬ä¸€ä¸ªå…ƒç´ æ ‡è¯†æ˜¯å¦åŒ…æ‹¬ä¸åœ¨ç›®æ ‡ç‚¹ä¸Šçš„ç®±å­ï¼Œåä¸¤ä¸ªå…ƒç´ æ ‡è¯†åŠ¨ä½œæ–¹å‘ï¼š1 -- å·¦ï¼Œ2 -- å³ï¼Œ3 -- ä¸Šï¼Œ4 -- ä¸‹
 function is_Zhi(var map: array of Byte; pos: Integer; var m_Zhi_Dir: array of Integer): boolean;
-    // ¡°Ö®¡±×ÖĞÍËÀËø¼ì²é -- ¸±º¯Êı
+    // â€œä¹‹â€å­—å‹æ­»é”æ£€æŸ¥ -- å‰¯å‡½æ•°
     function is_Zhi_8(var map: array of Byte; pos: Integer; var m_Zhi_Dir: array of Integer): boolean;
     var
         d, p0, p1: Integer;
         flg: Boolean;
 
-            // Ê¶±ğ"Ö®×Ö"ĞÍÊ±£¬Ê¹ÓÃ´Ë¼ì²é£¬Òò¡°·½ĞÍ¡±¿éÒÑ²»¿É¶¯£¬Óë¡°Ç½¡±Í¬µÈ¿´´ı
+            // è¯†åˆ«"ä¹‹å­—"å‹æ—¶ï¼Œä½¿ç”¨æ­¤æ£€æŸ¥ï¼Œå› â€œæ–¹å‹â€å—å·²ä¸å¯åŠ¨ï¼Œä¸â€œå¢™â€åŒç­‰çœ‹å¾…
         function is_Fang2(var map: array of Byte; p1, p0: Integer): boolean;
         var
             p1_R, p1_C, p0_R, p0_C, p2, p3, p4, p5, p6, dir: Integer;
@@ -216,23 +216,23 @@ function is_Zhi(var map: array of Byte; pos: Integer; var m_Zhi_Dir: array of In
             p0_R := p0 div nCols;
             p0_C := p0 mod nCols;
 
-            if p1_R = p0_R then begin  // Ïä×ÓÓë±È¶ÔµãÍ¬ĞĞ
+            if p1_R = p0_R then begin  // ç®±å­ä¸æ¯”å¯¹ç‚¹åŒè¡Œ
                 dir := IfThen(p1_C > p0_C, 1, 0);
-                p2 := p1 + diff[dir * 2];            // Í¬ĞĞ
-                p3 := p1 + diff[1];                  // ÉÏ
-                p4 := p1 + diff[3];                  // ÏÂ
-                p5 := p1 + diff[1] + diff[dir * 2];  // ÉÏÖ®Í¬ĞĞ
-                p6 := p1 + diff[3] + diff[dir * 2];  // ÏÂÖ®Í¬ĞĞ
-            end else begin             //Ïä×ÓÓë±È¶ÔµãÍ¬ÁĞ
+                p2 := p1 + diff[dir * 2];            // åŒè¡Œ
+                p3 := p1 + diff[1];                  // ä¸Š
+                p4 := p1 + diff[3];                  // ä¸‹
+                p5 := p1 + diff[1] + diff[dir * 2];  // ä¸Šä¹‹åŒè¡Œ
+                p6 := p1 + diff[3] + diff[dir * 2];  // ä¸‹ä¹‹åŒè¡Œ
+            end else begin             //ç®±å­ä¸æ¯”å¯¹ç‚¹åŒåˆ—
                 dir := IfThen(p1_R > p0_R, 1, 0);
-                p2 := p1 + diff[1 + dir * 2];            // Í¬ÁĞ
-                p3 := p1 + diff[0];                      // ×ó
-                p4 := p1 + diff[2];                      // ÓÒ
-                p5 := p1 + diff[0] + diff[1 + dir * 2];  // ×óÖ®Í¬ÁĞ
-                p6 := p1 + diff[2] + diff[1 + dir * 2];  // ÓÒÖ®Í¬ÁĞ
+                p2 := p1 + diff[1 + dir * 2];            // åŒåˆ—
+                p3 := p1 + diff[0];                      // å·¦
+                p4 := p1 + diff[2];                      // å³
+                p5 := p1 + diff[0] + diff[1 + dir * 2];  // å·¦ä¹‹åŒåˆ—
+                p6 := p1 + diff[2] + diff[1 + dir * 2];  // å³ä¹‹åŒåˆ—
             end;
             if (isBoxWall(map, p1)) and (isBoxWall(map, p2)) then begin
-                if (isBoxWall(map, p3)) and (isBoxWall(map, p5) or isBoxWall(map, p4)) and (isBoxWall(map, p6)) then begin // ³É·½
+                if (isBoxWall(map, p3)) and (isBoxWall(map, p5) or isBoxWall(map, p4)) and (isBoxWall(map, p6)) then begin // æˆæ–¹
                     Result :=  true;
                     Exit;
                 end;
@@ -241,308 +241,308 @@ function is_Zhi(var map: array of Byte; pos: Integer; var m_Zhi_Dir: array of In
         end;
 
     begin
-        d   := m_Zhi_Dir[2];  // µÚ¶ş¶¯µÄ·½Ïò
+        d   := m_Zhi_Dir[2];  // ç¬¬äºŒåŠ¨çš„æ–¹å‘
         p0  := pos;
         p1  := pos;
-        flg := false;  // Ö®×ÖÇ°°ë²¿·ÖÊÇ·ñ³ÉĞÍ
+        flg := false;  // ä¹‹å­—å‰åŠéƒ¨åˆ†æ˜¯å¦æˆå‹
 
-        case m_Zhi_Dir[1] of  // µÚÒ»¶¯µÄ·½Ïò
-        1:  // µÚÒ»¶¯£º×ó
-                if d = 4 then begin  // µÚ¶ş¶¯£ºÏÂ
-                    while (isBox(map, p1)) do begin  // ÏÈ×ö×óÏÂ¼ì²é
+        case m_Zhi_Dir[1] of  // ç¬¬ä¸€åŠ¨çš„æ–¹å‘
+        1:  // ç¬¬ä¸€åŠ¨ï¼šå·¦
+                if d = 4 then begin  // ç¬¬äºŒåŠ¨ï¼šä¸‹
+                    while (isBox(map, p1)) do begin  // å…ˆåšå·¦ä¸‹æ£€æŸ¥
                         if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                        if (d = 4) then begin  // ×ó
+                        if (d = 4) then begin  // å·¦
                             d  := 0;
                             p1 := p1 + diff[0];
-                        end else begin       // ÏÂ
+                        end else begin       // ä¸‹
                             d  := 4;
                             p1 := p1 + diff[3];
                         end;
-                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                            flg := true;  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                            flg := true;  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                             break;
                         end;
                         p0 := p1;
                     end;
-                    if flg then begin  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ£¬Ôò¼ì²éºó°ë²¿·Ö
+                    if flg then begin  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹ï¼Œåˆ™æ£€æŸ¥ååŠéƒ¨åˆ†
                         d  := m_Zhi_Dir[2];
                         p0 := pos;
                         p1 := pos;
-                        while (isBox(map, p1)) do begin  // ÔÙ×öÉÏÓÒ¼ì²é
+                        while (isBox(map, p1)) do begin  // å†åšä¸Šå³æ£€æŸ¥
                             if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                            if d = 4 then begin  // ÉÏ
+                            if d = 4 then begin  // ä¸Š
                                 d  := 0;
                                 p1 := p1 + diff[1];
-                            end else begin       // ÓÒ
+                            end else begin       // å³
                                 d  := 4;
                                 p1 := p1 + diff[2];
                             end;
-                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                                Result := true;  // ºó°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                                Result := true;  // ååŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                                 Exit;
                             end;
                             p0 := p1;
                         end;
                     end;
-                end else begin  // µÚ¶ş¶¯£ºÉÏ
-                    while (isBox(map, p1)) do begin  // ÏÈ×ö×óÉÏ¼ì²é
+                end else begin  // ç¬¬äºŒåŠ¨ï¼šä¸Š
+                    while (isBox(map, p1)) do begin  // å…ˆåšå·¦ä¸Šæ£€æŸ¥
                         if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                        if d <> 4 then begin  // ×ó
+                        if d <> 4 then begin  // å·¦
                             d  := 4;
                             p1 := p1 + diff[0];
-                        end else begin       // ÉÏ
+                        end else begin       // ä¸Š
                             d  := 0;
                             p1 := p1 + diff[1];
                         end;
-                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                            flg := true;  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                            flg := true;  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                             break;
                         end;
                         p0 := p1;
                     end;
-                    if flg then begin  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ£¬Ôò¼ì²éºó°ë²¿·Ö
+                    if flg then begin  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹ï¼Œåˆ™æ£€æŸ¥ååŠéƒ¨åˆ†
                         d  := m_Zhi_Dir[2];
                         p0 := pos;
                         p1 := pos;
-                        while (isBox(map, p1)) do begin  // ÔÙ×öÏÂÓÒ¼ì²é
+                        while (isBox(map, p1)) do begin  // å†åšä¸‹å³æ£€æŸ¥
                             if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                            if d <> 4 then begin  // ÏÂ
+                            if d <> 4 then begin  // ä¸‹
                                 d  := 4;
                                 p1 := p1 + diff[3];
-                            end else begin       // ÓÒ
+                            end else begin       // å³
                                 d  := 0;
                                 p1 := p1 + diff[2];
                             end;
-                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                                Result := true;  // ºó°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                                Result := true;  // ååŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                                 Exit;
                             end;
                             p0 := p1;
                         end;
                     end;
                 end;
-        2:  // µÚÒ»¶¯£ºÓÒ
-                if d = 4 then begin  // µÚ¶ş¶¯£ºÏÂ
-                    while (isBox(map, p1)) do begin  // ÏÈ×öÓÒÏÂ¼ì²é
+        2:  // ç¬¬ä¸€åŠ¨ï¼šå³
+                if d = 4 then begin  // ç¬¬äºŒåŠ¨ï¼šä¸‹
+                    while (isBox(map, p1)) do begin  // å…ˆåšå³ä¸‹æ£€æŸ¥
                         if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                        if d = 4 then begin  // ÓÒ
+                        if d = 4 then begin  // å³
                             d  := 0;
                             p1 := p1 + diff[2];
-                        end else begin       // ÏÂ
+                        end else begin       // ä¸‹
                             d  := 4;
                             p1 := p1 + diff[3];
                         end;
-                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                            flg := true;  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                            flg := true;  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                             break;
                         end;
                         p0 := p1;
                     end;
-                    if flg then begin  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ£¬Ôò¼ì²éºó°ë²¿·Ö
+                    if flg then begin  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹ï¼Œåˆ™æ£€æŸ¥ååŠéƒ¨åˆ†
                         d  := m_Zhi_Dir[2];
                         p0 := pos;
                         p1 := pos;
 
-                        while (isBox(map, p1)) do begin  // ÔÙ×öÉÏ×ó¼ì²é
+                        while (isBox(map, p1)) do begin  // å†åšä¸Šå·¦æ£€æŸ¥
                             if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                            if d = 4 then begin  // ÉÏ
+                            if d = 4 then begin  // ä¸Š
                                 d  := 0;
                                 p1 := p1 + diff[1];
-                            end else begin       // ×ó
+                            end else begin       // å·¦
                                 d  := 4;
                                 p1 := p1 + diff[0];
                             end;
-                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                                Result := true;  // ºó°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                                Result := true;  // ååŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                                 Exit;
                             end;
                             p0 := p1;
                         end;
                     end;
-                end else begin  // µÚ¶ş¶¯£ºÉÏ
-                    while (isBox(map, p1)) do begin  // ÏÈ×öÓÒÉÏ¼ì²é
+                end else begin  // ç¬¬äºŒåŠ¨ï¼šä¸Š
+                    while (isBox(map, p1)) do begin  // å…ˆåšå³ä¸Šæ£€æŸ¥
                         if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                        if d <> 4 then begin  // ÓÒ
+                        if d <> 4 then begin  // å³
                             d  := 4;
                             p1 := p1 + diff[2];
-                        end else begin       // ÉÏ
+                        end else begin       // ä¸Š
                             d  := 0;
                             p1 := p1 + diff[1];
                         end;
-                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                            flg := true;  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                            flg := true;  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                             break;
                         end;
                         p0 := p1;
                     end;
-                    if flg then begin  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ£¬Ôò¼ì²éºó°ë²¿·Ö
+                    if flg then begin  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹ï¼Œåˆ™æ£€æŸ¥ååŠéƒ¨åˆ†
                         d  := m_Zhi_Dir[2];
                         p0 := pos;
                         p1 := pos;
 
-                        while (isBox(map, p1)) do begin  // ÔÙ×öÏÂ×ó¼ì²é
+                        while (isBox(map, p1)) do begin  // å†åšä¸‹å·¦æ£€æŸ¥
                             if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                            if d <> 4 then begin  // ÏÂ
+                            if d <> 4 then begin  // ä¸‹
                                 d  := 4;
                                 p1 := p1 + diff[3];
-                            end else begin       // ×ó
+                            end else begin       // å·¦
                                 d  := 0;
                                 p1 := p1 + diff[0];
                             end;
-                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                                Result := true;  // ºó°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                                Result := true;  // ååŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                                 Exit;
                             end;
                             p0 := p1;
                         end;
                     end;
                 end;
-        3:  // µÚÒ»¶¯£ºÉÏ
-                if d = 2 then begin  // µÚ¶ş¶¯£ºÓÒ
-                    while (isBox(map, p1)) do begin  // ÏÈ×öÉÏÓÒ¼ì²é
+        3:  // ç¬¬ä¸€åŠ¨ï¼šä¸Š
+                if d = 2 then begin  // ç¬¬äºŒåŠ¨ï¼šå³
+                    while (isBox(map, p1)) do begin  // å…ˆåšä¸Šå³æ£€æŸ¥
                         if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                        if d = 2 then begin  // ÉÏ
+                        if d = 2 then begin  // ä¸Š
                             d  := 0;
                             p1 := p1 + diff[1];
-                        end else begin       // ÓÒ
+                        end else begin       // å³
                             d  := 2;
                             p1 := p1 + diff[2];
                         end;
-                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                            flg := true;  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                            flg := true;  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                             break;
                         end;
                         p0 := p1;
                     end;
-                    if flg then begin  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ£¬Ôò¼ì²éºó°ë²¿·Ö
+                    if flg then begin  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹ï¼Œåˆ™æ£€æŸ¥ååŠéƒ¨åˆ†
                         d  := m_Zhi_Dir[2];
                         p0 := pos;
                         p1 := pos;
 
-                        while (isBox(map, p1)) do begin  // ÏÈ×ö×óÏÂ¼ì²é
+                        while (isBox(map, p1)) do begin  // å…ˆåšå·¦ä¸‹æ£€æŸ¥
                             if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                            if d = 2 then begin  // ×ó
+                            if d = 2 then begin  // å·¦
                                 d  := 0;
                                 p1 := p1 + diff[0];
-                            end else begin       // ÏÂ
+                            end else begin       // ä¸‹
                                 d  := 2;
                                 p1 := p1 + diff[3];
                             end;
-                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                                Result := true;  // ºó°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                                Result := true;  // ååŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                                 Exit;
                             end;
                             p0 := p1;
                         end;
                     end;
-                end else begin  // µÚ¶ş¶¯£º×ó
-                    while (isBox(map, p1)) do begin  // ÏÈ×öÉÏ×ó¼ì²é
+                end else begin  // ç¬¬äºŒåŠ¨ï¼šå·¦
+                    while (isBox(map, p1)) do begin  // å…ˆåšä¸Šå·¦æ£€æŸ¥
                         if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                        if d <> 2 then begin  // ÉÏ
+                        if d <> 2 then begin  // ä¸Š
                             d  := 2;
                             p1 := p1 + diff[1];
-                        end else begin       // ×ó
+                        end else begin       // å·¦
                             d  := 0;
                             p1 := p1 + diff[0];
                         end;
-                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin // Óö¡°Ç½»ò·½¡±
-                            flg := true;  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin // é‡â€œå¢™æˆ–æ–¹â€
+                            flg := true;  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                             break;
                         end;
                         p0 := p1;
                     end;
-                    if flg then begin  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ£¬Ôò¼ì²éºó°ë²¿·Ö
+                    if flg then begin  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹ï¼Œåˆ™æ£€æŸ¥ååŠéƒ¨åˆ†
                         d  := m_Zhi_Dir[2];
                         p0 := pos;
                         p1 := pos;
 
-                        while (isBox(map, p1)) do begin  // ÔÙ×öÓÒÏÂ¼ì²é
+                        while (isBox(map, p1)) do begin  // å†åšå³ä¸‹æ£€æŸ¥
                             if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                            if d <> 2 then begin  // ÓÒ
+                            if d <> 2 then begin  // å³
                                 d  := 2;
                                 p1 := p1 + diff[2];
-                            end else begin       // ÏÂ
+                            end else begin       // ä¸‹
                                 d  := 0;
                                 p1 := p1 + diff[3];
                             end;
-                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                                Result := true;  // ºó°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                                Result := true;  // ååŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                                 Exit;
                             end;
                             p0 := p1;
                         end;
                     end;
                 end;
-        4:  // µÚÒ»¶¯£ºÏÂ
-                if d = 2 then begin  // µÚ¶ş¶¯£ºÓÒ
-                    while (isBox(map, p1)) do begin  // ÏÈ×öÏÂÓÒ¼ì²é
+        4:  // ç¬¬ä¸€åŠ¨ï¼šä¸‹
+                if d = 2 then begin  // ç¬¬äºŒåŠ¨ï¼šå³
+                    while (isBox(map, p1)) do begin  // å…ˆåšä¸‹å³æ£€æŸ¥
                         if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                        if d = 2 then begin  // ÏÂ
+                        if d = 2 then begin  // ä¸‹
                             d  := 0;
                             p1 := p1 + diff[3];
-                        end else begin       // ÓÒ
+                        end else begin       // å³
                             d  := 2;
                             p1 := p1 + diff[2];
                         end;
-                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                            flg := true;  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                            flg := true;  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                             break;
                         end;
                         p0 := p1;
                     end;
-                    if flg then begin  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ£¬Ôò¼ì²éºó°ë²¿·Ö
+                    if flg then begin  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹ï¼Œåˆ™æ£€æŸ¥ååŠéƒ¨åˆ†
                         d  := m_Zhi_Dir[2];
                         p0 := pos;
                         p1 := pos;
 
-                        while (isBox(map, p1)) do begin  // ÏÈ×ö×óÉÏ¼ì²é
+                        while (isBox(map, p1)) do begin  // å…ˆåšå·¦ä¸Šæ£€æŸ¥
                             if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                            if d = 2 then begin  // ×ó
+                            if d = 2 then begin  // å·¦
                                 d  := 0;
                                 p1 := p1 + diff[0];
-                            end else begin       // ÉÏ
+                            end else begin       // ä¸Š
                                 d  := 2;
                                 p1 := p1 + diff[1];
                             end;
-                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                                Result := true;  // ºó°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                                Result := true;  // ååŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                                 Exit;
                             end;
                             p0 := p1;
                         end;
                     end;
-                end else begin  // µÚ¶ş¶¯£º×ó
-                    while (isBox(map, p1)) do begin  // ÏÈ×öÏÂ×ó¼ì²é
+                end else begin  // ç¬¬äºŒåŠ¨ï¼šå·¦
+                    while (isBox(map, p1)) do begin  // å…ˆåšä¸‹å·¦æ£€æŸ¥
                         if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                        if d <> 2 then begin  // ÏÂ
+                        if d <> 2 then begin  // ä¸‹
                             d  := 2;
                             p1 := p1 + diff[3];
-                        end else begin       // ×ó
+                        end else begin       // å·¦
                             d  := 0;
                             p1 := p1 + diff[0];
                         end;
-                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                            flg := true;  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                        if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                            flg := true;  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                             break;
                         end;
                         p0 := p1;
                     end;
-                    if flg then begin  // Ç°°ë²¿·ÖÖ®×Ö³ÉĞÍ£¬Ôò¼ì²éºó°ë²¿·Ö
+                    if flg then begin  // å‰åŠéƒ¨åˆ†ä¹‹å­—æˆå‹ï¼Œåˆ™æ£€æŸ¥ååŠéƒ¨åˆ†
                         d  := m_Zhi_Dir[2];
                         p0 := pos;
                         p1 := pos;
 
-                        while (isBox(map, p1)) do begin  // ÔÙ×öÓÒÉÏ¼ì²é
+                        while (isBox(map, p1)) do begin  // å†åšå³ä¸Šæ£€æŸ¥
                             if (m_Zhi_Dir[0] < 1) and (map[p1] = BT_BOX) then m_Zhi_Dir[0] := 1;
-                            if d <> 2 then begin  // ÓÒ
+                            if d <> 2 then begin  // å³
                                 d  := 2;
                                 p1 := p1 + diff[2];
-                            end else begin       // ÉÏ
+                            end else begin       // ä¸Š
                                 d  := 0;
                                 p1 := p1 + diff[1];
                             end;
-                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // Óö¡°Ç½»ò·½¡±
-                                Result := true;  // ºó°ë²¿·ÖÖ®×Ö³ÉĞÍ
+                            if (map[p1] = BT_WALL) or (is_Fang2(map, p1, p0)) then begin  // é‡â€œå¢™æˆ–æ–¹â€
+                                Result := true;  // ååŠéƒ¨åˆ†ä¹‹å­—æˆå‹
                                 Exit;
                             end;
                             p0 := p1;
@@ -551,12 +551,12 @@ function is_Zhi(var map: array of Byte; pos: Integer; var m_Zhi_Dir: array of In
                 end;
         end;
         m_Zhi_Dir[0] := 0;
-        Result := false;  //Ëù¼ì²éµÄÖ®×ÖÃ»ÓĞ³ÉĞÍ»òÃ»ÓĞËÀËø
+        Result := false;  //æ‰€æ£€æŸ¥çš„ä¹‹å­—æ²¡æœ‰æˆå‹æˆ–æ²¡æœ‰æ­»é”
     end;
 
 begin
-    if isBox(map, pos) then begin  //±¾Î»ÊÇÏä×Ó
-        //1¡¢ÏÈÓÒ - ºóÏÂ£¨Í¬Ê±°üÀ¨£ºÉÏ -- ×ó£©
+    if isBox(map, pos) then begin  //æœ¬ä½æ˜¯ç®±å­
+        //1ã€å…ˆå³ - åä¸‹ï¼ˆåŒæ—¶åŒ…æ‹¬ï¼šä¸Š -- å·¦ï¼‰
         m_Zhi_Dir[0] := 0;
         m_Zhi_Dir[1] := 2;
         m_Zhi_Dir[2] := 4;
@@ -564,7 +564,7 @@ begin
            Result := true;
            Exit;
         end;
-        //2¡¢ÏÈÏÂ - ºóÓÒ£¨Í¬Ê±°üÀ¨£ºÉÏ -- ×ó£©
+        //2ã€å…ˆä¸‹ - åå³ï¼ˆåŒæ—¶åŒ…æ‹¬ï¼šä¸Š -- å·¦ï¼‰
         m_Zhi_Dir[0] := 0;
         m_Zhi_Dir[1] := 4;
         m_Zhi_Dir[2] := 2;
@@ -572,7 +572,7 @@ begin
            Result := true;
            Exit;
         end;
-        //3¡¢ÏÈ×ó - ºóÏÂ£¨Í¬Ê±°üÀ¨£ºÉÏ -- ÓÒ£©
+        //3ã€å…ˆå·¦ - åä¸‹ï¼ˆåŒæ—¶åŒ…æ‹¬ï¼šä¸Š -- å³ï¼‰
         m_Zhi_Dir[0] := 0;
         m_Zhi_Dir[1] := 1;
         m_Zhi_Dir[2] := 4;
@@ -580,7 +580,7 @@ begin
            Result := true;
            Exit;
         end;
-        //4¡¢ÏÈÏÂ - ºó×ó£¨Í¬Ê±°üÀ¨£ºÉÏ -- ÓÒ£©
+        //4ã€å…ˆä¸‹ - åå·¦ï¼ˆåŒæ—¶åŒ…æ‹¬ï¼šä¸Š -- å³ï¼‰
         m_Zhi_Dir[0] := 0;
         m_Zhi_Dir[1] := 4;
         m_Zhi_Dir[2] := 1;
@@ -588,7 +588,7 @@ begin
            Result := true;
            Exit;
         end;
-        //5¡¢ÏÈÓÒ - ºóÉÏ£¨Í¬Ê±°üÀ¨£ºÏÂ -- ×ó£©
+        //5ã€å…ˆå³ - åä¸Šï¼ˆåŒæ—¶åŒ…æ‹¬ï¼šä¸‹ -- å·¦ï¼‰
         m_Zhi_Dir[0] := 0;
         m_Zhi_Dir[1] := 2;
         m_Zhi_Dir[2] := 3;
@@ -596,7 +596,7 @@ begin
            Result := true;
            Exit;
         end;
-        //6¡¢ÏÈÉÏ - ºóÓÒ£¨Í¬Ê±°üÀ¨£ºÏÂ -- ×ó£©
+        //6ã€å…ˆä¸Š - åå³ï¼ˆåŒæ—¶åŒ…æ‹¬ï¼šä¸‹ -- å·¦ï¼‰
         m_Zhi_Dir[0] := 0;
         m_Zhi_Dir[1] := 3;
         m_Zhi_Dir[2] := 2;
@@ -604,7 +604,7 @@ begin
            Result := true;
            Exit;
         end;
-        //7¡¢ÏÈÉÏ - ºó×ó£¨Í¬Ê±°üÀ¨£ºÏÂ -- ÓÒ£©
+        //7ã€å…ˆä¸Š - åå·¦ï¼ˆåŒæ—¶åŒ…æ‹¬ï¼šä¸‹ -- å³ï¼‰
         m_Zhi_Dir[0] := 0;
         m_Zhi_Dir[1] := 3;
         m_Zhi_Dir[2] := 1;
@@ -612,7 +612,7 @@ begin
            Result := true;
            Exit;
         end;
-        //8¡¢ÏÈ×ó - ºóÉÏ£¨Í¬Ê±°üÀ¨£ºÏÂ -- ÓÒ£©
+        //8ã€å…ˆå·¦ - åä¸Šï¼ˆåŒæ—¶åŒ…æ‹¬ï¼šä¸‹ -- å³ï¼‰
         m_Zhi_Dir[0] := 0;
         m_Zhi_Dir[1] := 1;
         m_Zhi_Dir[2] := 3;
@@ -624,79 +624,79 @@ begin
     Result := false;
 end;
 
-// ÊÇ·ñ¹¹³É¡°Ë« L¡±ĞÍ£¨ÉÏÏÂÁ¬ÔÚÒ»Æğ³ÉĞÍ£©ËÀËø
+// æ˜¯å¦æ„æˆâ€œåŒ Lâ€å‹ï¼ˆä¸Šä¸‹è¿åœ¨ä¸€èµ·æˆå‹ï¼‰æ­»é”
 function isLock_Double_L(var map: array of Byte; pos: Integer; var m_Double_L_Top: array of Integer): boolean;
 
-    //Ä³·½Ïò¡°Ë« L¡±ÊÇ·ñ³ÉĞÍ£ºm_Row¡¢m_Col -- ÖĞ¼ä¿ÕµØ×ø±ê£»dR¡¢dC -- ¿ØÖÆ¼ì²é·½Ïò£»isSecond -- ÊÇ·ñÔÚÕÒµÚ¶ş¸ö¶¥µã
+    //æŸæ–¹å‘â€œåŒ Lâ€æ˜¯å¦æˆå‹ï¼šm_Rowã€m_Col -- ä¸­é—´ç©ºåœ°åæ ‡ï¼›dRã€dC -- æ§åˆ¶æ£€æŸ¥æ–¹å‘ï¼›isSecond -- æ˜¯å¦åœ¨æ‰¾ç¬¬äºŒä¸ªé¡¶ç‚¹
     function is_Double_L(var map: array of Byte; pos, dR, dC: Integer; var m_Double_L_Top: array of Integer; isSecond: Boolean): boolean;
     begin
         while (true) do begin
-            //´Ë·½Ïò·¢ÏÖ¶¥µã£¬´Ë·½Ïò¡°Ë« L¡±³ÉĞÍ
+            //æ­¤æ–¹å‘å‘ç°é¡¶ç‚¹ï¼Œæ­¤æ–¹å‘â€œåŒ Lâ€æˆå‹
             if (isBoxWall(map, pos)) and (isBoxWall(map, pos - dC)) then begin
-                if (isSecond) then begin  //¼ÇÂ¼µÚ¶ş¸ö¶¥µãµÄ×ø±ê
+                if (isSecond) then begin  //è®°å½•ç¬¬äºŒä¸ªé¡¶ç‚¹çš„åæ ‡
                     m_Double_L_Top[2] := pos;
-                end else begin  //¼ÇÂ¼µÚÒ»¸ö¶¥µãµÄ×ø±ê
+                end else begin  //è®°å½•ç¬¬ä¸€ä¸ªé¡¶ç‚¹çš„åæ ‡
                     m_Double_L_Top[1] := pos;
                 end;
-                Result := true;  //´Ë·½Ïò¡°Ë« L¡±³ÉĞÍ
+                Result := true;  //æ­¤æ–¹å‘â€œåŒ Lâ€æˆå‹
                 Exit;
             end;
 
-            //Á¬ĞøÎª¡°Ë« L¡±µÄÖĞ¼ä²¿·Ö£¬Ôò¼ÌĞøÕÒ
+            //è¿ç»­ä¸ºâ€œåŒ Lâ€çš„ä¸­é—´éƒ¨åˆ†ï¼Œåˆ™ç»§ç»­æ‰¾
             if (isBoxWall(map, pos + diff[0])) and (isBoxWall(map, pos + diff[2])) then begin
-                //¸Ä±äÖĞ¼ä¿ÕµØ×ø±ê
+                //æ”¹å˜ä¸­é—´ç©ºåœ°åæ ‡
                 pos := pos + dR * nCols + dC;
                 continue;
             end;
 
-            break;  //·ñÔò£¬´Ë·½Ïò¡°Ë« L¡±Ã»ÓĞ³ÉĞÍ
+            break;  //å¦åˆ™ï¼Œæ­¤æ–¹å‘â€œåŒ Lâ€æ²¡æœ‰æˆå‹
         end;
 
-        Result :=  false;  //´Ë·½Ïò¡°Ë« L¡±Ã»ÓĞ³ÉĞÍ
+        Result :=  false;  //æ­¤æ–¹å‘â€œåŒ Lâ€æ²¡æœ‰æˆå‹
     end;
 
-    // ÊÇ·ñ¡°Ë« L¡±ĞÍËÀËø£¨ÖĞ¼äÄ¿±êµã¶àÓÚ 2 ¸öµÄÊ±ºò£¬Çé¿ö±È½Ï¸´ÔÓ£¬ÔİÒÔ¡°²»ËÀËø¡±¿´´ı£¬ÉÙÓÚ 2 ¸öÄ¿±êµãÊ±£¬ÊÇ·ñ¾ùº­¸Ç£¬´ıÑé£©
+    // æ˜¯å¦â€œåŒ Lâ€å‹æ­»é”ï¼ˆä¸­é—´ç›®æ ‡ç‚¹å¤šäº 2 ä¸ªçš„æ—¶å€™ï¼Œæƒ…å†µæ¯”è¾ƒå¤æ‚ï¼Œæš‚ä»¥â€œä¸æ­»é”â€çœ‹å¾…ï¼Œå°‘äº 2 ä¸ªç›®æ ‡ç‚¹æ—¶ï¼Œæ˜¯å¦å‡æ¶µç›–ï¼Œå¾…éªŒï¼‰
     function is_Double_L_Locked(var map: array of Byte; var m_Double_L_Top: array of Integer): boolean;
     var
         pos, dR, dC, n: Integer;                         
         flg: array[0..5] of Boolean;
         f: Boolean;
     begin
-        // Í¨¹ı»»Ëã£¬Ê¹Éè¼ÆËã·¨Ê±£¬¶¼ÓÃ¡°×óÉÏ--ÓÒÏÂ¡±·½ÏòË¼¿¼£¨¼´£ºmTop_Bottom[1] µ±³É×ó¶¥µã£¬mTop_Bottom[2] µ±³ÉÓÒÏÂ¶¥µã£©
+        // é€šè¿‡æ¢ç®—ï¼Œä½¿è®¾è®¡ç®—æ³•æ—¶ï¼Œéƒ½ç”¨â€œå·¦ä¸Š--å³ä¸‹â€æ–¹å‘æ€è€ƒï¼ˆå³ï¼šmTop_Bottom[1] å½“æˆå·¦é¡¶ç‚¹ï¼ŒmTop_Bottom[2] å½“æˆå³ä¸‹é¡¶ç‚¹ï¼‰
         dR := 1; dC := 1;
         if (m_Double_L_Top[1] div nCols > m_Double_L_Top[2] div nCols) then dR := -1;
         if (m_Double_L_Top[1] mod nCols > m_Double_L_Top[2] mod nCols) then dC := -1;
 
-        // Á½¶¥µãµÄ 6 ¸öÏä×ÓÊÇ·ñÔÚÄ¿±êµã
-        flg[0] := (map[m_Double_L_Top[1]             ] = BT_BOX);       //¶¥
-        flg[1] := (map[m_Double_L_Top[1] + dC        ] = BT_BOX);       //¶¥ÓÒ
-        flg[2] := (map[m_Double_L_Top[1] + dR * nCols] = BT_BOX);       //ÖĞ¼ä×ó
-        flg[3] := (map[m_Double_L_Top[2] - dR * nCols] = BT_BOX);       //ÖĞ¼äÓÒ
-        flg[4] := (map[m_Double_L_Top[2] - dC        ] = BT_BOX);       //µ××ó
-        flg[5] := (map[m_Double_L_Top[2]             ] = BT_BOX);       //µ×
+        // ä¸¤é¡¶ç‚¹çš„ 6 ä¸ªç®±å­æ˜¯å¦åœ¨ç›®æ ‡ç‚¹
+        flg[0] := (map[m_Double_L_Top[1]             ] = BT_BOX);       //é¡¶
+        flg[1] := (map[m_Double_L_Top[1] + dC        ] = BT_BOX);       //é¡¶å³
+        flg[2] := (map[m_Double_L_Top[1] + dR * nCols] = BT_BOX);       //ä¸­é—´å·¦
+        flg[3] := (map[m_Double_L_Top[2] - dR * nCols] = BT_BOX);       //ä¸­é—´å³
+        flg[4] := (map[m_Double_L_Top[2] - dC        ] = BT_BOX);       //åº•å·¦
+        flg[5] := (map[m_Double_L_Top[2]             ] = BT_BOX);       //åº•
 
-        // ±éÀúÖĞ¼äµÄ²¿·Ö£¬¼ÇÂ¼ÓĞÃ»ÓĞÎ´¹éÎ»µÄÏä×ÓÒÔ¼°ÖĞ¼äµÄ¿ÕµØÓĞ¼¸¸öÄ¿±êµã
+        // éå†ä¸­é—´çš„éƒ¨åˆ†ï¼Œè®°å½•æœ‰æ²¡æœ‰æœªå½’ä½çš„ç®±å­ä»¥åŠä¸­é—´çš„ç©ºåœ°æœ‰å‡ ä¸ªç›®æ ‡ç‚¹
         f := (flg[0]) or (flg[1]) or (flg[2]) or (flg[3]) or (flg[4]) or (flg[5]);
         n := 0;
-        // µÚÒ»¸öÖĞ¼ä¿ÕµØµÄ×ø±ê
+        // ç¬¬ä¸€ä¸ªä¸­é—´ç©ºåœ°çš„åæ ‡
         pos := m_Double_L_Top[1] + dR * nCols + dC;
         while (true) do begin
-            if (not f) and ((map[pos - dC] = BT_BOX) or (map[pos + dC] = BT_BOX)) then f := true;  // Á½²àÓĞ²»ÔÚÄ¿±êµãµÄÏä×Ó
+            if (not f) and ((map[pos - dC] = BT_BOX) or (map[pos + dC] = BT_BOX)) then f := true;  // ä¸¤ä¾§æœ‰ä¸åœ¨ç›®æ ‡ç‚¹çš„ç®±å­
 
-            if map[pos] = BT_GOAL then Inc(n);  // ÖĞ¼äÊÇÄ¿±êµã
+            if map[pos] = BT_GOAL then Inc(n);  // ä¸­é—´æ˜¯ç›®æ ‡ç‚¹
 
             pos := pos + dR * nCols + dC;
-            if pos = m_Double_L_Top[2] then break;  // µ½´ïµÚ¶ş¸ö¶¥µã
+            if pos = m_Double_L_Top[2] then break;  // åˆ°è¾¾ç¬¬äºŒä¸ªé¡¶ç‚¹
         end;
 
-        m_Double_L_Top[0] := n;  // µÚÒ»¸öÔªËØ¼ÇÂ¼°üº¬µÄ²»ÔÚÄ¿±êµãÉÏµÄÏä×Ó¸öÊı
+        m_Double_L_Top[0] := n;  // ç¬¬ä¸€ä¸ªå…ƒç´ è®°å½•åŒ…å«çš„ä¸åœ¨ç›®æ ‡ç‚¹ä¸Šçš„ç®±å­ä¸ªæ•°
 
-        if n = 0 then begin  // Ã»ÓĞÄ¿±êµã£¬ÈôÔÙ°üº¬Ã»ÓĞ¹éÎ»µÄÏä×Ó£¬±Ø¶¨¹¹³É¡°·½ĞÍ¡±ËÀËø
+        if n = 0 then begin  // æ²¡æœ‰ç›®æ ‡ç‚¹ï¼Œè‹¥å†åŒ…å«æ²¡æœ‰å½’ä½çš„ç®±å­ï¼Œå¿…å®šæ„æˆâ€œæ–¹å‹â€æ­»é”
             if f then begin
                Result := true;
                Exit;
             end;
-        end else if n = 1 then begin  // Ò»¸öÄ¿±êµã²»×ãÒÔ²ğ¿ªÁ½¶Ë£¬Á½¸ö¶¥ÖĞÍ¬Ê±°üº¬Î´¹éÎ»µÄÏä×ÓÊ±£¬±Ø¶¨¹¹³É¡°·½ĞÍ¡±ËÀËø
+        end else if n = 1 then begin  // ä¸€ä¸ªç›®æ ‡ç‚¹ä¸è¶³ä»¥æ‹†å¼€ä¸¤ç«¯ï¼Œä¸¤ä¸ªé¡¶ä¸­åŒæ—¶åŒ…å«æœªå½’ä½çš„ç®±å­æ—¶ï¼Œå¿…å®šæ„æˆâ€œæ–¹å‹â€æ­»é”
             if ((flg[0]) or (flg[1]) or (flg[2])) and ((flg[3]) or (flg[4]) or (flg[5])) then begin
                Result := true;
                Exit;
@@ -706,66 +706,66 @@ function isLock_Double_L(var map: array of Byte; pos: Integer; var m_Double_L_To
     end;
 
 begin
-    if isBox(map, pos) then begin  // ±¾Î»ÊÇÏä×Ó
-        // ÓÒ²àÊÇÏä×Ó»òÇ½£¬±¾ĞĞÎªÒ»¸ö¶¥µã
+    if isBox(map, pos) then begin  // æœ¬ä½æ˜¯ç®±å­
+        // å³ä¾§æ˜¯ç®±å­æˆ–å¢™ï¼Œæœ¬è¡Œä¸ºä¸€ä¸ªé¡¶ç‚¹
         if isBoxWall(map, pos + diff[2]) then begin
-            //¼ì²éÓÒ²à·½Ïò
-            //×÷ÎªµÚÒ»¸ö¶¥µã
+            //æ£€æŸ¥å³ä¾§æ–¹å‘
+            //ä½œä¸ºç¬¬ä¸€ä¸ªé¡¶ç‚¹
             m_Double_L_Top[1] := pos;
-            if (isPass(map, pos + diff[2] + diff[3])) and (is_Double_L(map, pos + diff[2] + diff[3], 1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) or  // ÓÒÏÂ£¬³ÉËø
-               (isPass(map, pos + diff[2] + diff[1])) and (is_Double_L(map, pos + diff[2] + diff[1], -1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  // ÓÒÉÏ£¬³ÉËø
+            if (isPass(map, pos + diff[2] + diff[3])) and (is_Double_L(map, pos + diff[2] + diff[3], 1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) or  // å³ä¸‹ï¼Œæˆé”
+               (isPass(map, pos + diff[2] + diff[1])) and (is_Double_L(map, pos + diff[2] + diff[1], -1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  // å³ä¸Šï¼Œæˆé”
                 Result := true;
                 Exit;
             end;
-            //¼ì²é×ó²à·½Ïò
-            //×÷ÎªµÚÒ»¸ö¶¥µã
+            //æ£€æŸ¥å·¦ä¾§æ–¹å‘
+            //ä½œä¸ºç¬¬ä¸€ä¸ªé¡¶ç‚¹
             m_Double_L_Top[1] := pos + diff[2];
-            if (isPass(map, pos + diff[1])) and (is_Double_L(map, pos + diff[1], -1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) or  //×óÉÏ£¬³ÉËø
-               (isPass(map, pos + diff[3])) and (is_Double_L(map, pos + diff[3], 1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //×óÏÂ£¬³ÉËø
+            if (isPass(map, pos + diff[1])) and (is_Double_L(map, pos + diff[1], -1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) or  //å·¦ä¸Šï¼Œæˆé”
+               (isPass(map, pos + diff[3])) and (is_Double_L(map, pos + diff[3], 1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //å·¦ä¸‹ï¼Œæˆé”
                 Result := true;
                 Exit;
             end;
         end;
 
-        //×ó²àÊÇÏä×Ó»òÇ½£¬±¾ĞĞÎªÒ»¸ö¶¥µã
+        //å·¦ä¾§æ˜¯ç®±å­æˆ–å¢™ï¼Œæœ¬è¡Œä¸ºä¸€ä¸ªé¡¶ç‚¹
         if isBoxWall(map, pos + diff[0]) then begin
-            //¼ì²é×ó²à·½Ïò
-            //×÷ÎªµÚÒ»¸ö¶¥µã
+            //æ£€æŸ¥å·¦ä¾§æ–¹å‘
+            //ä½œä¸ºç¬¬ä¸€ä¸ªé¡¶ç‚¹
             m_Double_L_Top[1] := pos;
-            if (isPass(map, pos + diff[0] + diff[1])) and (is_Double_L(map, pos + diff[0] + diff[1], -1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) or  //×óÉÏ£¬³ÉËø
-               (isPass(map, pos + diff[0] + diff[3])) and (is_Double_L(map, pos + diff[0] + diff[3], 1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //×óÏÂ£¬³ÉËø
+            if (isPass(map, pos + diff[0] + diff[1])) and (is_Double_L(map, pos + diff[0] + diff[1], -1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) or  //å·¦ä¸Šï¼Œæˆé”
+               (isPass(map, pos + diff[0] + diff[3])) and (is_Double_L(map, pos + diff[0] + diff[3], 1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //å·¦ä¸‹ï¼Œæˆé”
                 Result := true;
                 Exit;
             end;
-            //¼ì²éÓÒ²à·½Ïò
-            //×÷ÎªµÚÒ»¸ö¶¥µã
+            //æ£€æŸ¥å³ä¾§æ–¹å‘
+            //ä½œä¸ºç¬¬ä¸€ä¸ªé¡¶ç‚¹
             m_Double_L_Top[1] := pos + diff[0];
-            if (isPass(map, pos + diff[1])) and (is_Double_L(map, pos + diff[1], -1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) or  //ÓÒÉÏ£¬³ÉËø
-               (isPass(map, pos + diff[3])) and (is_Double_L(map, pos + diff[3], 1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //ÓÒÏÂ£¬³ÉËø
+            if (isPass(map, pos + diff[1])) and (is_Double_L(map, pos + diff[1], -1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) or  //å³ä¸Šï¼Œæˆé”
+               (isPass(map, pos + diff[3])) and (is_Double_L(map, pos + diff[3], 1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //å³ä¸‹ï¼Œæˆé”
                 Result := true;
                 Exit;
             end;
         end;
 
-        //ÓÒ²àÊÇ ¿ÕµØ£¨Ä¿±êµã£© + Ïä×Ó»òÇ½
+        //å³ä¾§æ˜¯ ç©ºåœ°ï¼ˆç›®æ ‡ç‚¹ï¼‰ + ç®±å­æˆ–å¢™
         if (isPass(map, pos + diff[2])) and (isBoxWall(map, pos + diff[2] * 2)) then begin
-            if (is_Double_L(map, pos + diff[2], -1, -1, m_Double_L_Top, false)) and (is_Double_L(map, pos + diff[2], 1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //×óÉÏ¡¢ÓÒÏÂ
+            if (is_Double_L(map, pos + diff[2], -1, -1, m_Double_L_Top, false)) and (is_Double_L(map, pos + diff[2], 1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //å·¦ä¸Šã€å³ä¸‹
                 Result := true;
                 Exit;
             end;
-            if (is_Double_L(map, pos + diff[2], -1, 1, m_Double_L_Top, false)) and (is_Double_L(map, pos + diff[2], 1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //ÓÒÉÏ¡¢×óÏÂ
+            if (is_Double_L(map, pos + diff[2], -1, 1, m_Double_L_Top, false)) and (is_Double_L(map, pos + diff[2], 1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //å³ä¸Šã€å·¦ä¸‹
                 Result := true;
                 Exit;
             end;
         end;
 
-        //×ó²àÊÇ ¿ÕµØ£¨Ä¿±êµã£© + Ïä×Ó»òÇ½
+        //å·¦ä¾§æ˜¯ ç©ºåœ°ï¼ˆç›®æ ‡ç‚¹ï¼‰ + ç®±å­æˆ–å¢™
         if (isPass(map, pos + diff[0])) and (isBoxWall(map,pos + diff[0] * 2)) then begin
-            if (is_Double_L(map, pos + diff[0], -1, -1, m_Double_L_Top, false)) and (is_Double_L(map, pos + diff[0], 1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //×óÉÏ¡¢ÓÒÏÂ
+            if (is_Double_L(map, pos + diff[0], -1, -1, m_Double_L_Top, false)) and (is_Double_L(map, pos + diff[0], 1, 1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //å·¦ä¸Šã€å³ä¸‹
                 Result := true;
                 Exit;
             end;
-            if (is_Double_L(map, pos + diff[0], -1, 1, m_Double_L_Top, false)) and (is_Double_L(map, pos + diff[0], 1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //ÓÒÉÏ¡¢×óÏÂ
+            if (is_Double_L(map, pos + diff[0], -1, 1, m_Double_L_Top, false)) and (is_Double_L(map, pos + diff[0], 1, -1, m_Double_L_Top, true)) and (is_Double_L_Locked(map, m_Double_L_Top)) then begin  //å³ä¸Šã€å·¦ä¸‹
                 Result := true;
                 Exit;
             end;

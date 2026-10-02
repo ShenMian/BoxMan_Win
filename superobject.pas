@@ -1,4 +1,4 @@
-(*
+ï»¿(*
  *                         Super Object Toolkit
  *
  * Usage allowed under the restrictions of the Lesser GNU General Public License
@@ -17,10 +17,10 @@
  *
  *  CHANGES:
  *  V1.5
- *   + ĞŞÕıindent[aaa,bbb] µÄÎÊÌâ ,ºóÃæÃ»»»ĞĞµÄÎÊÌâ£¬Ö÷ÒªÊÇÃÀ»¯¡£
+ *   + ä¿®æ­£indent[aaa,bbb] çš„é—®é¢˜ ,åé¢æ²¡æ¢è¡Œçš„é—®é¢˜ï¼Œä¸»è¦æ˜¯ç¾åŒ–ã€‚
  *   + 2014-2-18 by xuweihang czmagic@163.com
  *  V1.4
- *   + ĞŞÕıD7ÏÂ¹Ø±ÕÒç³ö³ö´íµÄÎÊÌâ{.$.Q-}
+ *   + ä¿®æ­£D7ä¸‹å…³é—­æº¢å‡ºå‡ºé”™çš„é—®é¢˜{.$.Q-}
  *   + 2014-2-18 by xuweihang czmagic@163.com
  *  V1.3
  *   + Add support to Delphi XE2
@@ -5650,7 +5650,7 @@ begin
   Result := ISuperObject(FPtr)
 end;
 
-//czmagicĞŞ¸Ä 2014-2-17
+//czmagicä¿®æ”¹ 2014-2-17
 {$Q-}
 class function TSuperAvlEntry.Hash(const k: SOString): Cardinal;
 var

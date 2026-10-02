@@ -1,4 +1,4 @@
-unit PathFinder;
+ï»¿unit PathFinder;
 
 {$DEFINE LASTACT}
 
@@ -18,40 +18,40 @@ const
   ManGoalCell      = 7;
 
 var
-    ManPath: array[1..MaxLenPath] of Char;              // ±£´æÈËÒÆ¶¯¶¯×÷µÄÁÙÊ±Êı×é
-    BoxPath: array[1..MaxLenPath] of Char;              // ±£´æÈËÍÆÏä×Ó¶¯×÷µÄÁÙÊ±Êı×é
-    isEditor: Boolean;                                  // ÒòÎª±à¼­Æ÷Ä£¿éÒ²ÓÃµ÷ÓÃ£¬¶ø±à¼­Æ÷µ÷ÓÃÊ±£¬ÀúÊ·¶¯×÷²»ĞèÒª±£´æµ½logÎÄµµ£¬ËùÒÔÉèÖÃ´Ë±äÁ¿ÒÔÇø±ğ
+    ManPath: array[1..MaxLenPath] of Char;              // ä¿å­˜äººç§»åŠ¨åŠ¨ä½œçš„ä¸´æ—¶æ•°ç»„
+    BoxPath: array[1..MaxLenPath] of Char;              // ä¿å­˜äººæ¨ç®±å­åŠ¨ä½œçš„ä¸´æ—¶æ•°ç»„
+    isEditor: Boolean;                                  // å› ä¸ºç¼–è¾‘å™¨æ¨¡å—ä¹Ÿç”¨è°ƒç”¨ï¼Œè€Œç¼–è¾‘å™¨è°ƒç”¨æ—¶ï¼Œå†å²åŠ¨ä½œä¸éœ€è¦ä¿å­˜åˆ°logæ–‡æ¡£ï¼Œæ‰€ä»¥è®¾ç½®æ­¤å˜é‡ä»¥åŒºåˆ«
 
-type                        // µ¥ÏîÁ´±í
+type                        // å•é¡¹é“¾è¡¨
   PBoxManNode = ^BoxManNode;
-  BoxManNode = record       // Ïä×ÓºÍÈËµÄ×éºÏ½Úµã£¬ÓÅÏÈ¶ÓÁĞÓÃ½Úµã
+  BoxManNode = record       // ç®±å­å’Œäººçš„ç»„åˆèŠ‚ç‚¹ï¼Œä¼˜å…ˆé˜Ÿåˆ—ç”¨èŠ‚ç‚¹
       boxPos: Integer;
       manPos: Integer;
-      H, G, T, D: Integer;  // ÆÀ¹ÀÖµ¡¢ÀÛ¼Æ²½Êı¡¢ÀÛ¼Æ×ªÍä´ÎÊı¡¢¸¸½Úµã·½Ïò
+      H, G, T, D: Integer;  // è¯„ä¼°å€¼ã€ç´¯è®¡æ­¥æ•°ã€ç´¯è®¡è½¬å¼¯æ¬¡æ•°ã€çˆ¶èŠ‚ç‚¹æ–¹å‘
       next: PBoxManNode;
   end;
 
-  function canThrough(isBK: Boolean; r, c, r1, c1, r2, c2, dir: Integer): Boolean;        // ¼ì²é pos1 Óë pos Á½µãÊÇ·ñ´©Ô½¿É´ï, µã pos2 ÊÇ±»´©Ô½µÄÏä×Ó£¬ÇÒÔÚ´©Ô½Ê±£¬Ïä×ÓĞèÒªÁÙÊ±ÒÆ¶¯µ½ pos
-  function getPathForThrough(nRow, nCol, nRow1, nCol1, nRow2, nCol2: Integer; dir: Byte; num: Integer): Integer;  // ¼ÆËã²¢·µ»Ø nRow1, nCol1 Óë nRow, nCol Á½µã¼äµÄ´©Ô½Â·¾¶µ½ TurnPath£¬·µ»ØÂ·¾¶³¤¶È, µã nRow2, nCol2 ÊÇ±»´©Ô½µÄÏä×Ó£¬ÇÒÔÚ´©Ô½Ê±£¬Ïä×ÓĞèÒªÁÙÊ±ÒÆ¶¯µ½ nRow, nCol
-  function manTo2b(isBK: Boolean; boxR, boxC, firR, firC, secR, secC: Integer): Boolean;  // ¸îµã·¨£¬¼ì²éÁ½µãÊÇ·ñÈË¿É´ï£¬¼ÆËãÏä×Ó¿É´ïÊ±µ÷ÓÃ
-  function manTo2(isBK: Boolean; boxR, boxC, firR, firC, secR, secC: Integer): Boolean;   // ³£¹æ·¨£¬¼ì²éÁ½µãÊÇ·ñÈË¿É´ï£¬¼ÆËãÏä×Ó¿É´ïÊ±µ÷ÓÃ
+  function canThrough(isBK: Boolean; r, c, r1, c1, r2, c2, dir: Integer): Boolean;        // æ£€æŸ¥ pos1 ä¸ pos ä¸¤ç‚¹æ˜¯å¦ç©¿è¶Šå¯è¾¾, ç‚¹ pos2 æ˜¯è¢«ç©¿è¶Šçš„ç®±å­ï¼Œä¸”åœ¨ç©¿è¶Šæ—¶ï¼Œç®±å­éœ€è¦ä¸´æ—¶ç§»åŠ¨åˆ° pos
+  function getPathForThrough(nRow, nCol, nRow1, nCol1, nRow2, nCol2: Integer; dir: Byte; num: Integer): Integer;  // è®¡ç®—å¹¶è¿”å› nRow1, nCol1 ä¸ nRow, nCol ä¸¤ç‚¹é—´çš„ç©¿è¶Šè·¯å¾„åˆ° TurnPathï¼Œè¿”å›è·¯å¾„é•¿åº¦, ç‚¹ nRow2, nCol2 æ˜¯è¢«ç©¿è¶Šçš„ç®±å­ï¼Œä¸”åœ¨ç©¿è¶Šæ—¶ï¼Œç®±å­éœ€è¦ä¸´æ—¶ç§»åŠ¨åˆ° nRow, nCol
+  function manTo2b(isBK: Boolean; boxR, boxC, firR, firC, secR, secC: Integer): Boolean;  // å‰²ç‚¹æ³•ï¼Œæ£€æŸ¥ä¸¤ç‚¹æ˜¯å¦äººå¯è¾¾ï¼Œè®¡ç®—ç®±å­å¯è¾¾æ—¶è°ƒç”¨
+  function manTo2(isBK: Boolean; boxR, boxC, firR, firC, secR, secC: Integer): Boolean;   // å¸¸è§„æ³•ï¼Œæ£€æŸ¥ä¸¤ç‚¹æ˜¯å¦äººå¯è¾¾ï¼Œè®¡ç®—ç®±å­å¯è¾¾æ—¶è°ƒç”¨
 
-  procedure Init(w, h: Integer);                                      // ³õÊ¼»¯
-  procedure setThroughable(f: Boolean);                               // ÉèÖÃÊÇ·ñÔÊĞí´©Ô½
-  function  isManReachable(pos: Integer): Boolean;                    // ²é¿´¡°Î»ÖÃ¡±ÈËÊÇ·ñ¿É´ï
-  function  isManReachableByThrough (pos: Integer): Boolean;          // ²é¿´¡°Î»ÖÃ¡±ÈËÊÇ·ñ´©Ô½¿É´ï
-  function  isBoxOfThrough(pos: Integer): Boolean;                    // ²é¿´¡°Î»ÖÃ¡±ÊÇ·ñ´©Ô½µã
-  function  isManReachable_BK(pos: Integer): Boolean;                 // ²é¿´¡°Î»ÖÃ¡±ÈËÊÇ·ñ¿É´ï -- ÄæÍÆ
-  function  isManReachableByThrough_BK(pos: Integer): Boolean;        // ²é¿´¡°Î»ÖÃ¡±ÈËÊÇ·ñ´©Ô½¿É´ï -- ÄæÍÆ
-  function  isBoxOfThrough_BK(pos: Integer): Boolean;                 // ²é¿´¡°Î»ÖÃ¡±ÊÇ·ñ´©Ô½µã -- ÄæÍÆ
-  procedure manReachable(isBK: Boolean; level: array of Integer; manPos: Integer);                      // ¼ÆËã²Ö¹ÜÔ±µÄ¿É´ï·¶Î§
-  function  manTo(isBK: Boolean; level: array of Integer; manPos, toPos: Integer): Integer;             // ¼ÆËãÈËµ½´ï toPos µÄÂ·¾¶£¬±£´æµ½ tmpPath£¬·µ»ØÂ·¾¶³¤¶È
+  procedure Init(w, h: Integer);                                      // åˆå§‹åŒ–
+  procedure setThroughable(f: Boolean);                               // è®¾ç½®æ˜¯å¦å…è®¸ç©¿è¶Š
+  function  isManReachable(pos: Integer): Boolean;                    // æŸ¥çœ‹â€œä½ç½®â€äººæ˜¯å¦å¯è¾¾
+  function  isManReachableByThrough (pos: Integer): Boolean;          // æŸ¥çœ‹â€œä½ç½®â€äººæ˜¯å¦ç©¿è¶Šå¯è¾¾
+  function  isBoxOfThrough(pos: Integer): Boolean;                    // æŸ¥çœ‹â€œä½ç½®â€æ˜¯å¦ç©¿è¶Šç‚¹
+  function  isManReachable_BK(pos: Integer): Boolean;                 // æŸ¥çœ‹â€œä½ç½®â€äººæ˜¯å¦å¯è¾¾ -- é€†æ¨
+  function  isManReachableByThrough_BK(pos: Integer): Boolean;        // æŸ¥çœ‹â€œä½ç½®â€äººæ˜¯å¦ç©¿è¶Šå¯è¾¾ -- é€†æ¨
+  function  isBoxOfThrough_BK(pos: Integer): Boolean;                 // æŸ¥çœ‹â€œä½ç½®â€æ˜¯å¦ç©¿è¶Šç‚¹ -- é€†æ¨
+  procedure manReachable(isBK: Boolean; level: array of Integer; manPos: Integer);                      // è®¡ç®—ä»“ç®¡å‘˜çš„å¯è¾¾èŒƒå›´
+  function  manTo(isBK: Boolean; level: array of Integer; manPos, toPos: Integer): Integer;             // è®¡ç®—äººåˆ°è¾¾ toPos çš„è·¯å¾„ï¼Œä¿å­˜åˆ° tmpPathï¼Œè¿”å›è·¯å¾„é•¿åº¦
 
-  procedure FindBlock(level: array of Integer; boxPos: Integer);      // µØÍ¼·Ö¿é
-  procedure boxReachable(isBK: Boolean; boxPos, manPos: Integer);     // ¼ÆËãÏä×ÓµÄ¿É´ïÎ»ÖÃ
-  function  isBoxReachable(pos: Integer): Boolean;                    // ²é¿´¡°Î»ÖÃ¡±Ïä×ÓÊÇ·ñ¿É´ï
-  function  isBoxReachable_BK(pos: Integer): Boolean;                 // ²é¿´¡°Î»ÖÃ¡±Ïä×ÓÊÇ·ñ¿É´ï -- ÄæÍÆ
-  function  boxTo(isBK: Boolean; boxPos, toPos, manPos: Integer): Integer;  // ¼ÆËãÏä×Óµ½´ï toPos µÄÂ·¾¶£¬²¢ÓÉ list ´ø»Ø
+  procedure FindBlock(level: array of Integer; boxPos: Integer);      // åœ°å›¾åˆ†å—
+  procedure boxReachable(isBK: Boolean; boxPos, manPos: Integer);     // è®¡ç®—ç®±å­çš„å¯è¾¾ä½ç½®
+  function  isBoxReachable(pos: Integer): Boolean;                    // æŸ¥çœ‹â€œä½ç½®â€ç®±å­æ˜¯å¦å¯è¾¾
+  function  isBoxReachable_BK(pos: Integer): Boolean;                 // æŸ¥çœ‹â€œä½ç½®â€ç®±å­æ˜¯å¦å¯è¾¾ -- é€†æ¨
+  function  boxTo(isBK: Boolean; boxPos, toPos, manPos: Integer): Integer;  // è®¡ç®—ç®±å­åˆ°è¾¾ toPos çš„è·¯å¾„ï¼Œå¹¶ç”± list å¸¦å›
 
 implementation
 
@@ -61,110 +61,110 @@ uses
 const
   lurdChar : array[0..7] of Char = (  'l', 'r', 'u', 'd', 'L', 'R', 'U', 'D' );
 
-  bt : array[0..7] of Byte = ( 0, 2, 1, 3, 4, 6, 5, 7 );      // ¶ÔÓ¦¶¯×÷£ºl u r d L U R D
+  bt : array[0..7] of Byte = ( 0, 2, 1, 3, 4, 6, 5, 7 );      // å¯¹åº”åŠ¨ä½œï¼šl u r d L U R D
 
-  mByte : array[0..3] of Byte = ( 1, 2, 4, 8 );       // ±ãÓÚ²éÕÒ¡°¿é¡±µÄ³£Á¿
+  mByte : array[0..3] of Byte = ( 1, 2, 4, 8 );       // ä¾¿äºæŸ¥æ‰¾â€œå—â€çš„å¸¸é‡
 
 var
-  isThroughable: boolean;                             // ÊÇ·ñÔÊĞí´©Ô½
+  isThroughable: boolean;                             // æ˜¯å¦å…è®¸ç©¿è¶Š
 
-  manMark: array[0..99, 0..99] of Byte;               // ÈËµÄ¿É´ï±êÖ¾Êı×é£¬ÕıÍÆ£º0x01 ¿É´ïµã£»0x02 ´©Ô½¿É´ïµã£» 0x04 ´©Ô½µã£»ÄæÍÆ£º0x10 ¿É´ïµã£»0x20 ´©Ô½¿É´ïµã£» 0x40 ´©Ô½µã
-  boxMark: array[0..99, 0..99] of Byte;               // Ïä×ÓµÄ¿É´ï±êÖ¾Êı×é£¬ÕıÍÆ£º0x01 ¿É´ïµã£»0x04 ´©Ô½µã£»ÄæÍÆ£º0x10 ¿É´ïµã£»0x40 ´©Ô½µã
+  manMark: array[0..99, 0..99] of Byte;               // äººçš„å¯è¾¾æ ‡å¿—æ•°ç»„ï¼Œæ­£æ¨ï¼š0x01 å¯è¾¾ç‚¹ï¼›0x02 ç©¿è¶Šå¯è¾¾ç‚¹ï¼› 0x04 ç©¿è¶Šç‚¹ï¼›é€†æ¨ï¼š0x10 å¯è¾¾ç‚¹ï¼›0x20 ç©¿è¶Šå¯è¾¾ç‚¹ï¼› 0x40 ç©¿è¶Šç‚¹
+  boxMark: array[0..99, 0..99] of Byte;               // ç®±å­çš„å¯è¾¾æ ‡å¿—æ•°ç»„ï¼Œæ­£æ¨ï¼š0x01 å¯è¾¾ç‚¹ï¼›0x04 ç©¿è¶Šç‚¹ï¼›é€†æ¨ï¼š0x10 å¯è¾¾ç‚¹ï¼›0x40 ç©¿è¶Šç‚¹
 
-  tmpMap: array[0..99, 0..99] of Char;                // ¼ÆËã´©Ô½Ê±£¬ÁÙÊ±Ê¹ÓÃ
-  mapWidth, mapHeight: Integer;                       // µØÍ¼³ß´ç
-  tmpBoxPos: Integer;                                 // ÁÙÊ±¼ÇÂ¼±»µã»÷Ïä×ÓÎ»ÖÃ£¬¼ÆËã¸îµã CutVertex() Ê±Ê¹ÓÃ
-  deep_Thur: Integer;                                 // ´©Ô½Ç°ºóµÄÖ±ÍÆ´ÎÊı
+  tmpMap: array[0..99, 0..99] of Char;                // è®¡ç®—ç©¿è¶Šæ—¶ï¼Œä¸´æ—¶ä½¿ç”¨
+  mapWidth, mapHeight: Integer;                       // åœ°å›¾å°ºå¯¸
+  tmpBoxPos: Integer;                                 // ä¸´æ—¶è®°å½•è¢«ç‚¹å‡»ç®±å­ä½ç½®ï¼Œè®¡ç®—å‰²ç‚¹ CutVertex() æ—¶ä½¿ç”¨
+  deep_Thur: Integer;                                 // ç©¿è¶Šå‰åçš„ç›´æ¨æ¬¡æ•°
 
-  TrunPath: array[1..MaxLenPath] of Char;             // ±£´æÈËÒÆ¶¯Ê±£¬´©Ô½Â·¾¶µÄÁÙÊ±Êı×é
+  TrunPath: array[1..MaxLenPath] of Char;             // ä¿å­˜äººç§»åŠ¨æ—¶ï¼Œç©¿è¶Šè·¯å¾„çš„ä¸´æ—¶æ•°ç»„
 
-  mark: array[0..99, 0..99] of Boolean;               // ¼ÆËã´©Ô½Ê±£¬ÁÙÊ±Ê¹ÓÃ
-  pt, pt0, ptBlock: array[0..9999] of Integer;        // ¿ª¼¯£»µÇ¼Ç¿éÊ±Ê¹ÓÃptBlock£¬Ìæ´ú¡°¶ÓÁĞ¡±
+  mark: array[0..99, 0..99] of Boolean;               // è®¡ç®—ç©¿è¶Šæ—¶ï¼Œä¸´æ—¶ä½¿ç”¨
+  pt, pt0, ptBlock: array[0..9999] of Integer;        // å¼€é›†ï¼›ç™»è®°å—æ—¶ä½¿ç”¨ptBlockï¼Œæ›¿ä»£â€œé˜Ÿåˆ—â€
   
   mark0: array[0..99, 0..99, 0..3] of Boolean;
-  cut: array[0..99, 0..99] of Boolean;                // ¸îµã
+  cut: array[0..99, 0..99] of Boolean;                // å‰²ç‚¹
 
-  children,                                           // ¼ÇÂ¼µ±Ç°½ÚµãµÄ×ÓÊ÷½Úµã·½Ïò£º1--×ó£¬2--ÓÒ£¬4--ÉÏ£¬8--ÏÂ£¬ÓÃÎ»ÔËËã²Ù×÷
-  parent, parent2 : array[0..99, 0..99] of Smallint;  // ¼ÇÂ¼¡°¸¸½Úµã¡±À´¡°µ±Ç°½Úµã¡±µÄ·½Ïò£º0--ÉÏ£¬1--ÏÂ£¬2--×ó£¬3--ÓÒ
+  children,                                           // è®°å½•å½“å‰èŠ‚ç‚¹çš„å­æ ‘èŠ‚ç‚¹æ–¹å‘ï¼š1--å·¦ï¼Œ2--å³ï¼Œ4--ä¸Šï¼Œ8--ä¸‹ï¼Œç”¨ä½è¿ç®—æ“ä½œ
+  parent, parent2 : array[0..99, 0..99] of Smallint;  // è®°å½•â€œçˆ¶èŠ‚ç‚¹â€æ¥â€œå½“å‰èŠ‚ç‚¹â€çš„æ–¹å‘ï¼š0--ä¸Šï¼Œ1--ä¸‹ï¼Œ2--å·¦ï¼Œ3--å³
 
-  depth, b_count: Integer;                            // depth: DFS Éî¶È£»b_count: ¼ÆÊı¡°¿é ¡±£¬¿éĞòºÅ½«´Ó -1µİ¼õ±ê×¢
+  depth, b_count: Integer;                            // depth: DFS æ·±åº¦ï¼›b_count: è®¡æ•°â€œå— â€ï¼Œå—åºå·å°†ä» -1é€’å‡æ ‡æ³¨
   depth_tag, low_tag: array[0..99, 0..99] of Integer;
   block: array[0..99, 0..99, 0..4] of Integer;
 
-// ³õÊ¼»¯
+// åˆå§‹åŒ–
 procedure Init(w, h: Integer);
 begin
    mapWidth  := w;
    mapHeight := h;
 end;
 
-// ÉèÖÃÊÇ·ñÔÊĞí´©Ô½
+// è®¾ç½®æ˜¯å¦å…è®¸ç©¿è¶Š
 procedure setThroughable(f: Boolean);
 begin
    isThroughable := f;
 end;
 
-// ÈËÊÇ·ñ¿É´ï
+// äººæ˜¯å¦å¯è¾¾
 function isManReachable(pos: Integer): Boolean;
 begin
    Result := ((manMark[pos div mapWidth, pos mod mapWidth] and $01) > 0);
 end;
 
-// ÈËÊÇ·ñ´©Ô½¿É´ï
+// äººæ˜¯å¦ç©¿è¶Šå¯è¾¾
 function isManReachableByThrough(pos: Integer): Boolean;
 begin
    Result := ((manMark[pos div mapWidth, pos mod mapWidth] and $02) > 0);
 end;
 
-// Ïä×ÓÊÇ·ñ´©Ô½µã
+// ç®±å­æ˜¯å¦ç©¿è¶Šç‚¹
 function isBoxOfThrough(pos: Integer): Boolean;
 begin
    Result := ((manMark[pos div mapWidth, pos mod mapWidth] and $04) > 0);
 end;
 
-// ÈËÊÇ·ñ¿É´ï -- ÄæÍÆ
+// äººæ˜¯å¦å¯è¾¾ -- é€†æ¨
 function isManReachable_BK(pos: Integer): Boolean;
 begin
    Result := ((manMark[pos div mapWidth, pos mod mapWidth] and $10) > 0);
 end;
 
-// ÈËÊÇ·ñ´©Ô½¿É´ï -- ÄæÍÆ
+// äººæ˜¯å¦ç©¿è¶Šå¯è¾¾ -- é€†æ¨
 function isManReachableByThrough_BK (pos: Integer): Boolean;
 begin
    Result := ((manMark[pos div mapWidth, pos mod mapWidth] and $20) > 0);
 end;
 
-// Ïä×ÓÊÇ·ñ´©Ô½µã -- ÄæÍÆ
+// ç®±å­æ˜¯å¦ç©¿è¶Šç‚¹ -- é€†æ¨
 function isBoxOfThrough_BK(pos: Integer): Boolean;
 begin
    Result := ((manMark[pos div mapWidth, pos mod mapWidth] and $40) > 0);
 end;
 
-// Ïä×ÓÊÇ·ñ¿É´ï
+// ç®±å­æ˜¯å¦å¯è¾¾
 function isBoxReachable(pos: Integer): Boolean;
 begin
    Result := ((boxMark[pos div mapWidth, pos mod mapWidth] and $01) > 0);
 end;
 
-// Ïä×ÓÊÇ·ñ¿É´ï -- ÄæÍÆ
+// ç®±å­æ˜¯å¦å¯è¾¾ -- é€†æ¨
 function isBoxReachable_BK(pos: Integer): Boolean;
 begin
    Result := ((boxMark[pos div mapWidth, pos mod mapWidth] and $10) > 0);
 end;
 
 
-// ¼ÆËã²Ö¹ÜÔ±µÄ¿É´ï·¶Î§£¬½á¹û±£´æÔÚ manMark[] ÖĞ
-// ²ÎÊı£ºisBK -- ÊÇ·ñÄæÍÆ, level -- µØÍ¼ÏÖ³¡, manPos -- ÈËµÄÎ»ÖÃ
+// è®¡ç®—ä»“ç®¡å‘˜çš„å¯è¾¾èŒƒå›´ï¼Œç»“æœä¿å­˜åœ¨ manMark[] ä¸­
+// å‚æ•°ï¼šisBK -- æ˜¯å¦é€†æ¨, level -- åœ°å›¾ç°åœº, manPos -- äººçš„ä½ç½®
 procedure manReachable(isBK: Boolean; level: array of Integer; manPos: Integer);
 var
    curMark: Byte;
    i, j, k, i1, i2, i3, j1, j2, j3, p, tail, r, c: Integer;
 
 begin
-   if isBK then curMark := $0F     // ÄæÍÆÊ±£¬±£ÁôÕıÍÆ±êÖ¾
-   else curMark := $F0;            // ÕıÍÆÊ±£¬±£ÁôÄæÍÆ±êÖ¾
+   if isBK then curMark := $0F     // é€†æ¨æ—¶ï¼Œä¿ç•™æ­£æ¨æ ‡å¿—
+   else curMark := $F0;            // æ­£æ¨æ—¶ï¼Œä¿ç•™é€†æ¨æ ‡å¿—
 
-   // ÖÆ×÷µØÍ¼¸±±¾£¬ÒÔÃâÓ°ÏìÔ­µØÍ¼
+   // åˆ¶ä½œåœ°å›¾å‰¯æœ¬ï¼Œä»¥å…å½±å“åŸåœ°å›¾
    for i := 0 to mapHeight-1 do begin
        for j := 0 to mapWidth-1 do begin
           k := i * mapWidth + j;
@@ -177,14 +177,14 @@ begin
    end;
 
    p := 0; tail := 0;
-   if isBK then curMark := $10     // ÄæÍÆÊ±£¬±£ÁôÕıÍÆ±ê¼Ç
-   else curMark := $01;            // ÕıÍÆÊ±£¬±£ÁôÄæÍÆ±ê¼Ç
+   if isBK then curMark := $10     // é€†æ¨æ—¶ï¼Œä¿ç•™æ­£æ¨æ ‡è®°
+   else curMark := $01;            // æ­£æ¨æ—¶ï¼Œä¿ç•™é€†æ¨æ ‡è®°
    r := manPos div mapWidth;
    c := manPos mod mapWidth;
    manMark[r, c] := manMark[r, c] or curMark;
    pt[0] := manPos;
    while (p <= tail) do begin
-       // ³£¹æ£¨·Ç´©Ô½£©ÅÅ²é
+       // å¸¸è§„ï¼ˆéç©¿è¶Šï¼‰æ’æŸ¥
        while (p <= tail) do begin
             r := pt[p] div mapWidth;
             c := pt[p] mod mapWidth;
@@ -192,22 +192,22 @@ begin
                 i1 := r + dr4[k];
                 j1 := c + dc4[k];
 
-                if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue // ½çÍâ
+                if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue // ç•Œå¤–
                 else if ('-' = tmpMap[i1, j1]) and ((manMark[i1, j1] and curMark) = 0) then begin
                     Inc(tail);
-                    pt[tail] := i1 * mapWidth + j1;   // ĞÂµÄ×ã¼£
-                    manMark[i1, j1] := manMark[i1, j1] or curMark;      // ¿É´ï»ò´©Ô½¿É´ï±ê¼Ç£¬±£Áô¡°·´Ïò¡±ÍÆµÄ¿É´ï±ê¼Ç
+                    pt[tail] := i1 * mapWidth + j1;   // æ–°çš„è¶³è¿¹
+                    manMark[i1, j1] := manMark[i1, j1] or curMark;      // å¯è¾¾æˆ–ç©¿è¶Šå¯è¾¾æ ‡è®°ï¼Œä¿ç•™â€œåå‘â€æ¨çš„å¯è¾¾æ ‡è®°
                 end;
             end;
             Inc(p);
        end;
 
-       // ´©Ô½ÅÅ²é
+       // ç©¿è¶Šæ’æŸ¥
        if (isThroughable) then begin
           for i := 1 to mapHeight - 2 do begin
               for j := 1 to mapWidth - 2 do begin
                   if ('-' = tmpMap[i, j]) and ((manMark[i, j] and curMark) = 0) then begin
-                      for k := 0 to 3 do begin    // ×öËÄ¸ö·½ÏòµÄÅÅ²é
+                      for k := 0 to 3 do begin    // åšå››ä¸ªæ–¹å‘çš„æ’æŸ¥
                           deep_Thur := 0;
                           if isBK then begin
                               i1 := i + 3 * dr4[k];
@@ -217,17 +217,17 @@ begin
                               i3 := i + dr4[k];
                               j3 := j + dc4[k];
 
-                              if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue   // ½çÍâ
+                              if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue   // ç•Œå¤–
                               else if ('$' = tmpMap[i3, j3]) and ((manMark[i1, j1] and curMark) > 0) and ((manMark[i2, j2] and curMark) > 0) then begin
-                                  tmpMap[i3, j3] := '-';     // Îª¼ò»¯Ëã·¨ºÍ±ÜÃâ¸ÉÈÅ£¬¼ÆËã´©Ô½Ê±£¬ÁÙÊ±ÄÃµô¡°±»´©Ô½µÄÏä×Ó¡±£¬½ö½öÒÀ¾İ¡°×ø±ê¡±¶¨Î»¸ÃÏä×Ó
-                                  if canThrough(isBK, i2, j2, i1, j1, i3, j3, k) then begin    // ¼ì²é´©Ô½Ê±£¬»áÓĞ¡°µİ¹é¡±£¬ËùÒÔ£¬ÔİÊ±ÄÃµô¡°±»´©Ô½µÄÏä×Ó¡±±È½Ï·½±ã
-                                      curMark := $30;                                  // ÄæÍÆ´©Ô½¿É´ï±ê¼Ç
-                                      manMark[i, j]  := manMark[i, j] or curMark;      // ±£ÁôÕıÍÆ±ê¼Ç
-                                      manMark[i3, j3] := manMark[i3, j3] or $40;       // ´©Ô½µãÏä×Ó£¬±£ÁôÕıÍÆ±ê¼Ç
+                                  tmpMap[i3, j3] := '-';     // ä¸ºç®€åŒ–ç®—æ³•å’Œé¿å…å¹²æ‰°ï¼Œè®¡ç®—ç©¿è¶Šæ—¶ï¼Œä¸´æ—¶æ‹¿æ‰â€œè¢«ç©¿è¶Šçš„ç®±å­â€ï¼Œä»…ä»…ä¾æ®â€œåæ ‡â€å®šä½è¯¥ç®±å­
+                                  if canThrough(isBK, i2, j2, i1, j1, i3, j3, k) then begin    // æ£€æŸ¥ç©¿è¶Šæ—¶ï¼Œä¼šæœ‰â€œé€’å½’â€ï¼Œæ‰€ä»¥ï¼Œæš‚æ—¶æ‹¿æ‰â€œè¢«ç©¿è¶Šçš„ç®±å­â€æ¯”è¾ƒæ–¹ä¾¿
+                                      curMark := $30;                                  // é€†æ¨ç©¿è¶Šå¯è¾¾æ ‡è®°
+                                      manMark[i, j]  := manMark[i, j] or curMark;      // ä¿ç•™æ­£æ¨æ ‡è®°
+                                      manMark[i3, j3] := manMark[i3, j3] or $40;       // ç©¿è¶Šç‚¹ç®±å­ï¼Œä¿ç•™æ­£æ¨æ ‡è®°
                                       Inc(tail);
                                       pt[tail] := i * mapWidth + j;
                                   end;
-                                  tmpMap[i3, j3] := '$';     // ·Å»Ø¡°±»´©Ô½µÄÏä×Ó¡±
+                                  tmpMap[i3, j3] := '$';     // æ”¾å›â€œè¢«ç©¿è¶Šçš„ç®±å­â€
                               end;
                           end else begin
                               i1 := i + dr4[k];
@@ -237,29 +237,29 @@ begin
                               i3 := i - 2 * dr4[k];
                               j3 := j - 2 * dc4[k];
 
-                              if (i3 < 0) or (j3 < 0) or (i3 >= mapHeight) or (j3 >= mapWidth)then continue   // ½çÍâ
+                              if (i3 < 0) or (j3 < 0) or (i3 >= mapHeight) or (j3 >= mapWidth)then continue   // ç•Œå¤–
                               else if ('$' = tmpMap[i2, j2]) and ('-' = tmpMap[i1, j1]) and ((manMark[i3, j3] and curMark) > 0) then begin
-                                  tmpMap[i2, j2] := '-';     // Îª¼ò»¯Ëã·¨ºÍ±ÜÃâ¸ÉÈÅ£¬¼ÆËã´©Ô½Ê±£¬ÁÙÊ±ÄÃµô¡°±»´©Ô½µÄÏä×Ó¡±£¬½ö½öÒÀ¾İ¡°×ø±ê¡±¶¨Î»¸ÃÏä×Ó
-                                  if canThrough(isBK, i, j, i2, j2, i1, j1, k) then begin    // ¼ì²é´©Ô½Ê±£¬»áÓĞ¡°µİ¹é¡±£¬ËùÒÔ£¬ÔİÊ±ÄÃµô¡°±»´©Ô½µÄÏä×Ó¡±±È½Ï·½±ã
-                                      curMark := $03;                                 // ÕıÍÆ´©Ô½¿É´ï±ê¼Ç
-                                      manMark[i, j]  := manMark[i, j] or curMark;     // ±£ÁôÄæÍÆ±ê¼Ç
-                                      manMark[i2, j2] := manMark[i2, j2] or $04;      // ´©Ô½µãÏä×Ó£¬±£ÁôÄæÍÆ±ê¼Ç
+                                  tmpMap[i2, j2] := '-';     // ä¸ºç®€åŒ–ç®—æ³•å’Œé¿å…å¹²æ‰°ï¼Œè®¡ç®—ç©¿è¶Šæ—¶ï¼Œä¸´æ—¶æ‹¿æ‰â€œè¢«ç©¿è¶Šçš„ç®±å­â€ï¼Œä»…ä»…ä¾æ®â€œåæ ‡â€å®šä½è¯¥ç®±å­
+                                  if canThrough(isBK, i, j, i2, j2, i1, j1, k) then begin    // æ£€æŸ¥ç©¿è¶Šæ—¶ï¼Œä¼šæœ‰â€œé€’å½’â€ï¼Œæ‰€ä»¥ï¼Œæš‚æ—¶æ‹¿æ‰â€œè¢«ç©¿è¶Šçš„ç®±å­â€æ¯”è¾ƒæ–¹ä¾¿
+                                      curMark := $03;                                 // æ­£æ¨ç©¿è¶Šå¯è¾¾æ ‡è®°
+                                      manMark[i, j]  := manMark[i, j] or curMark;     // ä¿ç•™é€†æ¨æ ‡è®°
+                                      manMark[i2, j2] := manMark[i2, j2] or $04;      // ç©¿è¶Šç‚¹ç®±å­ï¼Œä¿ç•™é€†æ¨æ ‡è®°
                                       Inc(tail);
                                       pt[tail] := i * mapWidth + j;
                                   end;
-                                  tmpMap[i2, j2] := '$';     // ·Å»Ø¡°±»´©Ô½µÄÏä×Ó¡±
+                                  tmpMap[i2, j2] := '$';     // æ”¾å›â€œè¢«ç©¿è¶Šçš„ç®±å­â€
                               end;
                           end;
                       end;  // end k
                   end;
               end;  // end j
           end;  // end i
-       end;  // end ´©Ô½ÅÅ²é
+       end;  // end ç©¿è¶Šæ’æŸ¥
    end;
 end;
 
-// ¼ÆËãÈËµ½´ï toPos µÄÂ·¾¶£¬±£´æµ½ tmpPath£¬·µ»ØÂ·¾¶³¤¶È
-// ²ÎÊı£ºisBK -- ÊÇ·ñÄæÍÆ, level -- µØÍ¼ÏÖ³¡, manPos -- ²Ö¹ÜÔ±Ô­Î»ÖÃ£¬toPos -- ²Ö¹ÜÔ±Ä¿µÄÎ»ÖÃ
+// è®¡ç®—äººåˆ°è¾¾ toPos çš„è·¯å¾„ï¼Œä¿å­˜åˆ° tmpPathï¼Œè¿”å›è·¯å¾„é•¿åº¦
+// å‚æ•°ï¼šisBK -- æ˜¯å¦é€†æ¨, level -- åœ°å›¾ç°åœº, manPos -- ä»“ç®¡å‘˜åŸä½ç½®ï¼ŒtoPos -- ä»“ç®¡å‘˜ç›®çš„ä½ç½®
 
 function manTo(isBK: Boolean; level: array of Integer; manPos, toPos: Integer): Integer;
 var
@@ -273,16 +273,16 @@ begin
 
    if manPos = toPos then exit;
    
-   if isBK then curMark := $0F     // ÄæÍÆÊ±£¬±£ÁôÕıÍÆ±êÖ¾
-   else curMark := $F0;            // ÕıÍÆÊ±£¬±£ÁôÄæÍÆ±êÖ¾
+   if isBK then curMark := $0F     // é€†æ¨æ—¶ï¼Œä¿ç•™æ­£æ¨æ ‡å¿—
+   else curMark := $F0;            // æ­£æ¨æ—¶ï¼Œä¿ç•™é€†æ¨æ ‡å¿—
 
    len := Length(level);
 
-   // ÖÆ×÷µØÍ¼¸±±¾£¬ÒÔÃâÓ°ÏìÔ­µØÍ¼
+   // åˆ¶ä½œåœ°å›¾å‰¯æœ¬ï¼Œä»¥å…å½±å“åŸåœ°å›¾
    for i := 0 to mapHeight-1 do begin
        for j := 0 to mapWidth-1 do begin
           k := i * mapWidth + j;
-          if len > 3 then begin   // ÔÚÓÃ BoxTo() º¯Êı¼ÆËã¡°Ïä×Ó¡±Â·¾¶ÖĞµÄÈËµÄÂ·¾¶Ê±£¬ÏÖ³¡µØÍ¼²»ĞèÒªÖØĞÂ×°Ìî£¬»áÓÃÒ»¸ö³¤¶ÈÎª 2 µÄ¡°¼ÙµØÍ¼¡±
+          if len > 3 then begin   // åœ¨ç”¨ BoxTo() å‡½æ•°è®¡ç®—â€œç®±å­â€è·¯å¾„ä¸­çš„äººçš„è·¯å¾„æ—¶ï¼Œç°åœºåœ°å›¾ä¸éœ€è¦é‡æ–°è£…å¡«ï¼Œä¼šç”¨ä¸€ä¸ªé•¿åº¦ä¸º 2 çš„â€œå‡åœ°å›¾â€
               if (level[k] = WallCell) or (level[k] = EmptyCell) then tmpMap[i, j] := '#'
               else if (level[k] = BoxCell) or (level[k] = BoxGoalCell) then tmpMap[i, j] := '$'
               else tmpMap[i, j] := '-';
@@ -293,8 +293,8 @@ begin
        end;
    end;
 
-   if isBK then curMark := $10     // ÄæÍÆÊ±£¬±£ÁôÕıÍÆ±êÖ¾
-   else curMark := $01;            // ÕıÍÆÊ±£¬±£ÁôÄæÍÆ±êÖ¾
+   if isBK then curMark := $10     // é€†æ¨æ—¶ï¼Œä¿ç•™æ­£æ¨æ ‡å¿—
+   else curMark := $01;            // æ­£æ¨æ—¶ï¼Œä¿ç•™é€†æ¨æ ‡å¿—
 
    isFound := False;
    r := manPos div mapWidth;
@@ -303,7 +303,7 @@ begin
    pt[0] := manPos;
    p := 0; tail := 0;
    while p <= tail do begin
-       // ³£¹æ£¨·Ç´©Ô½£©ÅÅ²é
+       // å¸¸è§„ï¼ˆéç©¿è¶Šï¼‰æ’æŸ¥
        while p <= tail do begin
            r := pt[p] div mapWidth;
            c := pt[p] mod mapWidth;
@@ -311,13 +311,13 @@ begin
               i1 := r + dr4[k];
               j1 := c + dc4[k];
 
-              if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue // ½çÍâ
+              if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue // ç•Œå¤–
               else if ('-' = tmpMap[i1, j1]) and ((manMark[i1, j1] and curMark) = 0) then begin
                   Inc(tail);
-                  pt[tail] := i1 * mapWidth + j1;                // ĞÂµÄ×ã¼£
-                  manMark[i1, j1] := manMark[i1, j1] or curMark; // ¿É´ï»ò´©Ô½¿É´ï±ê¼Ç£¬±£Áô¡°·´Ïò¡±ÍÆµÄ¿É´ï±ê¼Ç
-                  parent[i1, j1] := k;                           // ¸¸½Úµãµ½µ±Ç°½ÚµãµÄ·½Ïò
-                  if toPos = i1 * mapWidth + j1 then begin       // µ½´ïÄ¿±ê
+                  pt[tail] := i1 * mapWidth + j1;                // æ–°çš„è¶³è¿¹
+                  manMark[i1, j1] := manMark[i1, j1] or curMark; // å¯è¾¾æˆ–ç©¿è¶Šå¯è¾¾æ ‡è®°ï¼Œä¿ç•™â€œåå‘â€æ¨çš„å¯è¾¾æ ‡è®°
+                  parent[i1, j1] := k;                           // çˆ¶èŠ‚ç‚¹åˆ°å½“å‰èŠ‚ç‚¹çš„æ–¹å‘
+                  if toPos = i1 * mapWidth + j1 then begin       // åˆ°è¾¾ç›®æ ‡
                      isFound := true;
                      break;
                   end;
@@ -330,12 +330,12 @@ begin
 
        if isFound then break;
 
-       // ´©Ô½ÅÅ²é
+       // ç©¿è¶Šæ’æŸ¥
        if isThroughable then begin
           for i := 1 to mapHeight - 2 do begin
               for j := 1 to mapWidth - 2 do begin
                   if ('-' = tmpMap[i, j]) and ((manMark[i, j] and curMark) = 0) then begin
-                      for k := 0 to 3 do begin    // ×öËÄ¸ö·½ÏòµÄÅÅ²é
+                      for k := 0 to 3 do begin    // åšå››ä¸ªæ–¹å‘çš„æ’æŸ¥
                           deep_Thur := 1;
                           if isBK then begin
                               i1 := i + 3 * dr4[k];
@@ -345,17 +345,17 @@ begin
                               i3 := i + dr4[k];
                               j3 := j + dc4[k];
 
-                              if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue   // ½çÍâ
+                              if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue   // ç•Œå¤–
                               else if ('$' = tmpMap[i3, j3]) and ((manMark[i1, j1] and curMark) > 0) and ((manMark[i2, j2] and curMark) > 0) then begin    //    and (tmpBoxPos <> i3 * mapWidth + j3)
-                                  tmpMap[i3, j3] := '-';     // Îª¼ò»¯Ëã·¨ºÍ±ÜÃâ¸ÉÈÅ£¬¼ÆËã´©Ô½Ê±£¬ÁÙÊ±ÄÃµô¡°±»´©Ô½µÄÏä×Ó¡±£¬½ö½öÒÀ¾İ¡°×ø±ê¡±¶¨Î»¸ÃÏä×Ó
-                                  if canThrough(isBK, i2, j2, i1, j1, i3, j3, k) then begin    // ¼ì²é´©Ô½Ê±£¬»áÓĞ¡°µİ¹é¡±£¬ËùÒÔ£¬ÔİÊ±ÄÃµô¡°±»´©Ô½µÄÏä×Ó¡±±È½Ï·½±ã
-                                      manMark[i, j] := manMark[i, j] or curMark;    // ±£ÁôÕıÍÆ±ê¼Ç
+                                  tmpMap[i3, j3] := '-';     // ä¸ºç®€åŒ–ç®—æ³•å’Œé¿å…å¹²æ‰°ï¼Œè®¡ç®—ç©¿è¶Šæ—¶ï¼Œä¸´æ—¶æ‹¿æ‰â€œè¢«ç©¿è¶Šçš„ç®±å­â€ï¼Œä»…ä»…ä¾æ®â€œåæ ‡â€å®šä½è¯¥ç®±å­
+                                  if canThrough(isBK, i2, j2, i1, j1, i3, j3, k) then begin    // æ£€æŸ¥ç©¿è¶Šæ—¶ï¼Œä¼šæœ‰â€œé€’å½’â€ï¼Œæ‰€ä»¥ï¼Œæš‚æ—¶æ‹¿æ‰â€œè¢«ç©¿è¶Šçš„ç®±å­â€æ¯”è¾ƒæ–¹ä¾¿
+                                      manMark[i, j] := manMark[i, j] or curMark;    // ä¿ç•™æ­£æ¨æ ‡è®°
                                       Inc(tail);
                                       pt[tail] := i * mapWidth + j;
-                                      parent[i, j] := 10 * deep_Thur + k;     // ´©Ô½×ß·¨£¨±äÍ¨µÄ·½Ïò£©
-                                      if i * mapWidth + j = toPos then isFound := true;              // µ½´ïÄ¿±ê
+                                      parent[i, j] := 10 * deep_Thur + k;     // ç©¿è¶Šèµ°æ³•ï¼ˆå˜é€šçš„æ–¹å‘ï¼‰
+                                      if i * mapWidth + j = toPos then isFound := true;              // åˆ°è¾¾ç›®æ ‡
                                   end;
-                                  tmpMap[i3, j3] := '$';     // ·Å»Ø¡°±»´©Ô½µÄÏä×Ó¡±
+                                  tmpMap[i3, j3] := '$';     // æ”¾å›â€œè¢«ç©¿è¶Šçš„ç®±å­â€
                                   if (isFound) then break;
                               end;
                           end else begin
@@ -366,17 +366,17 @@ begin
                               i3 := i - 2 * dr4[k];
                               j3 := j - 2 * dc4[k];
 
-                              if (i3 < 0) or (j3 < 0) or (i3 >= mapHeight) or (j3 >= mapWidth)then continue   // ½çÍâ
+                              if (i3 < 0) or (j3 < 0) or (i3 >= mapHeight) or (j3 >= mapWidth)then continue   // ç•Œå¤–
                               else if ('$' = tmpMap[i2, j2]) and ('-' = tmpMap[i1, j1]) and ((manMark[i3, j3] and curMark) > 0) then begin  //   and (tmpBoxPos <> i2 * mapWidth + j2)
-                                  tmpMap[i2, j2] := '-';     // Îª¼ò»¯Ëã·¨ºÍ±ÜÃâ¸ÉÈÅ£¬¼ÆËã´©Ô½Ê±£¬ÁÙÊ±ÄÃµô¡°±»´©Ô½µÄÏä×Ó¡±£¬½ö½öÒÀ¾İ¡°×ø±ê¡±¶¨Î»¸ÃÏä×Ó
-                                  if canThrough(isBK, i, j, i2, j2, i1, j1, k) then begin    // ¼ì²é´©Ô½Ê±£¬»áÓĞ¡°µİ¹é¡±£¬ËùÒÔ£¬ÔİÊ±ÄÃµô¡°±»´©Ô½µÄÏä×Ó¡±±È½Ï·½±ã
-                                      manMark[i, j] := manMark[i, j] or curMark;     // ±£ÁôÄæÍÆ±ê¼Ç
+                                  tmpMap[i2, j2] := '-';     // ä¸ºç®€åŒ–ç®—æ³•å’Œé¿å…å¹²æ‰°ï¼Œè®¡ç®—ç©¿è¶Šæ—¶ï¼Œä¸´æ—¶æ‹¿æ‰â€œè¢«ç©¿è¶Šçš„ç®±å­â€ï¼Œä»…ä»…ä¾æ®â€œåæ ‡â€å®šä½è¯¥ç®±å­
+                                  if canThrough(isBK, i, j, i2, j2, i1, j1, k) then begin    // æ£€æŸ¥ç©¿è¶Šæ—¶ï¼Œä¼šæœ‰â€œé€’å½’â€ï¼Œæ‰€ä»¥ï¼Œæš‚æ—¶æ‹¿æ‰â€œè¢«ç©¿è¶Šçš„ç®±å­â€æ¯”è¾ƒæ–¹ä¾¿
+                                      manMark[i, j] := manMark[i, j] or curMark;     // ä¿ç•™é€†æ¨æ ‡è®°
                                       Inc(tail);
                                       pt[tail] := i * mapWidth + j;
-                                      parent[i, j] := 10 * deep_Thur + k;      // ´©Ô½×ß·¨£¨±äÍ¨µÄ·½Ïò£©
-                                      if i * mapWidth + j = toPos then isFound := true;               // µ½´ïÄ¿±ê
+                                      parent[i, j] := 10 * deep_Thur + k;      // ç©¿è¶Šèµ°æ³•ï¼ˆå˜é€šçš„æ–¹å‘ï¼‰
+                                      if i * mapWidth + j = toPos then isFound := true;               // åˆ°è¾¾ç›®æ ‡
                                   end;
-                                  tmpMap[i2, j2] := '$';     // ·Å»Ø¡°±»´©Ô½µÄÏä×Ó¡±
+                                  tmpMap[i2, j2] := '$';     // æ”¾å›â€œè¢«ç©¿è¶Šçš„ç®±å­â€
                                   if isFound then break;
                                   
                               end;
@@ -391,18 +391,18 @@ begin
               if isFound then break;
 
           end;  // end i
-       end;  // end ´©Ô½ÅÅ²é
+       end;  // end ç©¿è¶Šæ’æŸ¥
 
        if isFound then break;
 
    end;
 
-   if isFound then begin  // Æ´½ÓÂ·¾¶
+   if isFound then begin  // æ‹¼æ¥è·¯å¾„
       t_er := toPos div mapWidth;
       t_ec := toPos mod mapWidth;
       while t_er * mapWidth + t_ec <> manPos do begin
           if (parent[t_er, t_ec] < 4) then begin
-              ch := lurdChar[parent[t_er, t_ec]];                       // ¶¯×÷×Ö·û£ºlurdLURD
+              ch := lurdChar[parent[t_er, t_ec]];                       // åŠ¨ä½œå­—ç¬¦ï¼šlurdLURD
 
               if Result = MaxLenPath then Exit;
 
@@ -414,7 +414,7 @@ begin
               t_er := t1;
               t_ec := t2;
           end else begin
-              if isBK then begin                  // ÄæÍÆ
+              if isBK then begin                  // é€†æ¨
                   i1 := t_er + 3 * dr4[parent[t_er, t_ec] mod 10];
                   j1 := t_ec + 3 * dc4[parent[t_er, t_ec] mod 10];
                   i2 := t_er + 2 * dr4[parent[t_er, t_ec] mod 10];
@@ -434,7 +434,7 @@ begin
 
                   t1 := t_er + 2 * dr4[parent[t_er, t_ec] mod 10];
                   t2 := t_ec + 2 * dc4[parent[t_er, t_ec] mod 10];
-              end else begin                      // ÕıÍÆ
+              end else begin                      // æ­£æ¨
                   i1 := t_er + dr4[parent[t_er, t_ec] mod 10];
                   j1 := t_ec + dc4[parent[t_er, t_ec] mod 10];
                   i2 := t_er - dr4[parent[t_er, t_ec] mod 10];
@@ -461,7 +461,7 @@ begin
    end;
 end;
 
-// ¼ì²é r1, c1 Óë r2,c2 Á½µãÊÇ·ñ¿É´ï, ±»´©Ô½µÄÏä×ÓÒÑ±»ÁÙÊ±ÒÆ¶¯µ½ r, c
+// æ£€æŸ¥ r1, c1 ä¸ r2,c2 ä¸¤ç‚¹æ˜¯å¦å¯è¾¾, è¢«ç©¿è¶Šçš„ç®±å­å·²è¢«ä¸´æ—¶ç§»åŠ¨åˆ° r, c
 function canThrough(isBK: Boolean; r, c, r1, c1, r2, c2, dir: Integer): Boolean;
 var
   i1, i2, j1, j2, k, p, tail: Integer;
@@ -474,7 +474,7 @@ begin
         end;
     end;
 
-    // ÅÅ²é¿É´ïµãµÄËÄÁÚ£¨ÓÃÑ­»·È¡´úµİ¹é£©
+    // æ’æŸ¥å¯è¾¾ç‚¹çš„å››é‚»ï¼ˆç”¨å¾ªç¯å–ä»£é€’å½’ï¼‰
     p := 0; tail := 0;
     mark[r1, c1] := true;
     pt0[0] := r1 * mapWidth + c1;
@@ -485,11 +485,11 @@ begin
             i1 := i2 + dr4[k];
             j1 := j2 + dc4[k];
 
-            if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) or ((i1 = r) and (j1 = c)) then continue  // ½çÍâ£¬»òÓöµ½´©Ô½µãÏä×Ó±»ÁÙÊ±ÍÆµ½µÄÎ»ÖÃ
-            else if ((i1 = r2) and (j1 = c2)) then begin Result := True; Exit; end  // ´©Ô½¿É´ï
+            if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) or ((i1 = r) and (j1 = c)) then continue  // ç•Œå¤–ï¼Œæˆ–é‡åˆ°ç©¿è¶Šç‚¹ç®±å­è¢«ä¸´æ—¶æ¨åˆ°çš„ä½ç½®
+            else if ((i1 = r2) and (j1 = c2)) then begin Result := True; Exit; end  // ç©¿è¶Šå¯è¾¾
             else if ('-' = tmpMap[i1, j1]) and (not mark[i1, j1]) then begin
                 Inc(tail);
-                pt0[tail] := i1 * mapWidth + j1;                // ĞÂµÄ×ã¼£
+                pt0[tail] := i1 * mapWidth + j1;                // æ–°çš„è¶³è¿¹
                 mark[i1, j1] := true;
             end;
         end;
@@ -504,17 +504,17 @@ begin
        j1 := c2 + dc4[dir];
     end;
 
-    if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) or (tmpMap[i1, j1] <> '-') then begin canThrough := False; Exit; end  // ½çÍâ
+    if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) or (tmpMap[i1, j1] <> '-') then begin canThrough := False; Exit; end  // ç•Œå¤–
     else begin
         Inc(deep_Thur);
         
-        // ÔÙÇ°½øÒ»²½¼ì²éÊÇ·ñÄÜ¹»´©Ô½
+        // å†å‰è¿›ä¸€æ­¥æ£€æŸ¥æ˜¯å¦èƒ½å¤Ÿç©¿è¶Š
         if isBK then Result := canThrough(isBK, r1, c1, i1, j1, r, c, dir)
         else Result := canThrough(isBK, r2, c2, r, c, i1, j1, dir);
     end;
 end;
 
-// ¼ÆËã²¢·µ»Ø nRow1, nCol1 Óë nRow, nCol Á½µã¼äµÄ´©Ô½Â·¾¶µ½ TurnPath£¬·µ»ØÂ·¾¶³¤¶È, , µã nRow2, nCol2 ÊÇ±»´©Ô½µÄÏä×Ó£¬ÇÒÔÚ´©Ô½Ê±£¬Ïä×ÓĞèÒªÁÙÊ±ÒÆ¶¯µ½ nRow, nCol
+// è®¡ç®—å¹¶è¿”å› nRow1, nCol1 ä¸ nRow, nCol ä¸¤ç‚¹é—´çš„ç©¿è¶Šè·¯å¾„åˆ° TurnPathï¼Œè¿”å›è·¯å¾„é•¿åº¦, , ç‚¹ nRow2, nCol2 æ˜¯è¢«ç©¿è¶Šçš„ç®±å­ï¼Œä¸”åœ¨ç©¿è¶Šæ—¶ï¼Œç®±å­éœ€è¦ä¸´æ—¶ç§»åŠ¨åˆ° nRow, nCol
 function getPathForThrough(nRow, nCol, nRow1, nCol1, nRow2, nCol2: Integer; dir: Byte; num: Integer): Integer;
 var
   i, j, k, i1, j1, t1, t2, t_er, t_ec, p, tail, r, c: Integer;
@@ -534,7 +534,7 @@ begin
     p := 0; tail := 0;
     isFound := false;
 
-    // ¸ù¾İÖ±ÍÆ´ÎÊı£¬µ÷Õû¼ÆËãÎ»ÖÃ
+    // æ ¹æ®ç›´æ¨æ¬¡æ•°ï¼Œè°ƒæ•´è®¡ç®—ä½ç½®
     nRow1 := nRow1 + dr4[dir] * num;
     nCol1 := nCol1 + dc4[dir] * num;
     nRow2 := nRow2 + dr4[dir] * num;
@@ -550,32 +550,32 @@ begin
         for k := 0 to 3 do begin
             i1 := r + dr4[k];
             j1 := c + dc4[k];
-            if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) or ((i1 = nRow) and (j1 = nCol)) then begin  // ½çÍâ£¬»òÓöµ½Ïä×ÓÁÙÊ±Î»ÖÃ
+            if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) or ((i1 = nRow) and (j1 = nCol)) then begin  // ç•Œå¤–ï¼Œæˆ–é‡åˆ°ç®±å­ä¸´æ—¶ä½ç½®
                 continue;
-            end else if (nRow2 = i1) and (nCol2 = j1) then begin  // µ½´ïÄ¿±ê
+            end else if (nRow2 = i1) and (nCol2 = j1) then begin  // åˆ°è¾¾ç›®æ ‡
                 Inc(tail);
-                pt0[tail] := i1 * mapWidth + j1;            // ĞÂµÄ×ã¼£
-                parent2[i1, j1] := k;          // ¸¸½Úµãµ½µ±Ç°½ÚµãµÄ·½Ïò
+                pt0[tail] := i1 * mapWidth + j1;            // æ–°çš„è¶³è¿¹
+                parent2[i1, j1] := k;          // çˆ¶èŠ‚ç‚¹åˆ°å½“å‰èŠ‚ç‚¹çš„æ–¹å‘
                 isFound := true;
                 break;
             end else if ('-' = tmpMap[i1, j1]) and (not mark[i1, j1]) then begin
                 Inc(tail);
-                pt0[tail] := i1 * mapWidth + j1;            // ĞÂµÄ×ã¼£
+                pt0[tail] := i1 * mapWidth + j1;            // æ–°çš„è¶³è¿¹
                 mark[i1, j1] := true;
-                parent2[i1, j1] := k;          // ¸¸½Úµãµ½µ±Ç°½ÚµãµÄ·½Ïò
+                parent2[i1, j1] := k;          // çˆ¶èŠ‚ç‚¹åˆ°å½“å‰èŠ‚ç‚¹çš„æ–¹å‘
             end;
         end;
         if isFound then  break;
         Inc(p);
     end;
 
-    // Æ´½Ó´©Ô½Â·¾¶ -- ÄæĞò
-    // ´©Ô½ÖĞ£¬Â·¾¶¡°Á½¶Ë¡±µÄÍÆ¶¯£¨³öÓÚĞ§ÂÊ¼°¼ò»¯Ëã·¨¿¼ÂÇ£¬½öÖ§³ÖÖ±ÍÆ´©Ô½£©
+    // æ‹¼æ¥ç©¿è¶Šè·¯å¾„ -- é€†åº
+    // ç©¿è¶Šä¸­ï¼Œè·¯å¾„â€œä¸¤ç«¯â€çš„æ¨åŠ¨ï¼ˆå‡ºäºæ•ˆç‡åŠç®€åŒ–ç®—æ³•è€ƒè™‘ï¼Œä»…æ”¯æŒç›´æ¨ç©¿è¶Šï¼‰
     if isFound then begin
 
         t_er := nRow2; t_ec := nCol2;
         
-        ch := lurdChar[parent2[t_er, t_ec]];         // ¶¯×÷×Ö·û£ºlurdLURD
+        ch := lurdChar[parent2[t_er, t_ec]];         // åŠ¨ä½œå­—ç¬¦ï¼šlurdLURD
         
         case dir of
             0: ch := lurdChar[5];
@@ -584,16 +584,16 @@ begin
             3: ch := lurdChar[6];
         end;
         
-        // Ïä×ÓÍÆ»ØÔ­Î»
+        // ç®±å­æ¨å›åŸä½
         for k := 0 to num do begin
             Inc(Result);
             TrunPath[Result] := ch;
         end;
         
-        // ´©Ô½ÖĞ£¬ÈËµÄÒÆ¶¯
+        // ç©¿è¶Šä¸­ï¼Œäººçš„ç§»åŠ¨
         while (t_er <> nRow1) or (t_ec <> nCol1) do begin
             Inc(Result);
-            TrunPath[Result] := lurdChar[parent2[t_er, t_ec]];   // ¶¯×÷×Ö·û£ºlurdLURD
+            TrunPath[Result] := lurdChar[parent2[t_er, t_ec]];   // åŠ¨ä½œå­—ç¬¦ï¼šlurdLURD
 
             t1 := t_er - dr4[parent2[t_er, t_ec]];
             t2 := t_ec - dc4[parent2[t_er, t_ec]];
@@ -601,7 +601,7 @@ begin
             t_ec := t2;
         end;
 
-        // Ïä×ÓÍÆÖÁ¿É´©Ô½Î»ÖÃ
+        // ç®±å­æ¨è‡³å¯ç©¿è¶Šä½ç½®
         for k := 0 to num do begin
             Inc(Result);
             TrunPath[Result] := lurdChar[dir + 4];
@@ -610,22 +610,22 @@ begin
 end;
 
 
-//²ÎÊı£ºlevel -- µØÍ¼ÏÖ³¡£¬boxPos -- ±»µã»÷µÄÏä×Ó
+//å‚æ•°ï¼šlevel -- åœ°å›¾ç°åœºï¼ŒboxPos -- è¢«ç‚¹å‡»çš„ç®±å­
 procedure FindBlock(level: array of Integer; boxPos: Integer);
 const
-   dir: array[0..3] of Byte = ( 1, 0, 3, 2 );      // »»Ëã¸¸½Úµã·½ÏòÓÃ
+   dir: array[0..3] of Byte = ( 1, 0, 3, 2 );      // æ¢ç®—çˆ¶èŠ‚ç‚¹æ–¹å‘ç”¨
 
 var
     boxR, boxC: Integer;
     i, j, k: Integer;
 
-    // Ñ­»··¨Îª¡°¿é¡±ÄÚµÄ½Úµã×ö±êÊ¶
+    // å¾ªç¯æ³•ä¸ºâ€œå—â€å†…çš„èŠ‚ç‚¹åšæ ‡è¯†
     procedure BlockrSign(r, c: Integer);
     var
       rr, cc, p, tail, k: Integer;
 
     begin
-        // ½«×ø±êÓÃÒ»¸ö int ´æ´¢
+        // å°†åæ ‡ç”¨ä¸€ä¸ª int å­˜å‚¨
         ptBlock[0] := r * mapWidth + c;
 
         p := 0; tail := 0;
@@ -645,42 +645,42 @@ var
         end;
     end;
 
-    // ¼ÆËã¡°¸îµã¡±¡¢¡°¿é¡±£¬´ÓÄ¿±êÏä×ÓÎ»ÖÃ row, col ¿ªÊ¼
-    // mark Óë FindBlock() ÖĞµÄ¸´Î»Ïà¹ØÁª£¬¼ÇÂ¼Ïä×Ó¿É´ïµã
+    // è®¡ç®—â€œå‰²ç‚¹â€ã€â€œå—â€ï¼Œä»ç›®æ ‡ç®±å­ä½ç½® row, col å¼€å§‹
+    // mark ä¸ FindBlock() ä¸­çš„å¤ä½ç›¸å…³è”ï¼Œè®°å½•ç®±å­å¯è¾¾ç‚¹
     procedure CutVertex(row, col: Integer);
     var
        i: Integer;
 
     begin
-        mark[row, col] := true;                        // ÒÑ·ÃÎÊ±ê¼Ç
+        mark[row, col] := true;                        // å·²è®¿é—®æ ‡è®°
 
         Inc(depth);
         depth_tag[row, col] := depth;
-        low_tag[row, col]   := depth;                  // ±ê¼Ç low µã
+        low_tag[row, col]   := depth;                  // æ ‡è®° low ç‚¹
 
         for i := 0 to 3 do begin    
-            if mark[row + dr4[i], col + dc4[i]] then begin   // ½Úµã±»·ÃÎÊ¹ı
-                // Èô·Ç¸¸½Úµã, ÄÇÃ´±ê¼ÇÆäÎª¡°·µ×æ±ß¡±
+            if mark[row + dr4[i], col + dc4[i]] then begin   // èŠ‚ç‚¹è¢«è®¿é—®è¿‡
+                // è‹¥éçˆ¶èŠ‚ç‚¹, é‚£ä¹ˆæ ‡è®°å…¶ä¸ºâ€œè¿”ç¥–è¾¹â€
                 if (parent[row, col] <> i) and (depth_tag[row + dr4[i], col + dc4[i]] < low_tag[row, col]) then
                     low_tag[row, col] := depth_tag[row + dr4[i], col + dc4[i]];
-            end else if (tmpMap[row + dr4[i], col + dc4[i]] = '-') then begin      // ĞÂµÄ×Ó½Úµã
-                parent[row + dr4[i], col + dc4[i]] := dir[i];                      // ±êÊ¾¸¸½ÚµãµÄ¶¯×÷·½Ïò
-                children[row, col] := children[row, col] or mByte[i];              // Ôö¼Ó×ÓÊ÷
+            end else if (tmpMap[row + dr4[i], col + dc4[i]] = '-') then begin      // æ–°çš„å­èŠ‚ç‚¹
+                parent[row + dr4[i], col + dc4[i]] := dir[i];                      // æ ‡ç¤ºçˆ¶èŠ‚ç‚¹çš„åŠ¨ä½œæ–¹å‘
+                children[row, col] := children[row, col] or mByte[i];              // å¢åŠ å­æ ‘
 
                 CutVertex(row + dr4[i], col + dc4[i]);
 
-                if low_tag[row + dr4[i], col + dc4[i]] < low_tag[row, col] then begin   // Èô×Ó½ÚµãµÄ low ÖµĞ¡ÓÚÆä¸¸½ÚµãµÄ low Öµ
-                    low_tag[row, col] := low_tag[row + dr4[i]][col + dc4[i]];           // ÖØÖÃÆä¸¸½ÚµãµÄ low Öµ
-                end else if low_tag[row + dr4[i], col + dc4[i]] >= depth_tag[row, col] then begin // Èô×Ó½ÚµãµÄ low Öµ´óÓÚÆä¸¸½ÚµãµÄ low Öµ£¬Ôò¸¸½ÚµãÎª¡°¸îµã¡±
+                if low_tag[row + dr4[i], col + dc4[i]] < low_tag[row, col] then begin   // è‹¥å­èŠ‚ç‚¹çš„ low å€¼å°äºå…¶çˆ¶èŠ‚ç‚¹çš„ low å€¼
+                    low_tag[row, col] := low_tag[row + dr4[i]][col + dc4[i]];           // é‡ç½®å…¶çˆ¶èŠ‚ç‚¹çš„ low å€¼
+                end else if low_tag[row + dr4[i], col + dc4[i]] >= depth_tag[row, col] then begin // è‹¥å­èŠ‚ç‚¹çš„ low å€¼å¤§äºå…¶çˆ¶èŠ‚ç‚¹çš„ low å€¼ï¼Œåˆ™çˆ¶èŠ‚ç‚¹ä¸ºâ€œå‰²ç‚¹â€
                     if tmpBoxPos <> row * mapWidth +  col then begin
                         if not cut[row, col] then cut[row, col] := true;
-                        // ±ê¼Ç¡°¿é¡±
+                        // æ ‡è®°â€œå—â€
                         Inc(block[i, j, 0]);
-                        block[i, j, block[i, j, 0]] := b_count;        // ±ê¼Ç¸îµã×ÔÉí
+                        block[i, j, block[i, j, 0]] := b_count;        // æ ‡è®°å‰²ç‚¹è‡ªèº«
 
-                        BlockrSign((row + dr4[i]), col + dc4[i]);      // ±ê¼Ç´Ë¸îµãµÄ×ÓÊ÷
-                        Dec(b_count);                                  // ¿éºÅ¼õÒ»
-                        children[row, col] := children[row, col] and (not mByte[i]);  // ÒÆ³ı´Ë¡°¸îµã¡±¼°Æä×ÓÊ÷
+                        BlockrSign((row + dr4[i]), col + dc4[i]);      // æ ‡è®°æ­¤å‰²ç‚¹çš„å­æ ‘
+                        Dec(b_count);                                  // å—å·å‡ä¸€
+                        children[row, col] := children[row, col] and (not mByte[i]);  // ç§»é™¤æ­¤â€œå‰²ç‚¹â€åŠå…¶å­æ ‘
                     end;
                 end;
             end;
@@ -690,12 +690,12 @@ var
     end;
 
 begin
-    tmpBoxPos := boxPos;            // CutVertex()Ê¹ÓÃ£¬±»µã»÷µÄÏä×Ó
+    tmpBoxPos := boxPos;            // CutVertex()ä½¿ç”¨ï¼Œè¢«ç‚¹å‡»çš„ç®±å­
 
     depth := 0;
-    b_count := -1;                  // ¿éºÅÓĞ´Ó -1 µİ¼õÀ´±êÊ¾
+    b_count := -1;                  // å—å·æœ‰ä» -1 é€’å‡æ¥æ ‡ç¤º
 
-    // ÖÆ×÷µØÍ¼¸±±¾£¬ÒÔÃâÓ°ÏìÔ­µØÍ¼
+    // åˆ¶ä½œåœ°å›¾å‰¯æœ¬ï¼Œä»¥å…å½±å“åŸåœ°å›¾
     for i := 0 to mapHeight-1 do begin
         for j := 0 to mapWidth-1 do begin
             k := i * mapWidth + j;
@@ -715,11 +715,11 @@ begin
 
     boxR := boxPos div mapWidth;
     boxC := boxPos mod mapWidth;
-    tmpMap[boxR, boxC] := '-';    // ¼ÆËã¸îµãÊ±£¬ÔİÊ±ÄÃµô±»µã»÷µÄÏä×Ó
-    CutVertex(boxR, boxC);        // µİ¹é¼ÆËã¸îµã
+    tmpMap[boxR, boxC] := '-';    // è®¡ç®—å‰²ç‚¹æ—¶ï¼Œæš‚æ—¶æ‹¿æ‰è¢«ç‚¹å‡»çš„ç®±å­
+    CutVertex(boxR, boxC);        // é€’å½’è®¡ç®—å‰²ç‚¹
 
-    // ¼ì²é DFS µÄ¸ù½Úµã
-    j := 0;                       // ¼ÆÊı¸ù½ÚµãµÄ×ÓÊ÷
+    // æ£€æŸ¥ DFS çš„æ ¹èŠ‚ç‚¹
+    j := 0;                       // è®¡æ•°æ ¹èŠ‚ç‚¹çš„å­æ ‘
     for k := 0 to 3 do begin
         if (children[boxR, boxC] and mByte[k]) > 0 then begin
             Inc(j);
@@ -731,12 +731,12 @@ begin
         end;
     end;
     
-    if j >= 2 then begin          // Èô¸ù½ÚµãÓĞÁ½¸öÒÔÉÏµÄ×ÓÊ÷, Ôò¸ù½ÚµãÒ²ÊÇ¡°¸îµã¡±
+    if j >= 2 then begin          // è‹¥æ ¹èŠ‚ç‚¹æœ‰ä¸¤ä¸ªä»¥ä¸Šçš„å­æ ‘, åˆ™æ ¹èŠ‚ç‚¹ä¹Ÿæ˜¯â€œå‰²ç‚¹â€
         cut[boxR, boxC] := true;
     end;
 end;
 
-// ¼ÆËãÏä×ÓµÄ¿É´ïÎ»ÖÃ
+// è®¡ç®—ç®±å­çš„å¯è¾¾ä½ç½®
 procedure boxReachable(isBK: Boolean; boxPos, manPos: Integer);
 const
   MAX_Size = 3000;
@@ -747,33 +747,33 @@ var
     Q: array[0..MAX_Size] of Integer;
 
 begin
-    if isBK then curMark := $0F     // ÄæÍÆÊ±£¬±£ÁôÕıÍÆ±êÖ¾         
-    else curMark := $F0;            // ÕıÍÆÊ±£¬±£ÁôÄæÍÆ±êÖ¾
+    if isBK then curMark := $0F     // é€†æ¨æ—¶ï¼Œä¿ç•™æ­£æ¨æ ‡å¿—         
+    else curMark := $F0;            // æ­£æ¨æ—¶ï¼Œä¿ç•™é€†æ¨æ ‡å¿—
 
-    //¸÷±êÖ¾Êı×é³õÊ¼»¯
+    //å„æ ‡å¿—æ•°ç»„åˆå§‹åŒ–
     for i := 0 to mapHeight-1 do begin
         for j := 0 to mapWidth-1 do begin
-            boxMark[i][j]  := boxMark[i][j] and curMark;  // ÊÇ·ñ¿É´ï
-            mark0[i][j][0] := false;                      // ĞÂ½ÚµãµÄËÄ·½Ïò£¨·´Ïò£©ÊÇ·ñÒÑÍÆ
+            boxMark[i][j]  := boxMark[i][j] and curMark;  // æ˜¯å¦å¯è¾¾
+            mark0[i][j][0] := false;                      // æ–°èŠ‚ç‚¹çš„å››æ–¹å‘ï¼ˆåå‘ï¼‰æ˜¯å¦å·²æ¨
             mark0[i][j][1] := false;
             mark0[i][j][2] := false;
             mark0[i][j][3] := false;
         end;
     end;
 
-    if isBK then curMark := $10     // ÄæÍÆÊ±£¬±£ÁôÕıÍÆ±êÖ¾
-    else curMark := $01;            // ÕıÍÆÊ±£¬±£ÁôÄæÍÆ±êÖ¾
+    if isBK then curMark := $10     // é€†æ¨æ—¶ï¼Œä¿ç•™æ­£æ¨æ ‡å¿—
+    else curMark := $01;            // æ­£æ¨æ—¶ï¼Œä¿ç•™é€†æ¨æ ‡å¿—
 
-    // ³õÊ¼Î»ÖÃ¼ì²â
+    // åˆå§‹ä½ç½®æ£€æµ‹
     F        := (boxPos shl 16) or manPos;
     Q_Pos    := 0;
     Q_Pos2   := 1;
     Q[Q_Pos] := F;
 
-    boxMark[boxPos div mapWidth, boxPos mod mapWidth] := boxMark[boxPos div mapWidth, boxPos mod mapWidth] or curMark;  // ±»µãÏä×Ó
+    boxMark[boxPos div mapWidth, boxPos mod mapWidth] := boxMark[boxPos div mapWidth, boxPos mod mapWidth] or curMark;  // è¢«ç‚¹ç®±å­
 
     while (Q_Pos <> Q_Pos2) do begin
-        F := Q[Q_Pos];    // ³ö¶ÓÁĞ
+        F := Q[Q_Pos];    // å‡ºé˜Ÿåˆ—
         Q_Pos := Q_Pos + 1;
         if Q_Pos > MAX_Size then Q_Pos := 0;
 
@@ -785,32 +785,32 @@ begin
         man_R := Man_F div mapWidth;
         man_C := Man_F mod mapWidth;
 
-        for k := 0 to 3 do begin  // ¼ì²éfµÄËÄÁÚ
-            if mark0[box_R, box_C, k] then continue;  // ¸Ã½ÚµãµÄ´Ë·½Ïò£¨·´£©ÒÑÍÆ
+        for k := 0 to 3 do begin  // æ£€æŸ¥fçš„å››é‚»
+            if mark0[box_R, box_C, k] then continue;  // è¯¥èŠ‚ç‚¹çš„æ­¤æ–¹å‘ï¼ˆåï¼‰å·²æ¨
 
-            newR := box_R + dr4[k];  // Ïä×ÓĞÂÎ»ÖÃ     
+            newR := box_R + dr4[k];  // ç®±å­æ–°ä½ç½®     
             newC := box_C + dc4[k];
-            if isBK then begin         // ÄæÍÆ
-                mToR := newR;                             // Ïä×ÓÖÁĞÂÎ»ÖÃ£¬ÈËĞèµ½µÄÎ»ÖÃ
+            if isBK then begin         // é€†æ¨
+                mToR := newR;                             // ç®±å­è‡³æ–°ä½ç½®ï¼Œäººéœ€åˆ°çš„ä½ç½®
                 mToC := newC;
 
-                // ½çÍâ£¬²»¼ÆËã
+                // ç•Œå¤–ï¼Œä¸è®¡ç®—
                 r := newR + dr4[k];
                 c := newC + dc4[k];
                 if (r < 0) or (c < 0) or (r >= mapHeight) or (c >= mapWidth) or
                    (mToR < 0) or (mToC < 0) or (mToR >= mapHeight) or (mToC >= mapWidth) or
                    ('-' <> tmpMap[r, c]) or ('-' <> tmpMap[mToR, mToC]) then continue;
             end else begin
-                mToR := box_R - dr4[k];                 // Ïä×ÓÖÁĞÂÎ»ÖÃ£¬ÈËĞèµ½µÄÎ»ÖÃ
+                mToR := box_R - dr4[k];                 // ç®±å­è‡³æ–°ä½ç½®ï¼Œäººéœ€åˆ°çš„ä½ç½®
                 mToC := box_C - dc4[k];
 
-                // ½çÍâ£¬²»¼ÆËã
+                // ç•Œå¤–ï¼Œä¸è®¡ç®—
                 if (newR < 0) or (newC < 0) or (newR >= mapHeight) or (newC >= mapWidth) or
                    (mToR < 0) or (mToC < 0) or (mToR >= mapHeight) or (mToC >= mapWidth) or
                    ('-' <> tmpMap[newR, newC]) or ('-' <> tmpMap[mToR, mToC]) then continue;
             end;
-            if manTo2b(isBK, box_R, box_C, man_R, man_C, mToR, mToC) then begin                  // ÈËÄÜ·ñ¹ıÀ´
-                // ĞÂ¿É´ïµãÈëÁĞ´ı²é
+            if manTo2b(isBK, box_R, box_C, man_R, man_C, mToR, mToC) then begin                  // äººèƒ½å¦è¿‡æ¥
+                // æ–°å¯è¾¾ç‚¹å…¥åˆ—å¾…æŸ¥
                 if isBK then F := ((newR * mapWidth + newC) shl 16) or ((newR + dr4[k]) * mapWidth + newC + dc4[k])
                 else F := ((newR * mapWidth + newC) shl 16) or (box_R * mapWidth + box_C);
                 Q[Q_Pos2] := F;
@@ -821,20 +821,20 @@ begin
 //{$IFDEF LASTACT}
 //if not isEditor then begin
 //   Writeln(myLogFile_, '');
-//   Writeln(myLogFile_, DateTimeToStr(Now) + '*********** ' + inttostr(Q_Pos));      // µ÷ÊÔÓÃ£¬²é¿´¶ÓÁĞÊ¹ÓÃÇé¿ö
+//   Writeln(myLogFile_, DateTimeToStr(Now) + '*********** ' + inttostr(Q_Pos));      // è°ƒè¯•ç”¨ï¼ŒæŸ¥çœ‹é˜Ÿåˆ—ä½¿ç”¨æƒ…å†µ
 //   Flush(myLogFile_);
 //end;
 //{$ENDIF}
 
                 end;
-                boxMark[newR, newC] := boxMark[newR, newC] or curMark;                           // ĞÂµÄ¿É´ïµã
-                mark0[box_R, box_C, k] := true;                                                  // ¸Ã½ÚµãµÄ´Ë·½Ïò£¨·´£©ÒÑÍÆ
+                boxMark[newR, newC] := boxMark[newR, newC] or curMark;                           // æ–°çš„å¯è¾¾ç‚¹
+                mark0[box_R, box_C, k] := true;                                                  // è¯¥èŠ‚ç‚¹çš„æ­¤æ–¹å‘ï¼ˆåï¼‰å·²æ¨
             end;
         end;
     end;
 end;
 
-// ²é¿´Á½µã firR, firC ºÍ secR, setC ÊÇ·ñÈË¿É´ï£»boxR, boxC Îª±»µã»÷µÄÏä×ÓµÄÎ»ÖÃ£¬Æä boxR < 0 Ê±£¬Ôò²»²é¿´Ëü
+// æŸ¥çœ‹ä¸¤ç‚¹ firR, firC å’Œ secR, setC æ˜¯å¦äººå¯è¾¾ï¼›boxR, boxC ä¸ºè¢«ç‚¹å‡»çš„ç®±å­çš„ä½ç½®ï¼Œå…¶ boxR < 0 æ—¶ï¼Œåˆ™ä¸æŸ¥çœ‹å®ƒ
 function manTo2b(isBK: Boolean; boxR, boxC, firR, firC, secR, secC: Integer): Boolean;
 var
     i, j: Integer;
@@ -842,16 +842,16 @@ var
 begin
     if (firR = secR ) and (firC = secC) then begin Result := true; Exit; end;
 
-    //µã2 ²»ÊÇ¿ÕµØ
+    //ç‚¹2 ä¸æ˜¯ç©ºåœ°
     if (secR < 0) or (secC < 0) or (secR >= mapHeight) or (secC >= mapWidth) or ('-' <> tmpMap[secR, secC]) then begin Result := false; Exit; end;
 
     Result := False;
 
     if (not cut[boxR, boxC]) and (block[firR, firC, block[firR, firC, 0]] > 0) then begin
         Result := true;
-        Exit;   // ±»µã»÷µÄÏä×Ó²»ÔÚ¸îµãÉÏ
+        Exit;   // è¢«ç‚¹å‡»çš„ç®±å­ä¸åœ¨å‰²ç‚¹ä¸Š
     end else begin
-        for i := 1 to block[firR, firC, block[firR, firC, 0]] do begin  //Á½µãÔÚÍ¬Ò»¿éÄÚ£¬±Ø¶¨¿É´ï
+        for i := 1 to block[firR, firC, block[firR, firC, 0]] do begin  //ä¸¤ç‚¹åœ¨åŒä¸€å—å†…ï¼Œå¿…å®šå¯è¾¾
             for j := 1 to block[secR, secC, block[secR, secC, 0]] do begin
                 if ( block[firR, firC, i] = block[secR, secC, j]) then begin
                    Result := true;
@@ -860,7 +860,7 @@ begin
             end;
         end;
 
-        // µ±¸îµã·¨²»¿É´ïÊ±£¬×ö´©Ô½¼ì²é
+        // å½“å‰²ç‚¹æ³•ä¸å¯è¾¾æ—¶ï¼Œåšç©¿è¶Šæ£€æŸ¥
         if isThroughable or (tmpMap[boxR, boxC] = '-') then begin
             tmpMap[boxR, boxC] := '$';
             Result := manTo2(isBK, boxR, boxC, firR, firC, secR, secC);
@@ -869,7 +869,7 @@ begin
     end;
 end;
 
-// ²é¿´ÈËÊÇ·ñ¿ÉÒÔ´ÓµÚÒ»µã firR£¬ firC µ½´ïµÚ¶şµã secR£¬ setC
+// æŸ¥çœ‹äººæ˜¯å¦å¯ä»¥ä»ç¬¬ä¸€ç‚¹ firRï¼Œ firC åˆ°è¾¾ç¬¬äºŒç‚¹ secRï¼Œ setC
 function manTo2(isBK: Boolean; boxR, boxC, firR, firC, secR, secC: Integer): Boolean;
 var
   i, j, k, i1, i2, i3, j1, j2, j3, p, tail, r, c: Integer;
@@ -880,8 +880,8 @@ begin
 
     if (firR = secR) and (firC = secC) then Exit;
 
-    if isBK then curMark := $0F     // ÄæÍÆÊ±£¬±£ÁôÕıÍÆ±êÖ¾
-    else curMark := $F0;            // ÕıÍÆÊ±£¬±£ÁôÄæÍÆ±êÖ¾
+    if isBK then curMark := $0F     // é€†æ¨æ—¶ï¼Œä¿ç•™æ­£æ¨æ ‡å¿—
+    else curMark := $F0;            // æ­£æ¨æ—¶ï¼Œä¿ç•™é€†æ¨æ ‡å¿—
 
     for i := 0 to mapHeight-1 do begin
         for j := 0 to mapWidth-1 do begin
@@ -892,32 +892,32 @@ begin
         end;
     end;
 
-    if isBK then curMark := $10     // ÄæÍÆÊ±£¬±£ÁôÕıÍÆ±êÖ¾
-    else curMark := $01;            // ÕıÍÆÊ±£¬±£ÁôÄæÍÆ±êÖ¾
+    if isBK then curMark := $10     // é€†æ¨æ—¶ï¼Œä¿ç•™æ­£æ¨æ ‡å¿—
+    else curMark := $01;            // æ­£æ¨æ—¶ï¼Œä¿ç•™é€†æ¨æ ‡å¿—
 
     pt[0] := firR * mapWidth + firC;
     manMark[firR, firC] := manMark[firR, firC] or curMark;
     p := 0; tail := 0;
-    while p <= tail do begin         // ³£¹æÅÅ²é
+    while p <= tail do begin         // å¸¸è§„æ’æŸ¥
         while p <= tail do begin
             r := pt[p] div mapWidth;
             c := pt[p] mod mapWidth;
             for k := 0 to 3 do begin
                 i1 := r + dr4[k];
                 j1 := c + dc4[k];
-                if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue  // ½çÍâ
+                if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) then continue  // ç•Œå¤–
                 else if ('-' = tmpMap[i1, j1]) and ((manMark[i1, j1] and curMark) = 0) then begin
                     Inc(tail);
-                    pt[tail] := i1 * mapWidth + j1;            // ĞÂµÄ×ã¼£
+                    pt[tail] := i1 * mapWidth + j1;            // æ–°çš„è¶³è¿¹
                     manMark[i1, j1] := manMark[i1, j1] or curMark;
 
-                    if (secR = i1) and (secC = j1) then Exit;  // µ½´ïÄ¿±ê
+                    if (secR = i1) and (secC = j1) then Exit;  // åˆ°è¾¾ç›®æ ‡
                 end;
             end;
             Inc(p);
         end;
                                  
-        // ´©Ô½ÅÅ²é
+        // ç©¿è¶Šæ’æŸ¥
         if isThroughable then begin     
             for i := 1 to mapHeight-2 do begin
                 for j := 1 to mapWidth-2 do begin
@@ -926,10 +926,10 @@ begin
                             i1 := i - dr4[k];
                             j1 := j - dc4[k];
                             if (boxR >= 0) and (i1 = boxR) and (j1 = boxC) then begin
-                                continue;               // ºÜÖØÒª£¬µã»÷µÄÏä×Ó²»¿É×÷Îª´©Ô½µã
+                                continue;               // å¾ˆé‡è¦ï¼Œç‚¹å‡»çš„ç®±å­ä¸å¯ä½œä¸ºç©¿è¶Šç‚¹
                             end;
                             deep_Thur := 0;
-                            if isBK then begin  // ÄæÍÆ
+                            if isBK then begin  // é€†æ¨
                                 i1 := i + 3 * dr4[k];
                                 j1 := j + 3 * dc4[k];
                                 i2 := i + 2 * dr4[k];
@@ -938,7 +938,7 @@ begin
                                 j3 := j + dc4[k];
                                 if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) or
                                    (i2 < 0) or (j2 < 0) or (i2 >= mapHeight) or (j2 >= mapWidth) or
-                                   (i3 < 0) or (j3 < 0) or (i3 >= mapHeight) or (j3 >= mapWidth) then continue  // ½çÍâ
+                                   (i3 < 0) or (j3 < 0) or (i3 >= mapHeight) or (j3 >= mapWidth) then continue  // ç•Œå¤–
                                 else if ('$' = tmpMap[i3, j3]) and ((manMark[i1, j1] and curMark) > 0) and ((manMark[i2, j2] and curMark) > 0) then begin
                                     tmpMap[i3, j3] := '-';
                                     if canThrough(isBK, i2, j2, i1, j1, i3, j3, k) then begin
@@ -946,14 +946,14 @@ begin
                                         Inc(tail);
                                         pt[tail] := i * mapWidth + j;
 
-                                        if (i = secR) and (j = secC) then begin  // µ½´ïÄ¿±ê
+                                        if (i = secR) and (j = secC) then begin  // åˆ°è¾¾ç›®æ ‡
                                             tmpMap[i3, j3] := '$';
                                             Exit;
                                         end;
                                     end;
                                     tmpMap[i3, j3] := '$';
                                 end;
-                            end else begin  // ÕıÍÆ
+                            end else begin  // æ­£æ¨
                                 i1 := i + dr4[k];
                                 j1 := j + dc4[k];
                                 i2 := i - dr4[k];
@@ -962,7 +962,7 @@ begin
                                 j3 := j - 2 * dc4[k];
                                 if (i1 < 0) or (j1 < 0) or (i1 >= mapHeight) or (j1 >= mapWidth) or
                                    (i2 < 0) or (j2 < 0) or (i2 >= mapHeight) or (j2 >= mapWidth) or
-                                   (i3 < 0) or (j3 < 0) or (i3 >= mapHeight) or (j3 >= mapWidth) then continue  // ½çÍâ
+                                   (i3 < 0) or (j3 < 0) or (i3 >= mapHeight) or (j3 >= mapWidth) then continue  // ç•Œå¤–
                                 else if ('$' = tmpMap[i2, j2]) and ('-' = tmpMap[i1, j1]) and ((manMark[i3, j3] and curMark) > 0) then begin
                                     tmpMap[i2, j2] := '-';
                                     if canThrough(isBK, i, j, i2, j2, i1, j1, k) then begin
@@ -970,7 +970,7 @@ begin
                                         Inc(tail);
                                         pt[tail] := i * mapWidth + j;
 
-                                        if (i = secR) and (j = secC) then begin  // µ½´ïÄ¿±ê
+                                        if (i = secR) and (j = secC) then begin  // åˆ°è¾¾ç›®æ ‡
                                             tmpMap[i2, j2] := '$';
                                             Exit;
                                         end;
@@ -988,7 +988,7 @@ begin
     Result := false;
 end;
 
-// ¼ÆËãÏä×Ó´Ó boxPos µ½´ï toPos µÄ×î¶ÌÂ·¾¶
+// è®¡ç®—ç®±å­ä» boxPos åˆ°è¾¾ toPos çš„æœ€çŸ­è·¯å¾„
 function boxTo(isBK: Boolean; boxPos, toPos, manPos: Integer): Integer;
 var
   i, j, k, boxR, boxC, toR, toC, manR, manC, newR, newC, mFromR, mFromC, mToR, mToC, r, c, box_R, box_C, man_R, man_C, H, G, T, DD, TT, GG, len, size: Integer;
@@ -1005,7 +1005,7 @@ var
   act: string;
 {$ENDIF}
 
-  // ÒÔ´ËÄ£ÄâÓÅÏÈ¶ÓÁĞ
+  // ä»¥æ­¤æ¨¡æ‹Ÿä¼˜å…ˆé˜Ÿåˆ—
   procedure AddNode2(bpos, mpos, H, G, T, k: Integer; var myList: PBoxManNode);
   var
      x, y, z: PBoxManNode;
@@ -1024,13 +1024,13 @@ var
       while x.next <> nil do begin
           y := x.next;
           
-          if x.T < y.T then begin             // ÏÈ±È½Ï×ªÍäÊı
+          if x.T < y.T then begin             // å…ˆæ¯”è¾ƒè½¬å¼¯æ•°
              Break;
           end else if x.T = y.T then begin
-             if x.H < y.H then begin          // ÔÙ±È½ÏÆÀ¹ÀÖµ
+             if x.H < y.H then begin          // å†æ¯”è¾ƒè¯„ä¼°å€¼
                 Break;
              end else if x.H = y.H then begin
-                if x.G < y.G then begin       // ×îºó±È½ÏÍÆ¶¯ÏûºÄ£¨²½Êı£©
+                if x.G < y.G then begin       // æœ€åæ¯”è¾ƒæ¨åŠ¨æ¶ˆè€—ï¼ˆæ­¥æ•°ï¼‰
                    Break;
                 end;
              end;
@@ -1054,7 +1054,7 @@ begin
 
     if (boxPos = toPos) then Exit;
 
-// µ÷ÊÔ¹¦ÄÜ£¬µ±³ÌĞò±ÀÀ£Ê±£¬BoxMan.log ÎÄµµÖĞ£¬»á¼ÇÂ¼Ö®Ç°µÄ¶¯×÷£¬±ÜÃâÔì³ÉÌ«´óµÄËğÊ§    
+// è°ƒè¯•åŠŸèƒ½ï¼Œå½“ç¨‹åºå´©æºƒæ—¶ï¼ŒBoxMan.log æ–‡æ¡£ä¸­ï¼Œä¼šè®°å½•ä¹‹å‰çš„åŠ¨ä½œï¼Œé¿å…é€ æˆå¤ªå¤§çš„æŸå¤±    
 {$IFDEF LASTACT}
 if not isEditor then begin
 //   ReWrite(myLogFile_);
@@ -1079,14 +1079,14 @@ end;
 
     for i := 0 to mapHeight-1 do begin
         for j := 0 to mapWidth-1 do begin
-            mark0[i][j][0] := false;            // ½ÚµãµÄËÄ·½Ïò£¨·´Ïò£©ÊÇ·ñÒÑÍÆ
+            mark0[i][j][0] := false;            // èŠ‚ç‚¹çš„å››æ–¹å‘ï¼ˆåå‘ï¼‰æ˜¯å¦å·²æ¨
             mark0[i][j][1] := false;
             mark0[i][j][2] := false;
             mark0[i][j][3] := false;
         end;
     end;
 
-    isFound := false;                           // ÊÇ·ñÕÒµ½ÁËÓĞÂ·¾¶
+    isFound := false;                           // æ˜¯å¦æ‰¾åˆ°äº†æœ‰è·¯å¾„
 
     boxR := boxPos div mapWidth;
     boxC := boxPos mod mapWidth;
@@ -1096,7 +1096,7 @@ end;
     manC := manPos mod mapWidth;
 
     New(PQ);
-    PQ.boxPos := boxPos;                         // ³õÊ¼Î»ÖÃÈë¶ÓÁĞ£¬´ı²éÆäËÄÁÚ
+    PQ.boxPos := boxPos;                         // åˆå§‹ä½ç½®å…¥é˜Ÿåˆ—ï¼Œå¾…æŸ¥å…¶å››é‚»
     PQ.manPos := manPos;
     PQ.H := abs(boxR - toR) + abs(boxC - toC);
     PQ.G := 0;
@@ -1121,13 +1121,13 @@ end;
         Dispose(PBoxManNode(PQ_Head));
         PQ_Head := nil;
 
-        for k := 0 to 3 do begin         // ¼ì²éfµÄËÄÁÚ
-            if mark0[box_R, box_C, k] then continue;  // ¸Ã½ÚµãµÄ´Ë·½Ïò£¨·´£©ÒÑÍÆ
+        for k := 0 to 3 do begin         // æ£€æŸ¥fçš„å››é‚»
+            if mark0[box_R, box_C, k] then continue;  // è¯¥èŠ‚ç‚¹çš„æ­¤æ–¹å‘ï¼ˆåï¼‰å·²æ¨
 
-            newR := box_R + dr4[k];      // Ïä×ÓĞÂÎ»ÖÃ
+            newR := box_R + dr4[k];      // ç®±å­æ–°ä½ç½®
             newC := box_C + dc4[k];
-            if isBK then begin           // ÄæÍÆ
-                mToR := newR;            // Ïä×ÓÖÁĞÂÎ»ÖÃ£¬ÈËĞèµ½µÄÎ»ÖÃ
+            if isBK then begin           // é€†æ¨
+                mToR := newR;            // ç®±å­è‡³æ–°ä½ç½®ï¼Œäººéœ€åˆ°çš„ä½ç½®
                 mToC := newC;
                 r := newR + dr4[k];
                 c := newC + dc4[k];
@@ -1135,27 +1135,27 @@ end;
                    (mToR < 0) or (mToC < 0) or (mToR >= mapHeight) or (mToC >= mapWidth) or
                    ('-' <> tmpMap[r, c]) or ('-' <> tmpMap[mToR, mToC]) then continue;
             end else begin
-                mToR := box_R - dr4[k];  // Ïä×ÓÖÁĞÂÎ»ÖÃ£¬ÈËĞèµ½µÄÎ»ÖÃ
+                mToR := box_R - dr4[k];  // ç®±å­è‡³æ–°ä½ç½®ï¼Œäººéœ€åˆ°çš„ä½ç½®
                 mToC := box_C - dc4[k];
                 if (newR < 0) or (newC < 0) or (newR >= mapHeight) or (newC >= mapWidth) or
                    (mToR < 0) or (mToC < 0) or (mToR >= mapHeight) or (mToC >= mapWidth) or
                    ('-' <> tmpMap[newR, newC]) or ('-' <> tmpMap[mToR, mToC]) then continue;
             end;
-            if manTo2b(isBK, box_R, box_C, man_R, man_C, mToR, mToC) then begin   // ÈËÄÜ·ñ¹ıÀ´
-                mark0[box_R, box_C, k] := true;          // ¸Ã½ÚµãµÄ´Ë·½Ïò£¨·´£©ÒÑÍÆ
+            if manTo2b(isBK, box_R, box_C, man_R, man_C, mToR, mToC) then begin   // äººèƒ½å¦è¿‡æ¥
+                mark0[box_R, box_C, k] := true;          // è¯¥èŠ‚ç‚¹çš„æ­¤æ–¹å‘ï¼ˆåï¼‰å·²æ¨
 
-                H := abs(newR - toR) + abs(newC - toC);  // ÆÀ¹ÀÖµ£¬¾¡Á¿ÏòÄ¿±êµã¿¿Â£
-                if (DD = k) then T := TT                // ×ªÍäÀÛ¼ÆÖµ£¬ÒÔ´Ë×÷ÎªÓÅÏÈ¶ÓÁĞÖĞ½Úµã±È½ÏµÄÖ÷Á¦
+                H := abs(newR - toR) + abs(newC - toC);  // è¯„ä¼°å€¼ï¼Œå°½é‡å‘ç›®æ ‡ç‚¹é æ‹¢
+                if (DD = k) then T := TT                // è½¬å¼¯ç´¯è®¡å€¼ï¼Œä»¥æ­¤ä½œä¸ºä¼˜å…ˆé˜Ÿåˆ—ä¸­èŠ‚ç‚¹æ¯”è¾ƒçš„ä¸»åŠ›
                 else T := TT + 1;
                 G := GG + 1;
 
                 if isBK then AddNode2(newR * mapWidth + newC, (newR + dr4[k]) * mapWidth + newC + dc4[k], H, G, T, k, PQ)
                 else AddNode2(newR * mapWidth + newC, box_R * mapWidth + box_C, H, G, T, k, PQ);
 
-                list1[size1] := (DD shl 24) or (k shl 16) or (newC shl 8) or newR;  // k - ¸¸½Úµã£¬DD - ¸¸½ÚµãµÄ¸¸½Úµã
+                list1[size1] := (DD shl 24) or (k shl 16) or (newC shl 8) or newR;  // k - çˆ¶èŠ‚ç‚¹ï¼ŒDD - çˆ¶èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹
                 Inc(size1);
 
-                if (newR = toR) and (newC = toC) then begin     // µ½´ïÄ¿±êµã
+                if (newR = toR) and (newC = toC) then begin     // åˆ°è¾¾ç›®æ ‡ç‚¹
                     isFound := true;
                     break;
                 end;
@@ -1171,14 +1171,14 @@ end;
         PQ_Head := nil;
     end;
 
-    if (isFound) then begin  // ÕÒµ½ÁËÂ·¾¶
+    if (isFound) then begin  // æ‰¾åˆ°äº†è·¯å¾„
 
-        mToR  := toR;        // Ïä×ÓÄ¿±ê
+        mToR  := toR;        // ç®±å­ç›®æ ‡
         mToC  := toC;
 
         mDir0 := -1;
 
-        while size1 > 0 do begin  // È¡µÃ´¿Ïä×ÓÒÆ¶¯µÄÂ·¾¶ËÍÈë list2
+        while size1 > 0 do begin  // å–å¾—çº¯ç®±å­ç§»åŠ¨çš„è·¯å¾„é€å…¥ list2
             Dec(size1);
             Node := list1[size1];
 
@@ -1195,21 +1195,21 @@ end;
             mToR  := Node_box_R - dr4[Node_dir];
             mToC  := Node_box_C - dc4[Node_dir];
 
-            mDir0 := Node_dir2;               // ¸¸½ÚµãµÄ¸¸½Úµã
+            mDir0 := Node_dir2;               // çˆ¶èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹
         end;
 
         mDir0 := -1;
         
-        // Ïä×ÓºÍÈËÍÆ¶¯Ç°µÄÎ»ÖÃ
+        // ç®±å­å’Œäººæ¨åŠ¨å‰çš„ä½ç½®
         newR   := boxR;
         newC   := boxC;
         mFromR := manR;
         mFromC := manC;
 
-        while size2 > 0 do begin         // ¼ÓÈëÈËÒÆ¶¯µÄÂ·¾¶
+        while size2 > 0 do begin         // åŠ å…¥äººç§»åŠ¨çš„è·¯å¾„
             Dec(size2);
             mDir := (list2[size2] shr 16) and $FF;
-            if isBK then begin                 // ÄæÍÆ
+            if isBK then begin                 // é€†æ¨
                 mToR := newR + dr4[mDir];
                 mToC := newC + dc4[mDir];
             end else begin
@@ -1217,15 +1217,15 @@ end;
                 mToC := newC - dc4[mDir];
             end;
 
-            if (mDir = mDir0) then begin       // Ïä×ÓÒÆ¶¯·½ÏòÃ»ÓĞ¸Ä±ä
+            if (mDir = mDir0) then begin       // ç®±å­ç§»åŠ¨æ–¹å‘æ²¡æœ‰æ”¹å˜
                 if Result = MaxLenPath then Exit;
                 ch := lurdChar[mDir + 4];
                 Inc(Result);
                 BoxPath[Result] := ch;
-            end else begin                     // Ïä×Ó¸Ä±äÁËÒÆ¶¯·½Ïò
+            end else begin                     // ç®±å­æ”¹å˜äº†ç§»åŠ¨æ–¹å‘
                 tmpMap[newR, newC] := '$';
 
-                len := manTo(isBK, tmpMap2, mFromR * mapWidth + mFromC, mToR * mapWidth + mToC);  // ¼ÆËãÈËÒÆÎ»Â·¾¶
+                len := manTo(isBK, tmpMap2, mFromR * mapWidth + mFromC, mToR * mapWidth + mToC);  // è®¡ç®—äººç§»ä½è·¯å¾„
                 
                 tmpMap[newR, newC] := '-';
 
@@ -1243,15 +1243,15 @@ end;
 
                 mDir0 := mDir;
             end;
-            if isBK then begin               // ÄæÍÆ
-                newR   := mToR;              // Ïä×Ó½øÒ»Î»£¨ÈËÔÚÏä×ÓÇ°Ãæ£©
+            if isBK then begin               // é€†æ¨
+                newR   := mToR;              // ç®±å­è¿›ä¸€ä½ï¼ˆäººåœ¨ç®±å­å‰é¢ï¼‰
                 newC   := mToC;
-                mFromR := newR + dr4[mDir];  // ÈË½øÒ»Î»£¨ÈËÔÚÏä×ÓÇ°Ãæ£©
+                mFromR := newR + dr4[mDir];  // äººè¿›ä¸€ä½ï¼ˆäººåœ¨ç®±å­å‰é¢ï¼‰
                 mFromC := newC + dc4[mDir];
             end else begin
-                mFromR := newR;              // ÈËµ½Ïä×ÓµÄÎ»ÖÃ£¨ÈËÔÚÏä×ÓºóÃæ£©
+                mFromR := newR;              // äººåˆ°ç®±å­çš„ä½ç½®ï¼ˆäººåœ¨ç®±å­åé¢ï¼‰
                 mFromC := newC;
-                newR   := newR + dr4[mDir];  // Ïä×Ó½øÒ»Î»
+                newR   := newR + dr4[mDir];  // ç®±å­è¿›ä¸€ä½
                 newC   := newC + dc4[mDir];
             end;
         end;

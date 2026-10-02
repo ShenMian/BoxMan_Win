@@ -1,4 +1,4 @@
-unit BrowseLevels;
+ï»¿unit BrowseLevels;
 
 interface
 
@@ -32,26 +32,26 @@ type
     procedure Image1MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure Image1DblClick(Sender: TObject);
-    procedure ScrollBar1Change(Sender: TObject);      // »­Í¼±ê
+    procedure ScrollBar1Change(Sender: TObject);      // ç”»å›¾æ ‡
     procedure isSolved(mapNode: PMapNode);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure sb_FindClick(Sender: TObject);
-    procedure sb_DeleteClick(Sender: TObject);            // ¼ì²â¹Ø¿¨ÊÇ·ñÒÑ¾­ÓĞ½â
+    procedure sb_DeleteClick(Sender: TObject);            // æ£€æµ‹å…³å¡æ˜¯å¦å·²ç»æœ‰è§£
 
   private
     { Private declarations }
   public
     { Public declarations }
 
-    BK_Color: TColor;        // ä¯ÀÀ±³¾°É«
+    BK_Color: TColor;        // æµè§ˆèƒŒæ™¯è‰²
     curIndex: Integer;
-    isStop: Boolean;         // Ç¿ÖÆÍ£Ö¹»æÖÆÍ¼±ê
+    isStop: Boolean;         // å¼ºåˆ¶åœæ­¢ç»˜åˆ¶å›¾æ ‡
 
   end;
 
 var
   BrowseForm: TBrowseForm;
-  Size_Icon, TopRow, BottomRow, Columns, pageSize: Integer;      // Í¼±ê³ß´ç£¬¶¥ĞĞÍ¼±êĞĞ, Í¼±êĞĞÊı, Ò³´óĞ¡
+  Size_Icon, TopRow, BottomRow, Columns, pageSize: Integer;      // å›¾æ ‡å°ºå¯¸ï¼Œé¡¶è¡Œå›¾æ ‡è¡Œ, å›¾æ ‡è¡Œæ•°, é¡µå¤§å°
   myTitle: string;
 
 implementation
@@ -78,10 +78,10 @@ begin
 
   FormResize(Sender);
 
-  myTitle := 'ä¯ÀÀ ~ ¹Ø¿¨×ÜÊı: ' + IntToStr(MapList.Count);
+  myTitle := 'æµè§ˆ ~ å…³å¡æ€»æ•°: ' + IntToStr(MapList.Count);
   
   mapNode := MapList[curIndex];
-  Caption := myTitle + ', µ±Ç°¹Ø¿¨: ' + IntToStr(Tag+1) + '£¬³ß´ç: ' + IntToStr(mapNode.Cols) + '¡Á' + IntToStr(mapNode.Rows) + '£¬Ïä×Ó: ' + IntToStr(mapNode.Boxs) + '£¬Ä¿±ê: ' + IntToStr(mapNode.Goals) + ', ±êÌâ: ' + mapNode.Title + ',  ×÷Õß: ' + mapNode.Author;
+  Caption := myTitle + ', å½“å‰å…³å¡: ' + IntToStr(Tag+1) + 'ï¼Œå°ºå¯¸: ' + IntToStr(mapNode.Cols) + 'Ã—' + IntToStr(mapNode.Rows) + 'ï¼Œç®±å­: ' + IntToStr(mapNode.Boxs) + 'ï¼Œç›®æ ‡: ' + IntToStr(mapNode.Goals) + ', æ ‡é¢˜: ' + mapNode.Title + ',  ä½œè€…: ' + mapNode.Author;
   mapNode := nil;
   isStop := True;
 end;
@@ -89,15 +89,15 @@ end;
 procedure TBrowseForm.FormCreate(Sender: TObject);
 begin
   BK_Color := clWhite;
-  Caption := 'ä¯ÀÀ';
-  Label1.Caption := '±³¾°É«: ';
-  sb_Find.Caption := '²éÕÒ¼ôÇĞ°åÖĞµÄ¹Ø¿¨';
-  sb_Delete.Hint := 'É¾³ıµ±Ç°¹Ø¿¨';
+  Caption := 'æµè§ˆ';
+  Label1.Caption := 'èƒŒæ™¯è‰²: ';
+  sb_Find.Caption := 'æŸ¥æ‰¾å‰ªåˆ‡æ¿ä¸­çš„å…³å¡';
+  sb_Delete.Hint := 'åˆ é™¤å½“å‰å…³å¡';
 
-  Size_Icon := 150;                    // Í¼±ê³ß´ç
+  Size_Icon := 150;                    // å›¾æ ‡å°ºå¯¸
 end;
 
-// ¼ì²â¹Ø¿¨ÊÇ·ñÒÑ¾­ÓĞ½â
+// æ£€æµ‹å…³å¡æ˜¯å¦å·²ç»æœ‰è§£
 procedure TBrowseForm.isSolved(mapNode: PMapNode);
 var
   sldb: TSQLiteDatabase;
@@ -120,7 +120,7 @@ begin
   end;
 end;
 
-// ¼ÆËãÎŞ·ìÇ½±ÚÍ¼Ôª
+// è®¡ç®—æ— ç¼å¢™å£å›¾å…ƒ
 function GetWall(map: TStringList; r, c: Integer): Integer;
 var
   len: Integer;
@@ -129,30 +129,30 @@ begin
 
   len := Length(map[r]);
   if (c > 0) and (c - 1 <= len) and (map[r][c - 1] = '#') then
-      result := result or 1;    // ×óÓĞÇ½±Ú
+      result := result or 1;    // å·¦æœ‰å¢™å£
 
   if (r > 0) then begin
     len := Length(map[r-1]);
     if (c <= len) and (map[r - 1][c] = '#') then
-        result := result or 2;  // ÉÏÓĞÇ½±Ú
+        result := result or 2;  // ä¸Šæœ‰å¢™å£
   end;
 
   len := Length(map[r]);
   if (c < len) and (map[r][c + 1] = '#') then
-      result := result or 4;    // ÓÒÓĞÇ½±Ú
+      result := result or 4;    // å³æœ‰å¢™å£
 
   if (r < map.Count - 1) then begin
      len := Length(map[r+1]);
      if (c <= len) and (map[r + 1][c] = '#') then
-         result := result or 8;// ÏÂÓĞÇ½±Ú
+         result := result or 8;// ä¸‹æœ‰å¢™å£
   end;
 
   len := Length(map[r]);
   if ((result = 3) or (result = 7) or (result = 11) or (result = 15)) and (c > 0) and (r > 0) and (c - 1 <= len) and (map[r][c - 1] = '#') then
-       result := result or 16; // ĞèÒª»­Ç½¶¥
+       result := result or 16; // éœ€è¦ç”»å¢™é¡¶
 end;
 
-// »­Í¼±ê
+// ç”»å›¾æ ‡
 procedure TBrowseForm.DrawIcon;
 var
   i, j, k, t, l, w, row, col, x_Size, y_Size, cell_Size, x, y, Rows, Cols, len, c, str_W: Integer;
@@ -167,21 +167,21 @@ begin
   Image1.Canvas.CopyMode := SRCCOPY;
 
   with Image1.Canvas do begin
-      Brush.Color := BK_Color;                   // ±³¾°É«
+      Brush.Color := BK_Color;                   // èƒŒæ™¯è‰²
       Font.Size := 11;
       FillRect(ClientRect);
 
-      c := MapList.Count;                        // Í¼±ê×ÜÊı
+      c := MapList.Count;                        // å›¾æ ‡æ€»æ•°
       for i := TopRow to BottomRow do begin
           if isStop then Break;
           for j := 0 to Columns-1 do begin
               if isStop then Break;
-              k := Columns * i + j;              // ×¼±¸¿ªÊ¼»­µÄÍ¼±ê -- µ±Ç°Í¼±ê
+              k := Columns * i + j;              // å‡†å¤‡å¼€å§‹ç”»çš„å›¾æ ‡ -- å½“å‰å›¾æ ‡
               if k >= c then Break;
 
-              mapNode := MapList[k];             // µ±Ç°Í¼±ê
-              Rows := mapNode.Rows;              // µ±Ç°Í¼±êµÄ´¹Ö±Ğ¡¸ñ×ÓÊı
-              Cols := mapNode.Cols;              // µ±Ç°Í¼±êµÄË®Æ½Ğ¡¸ñ×ÓÊı
+              mapNode := MapList[k];             // å½“å‰å›¾æ ‡
+              Rows := mapNode.Rows;              // å½“å‰å›¾æ ‡çš„å‚ç›´å°æ ¼å­æ•°
+              Cols := mapNode.Cols;              // å½“å‰å›¾æ ‡çš„æ°´å¹³å°æ ¼å­æ•°
 
               Map := TStringList.Create;
 
@@ -190,13 +190,13 @@ begin
 
                 x_Size := Size_Icon div Cols;
                 y_Size := Size_Icon div Rows;
-                cell_Size := Min(x_Size, y_Size);  // Í¼±êÖĞµÄĞ¡¸ñ×Ó³ß´ç
+                cell_Size := Min(x_Size, y_Size);  // å›¾æ ‡ä¸­çš„å°æ ¼å­å°ºå¯¸
 
-                x := (Size_Icon - cell_Size * Cols) div 2;      // Í¼±ê×óÓÒºÍÉÏÏÂµÄ¿Õ°×³ß´ç
+                x := (Size_Icon - cell_Size * Cols) div 2;      // å›¾æ ‡å·¦å³å’Œä¸Šä¸‹çš„ç©ºç™½å°ºå¯¸
                 y := (Size_Icon - cell_Size * Rows) div 2;
 
-                t := (i - TopRow) * (Size_Icon + 30);           // ¸÷Í¼±êµÄÆğÊ¼Î»ÖÃ£¬´¹Ö±¼ä¸ô 30 ÏñËØ£¨´Ë¼ä¸ô°üº¬ĞòºÅÏÔÊ¾£©
-                l := j * (Size_Icon + 10);                      // Ë®Æ½¼ä¸ô 10 ÏñËØ
+                t := (i - TopRow) * (Size_Icon + 30);           // å„å›¾æ ‡çš„èµ·å§‹ä½ç½®ï¼Œå‚ç›´é—´éš” 30 åƒç´ ï¼ˆæ­¤é—´éš”åŒ…å«åºå·æ˜¾ç¤ºï¼‰
+                l := j * (Size_Icon + 10);                      // æ°´å¹³é—´éš” 10 åƒç´ 
 
                 for row := 0 to Rows-1 do begin
                     if isStop then Break;
@@ -213,39 +213,39 @@ begin
                         case ch of
                           '#': begin //StretchDraw(R, WallPic);
 
-                              if isSeamless then begin    // ÎŞ·ìÇ½±Ú
+                              if isSeamless then begin    // æ— ç¼å¢™å£
                                 w := GetWall(Map, row, col);
                                 case (w and $F) of
                                   1:
-                                    StretchDraw(R, WallPic_l);     // ½ö×ó
+                                    StretchDraw(R, WallPic_l);     // ä»…å·¦
                                   2:
-                                    StretchDraw(R, WallPic_u);     // ½öÉÏ
+                                    StretchDraw(R, WallPic_u);     // ä»…ä¸Š
                                   3:
-                                    StretchDraw(R, WallPic_lu);    // ×ó¡¢ÉÏ
+                                    StretchDraw(R, WallPic_lu);    // å·¦ã€ä¸Š
                                   4:
-                                    StretchDraw(R, WallPic_r);     // ½öÓÒ
+                                    StretchDraw(R, WallPic_r);     // ä»…å³
                                   5:
-                                    StretchDraw(R, WallPic_lr);    // ×ó¡¢ÓÒ
+                                    StretchDraw(R, WallPic_lr);    // å·¦ã€å³
                                   6:
-                                    StretchDraw(R, WallPic_ru);    // ÓÒ¡¢ÉÏ
+                                    StretchDraw(R, WallPic_ru);    // å³ã€ä¸Š
                                   7:
-                                    StretchDraw(R, WallPic_lur);   // ×ó¡¢ÉÏ¡¢ÓÒ
+                                    StretchDraw(R, WallPic_lur);   // å·¦ã€ä¸Šã€å³
                                   8:
-                                    StretchDraw(R, WallPic_d);     // ½öÏÂ
+                                    StretchDraw(R, WallPic_d);     // ä»…ä¸‹
                                   9:
-                                    StretchDraw(R, WallPic_ld);    // ×ó¡¢ÏÂ
+                                    StretchDraw(R, WallPic_ld);    // å·¦ã€ä¸‹
                                   10:
-                                    StretchDraw(R, WallPic_ud);    // ÉÏ¡¢ÏÂ
+                                    StretchDraw(R, WallPic_ud);    // ä¸Šã€ä¸‹
                                   11:
-                                    StretchDraw(R, WallPic_uld);   // ×ó¡¢ÉÏ¡¢ÏÂ
+                                    StretchDraw(R, WallPic_uld);   // å·¦ã€ä¸Šã€ä¸‹
                                   12:
-                                    StretchDraw(R, WallPic_rd);    // ÓÒ¡¢ÏÂ
+                                    StretchDraw(R, WallPic_rd);    // å³ã€ä¸‹
                                   13:
-                                    StretchDraw(R, WallPic_ldr);   // ×ó¡¢ÓÒ¡¢ÏÂ
+                                    StretchDraw(R, WallPic_ldr);   // å·¦ã€å³ã€ä¸‹
                                   14:
-                                    StretchDraw(R, WallPic_urd);   // ÉÏ¡¢ÓÒ¡¢ÏÂ
+                                    StretchDraw(R, WallPic_urd);   // ä¸Šã€å³ã€ä¸‹
                                   15:
-                                    StretchDraw(R, WallPic_lurd);  // ËÄ·½ÏòÈ«ÓĞ
+                                    StretchDraw(R, WallPic_lurd);  // å››æ–¹å‘å…¨æœ‰
                                   else
                                     StretchDraw(R, WallPic);
                                 end;
@@ -266,7 +266,7 @@ begin
                 if Assigned(Map) then Map.Free;
               end;
 
-              // ²»ºÏ¸ñµÄ¹Ø¿¨
+              // ä¸åˆæ ¼çš„å…³å¡
               if not mapNode.isEligible then begin
                  Pen.Color := $0000ff;
                  Pen.Width := 2;
@@ -276,13 +276,13 @@ begin
                  LineTo(l+Size_Icon, t);
               end;
 
-              // Í¼±êĞòºÅ£¬ÂÌÉ«±³¾°±íÊ¾ÒÑ½â
+              // å›¾æ ‡åºå·ï¼Œç»¿è‰²èƒŒæ™¯è¡¨ç¤ºå·²è§£
               R := Rect(l + 5, t + Size_Icon + 2, l + Size_Icon - 5, t + Size_Icon + 22);
               if (mapNode.isEligible) and (mapNode.Num = 0) then begin
-                 isSolved(mapNode);                                   // ¼ì²éÊÇ·ñÒÑÓĞ´ğ°¸
+                 isSolved(mapNode);                                   // æ£€æŸ¥æ˜¯å¦å·²æœ‰ç­”æ¡ˆ
                  mapNode.Num := -1;
               end;
-              if mapNode.Solved then Brush.Color := clGreen           // ÓĞ´ğ°¸Í¼±êµÄ±³¾°É«
+              if mapNode.Solved then Brush.Color := clGreen           // æœ‰ç­”æ¡ˆå›¾æ ‡çš„èƒŒæ™¯è‰²
               else Brush.Color := BK_Color;
               FillRect(R);
               str := IntToStr(Columns * i + j + 1);
@@ -324,14 +324,14 @@ begin
   if Width  < 600 then Width  := 600;
   if Height < 400 then Height := 400;
 
-  // È·¶¨½çÃæ³ß´ç
+  // ç¡®å®šç•Œé¢å°ºå¯¸
   Image1.Picture := nil;
   Image1.Width  := Panel2.Width;
   Image1.Height := Panel2.Height;
 
-  Columns := Floor(Image1.Width div (Size_Icon + 10));            // Ã¿ĞĞÍ¼±êÊı£¨Ë®Æ½¼ä¸ô 10 ÏñËØ£©
-  TopRow := Tag div Columns;                                      // ¶¥ĞĞ
-  BottomRow := TopRow + Image1.Height div Columns - 1;            // µ×ĞĞ
+  Columns := Floor(Image1.Width div (Size_Icon + 10));            // æ¯è¡Œå›¾æ ‡æ•°ï¼ˆæ°´å¹³é—´éš” 10 åƒç´ ï¼‰
+  TopRow := Tag div Columns;                                      // é¡¶è¡Œ
+  BottomRow := TopRow + Image1.Height div Columns - 1;            // åº•è¡Œ
 
   ScrollBar1.PageSize := 0;
   ScrollBar1.LargeChange := 1;
@@ -341,7 +341,7 @@ begin
   if n > 1 then ScrollBar1.Max := n
   else ScrollBar1.Max := 0;
 
-  pageSize := Floor(Image1.Height div (Size_Icon + 30)) - 1;      // ´¹Ö±¼ä¸ô 30 ÏñËØ
+  pageSize := Floor(Image1.Height div (Size_Icon + 30)) - 1;      // å‚ç›´é—´éš” 30 åƒç´ 
   if pageSize < 0 then pageSize := 0;
   ScrollBar1.PageSize := pageSize;
   ScrollBar1.LargeChange := pageSize;
@@ -350,7 +350,7 @@ begin
   DrawIcon;
 end;
 
-// ¹Ø¿¨ÏêÏ¸×ÊÁÏ
+// å…³å¡è¯¦ç»†èµ„æ–™
 procedure TBrowseForm.ColorBox1Click(Sender: TObject);
 begin
   BK_Color := ColorBox1.Colors[ColorBox1.ItemIndex];
@@ -369,7 +369,7 @@ begin
      n := Length(mapNode.Comment);
      if n = 0 then exit;
      k := 1;
-     // ¼ì²éÊÇ·ñÊÇ¿ÕĞĞ -- ½öÓĞ¿Õ¸ñºÍÌø¸ñ·û
+     // æ£€æŸ¥æ˜¯å¦æ˜¯ç©ºè¡Œ -- ä»…æœ‰ç©ºæ ¼å’Œè·³æ ¼ç¬¦
      while k <= n do begin
        if (mapNode.Comment[k] <> #20) and (mapNode.Comment[k] <> #9) and (mapNode.Comment[k] <> #10) or (mapNode.Comment[k] = '') then Break;
        k := k+1;
@@ -399,7 +399,7 @@ begin
   Delay(10);
   ScrollBar1.Position := ScrollBar1.Position + 1;
   TopRow := ScrollBar1.Position;
-  BottomRow := TopRow + Ceil(Image1.Height div Columns) - 1;          // µ×ĞĞ
+  BottomRow := TopRow + Ceil(Image1.Height div Columns) - 1;          // åº•è¡Œ
   DrawIcon;
   Handled := True;
 end;
@@ -411,7 +411,7 @@ begin
   Delay(10);
   ScrollBar1.Position := ScrollBar1.Position - 1;
   TopRow := ScrollBar1.Position;
-  BottomRow := TopRow + Ceil(Image1.Height div Columns) - 1;          // µ×ĞĞ
+  BottomRow := TopRow + Ceil(Image1.Height div Columns) - 1;          // åº•è¡Œ
   DrawIcon;
   Handled := True;
 end;
@@ -426,13 +426,13 @@ begin
         TopRow := TopRow - pageSize;
         if TopRow < 0 then TopRow := 0;
         ScrollBar1.Position := TopRow;
-        BottomRow := TopRow + Ceil(Image1.Height div Columns) - 1;          // µ×ĞĞ
+        BottomRow := TopRow + Ceil(Image1.Height div Columns) - 1;          // åº•è¡Œ
         DrawIcon;
       end;
     VK_END:                 // End
       begin
         isStop := True;
-        BottomRow := ScrollBar1.Max;                                        // µ×ĞĞ
+        BottomRow := ScrollBar1.Max;                                        // åº•è¡Œ
         TopRow := TopRow - pageSize;
         if TopRow < 0 then TopRow := 0;
         ScrollBar1.Position := TopRow;
@@ -452,18 +452,18 @@ begin
   row := Floor(y div (Size_Icon + 30));
   col := Floor(x div (Size_Icon + 10));
 
-  Tag := Columns * (row + TopRow) + col;       // ±»µã»÷µÄÍ¼±ê
+  Tag := Columns * (row + TopRow) + col;       // è¢«ç‚¹å‡»çš„å›¾æ ‡
 
   if (Tag < 0) or (Tag >= MapList.Count) then Exit;
 
   mapNode := MapList[Tag];
 
-  Caption := myTitle + ', µ±Ç°¹Ø¿¨: ' + IntToStr(Tag+1) + '£¬³ß´ç: ' + IntToStr(mapNode.Cols) + '¡Á' + IntToStr(mapNode.Rows) + '£¬Ïä×Ó: ' + IntToStr(mapNode.Boxs) + '£¬Ä¿±ê: ' + IntToStr(mapNode.Goals) + ', ±êÌâ: ' + mapNode.Title + ',  ×÷Õß: ' + mapNode.Author;
+  Caption := myTitle + ', å½“å‰å…³å¡: ' + IntToStr(Tag+1) + 'ï¼Œå°ºå¯¸: ' + IntToStr(mapNode.Cols) + 'Ã—' + IntToStr(mapNode.Rows) + 'ï¼Œç®±å­: ' + IntToStr(mapNode.Boxs) + 'ï¼Œç›®æ ‡: ' + IntToStr(mapNode.Goals) + ', æ ‡é¢˜: ' + mapNode.Title + ',  ä½œè€…: ' + mapNode.Author;
   //  Caption := Caption + ', R=' + IntToStr(mapNode.CRC_Num);
 
   DrawIcon;
 
-  if Button = mbRight then begin            // µ¥»÷ -- Ö¸ÓÒ¼ü
+  if Button = mbRight then begin            // å•å‡» -- æŒ‡å³é”®
      InfForm.Left := Left + x;
      InfForm.Top  := Top + y;
 
@@ -489,7 +489,7 @@ procedure TBrowseForm.ScrollBar1Change(Sender: TObject);
 begin
   isStop := True;
   TopRow := ScrollBar1.Position;
-  BottomRow := TopRow + Ceil(Image1.Height div Columns) - 1;          // µ×ĞĞ
+  BottomRow := TopRow + Ceil(Image1.Height div Columns) - 1;          // åº•è¡Œ
   DrawIcon;
 end;
 
@@ -506,12 +506,12 @@ begin
   i := FindClipbrd(Tag);
 
   if i < 0 then begin
-     MessageBox(Handle, PChar(IntToStr(Tag+1) + ' ºÅ¹Ø¿¨Ö®ºó£¬Ã»ÓĞÕÒµ½¼ôÇĞ°åÖĞµÄ¹Ø¿¨£¡'), 'ÌáĞÑ', MB_ICONWARNING  + MB_OK);
+     MessageBox(Handle, PChar(IntToStr(Tag+1) + ' å·å…³å¡ä¹‹åï¼Œæ²¡æœ‰æ‰¾åˆ°å‰ªåˆ‡æ¿ä¸­çš„å…³å¡ï¼'), 'æé†’', MB_ICONWARNING  + MB_OK);
   end else begin
      Tag := i;
      DrawIcon;
      FormResize(Sender);
-     MessageBox(Handle, PChar('ÕÒµ½ ' + IntToStr(Tag+1) + ' ºÅ¹Ø¿¨£¡'), 'ºÃÏûÏ¢', MB_ICONINFORMATION  + MB_OK);
+     MessageBox(Handle, PChar('æ‰¾åˆ° ' + IntToStr(Tag+1) + ' å·å…³å¡ï¼'), 'å¥½æ¶ˆæ¯', MB_ICONINFORMATION  + MB_OK);
   end;
 end;
 
@@ -519,22 +519,22 @@ procedure TBrowseForm.sb_DeleteClick(Sender: TObject);
 var
   myXSBFile: Textfile;
   i: Integer;
-  mapNode: PMapNode;               // ¹Ø¿¨½Úµã
+  mapNode: PMapNode;               // å…³å¡èŠ‚ç‚¹
   isOK: Boolean;
 begin
-  if MessageBox(Handle, PChar('É¾³ı ' + IntToStr(Tag+1) + ' ºÅ¹Ø¿¨£¬È·¶¨Âğ£¿'), 'È·¶¨', MB_ICONQUESTION + MB_OKCANCEL) = idOK then begin
+  if MessageBox(Handle, PChar('åˆ é™¤ ' + IntToStr(Tag+1) + ' å·å…³å¡ï¼Œç¡®å®šå—ï¼Ÿ'), 'ç¡®å®š', MB_ICONQUESTION + MB_OKCANCEL) = idOK then begin
     AssignFile(myXSBFile, AppPath + main.mySettings.MapFileName);
 
-    // ±¸·İ
-    if FileExists(AppPath + main.mySettings.MapFileName) then CopyFile(PChar(AppPath + main.mySettings.MapFileName), PChar(AppPath + 'BoxMan.xsb.bak'), False);   // ±¸·İÖÜ×ª¹Ø¿¨¿â
+    // å¤‡ä»½
+    if FileExists(AppPath + main.mySettings.MapFileName) then CopyFile(PChar(AppPath + main.mySettings.MapFileName), PChar(AppPath + 'BoxMan.xsb.bak'), False);   // å¤‡ä»½å‘¨è½¬å…³å¡åº“
 
-    Rewrite(myXSBFile);                                                 // ´´½¨
+    Rewrite(myXSBFile);                                                 // åˆ›å»º
     isOK := False;
 
     try
-      // ÏÈĞ´ÈëĞÂµÄÄÚÈİ
+      // å…ˆå†™å…¥æ–°çš„å†…å®¹
       for i := 0 to MapList.Count - 1 do begin
-        if Tag = i then Continue;   // Ìø¹ıµ±Ç°¹Ø¿¨¼´¿É
+        if Tag = i then Continue;   // è·³è¿‡å½“å‰å…³å¡å³å¯
 
         mapNode := MapList.Items[i];
 
@@ -567,9 +567,9 @@ begin
            curIndex := Tag;
         end;
 
-        myTitle := 'ä¯ÀÀ ~ ¹Ø¿¨×ÜÊı: ' + IntToStr(MapList.Count);
+        myTitle := 'æµè§ˆ ~ å…³å¡æ€»æ•°: ' + IntToStr(MapList.Count);
         mapNode := MapList[Tag];
-        Caption := myTitle + ', µ±Ç°¹Ø¿¨: ' + IntToStr(Tag+1) + '£¬³ß´ç: ' + IntToStr(mapNode.Cols) + '¡Á' + IntToStr(mapNode.Rows) + '£¬Ïä×Ó: ' + IntToStr(mapNode.Boxs) + '£¬Ä¿±ê: ' + IntToStr(mapNode.Goals) + ', ±êÌâ: ' + mapNode.Title + ',  ×÷Õß: ' + mapNode.Author;
+        Caption := myTitle + ', å½“å‰å…³å¡: ' + IntToStr(Tag+1) + 'ï¼Œå°ºå¯¸: ' + IntToStr(mapNode.Cols) + 'Ã—' + IntToStr(mapNode.Rows) + 'ï¼Œç®±å­: ' + IntToStr(mapNode.Boxs) + 'ï¼Œç›®æ ‡: ' + IntToStr(mapNode.Goals) + ', æ ‡é¢˜: ' + mapNode.Title + ',  ä½œè€…: ' + mapNode.Author;
       end;
       mapNode := nil;
       FormResize(Sender);

@@ -1,4 +1,4 @@
-unit inf;
+﻿unit inf;
 
 interface
 
@@ -27,7 +27,7 @@ implementation
 
 procedure TInfForm.FormCreate(Sender: TObject);
 begin
-  Caption := '˵��';
+  Caption := '说明';
 end;
 
 procedure TInfForm.FormDeactivate(Sender: TObject);

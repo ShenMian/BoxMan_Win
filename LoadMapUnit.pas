@@ -1,4 +1,4 @@
-unit LoadMapUnit;    // ¹Ø¿¨ÎÄ±¾½âÎöµ¥Ôª
+ï»¿unit LoadMapUnit;    // å…³å¡æ–‡æœ¬è§£æå•å…ƒ
 
 interface
 
@@ -6,39 +6,39 @@ uses
   windows, classes, StrUtils, SysUtils, Clipbrd, Math, CRC_32, SQLiteTable3, Board;
 
 type
-  TLoadMapThread = class(TThread)         // ½âÎö²¢¼ÓÔØÈ«²¿¹Ø¿¨µÄºóÌ¨Ïß³Ì
+  TLoadMapThread = class(TThread)         // è§£æå¹¶åŠ è½½å…¨éƒ¨å…³å¡çš„åå°çº¿ç¨‹
   protected
     procedure Execute; override;
   public
   end;
 
-  TLoadAnsThread = class(TThread)         // µ¼Èë´ğ°¸µÄºóÌ¨Ïß³Ì
+  TLoadAnsThread = class(TThread)         // å¯¼å…¥ç­”æ¡ˆçš„åå°çº¿ç¨‹
   protected
     procedure UpdateCaption;
     procedure Execute; override;
   public
   end;
 
-  function LoadMapsFromTextList(data_Text: TStringList; isAns: Boolean): boolean;           // ¼ÓÔØ¹Ø¿¨ -- ´Ó TStringList ÖĞ£¬isAns -- ÊÇ·ñ¼ÓÔØ´ğ°¸
-  procedure QuicklyLoadMap(data_Text: TStringList; number: Integer; var curMap: PMapNode);  // Ñ¸ËÙµÄ¼ÓÔØÖ¸¶¨ĞòºÅ number µÄ¹Ø¿¨
-  function GetMapNumber(data_Text: TStringList): Integer;              // È¡µÃ¹Ø¿¨Êı
-  function FindClipbrd(num: Integer): Integer;                         // ÔÚ¹Ø¿¨ÁĞ±íÖĞ£¬²éÕÒ¼ôÇĞ°åÖĞµÄ¹Ø¿¨£¬·µ»ØÕÒµ½µÄĞòºÅ£¬Ã»ÕÒµ½Ôò·µ»Ø -1
-  function MapNormalize(var mapNode: PMapNode): Boolean;               // µØÍ¼±ê×¼»¯£¬°üÀ¨£º¼òµ¥±ê×¼»¯ -- ±£Áô¹Ø¿¨µÄÇ½ÍâÔìĞÍ£»¾«×¼±ê×¼»¯ -- ²»±£Áô¹Ø¿¨µÄÇ½ÍâÔìĞÍ£¬Í¬Ê±¼ÆËã CRC µÈ
-  function isSolution(mapNode: PMapNode; sol: PChar): Boolean;         // ´ğ°¸ÑéÖ¤
-  procedure MyStringListFree(var _StringList_: TStringList);           // ÊÍ·Å TStringList µÄÄÚ´æ
-  procedure MyListClear(var _List_: TList);                            // Çå¿Õ¹Ø¿¨ÁĞ±í
-  function GetXSB(mapNpde: PMapNode): string;                          // È¡µÃ¹Ø¿¨ XSB
-  function GetXSB_2: string;                                           // È¡µÃÏÖ³¡ XSB
-  procedure XSBToClipboard();                                          // XSB ËÍÈë¼ôÇĞ°å
-  procedure XSBToClipboard_2();                                        // ÏÖ³¡ XSB ËÍÈë¼ôÇĞ°å
-  procedure Split(src: string; var myList: TStringList);               // ·Ö¸î×Ö·û´®
-  procedure MyMapNodeFree(_Node_: PMapNode);                           // ÊÍ·Å PMapNode µÄÄÚ´æ
+  function LoadMapsFromTextList(data_Text: TStringList; isAns: Boolean): boolean;           // åŠ è½½å…³å¡ -- ä» TStringList ä¸­ï¼ŒisAns -- æ˜¯å¦åŠ è½½ç­”æ¡ˆ
+  procedure QuicklyLoadMap(data_Text: TStringList; number: Integer; var curMap: PMapNode);  // è¿…é€Ÿçš„åŠ è½½æŒ‡å®šåºå· number çš„å…³å¡
+  function GetMapNumber(data_Text: TStringList): Integer;              // å–å¾—å…³å¡æ•°
+  function FindClipbrd(num: Integer): Integer;                         // åœ¨å…³å¡åˆ—è¡¨ä¸­ï¼ŒæŸ¥æ‰¾å‰ªåˆ‡æ¿ä¸­çš„å…³å¡ï¼Œè¿”å›æ‰¾åˆ°çš„åºå·ï¼Œæ²¡æ‰¾åˆ°åˆ™è¿”å› -1
+  function MapNormalize(var mapNode: PMapNode): Boolean;               // åœ°å›¾æ ‡å‡†åŒ–ï¼ŒåŒ…æ‹¬ï¼šç®€å•æ ‡å‡†åŒ– -- ä¿ç•™å…³å¡çš„å¢™å¤–é€ å‹ï¼›ç²¾å‡†æ ‡å‡†åŒ– -- ä¸ä¿ç•™å…³å¡çš„å¢™å¤–é€ å‹ï¼ŒåŒæ—¶è®¡ç®— CRC ç­‰
+  function isSolution(mapNode: PMapNode; sol: PChar): Boolean;         // ç­”æ¡ˆéªŒè¯
+  procedure MyStringListFree(var _StringList_: TStringList);           // é‡Šæ”¾ TStringList çš„å†…å­˜
+  procedure MyListClear(var _List_: TList);                            // æ¸…ç©ºå…³å¡åˆ—è¡¨
+  function GetXSB(mapNpde: PMapNode): string;                          // å–å¾—å…³å¡ XSB
+  function GetXSB_2: string;                                           // å–å¾—ç°åœº XSB
+  procedure XSBToClipboard();                                          // XSB é€å…¥å‰ªåˆ‡æ¿
+  procedure XSBToClipboard_2();                                        // ç°åœº XSB é€å…¥å‰ªåˆ‡æ¿
+  procedure Split(src: string; var myList: TStringList);               // åˆ†å‰²å­—ç¬¦ä¸²
+  procedure MyMapNodeFree(_Node_: PMapNode);                           // é‡Šæ”¾ PMapNode çš„å†…å­˜
 
 var
-  MapList: TList;                          // ¹Ø¿¨ÁĞ±í
+  MapList: TList;                          // å…³å¡åˆ—è¡¨
 
-  isStopThread: Boolean;                   // ÊÇ·ñÖÕÖ¹ºóÌ¨Ïß³Ì
-  isStopThread_Ans: Boolean;               // ÊÇ·ñÖÕÖ¹ºóÌ¨Ïß³Ì
+  isStopThread: Boolean;                   // æ˜¯å¦ç»ˆæ­¢åå°çº¿ç¨‹
+  isStopThread_Ans: Boolean;               // æ˜¯å¦ç»ˆæ­¢åå°çº¿ç¨‹
 
 implementation
 
@@ -55,22 +55,22 @@ const
   ManCell = 6;
   ManGoalCell = 7;
 
-  // ËÄÁÚ³£Á¿£º×ó¡¢ÓÒ¡¢ÉÏ¡¢ÏÂ
+  // å››é‚»å¸¸é‡ï¼šå·¦ã€å³ã€ä¸Šã€ä¸‹
   dr4 : array[0..3] of Integer = (  0, 0, -1, 1 );
   dc4 : array[0..3] of Integer = ( -1, 1,  0, 0 );
 
 var
-  pt: array[0..9999] of Integer;        // ÔÚ¡°¹Ø¿¨±ê×¼»¯¹¦ÄÜÖĞ£¬ÓÃÊı×éÌæ´ú¡°¶ÓÁĞ¡±
-  MapCount: Integer;                    // ÒÑ¾­½âÎö³öÀ´µÄ¹Ø¿¨Êı
-  sMoves, sPushs: integer;              // ÑéÖ¤´ğ°¸Ê±£¬¼ÇÂ¼ÒÆ¶¯ÊıºÍÍÆ¶¯Êı
-  sumSolution: Integer;                 // ³É¹¦µ¼ÈëµÄ´ğ°¸¸öÊı
+  pt: array[0..9999] of Integer;        // åœ¨â€œå…³å¡æ ‡å‡†åŒ–åŠŸèƒ½ä¸­ï¼Œç”¨æ•°ç»„æ›¿ä»£â€œé˜Ÿåˆ—â€
+  MapCount: Integer;                    // å·²ç»è§£æå‡ºæ¥çš„å…³å¡æ•°
+  sMoves, sPushs: integer;              // éªŒè¯ç­”æ¡ˆæ—¶ï¼Œè®°å½•ç§»åŠ¨æ•°å’Œæ¨åŠ¨æ•°
+  sumSolution: Integer;                 // æˆåŠŸå¯¼å…¥çš„ç­”æ¡ˆä¸ªæ•°
 
-  MapArray: array[0..99, 0..99] of Char;   // ±ê×¼»¯ÓÃ¹Ø¿¨Êı×é
-  Mark: array[0..99, 0..99] of Boolean;    // ±ê×¼»¯ÓÃ±êÖ¾Êı×é
+  MapArray: array[0..99, 0..99] of Char;   // æ ‡å‡†åŒ–ç”¨å…³å¡æ•°ç»„
+  Mark: array[0..99, 0..99] of Boolean;    // æ ‡å‡†åŒ–ç”¨æ ‡å¿—æ•°ç»„
 
-  tmp_Board: array[0..9999] of integer;    // ÁÙÊ±µØÍ¼
+  tmp_Board: array[0..9999] of integer;    // ä¸´æ—¶åœ°å›¾
 
-  // ±ê×¼»¯ÓÃ¹Ø¿¨Êı×é
+  // æ ‡å‡†åŒ–ç”¨å…³å¡æ•°ç»„
   aMap0: array[0..99, 0..99] of Char;
   aMap1: array[0..99, 0..99] of Char;
   aMap2: array[0..99, 0..99] of Char;
@@ -82,7 +82,7 @@ var
 
   xbsChar: array[0..7] of Char = ( '_', '#', '-', '.', '$', '*', '@', '+' );
 
-  // ÊÍ·Å TStringList µÄÄÚ´æ
+  // é‡Šæ”¾ TStringList çš„å†…å­˜
 procedure MyStringListFree(var _StringList_: TStringList);
 begin
   if Assigned(_StringList_) then begin
@@ -91,7 +91,7 @@ begin
   end;
 end;
 
-// ÊÍ·Å PMapNode µÄÄÚ´æ
+// é‡Šæ”¾ PMapNode çš„å†…å­˜
 procedure MyMapNodeFree(_Node_: PMapNode);
 begin
   if Assigned(_Node_) then begin
@@ -100,7 +100,7 @@ begin
   end;
 end;
 
-// PMapNode ³õÊ¼»¯
+// PMapNode åˆå§‹åŒ–
 procedure MyMapNodeInit(var _Node_: PMapNode);
 begin
   if Assigned(_Node_) then begin
@@ -122,7 +122,7 @@ begin
   end;
 end;
 
-// Çå¿Õ¹Ø¿¨ÁĞ±í£¨TListÀàĞÍ£©
+// æ¸…ç©ºå…³å¡åˆ—è¡¨ï¼ˆTListç±»å‹ï¼‰
 procedure MyListClear(var _List_: TList);
 var
   i, len: Integer;
@@ -140,7 +140,7 @@ begin
   end;
 end;
 
-// È¡µÃ×Ó´®×îºó³öÏÖµÄÎ»ÖÃ
+// å–å¾—å­ä¸²æœ€åå‡ºç°çš„ä½ç½®
 function LastPos(const SubStr, Str: ansistring): Integer;
 var
   Idx: Integer;
@@ -154,7 +154,7 @@ begin
   end;
 end;
 
-// ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§µÄ Lurd ĞĞ
+// åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆçš„ Lurd è¡Œ
 function isLurd(str: String; is_BK: Boolean = False): boolean;
 var
   n, k: Integer;
@@ -175,7 +175,7 @@ begin
   result := k > n;
 end;
 
-// ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§µÄ Lurd ĞĞ
+// åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆçš„ Lurd è¡Œ
 function isLurd_2(str: String): boolean;
 var
   n, k: Integer;
@@ -196,7 +196,7 @@ begin
   result := k > n;
 end;
 
-// ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§µÄ XSB ĞĞ
+// åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆçš„ XSB è¡Œ
 function isXSB(str: string): boolean;
 var
   n, k: Integer;
@@ -208,7 +208,7 @@ begin
   if n = 0 then exit;
 
   k := 1;
-  // ¼ì²éÊÇ·ñÊÇ¿ÕĞĞ -- ½öÓĞ¿Õ¸ñºÍÌø¸ñ·û
+  // æ£€æŸ¥æ˜¯å¦æ˜¯ç©ºè¡Œ -- ä»…æœ‰ç©ºæ ¼å’Œè·³æ ¼ç¬¦
   while k <= n do begin
     if (str[k] <> #20) and (str[k] <> #9) or (str[k] = '') then Break;
     k := k+1;
@@ -224,7 +224,7 @@ begin
   result := k > n;
 end;
 
-// ´ğ°¸ÑéÖ¤
+// ç­”æ¡ˆéªŒè¯
 function isSolution(mapNode: PMapNode; sol: PChar): Boolean;
 var
   i, j, len, mpos, pos1, pos2, okNum, size, Rows, Cols: Integer;
@@ -240,7 +240,7 @@ begin
     Map.Delimiter := #10;
     Map.DelimitedText := mapNode.Map;
 
-    // ÁÙÊ±µØÍ¼¸´Î»
+    // ä¸´æ—¶åœ°å›¾å¤ä½
     mpos := -1;
     Rows := mapNode.Rows;
     Cols := mapNode.Cols;
@@ -279,7 +279,7 @@ begin
   sPushs := 0;
   sMoves := 0;
 
-  // ´ğ°¸ÑéÖ¤
+  // ç­”æ¡ˆéªŒè¯
   len := Length(sol);
   for i := 0 to len - 1 do begin
     pos1 := -1;
@@ -308,7 +308,7 @@ begin
         end;
     end;
 
-    if (pos1 < 0) or (pos1 >= size) then   // pos1 ½çÍâ
+    if (pos1 < 0) or (pos1 >= size) then   // pos1 ç•Œå¤–
        Exit;
 
     isPush := False;
@@ -317,32 +317,32 @@ begin
     end else if tmp_Board[pos1] = GoalCell then begin
        tmp_Board[pos1] := ManGoalCell;
     end else if tmp_Board[pos1] = BoxCell then begin
-       if (pos2 < 0) or (pos2 >= size) then // pos2 ½çÍâ
+       if (pos2 < 0) or (pos2 >= size) then // pos2 ç•Œå¤–
           Exit;
 
        if tmp_Board[pos2] = FloorCell then begin
           tmp_Board[pos2] := BoxCell;
        end else if tmp_Board[pos2] = GoalCell then begin
           tmp_Board[pos2] := BoxGoalCell;
-       end else Exit;                       // ´íÎó
+       end else Exit;                       // é”™è¯¯
 
        tmp_Board[pos1] := ManCell;
 
        isPush := True;
     end else if tmp_Board[pos1] = BoxGoalCell then begin
-       if (pos2 < 0) or (pos2 >= size) then // pos2 ½çÍâ
+       if (pos2 < 0) or (pos2 >= size) then // pos2 ç•Œå¤–
           Exit;
           
        if tmp_Board[pos2] = FloorCell then begin
           tmp_Board[pos2] := BoxCell;
        end else if tmp_Board[pos2] = GoalCell then begin
           tmp_Board[pos2] := BoxGoalCell;
-       end else Exit;                       // ´íÎó
+       end else Exit;                       // é”™è¯¯
 
        tmp_Board[pos1] := ManGoalCell;
 
        isPush := True;
-    end else Exit;;                        // ´íÎó
+    end else Exit;;                        // é”™è¯¯
 
     if tmp_Board[mpos] = ManCell then
       tmp_Board[mpos] := FloorCell
@@ -359,7 +359,7 @@ begin
       if (tmp_Board[j] = BoxGoalCell) then
         okNum := okNum+1;
 
-      if okNum = mapNode.Boxs then begin                     // ÄÜ¹»½â¹Ø£¬ÎªÓĞĞ§´ğ°¸
+      if okNum = mapNode.Boxs then begin                     // èƒ½å¤Ÿè§£å…³ï¼Œä¸ºæœ‰æ•ˆç­”æ¡ˆ
         Result := True;
         Exit;
       end;
@@ -369,19 +369,19 @@ begin
   Result := False;
 end;
 
-// ´´½¨ĞÂµÄ¹Ø¿¨½Úµã
+// åˆ›å»ºæ–°çš„å…³å¡èŠ‚ç‚¹
 procedure NewMapNode(var mpList: TList);
 var
-  mapNode: PMapNode;               // ¹Ø¿¨½Úµã
+  mapNode: PMapNode;               // å…³å¡èŠ‚ç‚¹
 begin
   New(mapNode);
   MyMapNodeInit(mapNode);
 
-  mpList.Add(mapNode);          // ¼ÓÈë¹Ø¿¨¼¯ÁĞ±í
+  mpList.Add(mapNode);          // åŠ å…¥å…³å¡é›†åˆ—è¡¨
   mapNode := nil;
 end;
 
-// Ô­Ê¼ XSB ËÍÈë¼ôÇĞ°å
+// åŸå§‹ XSB é€å…¥å‰ªåˆ‡æ¿
 procedure XSBToClipboard();
 begin
   if Assigned(curMapNode) and (curMapNode.Rows > 0) then
@@ -390,7 +390,7 @@ begin
   end;
 end;
 
-// ÏÖ³¡ XSB ËÍÈë¼ôÇĞ°å
+// ç°åœº XSB é€å…¥å‰ªåˆ‡æ¿
 procedure XSBToClipboard_2();
 begin
   if Assigned(curMapNode) and (curMapNode.Rows > 0) then
@@ -399,7 +399,7 @@ begin
   end;
 end;
 
-// µ¼Èë´ğ°¸Èë´ğ°¸¿â
+// å¯¼å…¥ç­”æ¡ˆå…¥ç­”æ¡ˆåº“
 procedure SetSolved(mapNode: PMapNode; var Solitions: TStringList);
 var
   sldb: TSQLiteDatabase;
@@ -415,12 +415,12 @@ begin
 
   try
     if sldb.TableExists('Tab_Solution') then begin
-      // Èô½âÎöµ½ÁË´ğ°¸£¬ÔòÑéÖ¤´ğ°¸²¢½«´ğ°¸Èë¿â
+      // è‹¥è§£æåˆ°äº†ç­”æ¡ˆï¼Œåˆ™éªŒè¯ç­”æ¡ˆå¹¶å°†ç­”æ¡ˆå…¥åº“
       if Solitions.Count > 0 then begin
         l := Solitions.Count;
         for i := l - 1 downto 0 do begin
-          if isSolution(mapNode, PChar(Solitions[i])) then begin       // ¶Ô´ğ°¸½øĞĞÑéÖ¤
-            // ±£´æ´ğ°¸µ½Êı¾İ¿â
+          if isSolution(mapNode, PChar(Solitions[i])) then begin       // å¯¹ç­”æ¡ˆè¿›è¡ŒéªŒè¯
+            // ä¿å­˜ç­”æ¡ˆåˆ°æ•°æ®åº“
             sSQL := 'select * from Tab_Solution where XSB_CRC32 = ' + IntToStr(mapNode.CRC32) + ' and Goals = ' + IntToStr(mapNode.Boxs);
             sltb := slDb.GetTable(sSQL);
 
@@ -434,7 +434,7 @@ begin
                 sltb.Next;
               end;
 
-              // Ã»ÓĞÖØ¸´´ğ°¸£¬ÔòÌí¼Óµ½´ğ°¸¿â
+              // æ²¡æœ‰é‡å¤ç­”æ¡ˆï¼Œåˆ™æ·»åŠ åˆ°ç­”æ¡ˆåº“
               if sltb.EOF then begin
                  sldb.BeginTransaction;
 
@@ -453,7 +453,7 @@ begin
                  sldb.ExecSQL(sSQL);
 
                  sldb.Commit;
-                 sumSolution := sumSolution + 1;           // ³É¹¦µ¼ÈëµÄ´ğ°¸¸öÊı
+                 sumSolution := sumSolution + 1;           // æˆåŠŸå¯¼å…¥çš„ç­”æ¡ˆä¸ªæ•°
               end;
             finally
               sltb.free;
@@ -468,7 +468,7 @@ begin
 
       if is_Solved then mapNode.Solved := is_Solved
       else begin
-        // Êı¾İ¿âÖĞÊÇ·ñÓĞ½â
+        // æ•°æ®åº“ä¸­æ˜¯å¦æœ‰è§£
         sSQL := 'select id from Tab_Solution where XSB_CRC32 = ' + IntToStr(mapNode.CRC32) + ' and Goals = ' + IntToStr(mapNode.Boxs);
         sltb := slDb.GetTable(sSQL);
         try
@@ -484,7 +484,7 @@ begin
   end;
 end;
 
-// µ¼Èë´ğ°¸Èë´ğ°¸¿â -- µ¼Èë´ğ°¸Ïß³Ì×¨ÓÃ£¬±ÜÃâÏß³Ì¼ä³åÍ»
+// å¯¼å…¥ç­”æ¡ˆå…¥ç­”æ¡ˆåº“ -- å¯¼å…¥ç­”æ¡ˆçº¿ç¨‹ä¸“ç”¨ï¼Œé¿å…çº¿ç¨‹é—´å†²çª
 procedure SetSolved_2(mapNode: PMapNode; var Solitions: TStringList);
 var
   sldb: TSQLiteDatabase;
@@ -500,12 +500,12 @@ begin
 
   try
     if sldb.TableExists('Tab_Solution') then begin
-      // Èô½âÎöµ½ÁË´ğ°¸£¬ÔòÑéÖ¤´ğ°¸²¢½«´ğ°¸Èë¿â
+      // è‹¥è§£æåˆ°äº†ç­”æ¡ˆï¼Œåˆ™éªŒè¯ç­”æ¡ˆå¹¶å°†ç­”æ¡ˆå…¥åº“
       if Solitions.Count > 0 then begin
         l := Solitions.Count;
         for i := l - 1 downto 0 do begin
-          if isSolution(mapNode, PChar(Solitions[i])) then begin       // ¶Ô´ğ°¸½øĞĞÑéÖ¤
-            // ±£´æ´ğ°¸µ½Êı¾İ¿â
+          if isSolution(mapNode, PChar(Solitions[i])) then begin       // å¯¹ç­”æ¡ˆè¿›è¡ŒéªŒè¯
+            // ä¿å­˜ç­”æ¡ˆåˆ°æ•°æ®åº“
             sSQL := 'select * from Tab_Solution where XSB_CRC32 = ' + IntToStr(mapNode.CRC32) + ' and Goals = ' + IntToStr(mapNode.Boxs);
             sltb := slDb.GetTable(sSQL);
 
@@ -519,7 +519,7 @@ begin
                 sltb.Next;
               end;
 
-              // Ã»ÓĞÖØ¸´´ğ°¸£¬ÔòÌí¼Óµ½´ğ°¸¿â
+              // æ²¡æœ‰é‡å¤ç­”æ¡ˆï¼Œåˆ™æ·»åŠ åˆ°ç­”æ¡ˆåº“
               if sltb.EOF then begin
                  sldb.BeginTransaction;
 
@@ -538,7 +538,7 @@ begin
                  sldb.ExecSQL(sSQL);
 
                  sldb.Commit;
-                 sumSolution := sumSolution + 1;           // ³É¹¦µ¼ÈëµÄ´ğ°¸¸öÊı
+                 sumSolution := sumSolution + 1;           // æˆåŠŸå¯¼å…¥çš„ç­”æ¡ˆä¸ªæ•°
               end;
             finally
               sltb.free;
@@ -553,7 +553,7 @@ begin
 
       if is_Solved then mapNode.Solved := is_Solved
       else begin
-        // Êı¾İ¿âÖĞÊÇ·ñÓĞ½â
+        // æ•°æ®åº“ä¸­æ˜¯å¦æœ‰è§£
         sSQL := 'select id from Tab_Solution where XSB_CRC32 = ' + IntToStr(mapNode.CRC32) + ' and Goals = ' + IntToStr(mapNode.Boxs);
         sltb := slDb.GetTable(sSQL);
         try
@@ -569,13 +569,13 @@ begin
   end;
 end;
 
-// Ñ¸ËÙ¼ÓÔØÖ¸¶¨ĞòºÅµÄ¹Ø¿¨
+// è¿…é€ŸåŠ è½½æŒ‡å®šåºå·çš„å…³å¡
 procedure QuicklyLoadMap(data_Text: TStringList; number: Integer; var curMap: PMapNode);
 var
   line, line2: string;
-  is_XSB: Boolean;                 // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨XSB
-  is_Comment: Boolean;             // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨ËµÃ÷ĞÅÏ¢
-  n, k, len, num: Integer;         // XSBµÄ½âÎö¿ØÖÆ
+  is_XSB: Boolean;                 // æ˜¯å¦æ­£åœ¨è§£æå…³å¡XSB
+  is_Comment: Boolean;             // æ˜¯å¦æ­£åœ¨è§£æå…³å¡è¯´æ˜ä¿¡æ¯
+  n, k, len, num: Integer;         // XSBçš„è§£ææ§åˆ¶
 begin
   MyMapNodeInit(curMap);
 
@@ -590,28 +590,28 @@ begin
     line2 := Trim(line);
     k := k+1;
 
-    if (not is_Comment) and isXSB(line) then begin       // ¼ì²éÊÇ·ñÎª XSB ĞĞ
-      if not is_XSB then begin     // ¿ªÊ¼ XSB ¿é
+    if (not is_Comment) and isXSB(line) then begin       // æ£€æŸ¥æ˜¯å¦ä¸º XSB è¡Œ
+      if not is_XSB then begin     // å¼€å§‹ XSB å—
 
         if (curMap.Rows > 2) or (num = 0) then
-           num := num+1;     // Óöµ½µÄµÚ num ¸ö XSB ¿é
+           num := num+1;     // é‡åˆ°çš„ç¬¬ num ä¸ª XSB å—
 
         if num > number then  Break;
 
-        is_XSB := True;    // ¿ªÊ¼¹Ø¿¨ XSB ¿é
+        is_XSB := True;    // å¼€å§‹å…³å¡ XSB å—
         is_Comment := False;
         MyMapNodeInit(curMap);
         curMap.Num := num;
       end;
 
       if num = number then begin
-         curMap.Map := curMap.Map + line + #10;      // ¸÷ XSB ĞĞ
+         curMap.Map := curMap.Map + line + #10;      // å„ XSB è¡Œ
       end;
       curMap.Rows := curMap.Rows+1;
       n := Length(line);
       if curMap.Cols < n then curMap.Cols := n;
     end
-    else if (not is_Comment) and (AnsiStartsText('title', line2)) and (curMap.Title = '') then begin   // Æ¥Åä Title£¬±êÌâ
+    else if (not is_Comment) and (AnsiStartsText('title', line2)) and (curMap.Title = '') then begin   // åŒ¹é… Titleï¼Œæ ‡é¢˜
       if num = number then begin
          n := Pos(':', line2);
          if n > 0 then
@@ -620,9 +620,9 @@ begin
             curMap.Title := trim(Copy(line2, 6, MaxInt));
       end;
 
-      if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+      if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
     end
-    else if (not is_Comment) and (AnsiStartsText('author', line2)) and (curMap.Author = '') then begin  // Æ¥Åä Author£¬×÷Õß
+    else if (not is_Comment) and (AnsiStartsText('author', line2)) and (curMap.Author = '') then begin  // åŒ¹é… Authorï¼Œä½œè€…
       if num = number then begin
          n := Pos(':', line2);
          if n > 0 then
@@ -631,13 +631,13 @@ begin
            curMap.Author := trim(Copy(line2, 7, MaxInt));
       end;
 
-      if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+      if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
     end
-    else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // Æ¥Åä"×¢ÊÍ"¿é½áÊø
-      is_Comment := False;   // ½áÊø"×¢ÊÍ"¿é
+    else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // åŒ¹é…"æ³¨é‡Š"å—ç»“æŸ
+      is_Comment := False;   // ç»“æŸ"æ³¨é‡Š"å—
     end
-    else if AnsiStartsText('comment', line2) and (curMap.Comment = '') then begin  //Æ¥Åä"×¢ÊÍ"¿é¿ªÊ¼
-      if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+    else if AnsiStartsText('comment', line2) and (curMap.Comment = '') then begin  //åŒ¹é…"æ³¨é‡Š"å—å¼€å§‹
+      if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
       n := Pos(':', line2);
       if n > 0 then
         line := trim(Copy(line2, n + 1, MaxInt))
@@ -646,12 +646,12 @@ begin
 
       if Length(line) > 0 then begin
         if num = number then
-          curMap.Comment := line;     // µ¥ĞĞ"×¢ÊÍ"
+          curMap.Comment := line;     // å•è¡Œ"æ³¨é‡Š"
       end
       else
-        is_Comment := True;          // ¶àĞĞ"×¢ÊÍ"¿é
+        is_Comment := True;          // å¤šè¡Œ"æ³¨é‡Š"å—
     end
-    else if is_Comment then begin  // "ËµÃ÷"ĞÅÏ¢
+    else if is_Comment then begin  // "è¯´æ˜"ä¿¡æ¯
       if num = number then begin
         if Length(curMap.Comment) > 0 then
           curMap.Comment := curMap.Comment + #10 + line
@@ -660,11 +660,11 @@ begin
       end;
     end
     else begin
-      if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXB¿éµÄ½âÎö
+      if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBå—çš„è§£æ
     end;
   end;
 
-  // ¼ì²é×îºóµÄ½Úµã£¬ÈôÃ»ÓĞ XSB Êı¾İ£¬Ôò½«ÆäÉ¾³ı
+  // æ£€æŸ¥æœ€åçš„èŠ‚ç‚¹ï¼Œè‹¥æ²¡æœ‰ XSB æ•°æ®ï¼Œåˆ™å°†å…¶åˆ é™¤
   if (curMap.Rows > 2) then begin
      MapNormalize(curMap);
   end else begin
@@ -674,13 +674,13 @@ begin
   line2 := '';
 end;
 
-// È¡µÃ°üº¬µÄ¹Ø¿¨×ÜÊı
+// å–å¾—åŒ…å«çš„å…³å¡æ€»æ•°
 function GetMapNumber(data_Text: TStringList): Integer;
 var
   line, line2: string;
-  is_XSB: Boolean;                 // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨XSB
-  is_Comment: Boolean;             // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨ËµÃ÷ĞÅÏ¢
-  n, k, len, Rows: Integer;        // XSBµÄ½âÎö¿ØÖÆ
+  is_XSB: Boolean;                 // æ˜¯å¦æ­£åœ¨è§£æå…³å¡XSB
+  is_Comment: Boolean;             // æ˜¯å¦æ­£åœ¨è§£æå…³å¡è¯´æ˜ä¿¡æ¯
+  n, k, len, Rows: Integer;        // XSBçš„è§£ææ§åˆ¶
 begin
   Result := 0;
 
@@ -698,17 +698,17 @@ begin
       line2 := Trim(line);
       k := k+1;
 
-      if (not is_Comment) and isXSB(line) then begin       // ¼ì²éÊÇ·ñÎª XSB ĞĞ
-        if not is_XSB then begin     // ¿ªÊ¼ XSB ¿é
+      if (not is_Comment) and isXSB(line) then begin       // æ£€æŸ¥æ˜¯å¦ä¸º XSB è¡Œ
+        if not is_XSB then begin     // å¼€å§‹ XSB å—
 
           if (Rows > 2) or (Result = 0) then
-             Result := Result+1;     // Óöµ½µÄµÚ num ¸ö XSB ¿é
+             Result := Result+1;     // é‡åˆ°çš„ç¬¬ num ä¸ª XSB å—
 
           if Result >= MaxInt then begin
              Break;
           end;
 
-          is_XSB := True;    // ¿ªÊ¼¹Ø¿¨ XSB ¿é            
+          is_XSB := True;    // å¼€å§‹å…³å¡ XSB å—            
           is_Comment := False;
           Rows := 0;
         end;
@@ -716,28 +716,28 @@ begin
         Rows := Rows+1;
 
       end
-      else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // Æ¥Åä"×¢ÊÍ"¿é½áÊø
-        is_Comment := False;   // ½áÊø"×¢ÊÍ"¿é
+      else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // åŒ¹é…"æ³¨é‡Š"å—ç»“æŸ
+        is_Comment := False;   // ç»“æŸ"æ³¨é‡Š"å—
       end
-      else if AnsiStartsText('comment', line2) then begin  //Æ¥Åä"×¢ÊÍ"¿é¿ªÊ¼
-        if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+      else if AnsiStartsText('comment', line2) then begin  //åŒ¹é…"æ³¨é‡Š"å—å¼€å§‹
+        if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
         n := Pos(':', line2);
         if n > 0 then
           line := trim(Copy(line2, n + 1, MaxInt))
         else
           line := trim(Copy(line2, 8, MaxInt));
 
-        if Length(line) <= 0 then is_Comment := True;          // ¶àĞĞ"×¢ÊÍ"¿é
+        if Length(line) <= 0 then is_Comment := True;          // å¤šè¡Œ"æ³¨é‡Š"å—
       end
-      else if is_Comment then begin  // "ËµÃ÷"ĞÅÏ¢
+      else if is_Comment then begin  // "è¯´æ˜"ä¿¡æ¯
       end
       else begin
-        if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXB¿éµÄ½âÎö
+        if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBå—çš„è§£æ
       end;
     end;
 
   finally
-    // ¼ì²é×îºóµÄ½Úµã£¬ÈôÃ»ÓĞ XSB Êı¾İ£¬Ôò½«ÆäÉ¾³ı
+    // æ£€æŸ¥æœ€åçš„èŠ‚ç‚¹ï¼Œè‹¥æ²¡æœ‰ XSB æ•°æ®ï¼Œåˆ™å°†å…¶åˆ é™¤
     if (Rows < 3) then begin
        Result := Result - 1;
     end;
@@ -746,7 +746,7 @@ begin
   end;
 end;
 
-// ·Ö¸î×Ö·û´®
+// åˆ†å‰²å­—ç¬¦ä¸²
 procedure Split(src: string; var myList: TStringList);
 var
   i: integer;
@@ -775,16 +775,16 @@ begin
   str := '';
 end;
 
-// ½âÎö TStringList ÖĞµÄ¹Ø¿¨ĞÅÏ¢
+// è§£æ TStringList ä¸­çš„å…³å¡ä¿¡æ¯
 function LoadMapsFromTextList(data_Text: TStringList; isAns: Boolean): boolean;
 var
   line, line2: string;
-  is_XSB: Boolean;                 // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨XSB
-  is_Solution: Boolean;            // ÊÇ·ñ´ğ°¸ĞĞ
-  is_Comment: Boolean;             // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨ËµÃ÷ĞÅÏ¢
-  num, n, k, len: Integer;         // XSBµÄ½âÎö¿ØÖÆ
-  mapNode: PMapNode;               // ½âÎö³öµÄµ±Ç°¹Ø¿¨½ÚµãÖ¸Õë
-  mapSolution: TStringList;        // ¹Ø¿¨´ğ°¸
+  is_XSB: Boolean;                 // æ˜¯å¦æ­£åœ¨è§£æå…³å¡XSB
+  is_Solution: Boolean;            // æ˜¯å¦ç­”æ¡ˆè¡Œ
+  is_Comment: Boolean;             // æ˜¯å¦æ­£åœ¨è§£æå…³å¡è¯´æ˜ä¿¡æ¯
+  num, n, k, len: Integer;         // XSBçš„è§£ææ§åˆ¶
+  mapNode: PMapNode;               // è§£æå‡ºçš„å½“å‰å…³å¡èŠ‚ç‚¹æŒ‡é’ˆ
+  mapSolution: TStringList;        // å…³å¡ç­”æ¡ˆ
 begin
   Result := False;
 
@@ -796,8 +796,8 @@ begin
 
     try
 
-      NewMapNode(MapList);                // ÏÈ´´½¨Ò»¸ö¹Ø¿¨½Úµã
-      mapNode := MapList.Items[0];        // Ö¸Ïò×îĞÂ´´½¨µÄ½Úµã
+      NewMapNode(MapList);                // å…ˆåˆ›å»ºä¸€ä¸ªå…³å¡èŠ‚ç‚¹
+      mapNode := MapList.Items[0];        // æŒ‡å‘æœ€æ–°åˆ›å»ºçš„èŠ‚ç‚¹
       is_XSB := False;
       is_Comment := False;
       is_Solution := False;
@@ -807,54 +807,54 @@ begin
       len := data_Text.Count;
       while k < len do begin
 
-        line := data_Text.Strings[k];     // ¶ÁÈ¡Ò»ĞĞ
+        line := data_Text.Strings[k];     // è¯»å–ä¸€è¡Œ
         k := k+1;
         line2 := Trim(line);
 
-        if (not is_Comment) and isXSB(line) then begin       // ¼ì²éÊÇ·ñÎª XSB ĞĞ
-          if not is_XSB then begin     // ¿ªÊ¼ XSB ¿é
+        if (not is_Comment) and isXSB(line) then begin       // æ£€æŸ¥æ˜¯å¦ä¸º XSB è¡Œ
+          if not is_XSB then begin     // å¼€å§‹ XSB å—
 
-            if mapNode.Rows > 2 then begin   // Ç°ÃæÓĞ½âÎö¹ıµÄ¹Ø¿¨ XSB£¬Ôò°Ñµ±Ç°¹Ø¿¨¼ÓÈë¹Ø¿¨¼¯ÁĞ±í
-              // ×ö¹Ø¿¨µÄ±ê×¼»¯£¬¼ÆËãCRCµÈ
+            if mapNode.Rows > 2 then begin   // å‰é¢æœ‰è§£æè¿‡çš„å…³å¡ XSBï¼Œåˆ™æŠŠå½“å‰å…³å¡åŠ å…¥å…³å¡é›†åˆ—è¡¨
+              // åšå…³å¡çš„æ ‡å‡†åŒ–ï¼Œè®¡ç®—CRCç­‰
               if MapNormalize(mapNode) then begin
                  if isAns then SetSolved(mapNode, mapSolution);
               end;
 
-              NewMapNode(MapList);                                  // ´´½¨Ò»¸öĞÂµÄ¹Ø¿¨½Úµã
+              NewMapNode(MapList);                                  // åˆ›å»ºä¸€ä¸ªæ–°çš„å…³å¡èŠ‚ç‚¹
               num := MapList.Count - 1;
-              mapNode := MapList.Items[num];                        // Ö¸Ïò×îĞÂ´´½¨µÄ½Úµã
+              mapNode := MapList.Items[num];                        // æŒ‡å‘æœ€æ–°åˆ›å»ºçš„èŠ‚ç‚¹
             end
             else MyMapNodeInit(mapNode);
 
-            is_XSB := True;    // ¿ªÊ¼¹Ø¿¨ XSB ¿é
+            is_XSB := True;    // å¼€å§‹å…³å¡ XSB å—
             is_Comment := False;
             is_Solution := False;
           end;
 
-          mapNode.Map := mapNode.Map + line + #10;      // ¸÷ XSB ĞĞ
+          mapNode.Map := mapNode.Map + line + #10;      // å„ XSB è¡Œ
           mapNode.Rows := mapNode.Rows+1;
           n := Length(line);
           if mapNode.Cols < n then mapNode.Cols := n;
         end
-        else if (not is_Comment) and (AnsiStartsText('title', line2)) and (mapNode.Title = '') then begin   // Æ¥Åä Title£¬±êÌâ
+        else if (not is_Comment) and (AnsiStartsText('title', line2)) and (mapNode.Title = '') then begin   // åŒ¹é… Titleï¼Œæ ‡é¢˜
           n := Pos(':', line2);
           if n > 0 then
             mapNode.Title := trim(Copy(line2, n + 1, MaxInt))
           else
             mapNode.Title := trim(Copy(line2, 6, MaxInt));
 
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
         end
-        else if (not is_Comment) and (AnsiStartsText('author', line2)) and (mapNode.Author = '') then begin  // Æ¥Åä Author£¬×÷Õß
+        else if (not is_Comment) and (AnsiStartsText('author', line2)) and (mapNode.Author = '') then begin  // åŒ¹é… Authorï¼Œä½œè€…
           n := Pos(':', line2);
           if n > 0 then
             mapNode.Author := trim(Copy(line2, n + 1, MaxInt))
           else
             mapNode.Author := trim(Copy(line2, 7, MaxInt));
 
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
         end
-        else if (not is_Comment) and (isAns) and (AnsiStartsText('solution', line2)) then begin  // Æ¥Åä Solution£¬´ğ°¸
+        else if (not is_Comment) and (isAns) and (AnsiStartsText('solution', line2)) then begin  // åŒ¹é… Solutionï¼Œç­”æ¡ˆ
           n := LastPos(':', line2);
           if n = 0 then
             n := Pos(')', line2);
@@ -869,14 +869,14 @@ begin
           else
             mapSolution.Add('');
 
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
-          is_Solution := true;                 // ¿ªÊ¼´ğ°¸½âÎö
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
+          is_Solution := true;                 // å¼€å§‹ç­”æ¡ˆè§£æ
         end
-        else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // Æ¥Åä"×¢ÊÍ"¿é½áÊø
-          is_Comment := False;   // ½áÊø"×¢ÊÍ"¿é
+        else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // åŒ¹é…"æ³¨é‡Š"å—ç»“æŸ
+          is_Comment := False;   // ç»“æŸ"æ³¨é‡Š"å—
         end
-        else if AnsiStartsText('comment', line2) and (mapNode.Comment = '') then begin  //Æ¥Åä"×¢ÊÍ"¿é¿ªÊ¼
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+        else if AnsiStartsText('comment', line2) and (mapNode.Comment = '') then begin  //åŒ¹é…"æ³¨é‡Š"å—å¼€å§‹
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
 
           n := Pos(':', line2);
           if n > 0 then
@@ -885,17 +885,17 @@ begin
             line := trim(Copy(line2, 8, MaxInt));
 
           if Length(line) > 0 then
-            mapNode.Comment := line     // µ¥ĞĞ"×¢ÊÍ"
+            mapNode.Comment := line     // å•è¡Œ"æ³¨é‡Š"
           else
-            is_Comment := True;         // ¿ªÊ¼"×¢ÊÍ"¿é
+            is_Comment := True;         // å¼€å§‹"æ³¨é‡Š"å—
         end
-        else if is_Comment then begin  // "ËµÃ÷"ĞÅÏ¢
+        else if is_Comment then begin  // "è¯´æ˜"ä¿¡æ¯
           if Length(mapNode.Comment) > 0 then
             mapNode.Comment := mapNode.Comment + #10 + line
           else
             mapNode.Comment := line;
         end
-        else if is_Solution then begin  // ´ğ°¸ĞĞ
+        else if is_Solution then begin  // ç­”æ¡ˆè¡Œ
           line2 := StringReplace(line2, #9, '', [rfReplaceAll]);
           line2 := StringReplace(line2, ' ', '', [rfReplaceAll]);
           if isLurd(line2) then begin
@@ -904,13 +904,13 @@ begin
           end;
         end
         else begin
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXB¿éµÄ½âÎö
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBå—çš„è§£æ
         end;
       end;
 
       Result := True;
     finally
-      // ¼ì²é×îºóµÄ½Úµã£¬ÈôÃ»ÓĞ XSB Êı¾İ£¬Ôò½«ÆäÉ¾³ı
+      // æ£€æŸ¥æœ€åçš„èŠ‚ç‚¹ï¼Œè‹¥æ²¡æœ‰ XSB æ•°æ®ï¼Œåˆ™å°†å…¶åˆ é™¤
       num := MapList.Count - 1;
       if num >= 0 then begin
          mapNode := MapList.Items[num];
@@ -933,7 +933,7 @@ begin
     line2 := '';
 end;
 
-// µØÍ¼±ê×¼»¯£¬°üÀ¨£º¼òµ¥±ê×¼»¯ -- ±£Áô¹Ø¿¨µÄÇ½ÍâÔìĞÍ£»¾«×¼±ê×¼»¯ -- ²»±£Áô¹Ø¿¨µÄÇ½ÍâÔìĞÍ£¬Í¬Ê±¼ÆËã CRC µÈ
+// åœ°å›¾æ ‡å‡†åŒ–ï¼ŒåŒ…æ‹¬ï¼šç®€å•æ ‡å‡†åŒ– -- ä¿ç•™å…³å¡çš„å¢™å¤–é€ å‹ï¼›ç²¾å‡†æ ‡å‡†åŒ– -- ä¸ä¿ç•™å…³å¡çš„å¢™å¤–é€ å‹ï¼ŒåŒæ—¶è®¡ç®— CRC ç­‰
 function MapNormalize(var mapNode: PMapNode): Boolean;
 var
   i, j, k, t, mr, mc, Rows, Cols, nLen, nRen, nRows, nCols, p, tail, pos: Integer;
@@ -1002,7 +1002,7 @@ begin
     if Assigned(Map) then Map.Free;
   end;
 
-  if nRen <> 1 then begin  // ²Ö¹ÜÔ± <> 1£¬»ò XSB ½âÎö´íÎó
+  if nRen <> 1 then begin  // ä»“ç®¡å‘˜ <> 1ï¼Œæˆ– XSB è§£æé”™è¯¯
     mapNode.Map := StringReplace(mapNode.Map, ' ', '-', [rfReplaceAll]);
     Exit;
   end;
@@ -1025,7 +1025,7 @@ begin
   pos := (mc shl 16) or mr;
   pt[0] := pos;
   Mark[mr][mc] := true;
-  while p <= tail do begin // ×ßÍêºó£¬Mark[][]Îª true µÄ£¬ÎªÇ½ÄÚ
+  while p <= tail do begin // èµ°å®Œåï¼ŒMark[][]ä¸º true çš„ï¼Œä¸ºå¢™å†…
     mr := pt[p] and $00FF;
     mc := pt[p] shr 16;
 
@@ -1044,14 +1044,14 @@ begin
           nDst := nDst+1;
         end;
     end;
-    for k := 0 to 3 do begin   // ²Ö¹ÜÔ±ÏòËÄ¸ö·½Ïò×ß
+    for k := 0 to 3 do begin   // ä»“ç®¡å‘˜å‘å››ä¸ªæ–¹å‘èµ°
       mr2 := mr + dr4[k];
       mc2 := mc + dc4[k];
-      if (mr2 < 0) or (mr2 >= Rows) or (mc2 < 0) or (mc2 >= Cols) or    // ³ö½ç
-         (Mark[mr2, mc2]) or (MapArray[mr2, mc2] = '#') then            // ÒÑ·ÃÎÊ»òÓöµ½Ç½
+      if (mr2 < 0) or (mr2 >= Rows) or (mc2 < 0) or (mc2 >= Cols) or    // å‡ºç•Œ
+         (Mark[mr2, mc2]) or (MapArray[mr2, mc2] = '#') then            // å·²è®¿é—®æˆ–é‡åˆ°å¢™
           continue;
 
-      // µ÷ÕûËÄÖÁ
+      // è°ƒæ•´å››è‡³
       if left > mc2 then
         left := mc2;
       if top > mr2 then
@@ -1061,7 +1061,7 @@ begin
       if bottom < mr2 then
         bottom := mr2;
 
-      Mark[mr2][mc2] := true;  //±ê¼ÇÎªÒÑ·ÃÎÊ
+      Mark[mr2][mc2] := true;  //æ ‡è®°ä¸ºå·²è®¿é—®
       pos := (mc2 shl 16) or mr2;
       tail := tail+1;
       pt[tail] := pos;
@@ -1072,52 +1072,52 @@ begin
   mapNode.Boxs  := nBox;
   mapNode.Goals := nDst;
 
-  if (nBox <> nDst) or (nBox < 1) or (nDst < 1) then begin  // ¿É´ïÇøÓòÄÚµÄÏä×ÓÓëÄ¿±êµãÊı²»ÕıÈ·
+  if (nBox <> nDst) or (nBox < 1) or (nDst < 1) then begin  // å¯è¾¾åŒºåŸŸå†…çš„ç®±å­ä¸ç›®æ ‡ç‚¹æ•°ä¸æ­£ç¡®
     mapNode.Map := StringReplace(mapNode.Map, ' ', '-', [rfReplaceAll]);
     exit;
   end;
 
-  // ±ê×¼»¯ºóµÄ³ß´ç£¨°Ë×ª£©
+  // æ ‡å‡†åŒ–åçš„å°ºå¯¸ï¼ˆå…«è½¬ï¼‰
   nRows := bottom - top + 1 + 2;
   nCols := right - left + 1 + 2;
 
-  // ÕûÀí¹Ø¿¨ÔªËØ
+  // æ•´ç†å…³å¡å…ƒç´ 
   for i := 0 to Rows - 1 do begin
     for j := 0 to Cols - 1 do
     begin
       ch := MapArray[i, j];
       if (Mark[i, j]) then
-      begin  // Ç½ÄÚ
+      begin  // å¢™å†…
         if not (ch in ['-', '.', '$', '*', '@', '+']) then
-        begin  //ÎŞĞ§ÔªËØ
+        begin  //æ— æ•ˆå…ƒç´ 
           ch := '-';
           MapArray[i, j] := ch;
         end;
       end
       else
-      begin  // Ç½ÍâÔìĞÍ
+      begin  // å¢™å¤–é€ å‹
         if (ch = '*') or (ch = '$') then
         begin
           ch := '#';
           MapArray[i, j] := ch;
         end
         else if not (ch in ['#', '_']) then
-        begin  // ÎŞĞ§ÔªËØ
+        begin  // æ— æ•ˆå…ƒç´ 
           ch := '_';
           MapArray[i, j] := ch;
         end;
       end;
       if (i >= top) and (i <= bottom) and (j >= left) and (j <= right) then
-      begin  // ¡°ËÄÖÁ¡±·¶Î§ÄÚ
+      begin  // â€œå››è‡³â€èŒƒå›´å†…
         if Mark[i, j] then
-          aMap0[i - top + 1, j - left + 1] := ch  // ±ê×¼»¯¹Ø¿¨µÄÓĞĞ§ÔªËØ£¨ÔİÊ±¿Õ³öËÄÖÜ£©
+          aMap0[i - top + 1, j - left + 1] := ch  // æ ‡å‡†åŒ–å…³å¡çš„æœ‰æ•ˆå…ƒç´ ï¼ˆæš‚æ—¶ç©ºå‡ºå››å‘¨ï¼‰
         else
           aMap0[i - top + 1, j - left + 1] := '_';
       end;
     end;
   end;
 
-  // ¹Ø¿¨×îĞ¡»¯
+  // å…³å¡æœ€å°åŒ–
   mTop := 0;
   mLeft := 0;
   mBottom := Rows - 1;
@@ -1169,7 +1169,7 @@ begin
      Exit;
   end;
 
-  // ¹Ø¿¨Ô­Ã²£¬ÒÑ×ö¼òµ¥±ê×¼»¯£¨±£ÁôÇ½ÍâÔìĞÍ£©
+  // å…³å¡åŸè²Œï¼Œå·²åšç®€å•æ ‡å‡†åŒ–ï¼ˆä¿ç•™å¢™å¤–é€ å‹ï¼‰
   s1 := '';
   for i := mTop to mBottom do begin
     for j := mLeft to mRight do begin
@@ -1182,7 +1182,7 @@ begin
   mapNode.Rows := mBottom-mTop+1;
   mapNode.Cols := mRight-mLeft+1;
 
-  // ±ê×¼»¯¹Ø¿¨µÄËÄÖÜÌî³ä '_'
+  // æ ‡å‡†åŒ–å…³å¡çš„å››å‘¨å¡«å…… '_'
   for i := 0 to nRows - 1 do begin
     for j := 0 to nCols - 1 do begin
       if (i = 0) or (j = 0) or (i = nRows - 1) or (j = nCols - 1) then
@@ -1190,10 +1190,10 @@ begin
     end;
   end;
 
-  // ±ê×¼»¯
+  // æ ‡å‡†åŒ–
   for i := 1 to nRows - 2 do begin
     for j := 1 to nCols - 2 do begin
-      if (aMap0[i, j] <> '_') and (aMap0[i, j] <> '#') then begin  // Ì½²éÄÚ²¿ÓĞĞ§ÔªËØµÄ°Ë¸ö·½Î»£¬ÊÇ·ñ¿ÉÒÔ°²ÅÅÇ½±Ú
+      if (aMap0[i, j] <> '_') and (aMap0[i, j] <> '#') then begin  // æ¢æŸ¥å†…éƒ¨æœ‰æ•ˆå…ƒç´ çš„å…«ä¸ªæ–¹ä½ï¼Œæ˜¯å¦å¯ä»¥å®‰æ’å¢™å£
         if (aMap0[i - 1, j] = '_') then
           aMap0[i - 1, j] := '#';
         if (aMap0[i + 1, j] = '_') then
@@ -1216,7 +1216,7 @@ begin
 
   mapNode.Map_Thin := '';
 
-  // ±ê×¼»¯ºóµÄ°Ë×ª£º¹Ø¿¨ÏÈË³Ê±ÕëĞı×ª£¨µÃµ½£º0×ª¡¢1×ª¡¢2×ª¡¢3×ª£©£¬4×ªÎª0×ªµÄ×óÓÒ¾µÏñ£¬4×ªÔÙË³Ê±ÕëĞı×ª£¨µÃµ½£º4×ª¡¢5×ª¡¢6×ª¡¢7×ª£©
+  // æ ‡å‡†åŒ–åçš„å…«è½¬ï¼šå…³å¡å…ˆé¡ºæ—¶é’ˆæ—‹è½¬ï¼ˆå¾—åˆ°ï¼š0è½¬ã€1è½¬ã€2è½¬ã€3è½¬ï¼‰ï¼Œ4è½¬ä¸º0è½¬çš„å·¦å³é•œåƒï¼Œ4è½¬å†é¡ºæ—¶é’ˆæ—‹è½¬ï¼ˆå¾—åˆ°ï¼š4è½¬ã€5è½¬ã€6è½¬ã€7è½¬ï¼‰
   for i := 0 to nRows - 1 do begin
     for j := 0 to nCols - 1 do begin
       mapNode.Map_Thin := mapNode.Map_Thin + aMap0[i, j];
@@ -1231,7 +1231,7 @@ begin
     if i < nRows - 1 then mapNode.Map_Thin := mapNode.Map_Thin + #10;
   end;
 
-  // ²âÊÔ
+  // æµ‹è¯•
 //  Writeln(myLogFile, '333');
 //  for j := 0 to mapNode.Map.Count-1 do begin
 //    Writeln(myLogFile, mapNode.Map[j]);
@@ -1247,7 +1247,7 @@ begin
 //    Write(myLogFile, #10);
 //  end;
 
-  // µÚ¼¸×ªµÄ CRC ×îĞ¡
+  // ç¬¬å‡ è½¬çš„ CRC æœ€å°
   key8[1] := Calcu_CRC_32(@aMap1, nCols, nRows);
   key8[2] := Calcu_CRC_32(@aMap2, nRows, nCols);
   key8[3] := Calcu_CRC_32(@aMap3, nCols, nRows);
@@ -1255,10 +1255,10 @@ begin
   key8[5] := Calcu_CRC_32(@aMap5, nCols, nRows);
   key8[6] := Calcu_CRC_32(@aMap6, nRows, nCols);
   key8[7] := Calcu_CRC_32(@aMap7, nCols, nRows);
-  mapNode.CRC32 := Calcu_CRC_32(@aMap0, nRows, nCols);        // ¾«×¼±ê×¼»¯ºóµÄ¹Ø¿¨ -- Ã»ÓĞÇ½ÍâÔìĞÍ
+  mapNode.CRC32 := Calcu_CRC_32(@aMap0, nRows, nCols);        // ç²¾å‡†æ ‡å‡†åŒ–åçš„å…³å¡ -- æ²¡æœ‰å¢™å¤–é€ å‹
   mapNode.CRC_Num := 0;
 
-  // ²âÊÔ
+  // æµ‹è¯•
 //  Writeln(myLogFile, '======================');
 //  Writeln(myLogFile, inttostr(mapNode.CRC32));
 //  Writeln(myLogFile, inttostr(key8[1]));
@@ -1278,12 +1278,12 @@ begin
     end;
   end;
 
-  mapNode.Num := 0;                  // ¸ÃÊôĞÔÔÚ¹Ø¿¨Ô¤ÀÀÊ±£¬×ö¡°ÓĞ½â¡±¼ì²â
-  mapNode.isEligible := True;        // ºÏ¸ñµÄ¹Ø¿¨XSB
+  mapNode.Num := 0;                  // è¯¥å±æ€§åœ¨å…³å¡é¢„è§ˆæ—¶ï¼Œåšâ€œæœ‰è§£â€æ£€æµ‹
+  mapNode.isEligible := True;        // åˆæ ¼çš„å…³å¡XSB
   Result := True;
 end;
 
-// È¡µÃ¹Ø¿¨ XSB
+// å–å¾—å…³å¡ XSB
 function GetXSB(mapNpde: PMapNode): string;
 begin
   Result := #10;
@@ -1303,7 +1303,7 @@ begin
   Result := StringReplace(Result, #10, #13#10, [rfReplaceAll]);
 end;
 
-// È¡µÃÏÖ³¡ XSB
+// å–å¾—ç°åœº XSB
 function GetXSB_2: string;
 var
   i, j, myCell, pos: Integer;
@@ -1317,8 +1317,8 @@ begin
     for i := 0 to curMapNode.Rows - 1 do begin
       for j := 0 to curMapNode.Cols - 1 do begin
         pos := i * curMapNode.Cols + j;
-        if main.mySettings.isBK then begin                // ÄæÍÆ
-           if main.mySettings.isJijing then begin              // ¼´¾°Ä¿±êÎ»
+        if main.mySettings.isBK then begin                // é€†æ¨
+           if main.mySettings.isJijing then begin              // å³æ™¯ç›®æ ‡ä½
               if main.map_Board[pos] in [BoxCell, BoxGoalCell] then begin
                  if main.map_Board_BK[pos] = BoxCell then myCell := BoxGoalCell
                  else if main.map_Board_BK[pos] = ManCell then myCell := ManGoalCell
@@ -1330,7 +1330,7 @@ begin
                  else if main.map_Board_BK[pos] = GoalCell then myCell := FloorCell
                  else myCell := main.map_Board_BK[pos];
               end;
-           end else if main.mySettings.isSameGoal then begin   // ¹Ì¶¨Ä¿±êÎ»
+           end else if main.mySettings.isSameGoal then begin   // å›ºå®šç›®æ ‡ä½
               if main.map_Board_OG[pos] in [GoalCell, BoxGoalCell, ManGoalCell] then begin
                  if main.map_Board_BK[pos] = BoxCell then myCell := BoxGoalCell
                  else if main.map_Board_BK[pos] = ManCell then myCell := ManGoalCell
@@ -1346,7 +1346,7 @@ begin
               myCell := main.map_Board_BK[pos];
            end;
         end else begin
-           if main.mySettings.isJijing then begin              // ¼´¾°Ä¿±êÎ»
+           if main.mySettings.isJijing then begin              // å³æ™¯ç›®æ ‡ä½
               if main.map_Board_BK[pos] in [BoxGoalCell, BoxCell] then begin
                  if main.map_Board[pos] = BoxCell then myCell := BoxGoalCell
                  else if main.map_Board[pos] = ManCell then myCell := ManGoalCell
@@ -1370,16 +1370,16 @@ begin
   end;
 end;
 
-// ÔÚºóÌ¨Ïß³ÌÖĞ¼ÓÔØµØÍ¼ÎÄµµ
+// åœ¨åå°çº¿ç¨‹ä¸­åŠ è½½åœ°å›¾æ–‡æ¡£
 procedure TLoadMapThread.Execute;
 var
   FileName: string;
   line, line2: string;
-  is_XSB: Boolean;                 // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨XSB
-  is_Comment: Boolean;             // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨ËµÃ÷ĞÅÏ¢
-  num, n, k: Integer;              // XSBµÄ½âÎö¿ØÖÆ
-  mapNode: PMapNode;               // ½âÎö³öµÄµ±Ç°¹Ø¿¨½ÚµãÖ¸Õë
-  mapSolution: TStringList;        // ¹Ø¿¨´ğ°¸
+  is_XSB: Boolean;                 // æ˜¯å¦æ­£åœ¨è§£æå…³å¡XSB
+  is_Comment: Boolean;             // æ˜¯å¦æ­£åœ¨è§£æå…³å¡è¯´æ˜ä¿¡æ¯
+  num, n, k: Integer;              // XSBçš„è§£ææ§åˆ¶
+  mapNode: PMapNode;               // è§£æå‡ºçš„å½“å‰å…³å¡èŠ‚ç‚¹æŒ‡é’ˆ
+  mapSolution: TStringList;        // å…³å¡ç­”æ¡ˆ
   txtLines: Integer;
 
 begin
@@ -1398,13 +1398,13 @@ var
 
     MapCount := 1;
     
-    txtLines := main.txtList.Count;         // ÎÄ±¾ĞĞÊı
+    txtLines := main.txtList.Count;         // æ–‡æœ¬è¡Œæ•°
 
     mapSolution := TStringList.Create;
 
     try
-      NewMapNode(MapList);              // ÏÈ´´½¨Ò»¸ö¹Ø¿¨½Úµã
-      mapNode := MapList.Items[0];      // Ö¸Ïò×îĞÂ´´½¨µÄ½Úµã
+      NewMapNode(MapList);              // å…ˆåˆ›å»ºä¸€ä¸ªå…³å¡èŠ‚ç‚¹
+      mapNode := MapList.Items[0];      // æŒ‡å‘æœ€æ–°åˆ›å»ºçš„èŠ‚ç‚¹
       is_XSB := False;
       is_Comment := False;
 
@@ -1413,78 +1413,78 @@ var
         line  := main.txtList.Strings[k];
         line2 := Trim(line);
 
-        if (not is_Comment) and isXSB(line) then begin       // ¼ì²éÊÇ·ñÎª XSB ĞĞ
-          if not is_XSB then begin       // ¿ªÊ¼ XSB ¿é
+        if (not is_Comment) and isXSB(line) then begin       // æ£€æŸ¥æ˜¯å¦ä¸º XSB è¡Œ
+          if not is_XSB then begin       // å¼€å§‹ XSB å—
 
-            if mapNode.Rows > 2 then begin   // Ç°ÃæÓĞ½âÎö¹ıµÄ¹Ø¿¨ XSB£¬Ôò°Ñµ±Ç°¹Ø¿¨¼ÓÈë¹Ø¿¨¼¯ÁĞ±í
+            if mapNode.Rows > 2 then begin   // å‰é¢æœ‰è§£æè¿‡çš„å…³å¡ XSBï¼Œåˆ™æŠŠå½“å‰å…³å¡åŠ å…¥å…³å¡é›†åˆ—è¡¨
 
               MapCount := MapCount + 1;
 
-              MapNormalize(mapNode);         // ×ö¹Ø¿¨µÄ±ê×¼»¯£¬¼ÆËãCRCµÈ
+              MapNormalize(mapNode);         // åšå…³å¡çš„æ ‡å‡†åŒ–ï¼Œè®¡ç®—CRCç­‰
 
-              NewMapNode(MapList);                      // ´´½¨Ò»¸öĞÂµÄ¹Ø¿¨½Úµã
+              NewMapNode(MapList);                      // åˆ›å»ºä¸€ä¸ªæ–°çš„å…³å¡èŠ‚ç‚¹
               num := MapList.Count - 1;
-              mapNode := MapList.Items[num];            // Ö¸Ïò×îĞÂ´´½¨µÄ½Úµã
+              mapNode := MapList.Items[num];            // æŒ‡å‘æœ€æ–°åˆ›å»ºçš„èŠ‚ç‚¹
 
             end else MyMapNodeInit(mapNode);
 
-            is_XSB := True;    // ¿ªÊ¼¹Ø¿¨ XSB ¿é
+            is_XSB := True;    // å¼€å§‹å…³å¡ XSB å—
             is_Comment := False;
           end;
 
-          mapNode.Map := mapNode.Map + line + #10;      // ¸÷ XSB ĞĞ
+          mapNode.Map := mapNode.Map + line + #10;      // å„ XSB è¡Œ
           mapNode.Rows := mapNode.Rows+1;
           n := Length(line);
           if mapNode.Cols < n then mapNode.Cols := n;
 
         end
-        else if (not is_Comment) and (AnsiStartsText('title', line2)) and (mapNode.Title = '') then begin   // Æ¥Åä Title£¬±êÌâ
+        else if (not is_Comment) and (AnsiStartsText('title', line2)) and (mapNode.Title = '') then begin   // åŒ¹é… Titleï¼Œæ ‡é¢˜
           n := Pos(':', line2);
           if n > 0 then
             mapNode.Title := trim(Copy(line2, n + 1, MaxInt))
           else
             mapNode.Title := trim(Copy(line2, 6, MaxInt));
 
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
         end
-        else if (not is_Comment) and (AnsiStartsText('author', line2)) and (mapNode.Author = '') then begin  // Æ¥Åä Author£¬×÷Õß
+        else if (not is_Comment) and (AnsiStartsText('author', line2)) and (mapNode.Author = '') then begin  // åŒ¹é… Authorï¼Œä½œè€…
           n := Pos(':', line2);
           if n > 0 then
             mapNode.Author := trim(Copy(line2, n + 1, MaxInt))
           else
             mapNode.Author := trim(Copy(line2, 7, MaxInt));
 
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
         end
-        else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // Æ¥Åä"×¢ÊÍ"¿é½áÊø
-          is_Comment := False; // ½áÊø"×¢ÊÍ"¿é
+        else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // åŒ¹é…"æ³¨é‡Š"å—ç»“æŸ
+          is_Comment := False; // ç»“æŸ"æ³¨é‡Š"å—
         end
-        else if AnsiStartsText('comment', line2) and (mapNode.Comment = '') then begin  //Æ¥Åä"×¢ÊÍ"¿é¿ªÊ¼
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+        else if AnsiStartsText('comment', line2) and (mapNode.Comment = '') then begin  //åŒ¹é…"æ³¨é‡Š"å—å¼€å§‹
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
           n := Pos(':', line2);
           if n > 0 then
             line := trim(Copy(line2, n + 1, MaxInt))
           else
             line := trim(Copy(line2, 8, MaxInt));
           if Length(line) > 0 then
-            mapNode.Comment := line     // µ¥ĞĞ"×¢ÊÍ"
+            mapNode.Comment := line     // å•è¡Œ"æ³¨é‡Š"
           else
-            is_Comment := True;     // ¿ªÊ¼"×¢ÊÍ"¿é
+            is_Comment := True;     // å¼€å§‹"æ³¨é‡Š"å—
         end
-        else if is_Comment then begin  // "ËµÃ÷"ĞÅÏ¢
+        else if is_Comment then begin  // "è¯´æ˜"ä¿¡æ¯
           if Length(mapNode.Comment) > 0 then
             mapNode.Comment := mapNode.Comment + #10 + line
           else
             mapNode.Comment := line;
         end
         else begin
-          if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXB¿éµÄ½âÎö
+          if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBå—çš„è§£æ
         end;
         k := k+1;
       end;
 
     finally
-      // ¼ì²é×îºóµÄ½Úµã£¬ÈôÃ»ÓĞ XSB Êı¾İ£¬Ôò½«ÆäÉ¾³ı
+      // æ£€æŸ¥æœ€åçš„èŠ‚ç‚¹ï¼Œè‹¥æ²¡æœ‰ XSB æ•°æ®ï¼Œåˆ™å°†å…¶åˆ é™¤
       num := MapList.Count;
       if num > 0 then begin
          mapNode := MapList.Items[num-1];
@@ -1506,42 +1506,42 @@ var
   main.bt_View.Enabled := True;
 end;
 
-// ¸üĞÂÖ÷´°¿Ú±êÌâ
+// æ›´æ–°ä¸»çª—å£æ ‡é¢˜
 procedure TLoadAnsThread.UpdateCaption;
 begin
   try
-    MyOpenFile.Label1.Caption := '¹²µ¼Èë´ğ°¸ ' + IntToStr(sumSolution) + ' ¸ö';
+    MyOpenFile.Label1.Caption := 'å…±å¯¼å…¥ç­”æ¡ˆ ' + IntToStr(sumSolution) + ' ä¸ª';
   except
   end;
 end;
 
-// µ¼Èë´ğ°¸µÄºóÌ¨Ïß³Ì
+// å¯¼å…¥ç­”æ¡ˆçš„åå°çº¿ç¨‹
 procedure TLoadAnsThread.Execute;
 var
   line, line2: string;
-  is_XSB: Boolean;                 // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨XSB
-  is_Solution: Boolean;            // ÊÇ·ñ´ğ°¸ĞĞ
-  is_Comment: Boolean;             // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨ËµÃ÷ĞÅÏ¢
-  num, n, k: Integer;              // XSBµÄ½âÎö¿ØÖÆ
-  mapNode: PMapNode;               // ½âÎö³öµÄµ±Ç°¹Ø¿¨½ÚµãÖ¸Õë
-  mapSolution: TStringList;        // ¹Ø¿¨´ğ°¸
-  data_Text: TStringList;          // ÎÄ±¾ĞĞ
+  is_XSB: Boolean;                 // æ˜¯å¦æ­£åœ¨è§£æå…³å¡XSB
+  is_Solution: Boolean;            // æ˜¯å¦ç­”æ¡ˆè¡Œ
+  is_Comment: Boolean;             // æ˜¯å¦æ­£åœ¨è§£æå…³å¡è¯´æ˜ä¿¡æ¯
+  num, n, k: Integer;              // XSBçš„è§£ææ§åˆ¶
+  mapNode: PMapNode;               // è§£æå‡ºçš„å½“å‰å…³å¡èŠ‚ç‚¹æŒ‡é’ˆ
+  mapSolution: TStringList;        // å…³å¡ç­”æ¡ˆ
+  data_Text: TStringList;          // æ–‡æœ¬è¡Œ
 begin
   FreeOnTerminate := True;
 
   isStopThread_Ans := False;
   
-  data_Text := TStringList.Create;          // ÎÄ±¾ĞĞ
+  data_Text := TStringList.Create;          // æ–‡æœ¬è¡Œ
 
   try
 
-    data_Text.LoadFromFile(MyOpenFile.FileListBox1.FileName);    // ÎÄ±¾ĞĞ
+    data_Text.LoadFromFile(MyOpenFile.FileListBox1.FileName);    // æ–‡æœ¬è¡Œ
 
-    mapSolution := TStringList.Create;      // ´ğ°¸»º´æ
+    mapSolution := TStringList.Create;      // ç­”æ¡ˆç¼“å­˜
 
     try
 
-      New(mapNode);                         // ¹Ø¿¨½Úµã
+      New(mapNode);                         // å…³å¡èŠ‚ç‚¹
 
       try
         try
@@ -1554,18 +1554,18 @@ begin
           k := 0;
           while (k < data_Text.Count) and (not isStopThread_Ans) do begin
 
-            line := data_Text.Strings[k];     // ¶ÁÈ¡Ò»ĞĞ
+            line := data_Text.Strings[k];     // è¯»å–ä¸€è¡Œ
             k := k+1;
             line2 := Trim(line);
 
-            if (not is_Comment) and isXSB(line) then begin       // ¼ì²éÊÇ·ñÎª XSB ĞĞ
-              if not is_XSB then begin     // ¿ªÊ¼ XSB ¿é
+            if (not is_Comment) and isXSB(line) then begin       // æ£€æŸ¥æ˜¯å¦ä¸º XSB è¡Œ
+              if not is_XSB then begin     // å¼€å§‹ XSB å—
 
-                if mapNode.Rows > 2 then begin   // Ç°ÃæÓĞ½âÎö¹ıµÄ¹Ø¿¨ XSB£¬Ôò°Ñµ±Ç°¹Ø¿¨¼ÓÈë¹Ø¿¨¼¯ÁĞ±í
+                if mapNode.Rows > 2 then begin   // å‰é¢æœ‰è§£æè¿‡çš„å…³å¡ XSBï¼Œåˆ™æŠŠå½“å‰å…³å¡åŠ å…¥å…³å¡é›†åˆ—è¡¨
 
-                  MyOpenFile.Caption := 'µ¼Èë´ğ°¸ ~ ¹Ø¿¨£º' + IntToStr(num+1);
+                  MyOpenFile.Caption := 'å¯¼å…¥ç­”æ¡ˆ ~ å…³å¡ï¼š' + IntToStr(num+1);
 
-                  // ×ö¹Ø¿¨µÄ±ê×¼»¯£¬¼ÆËãCRCµÈ
+                  // åšå…³å¡çš„æ ‡å‡†åŒ–ï¼Œè®¡ç®—CRCç­‰
                   if MapNormalize(mapNode) then begin
                      num := num + 1;
                      SetSolved_2(mapNode, mapSolution);
@@ -1574,18 +1574,18 @@ begin
 
                 mapNode.Map := '';
 
-                is_XSB := True;    // ¿ªÊ¼¹Ø¿¨ XSB ¿é
+                is_XSB := True;    // å¼€å§‹å…³å¡ XSB å—
                 is_Comment := False;
                 is_Solution := False;
               end;
 
-              mapNode.Map := mapNode.Map + line + #10;      // ¸÷ XSB ĞĞ
+              mapNode.Map := mapNode.Map + line + #10;      // å„ XSB è¡Œ
               mapNode.Rows := mapNode.Rows+1;
               n := Length(line);
               if mapNode.Cols < n then mapNode.Cols := n;
 
             end
-            else if (not is_Comment) and (AnsiStartsText('solution', line2)) then begin  // Æ¥Åä Solution£¬´ğ°¸
+            else if (not is_Comment) and (AnsiStartsText('solution', line2)) then begin  // åŒ¹é… Solutionï¼Œç­”æ¡ˆ
               n := LastPos(':', line2);
               if n = 0 then
                 n := Pos(')', line2);
@@ -1600,14 +1600,14 @@ begin
               else
                 mapSolution.Add('');
 
-              if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
-              is_Solution := true;                 // ¿ªÊ¼´ğ°¸½âÎö
+              if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
+              is_Solution := true;                 // å¼€å§‹ç­”æ¡ˆè§£æ
             end
-            else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // Æ¥Åä"×¢ÊÍ"¿é½áÊø
-              is_Comment := False;   // ½áÊø"×¢ÊÍ"¿é
+            else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then begin  // åŒ¹é…"æ³¨é‡Š"å—ç»“æŸ
+              is_Comment := False;   // ç»“æŸ"æ³¨é‡Š"å—
             end
-            else if AnsiStartsText('comment', line2) and (mapNode.Comment = '') then begin  //Æ¥Åä"×¢ÊÍ"¿é¿ªÊ¼
-              if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+            else if AnsiStartsText('comment', line2) and (mapNode.Comment = '') then begin  //åŒ¹é…"æ³¨é‡Š"å—å¼€å§‹
+              if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
 
               n := Pos(':', line2);
               if n > 0 then
@@ -1615,9 +1615,9 @@ begin
               else
                 line := trim(Copy(line2, 8, MaxInt));
 
-              if Length(line) <= 0 then is_Comment := True;         // ¿ªÊ¼"×¢ÊÍ"¿é
+              if Length(line) <= 0 then is_Comment := True;         // å¼€å§‹"æ³¨é‡Š"å—
             end
-            else if is_Solution then begin  // ´ğ°¸ĞĞ
+            else if is_Solution then begin  // ç­”æ¡ˆè¡Œ
               line2 := StringReplace(line2, #9, '', [rfReplaceAll]);
               line2 := StringReplace(line2, ' ', '', [rfReplaceAll]);
               if isLurd(line2) then begin
@@ -1625,10 +1625,10 @@ begin
                  mapSolution[n] := mapSolution[n] + line2;
               end;
             end
-            else if is_Comment then begin  // "ËµÃ÷"ĞÅÏ¢
+            else if is_Comment then begin  // "è¯´æ˜"ä¿¡æ¯
             end
             else begin
-              if is_XSB then is_XSB := false;      // ½áÊø¹Ø¿¨SXB¿éµÄ½âÎö
+              if is_XSB then is_XSB := false;      // ç»“æŸå…³å¡SXBå—çš„è§£æ
             end;
           end;
         finally
@@ -1649,11 +1649,11 @@ begin
     MyStringListFree(data_Text);
   end;
 
-  synchronize(UpdateCaption);     // ¸üĞÂÖ÷´°¿ÚÌáÊ¾
+  synchronize(UpdateCaption);     // æ›´æ–°ä¸»çª—å£æç¤º
   isStopThread_Ans := True;
 end;
 
-// ÔÚ¹Ø¿¨ÁĞ±íÖĞ£¬²éÕÒ¼ôÇĞ°åÖĞµÄ¹Ø¿¨£¬·µ»ØÕÒµ½µÄĞòºÅ£¬Ã»ÕÒµ½Ôò·µ»Ø -1
+// åœ¨å…³å¡åˆ—è¡¨ä¸­ï¼ŒæŸ¥æ‰¾å‰ªåˆ‡æ¿ä¸­çš„å…³å¡ï¼Œè¿”å›æ‰¾åˆ°çš„åºå·ï¼Œæ²¡æ‰¾åˆ°åˆ™è¿”å› -1
 function FindClipbrd(num: Integer): Integer;
 var
   mapNode: PMapNode;
@@ -1669,13 +1669,13 @@ begin
   New(mapNode);
 
   try
-    // ¼ôÇĞ°åµ¼Èë XSB
+    // å‰ªåˆ‡æ¿å¯¼å…¥ XSB
     if (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_OEMTEXT)) then begin
         str := StringReplace(Clipboard.asText, ' ', '-', [rfReplaceAll]);
 
         Map := TStringList.Create;
         try
-          // ÏÈ½âÎö³ö¹Ø¿¨XSB£¬ÔÙ×ö±ê×¼»¯´¦Àí£¬×îºó½øĞĞ²éÕÒ
+          // å…ˆè§£æå‡ºå…³å¡XSBï¼Œå†åšæ ‡å‡†åŒ–å¤„ç†ï¼Œæœ€åè¿›è¡ŒæŸ¥æ‰¾
           Map.Delimiter := #10;
           Map.DelimitedText := str;
 

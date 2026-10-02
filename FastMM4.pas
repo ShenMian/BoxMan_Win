@@ -1,4 +1,4 @@
-(*
+ï»¿(*
 
 Fast Memory Manager 4.991
 
@@ -160,8 +160,8 @@ Acknowledgements (for version 4):
  - Kristofer Skaug for reporting the bug that sometimes causes the leak report
    to be shown, even when all the leaks have been registered as expected leaks.
    Also for some useful enhancement suggestions.
- - Günther Schoch for the "RequireDebuggerPresenceForLeakReporting" option.
- - Jan Schlüter for the "ForceMMX" option.
+ - Gé»±ther Schoch for the "RequireDebuggerPresenceForLeakReporting" option.
+ - Jan Schlé»·er for the "ForceMMX" option.
  - Hallvard Vassbotn for various good enhancement suggestions.
  - Mark Edington for some good suggestions and bug reports.
  - Paul Ishenin for reporting the compilation error when the NoMessageBoxes
@@ -219,7 +219,7 @@ Acknowledgements (for version 4):
    not work in FullDebugMode.
  - Ionut Muntean for the Romanian translation.
  - Florent Ouchet for the French translation.
- - Marcus Mönnig for the ScanMemoryPoolForCorruptions suggestion and the
+ - Marcus Mé°Šnig for the ScanMemoryPoolForCorruptions suggestion and the
    suggestion to have the option to scan the memory pool before every
    operation when in FullDebugMode.
  - Francois Piette for bringing under my attention that
@@ -438,10 +438,10 @@ Change log:
    leaks were registered as expected leaks. (Thanks to Kristofer Skaug.)
  Version 4.29 (30 September 2005):
  - Added the "RequireDebuggerPresenceForLeakReporting" option to only display
-   the leak report if the application is run inside the IDE. (Thanks to Günther
+   the leak report if the application is run inside the IDE. (Thanks to Gé»±ther
    Schoch.)
  - Added the "ForceMMX" option, which when disabled will check the CPU for
-   MMX compatibility before using MMX. (Thanks to Jan Schlüter.)
+   MMX compatibility before using MMX. (Thanks to Jan Schlé»·er.)
  - Added the module name to the title of error dialogs to more easily identify
    which application caused the error. (Thanks to Kristofer Skaug.)
  - Added an ASCII dump to the "FullDebugMode" memory dumps. (Thanks to Hallvard
@@ -670,14 +670,14 @@ Change log:
   - Added a ScanMemoryPoolForCorruptions procedure that checks the entire
     memory pool for corruptions and raises an exception if one is found. It can
     be called at any time, but is only available in FullDebugMode. (Thanks to
-    Marcus Mönnig.)
+    Marcus Mé°Šnig.)
   - Added a global variable "FullDebugModeScanMemoryPoolBeforeEveryOperation".
     When this variable is set to true and FullDebugMode is enabled, then the
     entire memory pool is checked for consistency before every GetMem, FreeMem
     and ReallocMem operation. An "Out of Memory" error is raised if a
     corruption is found (and this variable is set to false to prevent recursive
     errors). This obviously incurs a massive performance hit, so enable it only
-    when hunting for elusive memory corruption bugs. (Thanks to Marcus Mönnig.)
+    when hunting for elusive memory corruption bugs. (Thanks to Marcus Mé°Šnig.)
   - Fixed a bug in AllocMem that caused the FPU stack to be shifted by one
     position.
   - Changed the default for option "EnableMMX" to false, since using MMX may

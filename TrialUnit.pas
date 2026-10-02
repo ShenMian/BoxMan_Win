@@ -1,4 +1,4 @@
-unit TrialUnit;
+ï»¿unit TrialUnit;
 
 interface
 
@@ -68,25 +68,25 @@ type
   public
     { Public declarations }
     
-    map_Board: array[0..9999] of Integer;             // ÊÔÁ¶³¡µØÍ¼
+    map_Board: array[0..9999] of Integer;             // è¯•ç‚¼åœºåœ°å›¾
 
-    isBK: boolean;             // ÊÇ·ñÄæÍÆÄ£Ê½
-    isGoThrough: boolean;      // ´©Ô½ÊÇ·ñ¿ªÆô
-    isOddEven: Boolean;        // ÊÇ·ñÏÔÊ¾ÆæÅ¼ÌØĞ§
-    curTrun: Integer;          // ¹Ø¿¨Ğı×ªĞòºÅ
+    isBK: boolean;             // æ˜¯å¦é€†æ¨æ¨¡å¼
+    isGoThrough: boolean;      // ç©¿è¶Šæ˜¯å¦å¼€å¯
+    isOddEven: Boolean;        // æ˜¯å¦æ˜¾ç¤ºå¥‡å¶ç‰¹æ•ˆ
+    curTrun: Integer;          // å…³å¡æ—‹è½¬åºå·
 
-    OldBoxPos: Integer;        // ±»µã»÷µÄÏä×Ó
-    LastSteps: Integer;        // ÉÏ´ÎµãÍÆÇ°µÄ²½Êı
+    OldBoxPos: Integer;        // è¢«ç‚¹å‡»çš„ç®±å­
+    LastSteps: Integer;        // ä¸Šæ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
 
     mapRows, mapCols, manPos, MapSize, MoveTimes, PushTimes: Integer;
 
   end;
 
 const
-  minWindowsWidth = 600;                            // ³ÌĞò´°¿Ú×îĞ¡³ß´çÏŞÖÆ
+  minWindowsWidth = 600;                            // ç¨‹åºçª—å£æœ€å°å°ºå¯¸é™åˆ¶
   minWindowsHeight = 400;
   
-  MapTrun: array[0..7] of string = ('0×ª', '1×ª', '2×ª', '3×ª', '4×ª', '5×ª', '6×ª', '7×ª');
+  MapTrun: array[0..7] of string = ('0è½¬', '1è½¬', '2è½¬', '3è½¬', '4è½¬', '5è½¬', '6è½¬', '7è½¬');
 
 var
   TrialForm: TTrialForm;
@@ -94,9 +94,9 @@ var
   IsManAccessibleTips, IsBoxAccessibleTips: Boolean;
   CellSize: Integer;
 
-  // µØÍ¼Ğı×ª¿ØÖÆÊı×é
+  // åœ°å›¾æ—‹è½¬æ§åˆ¶æ•°ç»„
   MapDir: array[0..7, 0..6] of Integer = (
-    (1, 2, 4, 8, 3, 7, 11),    // 0 ×ª
+    (1, 2, 4, 8, 3, 7, 11),    // 0 è½¬
     (2, 4, 8, 1, 6, 7, 14),    // 1
     (4, 8, 1, 2, 12, 13, 14),  // 2
     (8, 1, 2, 4, 9, 13, 11),   // 3
@@ -105,7 +105,7 @@ var
     (1, 8, 4, 2, 9, 13, 11),   // 6
     (2, 1, 8, 4, 3, 7, 11));   // 7
 
-    ActDir: array[0..7, 0..7] of Char = (                   // ¶¯×÷ 8 ·½Î»Ğı×ªÖ® n ×ªµÄ»»ËãÊı×é
+    ActDir: array[0..7, 0..7] of Char = (                   // åŠ¨ä½œ 8 æ–¹ä½æ—‹è½¬ä¹‹ n è½¬çš„æ¢ç®—æ•°ç»„
             ('l', 'u', 'r', 'd', 'L', 'U', 'R', 'D'),
             ('d', 'l', 'u', 'r', 'D', 'L', 'U', 'R'),
             ('r', 'd', 'l', 'u', 'R', 'D', 'L', 'U'),
@@ -124,7 +124,7 @@ uses
 
 {$R *.dfm}
 
-// ÖØ×öÒ»²½ -- ÕıÍÆ
+// é‡åšä¸€æ­¥ -- æ­£æ¨
 procedure TTrialForm.ReDo(Steps: Integer);
 var
   ch, ch_: Char;
@@ -138,10 +138,10 @@ begin
 
   while (Steps > 0) and (ReDoPos > 0) and (UnDoPos < MaxLenPath) do begin
 
-    // ÈËµÄÎ»ÖÃ³öÏÖÒì³£
+    // äººçš„ä½ç½®å‡ºç°å¼‚å¸¸
     if (ManPos < 0) or (ManPos >= MapSize) or
        (not (map_Board[ManPos] in [ManCell, ManGoalCell])) then begin
-       StatusBar1.Panels[7].Text := format('ÈËµÄÎ»ÖÃÒì³££¡- [%d, %d]', [ManPos mod mapCols + 1, ManPos div mapCols + 1]);
+       StatusBar1.Panels[7].Text := format('äººçš„ä½ç½®å¼‚å¸¸ï¼- [%d, %d]', [ManPos mod mapCols + 1, ManPos div mapCols + 1]);
        Break;
     end;
 
@@ -177,65 +177,65 @@ begin
         end;
     end;
 
-    if (pos1 < 0) or (pos1 >= MapSize) then begin                        // pos1 ½çÍâ
-       StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch_;
+    if (pos1 < 0) or (pos1 >= MapSize) then begin                        // pos1 ç•Œå¤–
+       StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch_;
        Break;
     end;
 
-    // Óöµ½µØ°å£¬½ö½öÒÆ¶¯ÈË¼´¿É£»ÈôÓöµ½Ïä×Ó£¬ĞèÒªÍ¬Ê±ÒÆ¶¯Ïä×ÓºÍÈË£»·ñÔò£¬Óöµ½ÁË´íÎó£¬Ö±½Ó½áÊø±¾´ÎµÄÒÆ¶¯
-    if (map_Board[pos1] in [ FloorCell, GoalCell]) then begin                   // pos1 ÊÇÍ¨µÀ
+    // é‡åˆ°åœ°æ¿ï¼Œä»…ä»…ç§»åŠ¨äººå³å¯ï¼›è‹¥é‡åˆ°ç®±å­ï¼Œéœ€è¦åŒæ—¶ç§»åŠ¨ç®±å­å’Œäººï¼›å¦åˆ™ï¼Œé‡åˆ°äº†é”™è¯¯ï¼Œç›´æ¥ç»“æŸæœ¬æ¬¡çš„ç§»åŠ¨
+    if (map_Board[pos1] in [ FloorCell, GoalCell]) then begin                   // pos1 æ˜¯é€šé“
 
        if map_Board[pos1] = FloorCell then map_Board[pos1] := ManCell
        else map_Board[pos1] := ManGoalCell;
 
-    end else if (map_Board[pos1] in [ BoxCell, BoxGoalCell]) then begin         // pos1 ÊÇÏä×Ó
+    end else if (map_Board[pos1] in [ BoxCell, BoxGoalCell]) then begin         // pos1 æ˜¯ç®±å­
 
-      if (pos2 < 0) or (pos2 >= MapSize) then begin                      // pos2 ½çÍâ
-         StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch_;
+      if (pos2 < 0) or (pos2 >= MapSize) then begin                      // pos2 ç•Œå¤–
+         StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch_;
          Break;
       end;
 
-      if (map_Board[pos2] in [ FloorCell, GoalCell]) then begin                 // pos2 ÊÇÍ¨µÀ
+      if (map_Board[pos2] in [ FloorCell, GoalCell]) then begin                 // pos2 æ˜¯é€šé“
 
-         if map_Board[pos2] = FloorCell then map_Board[pos2] := BoxCell         // Ïä×Óµ½Î»
+         if map_Board[pos2] = FloorCell then map_Board[pos2] := BoxCell         // ç®±å­åˆ°ä½
          else map_Board[pos2] := BoxGoalCell;
 
-         if map_Board[pos1] = BoxCell then map_Board[pos1] := ManCell           // ÈËµ½Î»
+         if map_Board[pos1] = BoxCell then map_Board[pos1] := ManCell           // äººåˆ°ä½
          else map_Board[pos1] := ManGoalCell;
 
-         ch := Char(Ord(ch) - 32);                                              // ±ä³É´óĞ´ -- ÍÆ¶¯
+         ch := Char(Ord(ch) - 32);                                              // å˜æˆå¤§å†™ -- æ¨åŠ¨
 
-         Inc(PushTimes);                                                        // ÍÆ¶¯²½Êı
-      end else begin                                                            // ´íÎó¶¯×÷
-         StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch_;
+         Inc(PushTimes);                                                        // æ¨åŠ¨æ­¥æ•°
+      end else begin                                                            // é”™è¯¯åŠ¨ä½œ
+         StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch_;
          Break;
       end;
-    end else begin                                                              // ´íÎó¶¯×÷
-       StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch_;
+    end else begin                                                              // é”™è¯¯åŠ¨ä½œ
+       StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch_;
        Break;
     end;
 
-    // µ½ÁËÕâÀï£¬¶¯×÷ÕıÈ·£¬½«ÈËÒÆ×ß
-    if map_Board[ManPos] = ManCell then map_Board[ManPos] := FloorCell          // ÈËÒÆ×ß
+    // åˆ°äº†è¿™é‡Œï¼ŒåŠ¨ä½œæ­£ç¡®ï¼Œå°†äººç§»èµ°
+    if map_Board[ManPos] = ManCell then map_Board[ManPos] := FloorCell          // äººç§»èµ°
     else map_Board[ManPos] := GoalCell;
 
-    Inc(MoveTimes);                                                             // ÒÆ¶¯²½Êı
+    Inc(MoveTimes);                                                             // ç§»åŠ¨æ­¥æ•°
 
     Dec(ReDoPos);
     Inc(UnDoPos);
 
     UndoList[UnDoPos] := ch;
-    ManPos := pos1;                                                             // ÈËµÄĞÂÎ»ÖÃ
+    ManPos := pos1;                                                             // äººçš„æ–°ä½ç½®
 
     Dec(Steps);
   end;
 
   StatusBar1.Panels[1].Text := inttostr(MoveTimes);
   StatusBar1.Panels[3].Text := inttostr(PushTimes);
-  DrawMap();                               // ¸üĞÂµØÍ¼ÏÔÊ¾
+  DrawMap();                               // æ›´æ–°åœ°å›¾æ˜¾ç¤º
 end;
 
-// ³·ÏúÒ»²½ -- ÕıÍÆ
+// æ’¤é”€ä¸€æ­¥ -- æ­£æ¨
 procedure TTrialForm.UnDo(Steps: Integer);
 var
   ch: Char;
@@ -248,10 +248,10 @@ begin
 
   while (Steps > 0) and (UnDoPos > 0) and (ReDoPos < MaxLenPath) do begin
 
-    // ÈËµÄÎ»ÖÃ³öÏÖÒì³£
+    // äººçš„ä½ç½®å‡ºç°å¼‚å¸¸
     if (ManPos < 0) or (ManPos >= MapSize) or
        (not (map_Board[ManPos] in [ManCell, ManGoalCell])) then begin
-       StatusBar1.Panels[7].Text := format('ÈËµÄÎ»ÖÃÒì³££¡- [%d, %d]', [ManPos mod mapCols + 1, ManPos div mapCols + 1]);
+       StatusBar1.Panels[7].Text := format('äººçš„ä½ç½®å¼‚å¸¸ï¼- [%d, %d]', [ManPos mod mapCols + 1, ManPos div mapCols + 1]);
        Break;
     end;
     
@@ -282,15 +282,15 @@ begin
         end;
     end;
 
-    // ¼ì²âÊÇ·ñ°üº¬Ïä×ÓµÄÍË»Ø
+    // æ£€æµ‹æ˜¯å¦åŒ…å«ç®±å­çš„é€€å›
     if ch in ['L', 'R', 'U', 'D'] then
     begin
 
-      if (pos1 < 0) or (pos1 >= MapSize) or                              // ½çÍâ£¬µÈ
+      if (pos1 < 0) or (pos1 >= MapSize) or                              // ç•Œå¤–ï¼Œç­‰
          (pos2 < 0) or (pos2 >= MapSize) or
          (not (map_Board[pos1] in [BoxCell, BoxGoalCell])) or
          (not (map_Board[pos2] in [FloorCell, GoalCell])) then begin
-         StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+         StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
          Break;
       end;
 
@@ -304,19 +304,19 @@ begin
       else
         map_Board[ManPos] := BoxGoalCell;
 
-      // ÈËµÄ»ØÍË
+      // äººçš„å›é€€
       if map_Board[pos2] = FloorCell then
         map_Board[pos2] := ManCell
       else
         map_Board[pos2] := ManGoalCell;
 
-      Dec(PushTimes);                                                           // ÍÆ¶¯²½Êı
+      Dec(PushTimes);                                                           // æ¨åŠ¨æ­¥æ•°
     end
     else
     begin
-      if (pos2 < 0) or (pos2 >= MapSize) or                              // ½çÍâ£¬µÈ
+      if (pos2 < 0) or (pos2 >= MapSize) or                              // ç•Œå¤–ï¼Œç­‰
          (not (map_Board[pos2] in [FloorCell, GoalCell])) then begin
-         StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+         StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
          Break;
       end;
 
@@ -325,19 +325,19 @@ begin
       else
         map_Board[ManPos] := GoalCell;
 
-      // ÈËµÄ»ØÍË
+      // äººçš„å›é€€
       if map_Board[pos2] = FloorCell then
         map_Board[pos2] := ManCell
       else
         map_Board[pos2] := ManGoalCell;
     end;
 
-    Dec(MoveTimes);                                                             // ÒÆ¶¯²½Êı
+    Dec(MoveTimes);                                                             // ç§»åŠ¨æ­¥æ•°
 
     Dec(UnDoPos);
     inc(ReDoPos);
     RedoList[ReDoPos] := ch;
-    ManPos := pos2;                                                             // ÈËµÄĞÂÎ»ÖÃ
+    ManPos := pos2;                                                             // äººçš„æ–°ä½ç½®
 
     Dec(Steps);
 
@@ -345,10 +345,10 @@ begin
 
   StatusBar1.Panels[1].Text := inttostr(MoveTimes);
   StatusBar1.Panels[3].Text := inttostr(PushTimes);
-  DrawMap();                               // ¸üĞÂµØÍ¼ÏÔÊ¾
+  DrawMap();                               // æ›´æ–°åœ°å›¾æ˜¾ç¤º
 end;
 
-// ÖØ×öÒ»²½ -- ÄæÍÆ
+// é‡åšä¸€æ­¥ -- é€†æ¨
 procedure TTrialForm.ReDo_BK(Steps: Integer);
 var
   ch: Char;
@@ -362,10 +362,10 @@ begin
 
   while (Steps > 0) and (ReDoPos > 0) and (UnDoPos < MaxLenPath) do begin
 
-    // ÈËµÄÎ»ÖÃ³öÏÖÒì³£
+    // äººçš„ä½ç½®å‡ºç°å¼‚å¸¸
     if (ManPos < 0) or (ManPos >= MapSize) or
        (not (map_Board[ManPos] in [ManCell, ManGoalCell])) then begin
-       StatusBar1.Panels[7].Text := format('ÈËµÄÎ»ÖÃÒì³££¡- [%d, %d]', [ManPos mod mapCols + 1, ManPos div mapCols + 1]);
+       StatusBar1.Panels[7].Text := format('äººçš„ä½ç½®å¼‚å¸¸ï¼- [%d, %d]', [ManPos mod mapCols + 1, ManPos div mapCols + 1]);
        Break;
     end;
 
@@ -406,11 +406,11 @@ begin
       if ch in [ 'L', 'R', 'U', 'D' ] then
       begin
 
-        if (pos2 < 0) or (pos2 >= MapSize) or                              // ½çÍâ£¬µÈ
+        if (pos2 < 0) or (pos2 >= MapSize) or                              // ç•Œå¤–ï¼Œç­‰
            (pos1 < 0) or (pos1 >= MapSize) or
            (not (map_Board[pos2] in [BoxCell, BoxGoalCell])) or
            (not (map_Board[pos1] in [FloorCell, GoalCell]))then begin
-           StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+           StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
            Break;
         end;
 
@@ -419,7 +419,7 @@ begin
         else
           map_Board[pos2] := GoalCell;
 
-        if (map_Board[pos1] = FloorCell) then                                // ÏÂÒ»¸ñÊÇµØ°å
+        if (map_Board[pos1] = FloorCell) then                                // ä¸‹ä¸€æ ¼æ˜¯åœ°æ¿
           map_Board[pos1] := ManCell
         else
           map_Board[pos1] := ManGoalCell;
@@ -429,19 +429,19 @@ begin
         else
           map_Board[ManPos] := BoxGoalCell;
 
-        Inc(PushTimes);                                                      // ÍÆ¶¯²½Êı
+        Inc(PushTimes);                                                      // æ¨åŠ¨æ­¥æ•°
       end
       else
       begin
 
-        if (pos1 < 0) or (pos1 >= MapSize) or                            // ½çÍâ£¬µÈ
+        if (pos1 < 0) or (pos1 >= MapSize) or                            // ç•Œå¤–ï¼Œç­‰
            (not (map_Board[pos1] in [FloorCell, GoalCell]))then begin
-           StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+           StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
            Break;
         end;
 
-        // ÈËµ½Î»
-        if (map_Board[pos1] = FloorCell) then                                // ÏÂÒ»¸ñÊÇµØ°å
+        // äººåˆ°ä½
+        if (map_Board[pos1] = FloorCell) then                                // ä¸‹ä¸€æ ¼æ˜¯åœ°æ¿
           map_Board[pos1] := ManCell
         else
           map_Board[pos1] := ManGoalCell;
@@ -452,12 +452,12 @@ begin
           map_Board[ManPos] := GoalCell;
       end;
 
-      Inc(MoveTimes);                                                        // ÒÆ¶¯²½Êı
+      Inc(MoveTimes);                                                        // ç§»åŠ¨æ­¥æ•°
 
       Dec(ReDoPos);
       Inc(UnDoPos);
       UndoList[UnDoPos] := ch;
-      ManPos := pos1;                                                        // ÈËµÄĞÂÎ»ÖÃ
+      ManPos := pos1;                                                        // äººçš„æ–°ä½ç½®
 
       Dec(Steps);
     end;
@@ -465,10 +465,10 @@ begin
 
   StatusBar1.Panels[1].Text := inttostr(MoveTimes);
   StatusBar1.Panels[3].Text := inttostr(PushTimes);
-  DrawMap();                               // ¸üĞÂµØÍ¼ÏÔÊ¾
+  DrawMap();                               // æ›´æ–°åœ°å›¾æ˜¾ç¤º
 end;
 
-// ³·ÏúÒ»²½ -- ÄæÍÆ
+// æ’¤é”€ä¸€æ­¥ -- é€†æ¨
 procedure TTrialForm.UnDo_BK(Steps: Integer);
 var
   ch: Char;
@@ -482,10 +482,10 @@ begin
 
   while (Steps > 0) and (UnDoPos > 0) and (ReDoPos < MaxLenPath) do begin
 
-    // ÈËµÄÎ»ÖÃ³öÏÖÒì³£
+    // äººçš„ä½ç½®å‡ºç°å¼‚å¸¸
     if (ManPos < 0) or (ManPos >= MapSize) or
        (not (map_Board[ManPos] in [ManCell, ManGoalCell])) then begin
-       StatusBar1.Panels[7].Text := format('ÈËµÄÎ»ÖÃÒì³££¡- [%d, %d]', [ManPos mod mapCols + 1, ManPos div mapCols + 1]);
+       StatusBar1.Panels[7].Text := format('äººçš„ä½ç½®å¼‚å¸¸ï¼- [%d, %d]', [ManPos mod mapCols + 1, ManPos div mapCols + 1]);
        Break;
     end;
 
@@ -516,14 +516,14 @@ begin
         end;
     end;
 
-    // ¼ì²âÊÇ·ñ°üº¬Ïä×ÓµÄ¶¯×÷
+    // æ£€æµ‹æ˜¯å¦åŒ…å«ç®±å­çš„åŠ¨ä½œ
     if ch in [ 'L', 'R', 'U', 'D' ] then begin
 
-      if (pos2 < 0) or (pos2 >= MapSize) or                              // ½çÍâ£¬µÈ
+      if (pos2 < 0) or (pos2 >= MapSize) or                              // ç•Œå¤–ï¼Œç­‰
          (pos1 < 0) or (pos1 >= MapSize) or
          (not (map_Board[pos1] in [BoxCell, BoxGoalCell])) or
          (not (map_Board[pos2] in [FloorCell, GoalCell]))then begin
-         StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+         StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
          Break;
       end;
 
@@ -537,11 +537,11 @@ begin
       else
         map_Board[pos2] := BoxGoalCell;
 
-      Dec(PushTimes);                                                        // ÍÆ¶¯²½Êı
+      Dec(PushTimes);                                                        // æ¨åŠ¨æ­¥æ•°
     end else begin
-      if (pos1 < 0) or (pos1 >= MapSize) or                              // ½çÍâ£¬µÈ
+      if (pos1 < 0) or (pos1 >= MapSize) or                              // ç•Œå¤–ï¼Œç­‰
          (not (map_Board[pos1] in [FloorCell, GoalCell])) then begin
-         StatusBar1.Panels[7].Text := 'Óöµ½ÁË´íÎóµÄ¶¯×÷·ûºÅ£¡- ' + ch;
+         StatusBar1.Panels[7].Text := 'é‡åˆ°äº†é”™è¯¯çš„åŠ¨ä½œç¬¦å·ï¼- ' + ch;
          Break;
       end;
       if (map_Board[pos1] = FloorCell) then
@@ -550,53 +550,53 @@ begin
         map_Board[pos1] := ManGoalCell;
     end;
 
-    // ÈËµÄÍË»Ø
+    // äººçš„é€€å›
     if (map_Board[ManPos] = ManCell) then
       map_Board[ManPos] := FloorCell
     else
       map_Board[ManPos] := GoalCell;
 
-    Dec(MoveTimes);                                                          // ÒÆ¶¯²½Êı
+    Dec(MoveTimes);                                                          // ç§»åŠ¨æ­¥æ•°
 
     Dec(UnDoPos);
     Inc(ReDoPos);
     RedoList[ReDoPos] := ch;
-    ManPos := pos1;                                                          // ÈËµÄĞÂÎ»ÖÃ
+    ManPos := pos1;                                                          // äººçš„æ–°ä½ç½®
 
     Dec(Steps);
   end;
 
   StatusBar1.Panels[1].Text := inttostr(MoveTimes);
   StatusBar1.Panels[3].Text := inttostr(PushTimes);
-  DrawMap();                               // ¸üĞÂµØÍ¼ÏÔÊ¾
+  DrawMap();                               // æ›´æ–°åœ°å›¾æ˜¾ç¤º
 
 end;
 
 procedure TTrialForm.FormCreate(Sender: TObject);
 begin
-  Caption := 'ÕıÍÆÑİÁ·³¡';
-  bt_Exit.Caption := '·µ»Ø';
-  bt_GoThrough.Caption := '´©Ô½';
-  bt_OddEven.Caption := 'ÆæÅ¼';
-  bt_Save.Caption := 'µ¼³ö£¨XSB + Lurd£©';
+  Caption := 'æ­£æ¨æ¼”ç»ƒåœº';
+  bt_Exit.Caption := 'è¿”å›';
+  bt_GoThrough.Caption := 'ç©¿è¶Š';
+  bt_OddEven.Caption := 'å¥‡å¶';
+  bt_Save.Caption := 'å¯¼å‡ºï¼ˆXSB + Lurdï¼‰';
 
-  bt_Exit.Hint := '·µ»Ø±à¼­¡¾Ctrl + Q¡¿';
-  bt_GoThrough.Hint := '´©Ô½¿ª¹Ø¡¾G¡¿';
-  bt_OddEven.Hint := 'ÆæÅ¼¸ñÎ»¡¾E¡¿';
-  bt_Save.Hint := 'µ¼³öÑİÁ·³¡µÄ XSB + Lurd¡¾Ctrl + C¡¿';
-  bt_UnDo.Hint := '³·Ïú¡¾Z/ÍË¸ñ¼ü/¹öÂÖ¡¿';
-  bt_ReDo.Hint := 'ÖØ×ö¡¾X/¿Õ¸ñ¼ü/»Ø³µ¼ü/¹öÂÖ¡¿';
+  bt_Exit.Hint := 'è¿”å›ç¼–è¾‘ã€Ctrl + Qã€‘';
+  bt_GoThrough.Hint := 'ç©¿è¶Šå¼€å…³ã€Gã€‘';
+  bt_OddEven.Hint := 'å¥‡å¶æ ¼ä½ã€Eã€‘';
+  bt_Save.Hint := 'å¯¼å‡ºæ¼”ç»ƒåœºçš„ XSB + Lurdã€Ctrl + Cã€‘';
+  bt_UnDo.Hint := 'æ’¤é”€ã€Z/é€€æ ¼é”®/æ»šè½®ã€‘';
+  bt_ReDo.Hint := 'é‡åšã€X/ç©ºæ ¼é”®/å›è½¦é”®/æ»šè½®ã€‘';
 
-  StatusBar1.Panels[0].Text := 'ÒÆ¶¯';
-  StatusBar1.Panels[2].Text := 'ÍÆ¶¯';
-  StatusBar1.Panels[4].Text := 'Ïä×ÓÊı';
+  StatusBar1.Panels[0].Text := 'ç§»åŠ¨';
+  StatusBar1.Panels[2].Text := 'æ¨åŠ¨';
+  StatusBar1.Panels[4].Text := 'ç®±å­æ•°';
 
   isBK        := False;
   isGoThrough := True;
   isOddEven   := False;
   curTrun     := 0;
 
-  MaskPic := TBitmap.Create;      // Ñ¡Ôñµ¥Ôª¸ñÑÚÍ¼
+  MaskPic := TBitmap.Create;      // é€‰æ‹©å•å…ƒæ ¼æ©å›¾
   LoadDefaultSkin;
 
   KeyPreview := true;
@@ -613,7 +613,7 @@ begin
   Close;
 end;
 
-// ¼ÆËãÎŞ·ìÇ½±ÚÍ¼Ôª
+// è®¡ç®—æ— ç¼å¢™å£å›¾å…ƒ
 function TTrialForm.GetWall(r, c: Integer): Integer;
 var
   pos: Integer;
@@ -623,19 +623,19 @@ begin
   pos := r * mapCols + c;
 
   if (c > 0) and (map_Board[r * mapCols + c - 1] = WallCell) then
-    result := result or MapDir[curTrun, 0];  // ×óÓĞÇ½±Ú
+    result := result or MapDir[curTrun, 0];  // å·¦æœ‰å¢™å£
   if (r > 0) and (map_Board[(r - 1) * mapCols + c] = WallCell) then
-    result := result or MapDir[curTrun, 1];  // ÉÏÓĞÇ½±Ú
+    result := result or MapDir[curTrun, 1];  // ä¸Šæœ‰å¢™å£
   if (c < mapCols - 1) and (map_Board[r * mapCols + c + 1] = WallCell) then
-    result := result or MapDir[curTrun, 2];  // ÓÒÓĞÇ½±Ú
+    result := result or MapDir[curTrun, 2];  // å³æœ‰å¢™å£
   if (r < mapRows - 1) and (map_Board[(r + 1) * mapCols + c] = WallCell) then
-    result := result or MapDir[curTrun, 3];  // ÏÂÓĞÇ½±Ú
+    result := result or MapDir[curTrun, 3];  // ä¸‹æœ‰å¢™å£
 
   if ((result = MapDir[curTrun, 4]) or (result = MapDir[curTrun, 5]) or (result = MapDir[curTrun, 6]) or (result = 15)) and (c > 0) and (r > 0) and (map_Board[pos - mapCols - 1] = WallCell) then
-    result := result or 16;  // ĞèÒª»­Ç½¶¥
+    result := result or 16;  // éœ€è¦ç”»å¢™é¡¶
 end;
 
-// ±È½ÏÍ¼Ôª¸ñµÚÒ»ÏñËØÑÕÉ«ÓëµØ°å¸ñÑÕÉ«ÊÇ·ñÏàÍ¬£¬ÒÔÈ·¶¨ÊÇ·ñ»­¸ñÏß
+// æ¯”è¾ƒå›¾å…ƒæ ¼ç¬¬ä¸€åƒç´ é¢œè‰²ä¸åœ°æ¿æ ¼é¢œè‰²æ˜¯å¦ç›¸åŒï¼Œä»¥ç¡®å®šæ˜¯å¦ç”»æ ¼çº¿
 procedure TTrialForm.DrawLine(cs: TCanvas; x1, y1: Integer; isLine: boolean);
 begin
   if isLine then
@@ -648,7 +648,7 @@ begin
   end;
 end;
 
-// ÖØ»­µØÍ¼
+// é‡ç”»åœ°å›¾
 procedure TTrialForm.DrawMap();
 var
   i, j, i2, j2, k, dx, dy, x1, y1, x2, y2, x3, y3, x4, y4, pos, t1, t2, man_Pos_: integer;
@@ -656,7 +656,7 @@ var
 
 begin
 
-  // Êó±êÑùÊ½
+  // é¼ æ ‡æ ·å¼
   if IsManAccessibleTips or IsBoxAccessibleTips then map_Image.Cursor := crDrag
   else map_Image.Cursor := crDefault;
 
@@ -666,8 +666,8 @@ begin
   begin
     for j := 0 to mapCols - 1 do
     begin
-      // 0-7, 1-6, 2-5, 3-4, »¥Îª×ªÖÃ
-      case (curTrun) of  // ÀûÓÃ i2, j2 Ä£ÄâÍ¼ÔªËØµÄĞı×ª£¬ÕâÑù²»¹ÜÔõÃ´¡°Ğı×ª¡±£¬Êµ¼ÊÉÏµØÍ¼Ê¼ÖÕ²»±ä -- ½«µØÍ¼×ø±ê×ª»»ÎªÊÓ¾õ×ø±ê
+      // 0-7, 1-6, 2-5, 3-4, äº’ä¸ºè½¬ç½®
+      case (curTrun) of  // åˆ©ç”¨ i2, j2 æ¨¡æ‹Ÿå›¾å…ƒç´ çš„æ—‹è½¬ï¼Œè¿™æ ·ä¸ç®¡æ€ä¹ˆâ€œæ—‹è½¬â€ï¼Œå®é™…ä¸Šåœ°å›¾å§‹ç»ˆä¸å˜ -- å°†åœ°å›¾åæ ‡è½¬æ¢ä¸ºè§†è§‰åæ ‡
       1:
         begin
           j2 := mapRows - 1 - i;
@@ -710,111 +710,111 @@ begin
         end;
       end;
 
-      pos := i * mapCols + j;    // µØÍ¼ÖĞ£¬¡°¸ñ×Ó¡±µÄÕæÊµÎ»ÖÃ
+      pos := i * mapCols + j;    // åœ°å›¾ä¸­ï¼Œâ€œæ ¼å­â€çš„çœŸå®ä½ç½®
 
-      x1 := j2 * CellSize;        // x1, y1 ÊÇµØÍ¼ÔªËØµÄ»æÖÆ×ø±ê -- Ğı×ªºóµÄ
+      x1 := j2 * CellSize;        // x1, y1 æ˜¯åœ°å›¾å…ƒç´ çš„ç»˜åˆ¶åæ ‡ -- æ—‹è½¬åçš„
       y1 := i2 * CellSize;
 
-      R := Rect(x1, y1, x1 + CellSize, y1 + CellSize);        // µØÍ¼¸ñ×ÓµÄ»æÖÆ¾ØĞÎ
+      R := Rect(x1, y1, x1 + CellSize, y1 + CellSize);        // åœ°å›¾æ ¼å­çš„ç»˜åˆ¶çŸ©å½¢
 
       map_Image.Canvas.CopyMode := SRCCOPY;
       case map_Board[pos] of
         WallCell:
           if isSeamless then
-          begin    // ÎŞ·ìÇ½±Ú
+          begin    // æ— ç¼å¢™å£
             k := GetWall(i, j);
             case (k and $F) of
               1:
-                map_Image.Canvas.StretchDraw(R, WallPic_l);     // ½ö×ó
+                map_Image.Canvas.StretchDraw(R, WallPic_l);     // ä»…å·¦
               2:
-                map_Image.Canvas.StretchDraw(R, WallPic_u);     // ½öÉÏ
+                map_Image.Canvas.StretchDraw(R, WallPic_u);     // ä»…ä¸Š
               3:
-                map_Image.Canvas.StretchDraw(R, WallPic_lu);    // ×ó¡¢ÉÏ
+                map_Image.Canvas.StretchDraw(R, WallPic_lu);    // å·¦ã€ä¸Š
               4:
-                map_Image.Canvas.StretchDraw(R, WallPic_r);     // ½öÓÒ
+                map_Image.Canvas.StretchDraw(R, WallPic_r);     // ä»…å³
               5:
-                map_Image.Canvas.StretchDraw(R, WallPic_lr);    // ×ó¡¢ÓÒ
+                map_Image.Canvas.StretchDraw(R, WallPic_lr);    // å·¦ã€å³
               6:
-                map_Image.Canvas.StretchDraw(R, WallPic_ru);    // ÓÒ¡¢ÉÏ
+                map_Image.Canvas.StretchDraw(R, WallPic_ru);    // å³ã€ä¸Š
               7:
-                map_Image.Canvas.StretchDraw(R, WallPic_lur);   // ×ó¡¢ÉÏ¡¢ÓÒ
+                map_Image.Canvas.StretchDraw(R, WallPic_lur);   // å·¦ã€ä¸Šã€å³
               8:
-                map_Image.Canvas.StretchDraw(R, WallPic_d);     // ½öÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_d);     // ä»…ä¸‹
               9:
-                map_Image.Canvas.StretchDraw(R, WallPic_ld);    // ×ó¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_ld);    // å·¦ã€ä¸‹
               10:
-                map_Image.Canvas.StretchDraw(R, WallPic_ud);    // ÉÏ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_ud);    // ä¸Šã€ä¸‹
               11:
-                map_Image.Canvas.StretchDraw(R, WallPic_uld);   // ×ó¡¢ÉÏ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_uld);   // å·¦ã€ä¸Šã€ä¸‹
               12:
-                map_Image.Canvas.StretchDraw(R, WallPic_rd);    // ÓÒ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_rd);    // å³ã€ä¸‹
               13:
-                map_Image.Canvas.StretchDraw(R, WallPic_ldr);   // ×ó¡¢ÓÒ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_ldr);   // å·¦ã€å³ã€ä¸‹
               14:
-                map_Image.Canvas.StretchDraw(R, WallPic_urd);   // ÉÏ¡¢ÓÒ¡¢ÏÂ
+                map_Image.Canvas.StretchDraw(R, WallPic_urd);   // ä¸Šã€å³ã€ä¸‹
               15:
-                map_Image.Canvas.StretchDraw(R, WallPic_lurd);  // ËÄ·½ÏòÈ«ÓĞ
+                map_Image.Canvas.StretchDraw(R, WallPic_lurd);  // å››æ–¹å‘å…¨æœ‰
             else
               map_Image.Canvas.StretchDraw(R, WallPic);
             end;
             if k > 15 then
-            begin     // ĞèÒª»­ÉÏÇ½µÄ¶¥²¿ -- ¡°Á¬ÌåËÄ¿é¡±Ç½±Ú
+            begin     // éœ€è¦ç”»ä¸Šå¢™çš„é¡¶éƒ¨ -- â€œè¿ä½“å››å—â€å¢™å£
               dx := R.Left - CellSize div 2;
               dy := R.Top - CellSize div 2;
               map_Image.Canvas.StretchDraw(Rect(dx, dy, dx + CellSize, dy + CellSize), WallPic_top);
             end;
           end
           else
-          begin                 // ¼òµ¥Ç½±Ú
+          begin                 // ç®€å•å¢™å£
             map_Image.Canvas.StretchDraw(R, WallPic);
           end;
         FloorCell:
           begin
             if isOddEven and ((i + j) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, FloorPic2)
             else map_Image.Canvas.StretchDraw(R, FloorPic);
-            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isFloorLine);  // »­Íø¸ñÏß
+            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isFloorLine);  // ç”»ç½‘æ ¼çº¿
           end;
         GoalCell:
           begin
             if isOddEven and ((i + j) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, GoalPic2)
             else map_Image.Canvas.StretchDraw(R, GoalPic);
-            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isGoalLine);   // »­Íø¸ñÏß
+            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isGoalLine);   // ç”»ç½‘æ ¼çº¿
           end;
         BoxCell:
           begin
             if isOddEven and ((i + j) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, BoxPic2)
             else map_Image.Canvas.StretchDraw(R, BoxPic);
-            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isBoxLine);    // »­Íø¸ñÏß
+            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isBoxLine);    // ç”»ç½‘æ ¼çº¿
           end;
         BoxGoalCell:
           begin
             if isOddEven and ((i + j) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, BoxGoalPic2)
             else map_Image.Canvas.StretchDraw(R, BoxGoalPic);
-            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isBoxGoalLine); // »­Íø¸ñÏß
+            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isBoxGoalLine); // ç”»ç½‘æ ¼çº¿
           end;
         ManCell:
           begin
             if isOddEven and ((i + j) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, ManPic2)
             else map_Image.Canvas.StretchDraw(R, ManPic);
-            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isManLine);    // »­Íø¸ñÏß
+            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isManLine);    // ç”»ç½‘æ ¼çº¿
           end;
         ManGoalCell:
           begin
             if isOddEven and ((i + j) mod 2 = 1) then map_Image.Canvas.StretchDraw(R, ManGoalPic2)
             else map_Image.Canvas.StretchDraw(R, ManGoalPic);
-            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isManGoalLine); // »­Íø¸ñÏß
+            if not isOddEven then DrawLine(map_Image.Canvas, x1, y1, isManGoalLine); // ç”»ç½‘æ ¼çº¿
           end;
       else
         map_Image.Canvas.Brush.Color := clInactiveCaptionText;
         map_Image.Canvas.FillRect(R);
       end;
 
-      // ÊÇ·ñ¡°ÄæÍÆÄ£Ê½¡±
+      // æ˜¯å¦â€œé€†æ¨æ¨¡å¼â€
       if isBK then
       begin
 
         if IsManAccessibleTips then
-        begin   // ÏÔÊ¾ÈËµÄ¿É´ïÌáÊ¾
+        begin   // æ˜¾ç¤ºäººçš„å¯è¾¾æç¤º
           t1 := CellSize div 6;
           if t1 < 4 then t1 := 4;
           t2 := t1 - 1;
@@ -841,7 +841,7 @@ begin
           end;
         end;
         if IsBoxAccessibleTips then
-        begin   // ÏÔÊ¾Ïä×ÓµÄ¿É´ïÌáÊ¾
+        begin   // æ˜¾ç¤ºç®±å­çš„å¯è¾¾æç¤º
           t1 := CellSize div 6;
           if t1 < 4 then t1 := 4;
           t2 := t1 - 1;
@@ -854,10 +854,10 @@ begin
           end;
         end;
       end
-      else                                                                      // ÕıÍÆ
+      else                                                                      // æ­£æ¨
       begin
         if IsManAccessibleTips then
-        begin   // ÏÔÊ¾ÈËµÄ¿É´ïÌáÊ¾
+        begin   // æ˜¾ç¤ºäººçš„å¯è¾¾æç¤º
           t1 := CellSize div 6;
           if t1 < 4 then t1 := 4;
           t2 := t1 - 1;
@@ -884,7 +884,7 @@ begin
           end;
         end;
         if IsBoxAccessibleTips then
-        begin   // ÏÔÊ¾Ïä×ÓµÄ¿É´ïÌáÊ¾
+        begin   // æ˜¾ç¤ºç®±å­çš„å¯è¾¾æç¤º
           t1 := CellSize div 6;
           if t1 < 4 then t1 := 4;
           t2 := t1 - 1;
@@ -907,7 +907,7 @@ procedure TTrialForm.FormShow(Sender: TObject);
 var
   i: Integer;
 begin
-//  PathFinder.isEditor := True;        // ±à¼­Æ÷µ÷ÓÃÊ±£¬²»»á×Ô¶¯±£´æ¶¯×÷ÈÕÖ¾
+//  PathFinder.isEditor := True;        // ç¼–è¾‘å™¨è°ƒç”¨æ—¶ï¼Œä¸ä¼šè‡ªåŠ¨ä¿å­˜åŠ¨ä½œæ—¥å¿—
   PathFinder.setThroughable(isGoThrough);
 
   UnDoPos := 0;
@@ -928,13 +928,13 @@ begin
   DrawMap;
 end;
 
-// ¼ÆËãµØÍ¼ĞÂµÄÍ¼Æ¬ÏÔÊ¾µÄ³ß´ç
+// è®¡ç®—åœ°å›¾æ–°çš„å›¾ç‰‡æ˜¾ç¤ºçš„å°ºå¯¸
 procedure TTrialForm.NewMapSize();
 var
   w, h: integer;
 begin
   
-  // ¼ÆËãµØÍ¼µ¥Ôª¸ñµÄ´óĞ¡
+  // è®¡ç®—åœ°å›¾å•å…ƒæ ¼çš„å¤§å°
   if (mapCols > 2) and (mapRows > 2) then
   begin
     if curTrun mod 2 = 0 then
@@ -958,12 +958,12 @@ begin
   if CellSize < 10 then
     CellSize := 10;
 
-  // Ñ¡Ôñµ¥Ôª¸ñÑÚÍ¼
+  // é€‰æ‹©å•å…ƒæ ¼æ©å›¾
   MaskPic.Width  := CellSize;
   MaskPic.Height := MaskPic.Width;
 
-  // È·¶¨µØÍ¼µÄ³ß´ç
-  map_Image.Picture := nil;       // ÕâÊÇ±ØĞëµÄ£¬·ñÔò£¬µØÍ¼²»ÄÜ¸Ä±ä³ß´ç
+  // ç¡®å®šåœ°å›¾çš„å°ºå¯¸
+  map_Image.Picture := nil;       // è¿™æ˜¯å¿…é¡»çš„ï¼Œå¦åˆ™ï¼Œåœ°å›¾ä¸èƒ½æ”¹å˜å°ºå¯¸
   if curTrun mod 2 = 0 then
   begin
     map_Image.Width := mapCols * CellSize;
@@ -978,14 +978,14 @@ begin
   map_Image.Top := (pl_Ground.Height - map_Image.Height) div 2;
 end;
 
-// ´°¿Ú Resize
+// çª—å£ Resize
 procedure TTrialForm.FormResize(Sender: TObject);
 begin
   NewMapSize;
   DrawMap;
 end;
 
-// ÉèÖÃ°´Å¥×´Ì¬
+// è®¾ç½®æŒ‰é’®çŠ¶æ€
 procedure TTrialForm.SetButton();
 begin
   if isGoThrough then
@@ -1007,7 +1007,7 @@ begin
   LoadSkinForm.MyBMPFree(MaskPic);
 end;
 
-// ÊÇ·ñÔÊĞí´©Ô½
+// æ˜¯å¦å…è®¸ç©¿è¶Š
 procedure TTrialForm.bt_GoThroughClick(Sender: TObject);
 begin
   isGoThrough := not isGoThrough;
@@ -1015,55 +1015,55 @@ begin
   SetButton;
 end;
 
-// Ä¬ÈÏÆ¤·ô
+// é»˜è®¤çš®è‚¤
 procedure TTrialForm.LoadDefaultSkin();
 begin
   SkinSize   := 60;
   isSeamless := False;
-  LineColor  := clInactiveCaptionText;  // ¸ñÏßÑÕÉ«
-  isFloorLine   := true;            // µØ°åÊÇ·ñ»­Ïß
-  isGoalLine    := true;            // Ä¿±êµãÊÇ·ñ»­Ïß
-  isManLine     := true;            // ÈËÊÇ·ñ»­Ïß
-  isManGoalLine := true;            // ÈËÔÚÄ¿±êµãÊÇ·ñ»­Ïß
-  isBoxLine     := true;            // Ïä×ÓÊÇ·ñ»­Ïß
-  isBoxGoalLine := true;            // Ïä×ÓÔÚÄ¿±êµãÊÇ·ñ»­Ïß
+  LineColor  := clInactiveCaptionText;  // æ ¼çº¿é¢œè‰²
+  isFloorLine   := true;            // åœ°æ¿æ˜¯å¦ç”»çº¿
+  isGoalLine    := true;            // ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
+  isManLine     := true;            // äººæ˜¯å¦ç”»çº¿
+  isManGoalLine := true;            // äººåœ¨ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
+  isBoxLine     := true;            // ç®±å­æ˜¯å¦ç”»çº¿
+  isBoxGoalLine := true;            // ç®±å­åœ¨ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
 
-  // µØ°å
+  // åœ°æ¿
   FloorPic.Width   := SkinSize;
   FloorPic.Height  := SkinSize;
   FloorPic.Canvas.CopyRect(Rect(0, 0, FloorPic.Width, FloorPic.Height), RecogForm_.Image4.Canvas, Rect(0, 0, 60, 60));
 
-  // Ä¿±êµã
+  // ç›®æ ‡ç‚¹
   GoalPic.Width   := SkinSize;
   GoalPic.Height  := SkinSize;
   GoalPic.Canvas.CopyRect(Rect(0, 0, GoalPic.Width, GoalPic.Height), RecogForm_.Image4.Canvas, Rect(60, 0, 120, 60));
 
-  // Íæ¼Ò
+  // ç©å®¶
   ManPic.Width   := SkinSize;
   ManPic.Height  := SkinSize;
   ManPic.Canvas.CopyRect(Rect(0, 0, ManPic.Width, ManPic.Height), RecogForm_.Image4.Canvas, Rect(240, 0, 300, 60));
 
-  // Íæ¼Ò¡¢Ä¿±êµã
+  // ç©å®¶ã€ç›®æ ‡ç‚¹
   ManGoalPic.Width   := SkinSize;
   ManGoalPic.Height  := SkinSize;
   ManGoalPic.Canvas.CopyRect(Rect(0, 0, ManGoalPic.Width, ManGoalPic.Height), RecogForm_.Image4.Canvas, Rect(300, 0, 360, 60));
 
-  // Ïä×Ó
+  // ç®±å­
   BoxPic.Width   := SkinSize;
   BoxPic.Height  := SkinSize;
   BoxPic.Canvas.CopyRect(Rect(0, 0, BoxPic.Width, BoxPic.Height), RecogForm_.Image4.Canvas, Rect(120, 0, 180, 60));
 
-  // Ïä×Ó¡¢Ä¿±êµã
+  // ç®±å­ã€ç›®æ ‡ç‚¹
   BoxGoalPic.Width   := SkinSize;
   BoxGoalPic.Height  := SkinSize;
   BoxGoalPic.Canvas.CopyRect(Rect(0, 0, BoxGoalPic.Width, BoxGoalPic.Height), RecogForm_.Image4.Canvas, Rect(180, 0, 240, 60));
 
-  // Ç½±Ú
+  // å¢™å£
   WallPic.Width   := SkinSize;
   WallPic.Height  := SkinSize;
   WallPic.Canvas.CopyRect(Rect(0, 0, WallPic.Width, WallPic.Height), RecogForm_.Image4.Canvas, Rect(360, 0, 420, 60));
 
-  // ¸ßÁÁÍ¼Ôª
+  // é«˜äº®å›¾å…ƒ
   FloorPic2.Width := SkinSize;
   FloorPic2.Height := SkinSize;
   GoalPic2.Width := SkinSize;
@@ -1097,7 +1097,7 @@ begin
   x2 := X div CellSize;
   y2 := Y div CellSize;
 
-  case curTrun of // °Ñµã»÷µÄÎ»ÖÃ£¬×ª»»µØÍ¼µÄÕæÊµ×ø±ê -- ½«ÊÓ¾õ×ø±ê×ª»»ÎªµØÍ¼×ø±ê
+  case curTrun of // æŠŠç‚¹å‡»çš„ä½ç½®ï¼Œè½¬æ¢åœ°å›¾çš„çœŸå®åæ ‡ -- å°†è§†è§‰åæ ‡è½¬æ¢ä¸ºåœ°å›¾åæ ‡
     1:
       begin
         MapClickPos.X := y2;
@@ -1140,16 +1140,16 @@ begin
       end;
   end;
 
-  // ±»µã»÷µÄÍ¼ÔªÎ»ÖÃ
+  // è¢«ç‚¹å‡»çš„å›¾å…ƒä½ç½®
   pos := MapClickPos.y * mapCols + MapClickPos.x;
 
   case Button of
-    mbleft:             // µ¥»÷ -- Ö¸×ó¼ü
+    mbleft:             // å•å‡» -- æŒ‡å·¦é”®
       case map_Board[pos] of
         FloorCell, GoalCell:
-          begin            // µ¥»÷µØ°å
-              if IsBoxAccessibleTips then begin                          // ÓĞÏä×Ó¿É´ïÌáÊ¾Ê±
-                // ÊÓµã»÷Î»ÖÃÊÇ·ñ¿É´ï¶ø¶¨
+          begin            // å•å‡»åœ°æ¿
+              if IsBoxAccessibleTips then begin                          // æœ‰ç®±å­å¯è¾¾æç¤ºæ—¶
+                // è§†ç‚¹å‡»ä½ç½®æ˜¯å¦å¯è¾¾è€Œå®š
                 if(isBK and (not PathFinder.isBoxReachable_BK(pos))) or ((not isBK) and (not PathFinder.isBoxReachable(pos))) then
                    IsBoxAccessibleTips := False
                 else begin
@@ -1159,7 +1159,7 @@ begin
                   if ReDoPos > 0 then begin
                     for k := 1 to ReDoPos do
                       RedoList[k] := BoxPath[ReDoPos - k + 1];
-                    LastSteps := UnDoPos;              // µãÍÆÇ°µÄ²½Êı
+                    LastSteps := UnDoPos;              // ç‚¹æ¨å‰çš„æ­¥æ•°
                     if isBK then ReDo_BK(ReDoPos)
                     else ReDo(ReDoPos);
                   end;
@@ -1169,9 +1169,9 @@ begin
 
                 IsManAccessibleTips := False;
                 IsBoxAccessibleTips := False;
-                ReDoPos := PathFinder.manTo(isBK, map_Board, ManPos, pos);               // ¼ÆËãÈË¿É´ï
+                ReDoPos := PathFinder.manTo(isBK, map_Board, ManPos, pos);               // è®¡ç®—äººå¯è¾¾
                 if ReDoPos > 0 then begin
-                  LastSteps := UnDoPos;              // µãÍÆÇ°µÄ²½Êı
+                  LastSteps := UnDoPos;              // ç‚¹æ¨å‰çš„æ­¥æ•°
                   for k := 1 to ReDoPos do
                     RedoList[k] := ManPath[k];
                     if isBK then ReDo_BK(ReDoPos)
@@ -1180,28 +1180,28 @@ begin
               end;
           end;
         ManCell, ManGoalCell:
-          begin           // µ¥»÷ÈË
-              if IsBoxAccessibleTips and ((isBK and PathFinder.isBoxReachable_BK(ManPos)) or ((not isBK) and PathFinder.isBoxReachable(ManPos))) then begin   // ÓĞÏä×Ó¿É´ïÌáÊ¾Ê±
+          begin           // å•å‡»äºº
+              if IsBoxAccessibleTips and ((isBK and PathFinder.isBoxReachable_BK(ManPos)) or ((not isBK) and PathFinder.isBoxReachable(ManPos))) then begin   // æœ‰ç®±å­å¯è¾¾æç¤ºæ—¶
                 IsBoxAccessibleTips := False;
 
                 ReDoPos := PathFinder.boxTo(isBK, OldBoxPos, pos, ManPos);
                 if ReDoPos > 0 then begin
                   for k := 1 to ReDoPos do
                     RedoList[k] := BoxPath[ReDoPos - k + 1];
-                  LastSteps := UnDoPos;              // µãÍÆÇ°µÄ²½Êı
+                  LastSteps := UnDoPos;              // ç‚¹æ¨å‰çš„æ­¥æ•°
                   if isBK then ReDo_BK(ReDoPos)
                   else ReDo(ReDoPos);
                 end;
               end else if IsManAccessibleTips then
-                IsManAccessibleTips := False        // ÔÚÏÔÊ¾ÈËµÄ¿É´ïÌáÊ¾Ê±£¬ÓÖµã»÷ÁËÈË
+                IsManAccessibleTips := False        // åœ¨æ˜¾ç¤ºäººçš„å¯è¾¾æç¤ºæ—¶ï¼Œåˆç‚¹å‡»äº†äºº
               else begin
-                PathFinder.manReachable(isBK, map_Board, ManPos);                       // ¼ÆËãÈË¿É´ï
+                PathFinder.manReachable(isBK, map_Board, ManPos);                       // è®¡ç®—äººå¯è¾¾
                 IsManAccessibleTips := True;
                 IsBoxAccessibleTips := False;
               end;
           end;
         BoxCell, BoxGoalCell:
-          begin           // µ¥»÷Ïä×Ó
+          begin           // å•å‡»ç®±å­
               if IsBoxAccessibleTips and (OldBoxPos = pos) then
                 IsBoxAccessibleTips := False
               else
@@ -1210,19 +1210,19 @@ begin
                 
                 IsBoxAccessibleTips := True;
                 IsManAccessibleTips := False;
-                PathFinder.FindBlock(map_Board, pos);                              // ¸ù¾İ±»µã»÷µÄÏä×Ó£¬¼ÆËã¸îµã
-                PathFinder.boxReachable(isBK, pos, ManPos);                        // ¼ÆËãÏä×Ó¿É´ï
+                PathFinder.FindBlock(map_Board, pos);                              // æ ¹æ®è¢«ç‚¹å‡»çš„ç®±å­ï¼Œè®¡ç®—å‰²ç‚¹
+                PathFinder.boxReachable(isBK, pos, ManPos);                        // è®¡ç®—ç®±å­å¯è¾¾
                 OldBoxPos := pos;
               end;
           end;
       else
-          begin                            // È¡Ïû¿É´ïÌáÊ¾
+          begin                            // å–æ¶ˆå¯è¾¾æç¤º
               IsManAccessibleTips := False;
               IsBoxAccessibleTips := False;
           end;
       end;
     mbright:
-      begin    // ÓÒ»÷ -- Ö¸ÓÒ¼ü
+      begin    // å³å‡» -- æŒ‡å³é”®
 
       end;
   end;
@@ -1230,7 +1230,7 @@ begin
   DrawMap();
 end;
 
-// ¶ÔÓÚ¼üÅÌµÄÉÏÏÂ×óÓÒ°´¼ü£¬¸ù¾İ¹Ø¿¨µÄµ±Ç°Ğı×ª×´Ì¬×ª»»¶¯×÷×Ö·û
+// å¯¹äºé”®ç›˜çš„ä¸Šä¸‹å·¦å³æŒ‰é”®ï¼Œæ ¹æ®å…³å¡çš„å½“å‰æ—‹è½¬çŠ¶æ€è½¬æ¢åŠ¨ä½œå­—ç¬¦
 function getTrun_Act(n: Integer; act: Char): Char;
 begin
   Result := ' ';
@@ -1290,7 +1290,7 @@ begin
           if isBK then ReDo_BK(ReDoPos)
           else ReDo(ReDoPos);
       end;
-    69:                            // E£¬ ÆæÅ¼¸ñĞ§¹û
+    69:                            // Eï¼Œ å¥‡å¶æ ¼æ•ˆæœ
       if not isOddEven then
          bt_OddEvenMouseDown(Self, mbLeft, [], -1, -1);
   end;
@@ -1301,65 +1301,65 @@ procedure TTrialForm.FormKeyUp(Sender: TObject; var Key: Word;
 begin
   case Key of
     69:
-      bt_OddEvenMouseUp(Self, mbLeft, [], -1, -1);       // E£¬ ÆæÅ¼¸ñĞ§¹û
-    VK_HOME:    // Home£¬ÖÁÊ×
+      bt_OddEvenMouseUp(Self, mbLeft, [], -1, -1);       // Eï¼Œ å¥‡å¶æ ¼æ•ˆæœ
+    VK_HOME:    // Homeï¼Œè‡³é¦–
       begin
         if isBK then UnDo_BK(UnDoPos)
         else UnDo(UnDoPos);
-        StatusBar1.Panels[7].Text := 'ÒÑÖÁÊ×£¡';
+        StatusBar1.Panels[7].Text := 'å·²è‡³é¦–ï¼';
       end;
-    VK_END:    // End£¬ÖÁÎ²
+    VK_END:    // Endï¼Œè‡³å°¾
       begin
         if isBK then ReDo_BK(ReDoPos)
         else ReDo(ReDoPos);
-        StatusBar1.Panels[7].Text := 'ÒÑÖÁÎ²£¡';
+        StatusBar1.Panels[7].Text := 'å·²è‡³å°¾ï¼';
       end;
-    90:                    // z£¬³·Ïú
+    90:                    // zï¼Œæ’¤é”€
       begin
         bt_UnDo.Click;
       end;
-    88:                    // x£¬ÖØ×ö
+    88:                    // xï¼Œé‡åš
       begin
         bt_ReDo.Click;
       end;
-    83:                    // S£¬ÖØ×öÒ»²½
+    83:                    // Sï¼Œé‡åšä¸€æ­¥
       begin
         if isBK then ReDo_BK(1)
         else ReDo(1);
       end;
-    65:                     // a£¬³·ÏúÒ»²½
+    65:                     // aï¼Œæ’¤é”€ä¸€æ­¥
       begin
         if isBK then UnDo_BK(1)
         else UnDo(1);
       end;
-    81:                // Ctrl + Q£¬ ÍË³ö
+    81:                // Ctrl + Qï¼Œ é€€å‡º
       if ssCtrl in Shift then begin
          Close();
       end;
-    71:                // G£¬ ´©Ô½
+    71:                // Gï¼Œ ç©¿è¶Š
       bt_GoThrough.Click;
-    76:                // Ctrl + L£¬ ´Ó¼ôÇĞ°å¼ÓÔØ Lurd
+    76:                // Ctrl + Lï¼Œ ä»å‰ªåˆ‡æ¿åŠ è½½ Lurd
       if ssCtrl in Shift then begin
          if LoadLurdFromClipboard(isBK) then begin
             if isBK then ReDo_BK(ReDoPos)
             else ReDo(ReDoPos);
          end;
       end;
-    77:                // Ctrl + M£¬ Lurd ËÍÈë¼ôÇĞ°å
+    77:                // Ctrl + Mï¼Œ Lurd é€å…¥å‰ªåˆ‡æ¿
       if ssCtrl in Shift then begin
          if LurdToClipboard(ManPos mod mapCols, ManPos div mapCols) then
-            StatusBar1.Panels[7].Text := '¶¯×÷ Lurd ËÍÈë¼ôÇĞ°å£¡';
+            StatusBar1.Panels[7].Text := 'åŠ¨ä½œ Lurd é€å…¥å‰ªåˆ‡æ¿ï¼';
       end;
-    67:                 // Ctrl + C£¬ XSB ËÍÈë¼ôÇĞ°å
+    67:                 // Ctrl + Cï¼Œ XSB é€å…¥å‰ªåˆ‡æ¿
       if ssCtrl in Shift then begin
         bt_Save.Click;
       end;
-    106, 56:                    // µÚ 0 ×ª
+    106, 56:                    // ç¬¬ 0 è½¬
       begin
         curTrun := 0;
         SetMapTrun;
       end;
-    111, 191:                   // Ğı×ª¹Ø¿¨
+    111, 191:                   // æ—‹è½¬å…³å¡
       begin
         if curTrun < 7 then
           inc(curTrun)
@@ -1367,17 +1367,17 @@ begin
           curTrun := 0; 
         SetMapTrun;
       end;
-    27:                         // ESC£¬ÖØ¿ªÊ¼
+    27:                         // ESCï¼Œé‡å¼€å§‹
       begin
         if isBK then UnDo_BK(UnDoPos)
         else UnDo(UnDoPos);
-        StatusBar1.Panels[7].Text := 'ÒÑÖÁÊ×£¡';
+        StatusBar1.Panels[7].Text := 'å·²è‡³é¦–ï¼';
       end;
-    8:                          // ÍË¸ñ¼ü£¬Undo
+    8:                          // é€€æ ¼é”®ï¼ŒUndo
       begin
         bt_UnDo.Click;
       end;
-    32, 13:                         // ¿Õ¸ñ¼ü/»Ø³µ¼ü£¬Redo
+    32, 13:                         // ç©ºæ ¼é”®/å›è½¦é”®ï¼ŒRedo
       begin
         if (ssCtrl in Shift) or (ssAlt in Shift) or (ssShift in Shift) then begin
         end else begin
@@ -1387,7 +1387,7 @@ begin
   end;
 end;
 
-// ÏÔÊ¾ÆæÅ¼ÌØĞ§
+// æ˜¾ç¤ºå¥‡å¶ç‰¹æ•ˆ
 procedure TTrialForm.bt_OddEvenMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
@@ -1395,7 +1395,7 @@ begin
   DrawMap();
 end;
 
-// ¹Ø±ÕÆæÅ¼ÌØĞ§
+// å…³é—­å¥‡å¶ç‰¹æ•ˆ
 procedure TTrialForm.bt_OddEvenMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
@@ -1415,7 +1415,7 @@ begin
       UnDo(GetStep2(UnDoPos))
     else
       UnDo(UnDoPos - LastSteps);
-    LastSteps := -1;              // ÕıÍÆ×îºóÒ»´ÎµãÍÆÇ°µÄ²½Êı
+    LastSteps := -1;              // æ­£æ¨æœ€åä¸€æ¬¡ç‚¹æ¨å‰çš„æ­¥æ•°
   end;
 end;
 
@@ -1431,16 +1431,16 @@ procedure TTrialForm.SetMapTrun();
 begin
   pnl_Trun.Caption := MapTrun[curTrun];
   NewMapSize();
-  DrawMap();       // »­µØÍ¼
+  DrawMap();       // ç”»åœ°å›¾
   case curTrun of
-  0: StatusBar1.Panels[7].Text := '0×ª = ¹Ø¿¨µÄÔ­Ê¼Ğı×ª×´Ì¬¡£';
-  1: StatusBar1.Panels[7].Text := '1×ª = ¹Ø¿¨µÄË³Ê±ÕëĞı×ª90¶È';
-  2: StatusBar1.Panels[7].Text := '2×ª = ¹Ø¿¨µÄË³Ê±ÕëĞı×ª180¶È';
-  3: StatusBar1.Panels[7].Text := '3×ª = ¹Ø¿¨µÄË³Ê±ÕëĞı×ª270¶È£¨ÄæÊ±ÕëĞı×ª90¶È£©';
-  4: StatusBar1.Panels[7].Text := '4×ª = ¹Ø¿¨µÄ×óÓÒ·­×ª';
-  5: StatusBar1.Panels[7].Text := '5×ª = ¹Ø¿¨µÄÉÏÏÂ·­×ªºó£¬ÄæÊ±ÕëĞı×ª90¶È£¨¹Ø¿¨µÄ×óÓÒ·­×ªºó£¬Ë³Ê±ÕëĞı×ª90¶È£©';
-  6: StatusBar1.Panels[7].Text := '6×ª = ¹Ø¿¨µÄÉÏÏÂ·­×ª£¨¹Ø¿¨µÄ×óÓÒ·­×ªºó£¬Ë³Ê±ÕëĞı×ª180¶È£©';
-  7: StatusBar1.Panels[7].Text := '7×ª = ¹Ø¿¨µÄ×ªÖÃ£¬¼´ĞĞÁĞ»¥»»£¨¹Ø¿¨µÄ×óÓÒ·­×ªºó£¬Ë³Ê±ÕëĞı×ª270¶È£¬»òÄæÊ±ÕëĞı×ª90¶È£©';
+  0: StatusBar1.Panels[7].Text := '0è½¬ = å…³å¡çš„åŸå§‹æ—‹è½¬çŠ¶æ€ã€‚';
+  1: StatusBar1.Panels[7].Text := '1è½¬ = å…³å¡çš„é¡ºæ—¶é’ˆæ—‹è½¬90åº¦';
+  2: StatusBar1.Panels[7].Text := '2è½¬ = å…³å¡çš„é¡ºæ—¶é’ˆæ—‹è½¬180åº¦';
+  3: StatusBar1.Panels[7].Text := '3è½¬ = å…³å¡çš„é¡ºæ—¶é’ˆæ—‹è½¬270åº¦ï¼ˆé€†æ—¶é’ˆæ—‹è½¬90åº¦ï¼‰';
+  4: StatusBar1.Panels[7].Text := '4è½¬ = å…³å¡çš„å·¦å³ç¿»è½¬';
+  5: StatusBar1.Panels[7].Text := '5è½¬ = å…³å¡çš„ä¸Šä¸‹ç¿»è½¬åï¼Œé€†æ—¶é’ˆæ—‹è½¬90åº¦ï¼ˆå…³å¡çš„å·¦å³ç¿»è½¬åï¼Œé¡ºæ—¶é’ˆæ—‹è½¬90åº¦ï¼‰';
+  6: StatusBar1.Panels[7].Text := '6è½¬ = å…³å¡çš„ä¸Šä¸‹ç¿»è½¬ï¼ˆå…³å¡çš„å·¦å³ç¿»è½¬åï¼Œé¡ºæ—¶é’ˆæ—‹è½¬180åº¦ï¼‰';
+  7: StatusBar1.Panels[7].Text := '7è½¬ = å…³å¡çš„è½¬ç½®ï¼Œå³è¡Œåˆ—äº’æ¢ï¼ˆå…³å¡çš„å·¦å³ç¿»è½¬åï¼Œé¡ºæ—¶é’ˆæ—‹è½¬270åº¦ï¼Œæˆ–é€†æ—¶é’ˆæ—‹è½¬90åº¦ï¼‰';
   end;
 end;
 
@@ -1449,18 +1449,18 @@ procedure TTrialForm.pnl_TrunMouseUp(Sender: TObject; Button: TMouseButton;
 begin
     case Button of
       mbleft:
-        begin     // µ¥»÷ -- Ö¸×ó¼ü
+        begin     // å•å‡» -- æŒ‡å·¦é”®
           if curTrun < 7 then
             inc(curTrun)
           else
-            curTrun := 0;    // µÚ 0 ×ª
+            curTrun := 0;    // ç¬¬ 0 è½¬
         end;
       mbright:
-        begin    // ÓÒ»÷ -- Ö¸ÓÒ¼ü
+        begin    // å³å‡» -- æŒ‡å³é”®
           if curTrun > 0 then
             dec(curTrun)
           else
-            curTrun := 7;    // µÚ 0 ×ª
+            curTrun := 7;    // ç¬¬ 0 è½¬
         end;
     end;
     SetMapTrun();
@@ -1472,7 +1472,7 @@ begin
   IsManAccessibleTips := False;
 end;
 
-// ½âÎöÕıÍÆ reDo ¶¯×÷½Úµã -- Ã¿ÍÆÒ»¸öÏä×ÓÎªÒ»¸ö¶¯×÷
+// è§£ææ­£æ¨ reDo åŠ¨ä½œèŠ‚ç‚¹ -- æ¯æ¨ä¸€ä¸ªç®±å­ä¸ºä¸€ä¸ªåŠ¨ä½œ
 function TTrialForm.GetStep(len: Integer): Integer;
 var
   i, j, k, n: Integer;
@@ -1486,8 +1486,8 @@ begin
   boxRC[0] := 1000;
   boxRC[1] := 1000;
 
-    // Ñ°ÕÒ¶¯×÷½Úµã
-  n := 0;  // Ó¦¸ÃÍ£ÔÚµÚ¼¸¸ö¶¯×÷ÉÏ
+    // å¯»æ‰¾åŠ¨ä½œèŠ‚ç‚¹
+  n := 0;  // åº”è¯¥åœåœ¨ç¬¬å‡ ä¸ªåŠ¨ä½œä¸Š
   flg := false;
 
   k := len;
@@ -1503,69 +1503,69 @@ begin
 
     case (mAct) of
       'l':
-        Dec(j);      // ×óÒÆ
+        Dec(j);      // å·¦ç§»
       'u':
-        Dec(i);      // ÉÏÒÆ
+        Dec(i);      // ä¸Šç§»
       'r':
-        Inc(j);      // ÓÒÒÆ
+        Inc(j);      // å³ç§»
       'd':
-        Inc(i);      // ÏÂÒÆ
+        Inc(i);      // ä¸‹ç§»
       'L':
-        begin        // ×óÍÆ
+        begin        // å·¦æ¨
           Dec(j);
 
           if (boxRC[0] <> i) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
 
           boxRC[0] := i;
           boxRC[1] := j - 1;
         end;
       'U':
-        begin        // ÉÏÍÆ
+        begin        // ä¸Šæ¨
           Dec(i);
 
           if (boxRC[0] <> i) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
 
           boxRC[0] := i - 1;
           boxRC[1] := j;
         end;
       'R':
-        begin        // ÓÒÍÆ
+        begin        // å³æ¨
           Inc(j);
 
           if (boxRC[0] <> i) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
 
           boxRC[0] := i;
           boxRC[1] := j + 1;
         end;
       'D':
-        begin        // ÏÂÍÆ
+        begin        // ä¸‹æ¨
           Inc(i);
 
           if (boxRC[0] <> i) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
 
           boxRC[0] := i + 1;
           boxRC[1] := j;
@@ -1573,12 +1573,12 @@ begin
     end;
   end;
   if flg then
-    result := len - n  // ×îºóÒ»¸ö¶¯×÷²»ÊÇÍÆ£¬µ«Ç°ÃæÓĞÍÆµÄ¶¯×÷Ê±
+    result := len - n  // æœ€åä¸€ä¸ªåŠ¨ä½œä¸æ˜¯æ¨ï¼Œä½†å‰é¢æœ‰æ¨çš„åŠ¨ä½œæ—¶
   else
-    result := len;  // Ê£ÓàµÄÈ«²¿¶¯×÷
+    result := len;  // å‰©ä½™çš„å…¨éƒ¨åŠ¨ä½œ
 end;
 
-// ½âÎöÕıÍÆ unDo ¶¯×÷½Úµã -- Ã¿ÍÆÒ»¸öÏä×ÓÎªÒ»¸ö¶¯×÷
+// è§£ææ­£æ¨ unDo åŠ¨ä½œèŠ‚ç‚¹ -- æ¯æ¨ä¸€ä¸ªç®±å­ä¸ºä¸€ä¸ªåŠ¨ä½œ
 function TTrialForm.GetStep2(len: Integer): Integer;
 var
   i, j, k, n: Integer;
@@ -1592,8 +1592,8 @@ begin
   boxRC[0] := 1000;
   boxRC[1] := 1000;
 
-    // Ñ°ÕÒ¶¯×÷½Úµã
-  n := 0;  // Ó¦¸ÃÍ£ÔÚµÚ¼¸¸ö¶¯×÷ÉÏ
+    // å¯»æ‰¾åŠ¨ä½œèŠ‚ç‚¹
+  n := 0;  // åº”è¯¥åœåœ¨ç¬¬å‡ ä¸ªåŠ¨ä½œä¸Š
   flg := false;
 
   k := len;
@@ -1609,61 +1609,61 @@ begin
 
     case (mAct) of
       'l':
-        Dec(j);      // ×óÒÆ
+        Dec(j);      // å·¦ç§»
       'u':
-        Dec(i);      // ÉÏÒÆ
+        Dec(i);      // ä¸Šç§»
       'r':
-        Inc(j);      // ÓÒÒÆ
+        Inc(j);      // å³ç§»
       'd':
-        Inc(i);      // ÏÂÒÆ
+        Inc(i);      // ä¸‹ç§»
       'L':
-        begin        // ×óÍÆ
+        begin        // å·¦æ¨
           if (boxRC[0] <> i) or (boxRC[1] <> j + 1) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
           boxRC[0] := i;
           boxRC[1] := j;
           Dec(j);
         end;
       'U':
-        begin        // ÉÏÍÆ
+        begin        // ä¸Šæ¨
           if (boxRC[0] <> i + 1) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
           boxRC[0] := i;
           boxRC[1] := j;
           Dec(i);
         end;
       'R':
-        begin        // ÓÒÍÆ
+        begin        // å³æ¨
           if (boxRC[0] <> i) or (boxRC[1] <> j - 1) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
           boxRC[0] := i;
           boxRC[1] := j;
           Inc(j);
         end;
       'D':
-        begin        // ÏÂÍÆ
+        begin        // ä¸‹æ¨
           if (boxRC[0] <> i - 1) or (boxRC[1] <> j) then
           begin
             if flg then
-              break;   // µÚ¶ş¸öÏä×Ó
-            flg := true;         // µÚÒ»¸öÏä×Ó
+              break;   // ç¬¬äºŒä¸ªç®±å­
+            flg := true;         // ç¬¬ä¸€ä¸ªç®±å­
           end;
-          n := k;                  // µÚÒ»¸öÏä×ÓµÄ×îºóÎ»ÖÃ
+          n := k;                  // ç¬¬ä¸€ä¸ªç®±å­çš„æœ€åä½ç½®
           boxRC[0] := i;
           boxRC[1] := j;
           Inc(i);
@@ -1671,7 +1671,7 @@ begin
     end;
   end;
   if flg then
-    result := len - n  // ×îºóÒ»¸ö¶¯×÷²»ÊÇÍÆ£¬µ«Ç°ÃæÓĞÍÆµÄ¶¯×÷Ê±
+    result := len - n  // æœ€åä¸€ä¸ªåŠ¨ä½œä¸æ˜¯æ¨ï¼Œä½†å‰é¢æœ‰æ¨çš„åŠ¨ä½œæ—¶
   else
     result := len;
 end;
@@ -1687,7 +1687,7 @@ end;
 procedure TTrialForm.FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  bt_ReDo.Click;          // x£¬ÖØ×ö
+  bt_ReDo.Click;          // xï¼Œé‡åš
   Handled := True;
   Delay(10);
 end;
@@ -1695,7 +1695,7 @@ end;
 procedure TTrialForm.FormMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  bt_UnDo.Click;          // z£¬³·Ïú
+  bt_UnDo.Click;          // zï¼Œæ’¤é”€
   Handled := True;
   Delay(10);
 end;
@@ -1707,14 +1707,14 @@ var
 begin
   StatusBar1.Panels[7].Text := '';
 
-  // ¹Ø¿¨ XSB
+  // å…³å¡ XSB
   str := EditorForm_.GetXSB;
 
-  if isBK then begin    // ÄæÍÆÑİÁ·Ê±£¬¼ÇÂ¼ÈËµÄ³õÊ¼Î»ÖÃ
+  if isBK then begin    // é€†æ¨æ¼”ç»ƒæ—¶ï¼Œè®°å½•äººçš„åˆå§‹ä½ç½®
     c := manPos mod mapCols + 1;
     r := manPos div mapCols + 1;
 
-    str := #10 + '; SXB Îª¹Ø¿¨ÄæÍÆ³õÌ¬' + #10 + str + '[' + IntToStr(c) + ', ' + IntToStr(r) + ']';
+    str := #10 + '; SXB ä¸ºå…³å¡é€†æ¨åˆæ€' + #10 + str + '[' + IntToStr(c) + ', ' + IntToStr(r) + ']';
   end;
   
   if UnDoPos > 0 then begin
@@ -1722,10 +1722,10 @@ begin
      str := str + #10 + PChar(@UndoList) + #10;
   end;
   
-  // ËÍÈë¼ôÇĞ°å
+  // é€å…¥å‰ªåˆ‡æ¿
   Clipboard.SetTextBuf(PChar(str));
 
-  StatusBar1.Panels[7].Text := 'XSB + Lurd ÒÑËÍÈë¼ôÇĞ°å£¡';
+  StatusBar1.Panels[7].Text := 'XSB + Lurd å·²é€å…¥å‰ªåˆ‡æ¿ï¼';
 end;
 
 end.

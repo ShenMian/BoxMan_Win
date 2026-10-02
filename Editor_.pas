@@ -1,4 +1,4 @@
-unit Editor_;
+ï»¿unit Editor_;
 
 interface
 
@@ -8,11 +8,11 @@ uses
   Menus, ComCtrls;
 
 type                  
-  TMapNode = record      // ¹Ø¿¨½Úµã
-    Map: TStringList;    // ¹Ø¿¨ XSB
-    Title: string;       // ±êÌâ
-    Author: string;      // ×÷Õß
-    Comment: string;     // ¹Ø¿¨ÃèÊöĞÅÏ¢
+  TMapNode = record      // å…³å¡èŠ‚ç‚¹
+    Map: TStringList;    // å…³å¡ XSB
+    Title: string;       // æ ‡é¢˜
+    Author: string;      // ä½œè€…
+    Comment: string;     // å…³å¡æè¿°ä¿¡æ¯
   end;
 
 type
@@ -85,7 +85,7 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure FormShow(Sender: TObject);
     function MapNormalize(isMinimum: Boolean): Integer;
-    procedure sb_Xsb_OKClick(Sender: TObject);             // µØÍ¼±ê×¼»¯£¬°üÀ¨£º¼òµ¥±ê×¼»¯ -- ±£Áô¹Ø¿¨µÄÇ½ÍâÔìĞÍ
+    procedure sb_Xsb_OKClick(Sender: TObject);             // åœ°å›¾æ ‡å‡†åŒ–ï¼ŒåŒ…æ‹¬ï¼šç®€å•æ ‡å‡†åŒ– -- ä¿ç•™å…³å¡çš„å¢™å¤–é€ å‹
     function LoadMapsFromClipboard: boolean;
     procedure sb_LoadClick(Sender: TObject);
     procedure sb_InfClick(Sender: TObject);
@@ -154,11 +154,11 @@ type
     procedure N11Click(Sender: TObject);
     procedure bt_LeftBarClick(Sender: TObject);
     procedure bt_LeftBarMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);  private                     // ¶ÁÈ¡¹Ø¿¨ -- ´Ó¼ôÇĞ°å¼ÓÔØ XSB
+      Y: Integer);  private                     // è¯»å–å…³å¡ -- ä»å‰ªåˆ‡æ¿åŠ è½½ XSB
     procedure SetUnDoReDo(isReDo: Boolean = false);                             // Set UnDo
-    function LurdToXSB(mStr: String): boolean;                                  // ÓÃ´ğ°¸µ¹ÍÆ¹Ø¿¨
-    function isLurd(str: String): boolean;                                      // ÊÇ·ñ Lurd ×Ö·û´®
-    procedure myCount;                                                          // ¼ÆÊıÏä×ÓÄ¿±êµã
+    function LurdToXSB(mStr: String): boolean;                                  // ç”¨ç­”æ¡ˆå€’æ¨å…³å¡
+    function isLurd(str: String): boolean;                                      // æ˜¯å¦ Lurd å­—ç¬¦ä¸²
+    procedure myCount;                                                          // è®¡æ•°ç®±å­ç›®æ ‡ç‚¹
   public
     { Public declarations }
     function GetXSB: string;
@@ -179,25 +179,25 @@ const
 var
   EditorForm_: TEditorForm_;
 
-  MapNode: TMapNode;                     // ¹Ø¿¨ XSB ¼¯Ïà¹ØĞÅÏ¢
+  MapNode: TMapNode;                     // å…³å¡ XSB é›†ç›¸å…³ä¿¡æ¯
   
-  mySelect: Integer;                     // Ñ¡ÔñµÄÔªËØ
-  curCell, manPos: TPoint;               // Êó±ê°´ÏÂÊ±Î»ÖÃ¡¢ÈËµÄÎ»ÖÃ
-  SelPoint_LT, SelPoint_RB: TPoint;      // Ñ¡Ôñ¿òÁ½µã
+  mySelect: Integer;                     // é€‰æ‹©çš„å…ƒç´ 
+  curCell, manPos: TPoint;               // é¼ æ ‡æŒ‰ä¸‹æ—¶ä½ç½®ã€äººçš„ä½ç½®
+  SelPoint_LT, SelPoint_RB: TPoint;      // é€‰æ‹©æ¡†ä¸¤ç‚¹
 
-  isDrawing: Boolean;                    // ÊÇ·ñ¿ªÊ¼»æÖÆ
+  isDrawing: Boolean;                    // æ˜¯å¦å¼€å§‹ç»˜åˆ¶
 
-  CellSize: Integer;                     // ¸ñ×ÓµÄ³ß´ç
-  MapBoard: array[1..MaxSize, 1..MaxSize] of Integer;        // µ±Ç°»æÖÆÊı×é
-  MapBoard_OK: array[0..MaxSize+1, 0..MaxSize+1] of Char;    // ±ê×¼»¯ºóµÄµØÍ¼
+  CellSize: Integer;                     // æ ¼å­çš„å°ºå¯¸
+  MapBoard: array[1..MaxSize, 1..MaxSize] of Integer;        // å½“å‰ç»˜åˆ¶æ•°ç»„
+  MapBoard_OK: array[0..MaxSize+1, 0..MaxSize+1] of Char;    // æ ‡å‡†åŒ–åçš„åœ°å›¾
 
   UnDoList, ReDoList: TStringList;
 
-  isSaved: Boolean;                                          // ÊÇ·ñÒÑ¾­±£´æ
-  isMoving: Boolean;                                         // ÊÇ·ñÒÆ¶¯ÁËÊó±ê
-  isMouseRrghtDown: Boolean;                                 // ÊÇ·ñ°´ÏÂÁËÊó±êÓÒ¼ü
+  isSaved: Boolean;                                          // æ˜¯å¦å·²ç»ä¿å­˜
+  isMoving: Boolean;                                         // æ˜¯å¦ç§»åŠ¨äº†é¼ æ ‡
+  isMouseRrghtDown: Boolean;                                 // æ˜¯å¦æŒ‰ä¸‹äº†é¼ æ ‡å³é”®
 
-  isMouseSheel: Boolean;                                     // Ê¶±ğÄ£¿éÖĞ£¬ÈçºÎÊ¹ÓÃÊó±ê»¬ÂÖÎ¢µ÷
+  isMouseSheel: Boolean;                                     // è¯†åˆ«æ¨¡å—ä¸­ï¼Œå¦‚ä½•ä½¿ç”¨é¼ æ ‡æ»‘è½®å¾®è°ƒ
 
 //  myLogFile: Textfile;
 
@@ -209,14 +209,14 @@ uses
 {$R *.dfm}
 {$R MyCursor.res}
 
-// »­ÔªËØÑ¡Ôñ¿ò¡¢¸Ä±äÊó±êÑùÊ½
+// ç”»å…ƒç´ é€‰æ‹©æ¡†ã€æ”¹å˜é¼ æ ‡æ ·å¼
 procedure TEditorForm_.SetSelect;
 var
   i: Integer;
 
 begin
 
-  if mySelect = 8 then begin      // °ÚÏä×ÓÄ£Ê½
+  if mySelect = 8 then begin      // æ‘†ç®±å­æ¨¡å¼
      DrawGrid1.Cursor := cursorBoxM;
      DrawGrid1.PopupMenu := PopupMenu4;
      Exit;
@@ -272,35 +272,35 @@ begin
   end;
 end;
 
-// Ñ¡ÔñÇ½±Ú
+// é€‰æ‹©å¢™å£
 procedure TEditorForm_.img_WallClick(Sender: TObject);
 begin
   mySelect := 1;
   SetSelect;
 end;
 
-// Ñ¡ÔñÏä×Ó
+// é€‰æ‹©ç®±å­
 procedure TEditorForm_.img_BoxClick(Sender: TObject);
 begin
   mySelect := 2;
   SetSelect;
 end;
 
-// Ñ¡ÔñÄ¿±êµã
+// é€‰æ‹©ç›®æ ‡ç‚¹
 procedure TEditorForm_.img_GoalClick(Sender: TObject);
 begin
   mySelect := 3;
   SetSelect;
 end;
 
-// Ñ¡ÔñµØ°å
+// é€‰æ‹©åœ°æ¿
 procedure TEditorForm_.img_FloorClick(Sender: TObject);
 begin
   mySelect := 4;
   SetSelect;
 end;
 
-// Ñ¡ÔñÈË
+// é€‰æ‹©äºº
 procedure TEditorForm_.img_PlayerClick(Sender: TObject);
 begin
   mySelect := 5;
@@ -324,11 +324,11 @@ begin
     Canvas.CopyMode := SRCCOPY;
     R := Rect(MapBoard[ARow+1, ACol+1] * 60, 0, MapBoard[ARow+1, ACol+1] * 60 + 60, 60);
 
-    // »­µØ°å
+    // ç”»åœ°æ¿
     if MapBoard[ARow+1, ACol+1] = 0 then begin
        Canvas.CopyRect(Rt, RecogForm_.Image4.Canvas, R);
     end;
-    // ´ó²Î¿¼Í¼
+    // å¤§å‚è€ƒå›¾
     if (RecogForm_.Tag = 1) and (N6.Checked) and (ARow <= PicRows) and (ACol <= PicCols) then begin
        l := (RecogForm_.Map_Left.Value + ACol * RecogForm_.Map_ColWidth.Value) div myScale;
        t := (RecogForm_.Map_Top.Value + ARow * RecogForm_.Map_RowHeight.Value) div myScale;
@@ -336,12 +336,12 @@ begin
        Canvas.CopyRect(Rt, RecogForm_.Image2.Canvas, R2);
     end;
 
-    // »­Í¼ÔªËØ
+    // ç”»å›¾å…ƒç´ 
     if (MapBoard[ARow+1, ACol+1] > 0) then begin
        Canvas.CopyRect(Rt, RecogForm_.Image4.Canvas, R);
     end;
 
-    // Ğ¡²Î¿¼Í¼
+    // å°å‚è€ƒå›¾
     if (RecogForm_.Tag = 1) and (N7.Checked) and (ARow <= PicRows) and (ACol <= PicCols) then begin
        if MapBoard[ARow+1, ACol+1] > 0 then begin
          ww := (Rt.Right-Rt.Left) div 3;
@@ -357,13 +357,13 @@ begin
        end;
     end;
 
-    // »­¸ñÏß
+    // ç”»æ ¼çº¿
     Canvas.Pen.Width := 1;
     Canvas.Pen.Color := $00554D45;
     Canvas.Brush.Style := bsClear;
     Canvas.Rectangle(Rt);
 
-    // »­Ñ¡Ôñ¿ò - ´¦Àí½¹µã¿ò
+    // ç”»é€‰æ‹©æ¡† - å¤„ç†ç„¦ç‚¹æ¡†
     if gdSelected in State then begin
        Canvas.Brush.Color := clFuchsia;
        Canvas.FrameRect(Rt);
@@ -389,49 +389,49 @@ begin
   pl_Floor.Color := $DBCDBF;
   pl_Select.Color := $DBCDBF;
 
-  Caption := '¹Ø¿¨±à¼­Æ÷ v20.01';
+  Caption := 'å…³å¡ç¼–è¾‘å™¨ v20.01';
 
-  StatusBar1.Panels[0].Text := 'ĞĞ';
-  StatusBar1.Panels[2].Text := 'ÁĞ';
-  StatusBar1.Panels[4].Text := 'Ïä×Ó';
-  StatusBar1.Panels[6].Text := 'Ä¿±ê';
+  StatusBar1.Panels[0].Text := 'è¡Œ';
+  StatusBar1.Panels[2].Text := 'åˆ—';
+  StatusBar1.Panels[4].Text := 'ç®±å­';
+  StatusBar1.Panels[6].Text := 'ç›®æ ‡';
 
-  N1.Caption := 'ÓÒÒÆÒ»ÁĞ    ¡¾Ctrl + ¡ú¡¿';
-  N2.Caption := '×óÒÆÒ»ÁĞ    ¡¾Ctrl + ¡û¡¿';
-  N3.Caption := 'ÏÂÒÆÒ»ĞĞ    ¡¾Ctrl + ¡ı¡¿';
-  N4.Caption := 'ÉÏÒÆÒ»ĞĞ    ¡¾Ctrl + ¡ü¡¿';
-  N6.Caption := '²Î¿¼Í¼';
-  N7.Caption := 'Ğ¡²Î¿¼Í¼';
-  N8.Caption := '×îĞ¡±ê×¼»¯';
-  N9.Caption := 'Çå³ıÏä×Ó';
-  N10.Caption := 'Çå³ıÄ¿±êµã';
-  N11.Caption := '½ö±£ÁôÇ½±Ú';
-//  N14.Caption := '°ÚÏä×ÓÄ£Ê½¡¾H¡¿';
+  N1.Caption := 'å³ç§»ä¸€åˆ—    ã€Ctrl + â†’ã€‘';
+  N2.Caption := 'å·¦ç§»ä¸€åˆ—    ã€Ctrl + â†ã€‘';
+  N3.Caption := 'ä¸‹ç§»ä¸€è¡Œ    ã€Ctrl + â†“ã€‘';
+  N4.Caption := 'ä¸Šç§»ä¸€è¡Œ    ã€Ctrl + â†‘ã€‘';
+  N6.Caption := 'å‚è€ƒå›¾';
+  N7.Caption := 'å°å‚è€ƒå›¾';
+  N8.Caption := 'æœ€å°æ ‡å‡†åŒ–';
+  N9.Caption := 'æ¸…é™¤ç®±å­';
+  N10.Caption := 'æ¸…é™¤ç›®æ ‡ç‚¹';
+  N11.Caption := 'ä»…ä¿ç•™å¢™å£';
+//  N14.Caption := 'æ‘†ç®±å­æ¨¡å¼ã€Hã€‘';
 //  N14.Checked := False;
-//  InPlace.Caption := '°ÚÏä×ÓÄ£Ê½    ¡¾F8¡¿';
+//  InPlace.Caption := 'æ‘†ç®±å­æ¨¡å¼    ã€F8ã€‘';
 //  InPlace.Checked := False;
 
-  sb_SaveToFile.Hint := '±£´æµ½ÎÄµµ¡¾Ctrl + S¡¿';
-  sb_Save.Hint := '¸´ÖÆ - ËÍÈë¼ôÇĞ°å¡¾Ctrl + C¡¿';
-  sb_Load.Hint := 'Õ³Ìù - ´Ó¼ôÇĞ°å¶ÁÈë¡¾Ctrl + V¡¿';
-  sb_UnDo.Hint := '³·Ïú¡¾Ctrl + Z¡¿';
-  sb_ReDo.Hint := 'ÖØ×ö¡¾Shift + Z¡¿';
-  sb_Clear.Hint := 'Çå¿ÕÖØÀ´';
-  sb_Inf.Hint := 'µØÍ¼ËµÃ÷ĞÅÏ¢';
-  sb_Xsb_OK.Hint := 'µØÍ¼±ê×¼»¯¡¾ÓÒ¼ü: ×îĞ¡±ê×¼»¯¡¿';
-  sb_Help.Hint := '°ïÖú¡¾F1]';
-  sb_LoadPic.Hint := '½ØÍ¼Ê¶±ğ';
-  bt_Skin.Hint := '¸ü»»Æ¤·ô¡¾F2¡¿'; 
-  sb_Trial.Hint := 'ÑİÁ·³¡¡¾ÕıÍÆÑİÁ·£ºF5/µ¥»÷£»ÄæÍÆÑİÁ·£ºF6/Ctrl + µ¥»÷¡¿';
+  sb_SaveToFile.Hint := 'ä¿å­˜åˆ°æ–‡æ¡£ã€Ctrl + Sã€‘';
+  sb_Save.Hint := 'å¤åˆ¶ - é€å…¥å‰ªåˆ‡æ¿ã€Ctrl + Cã€‘';
+  sb_Load.Hint := 'ç²˜è´´ - ä»å‰ªåˆ‡æ¿è¯»å…¥ã€Ctrl + Vã€‘';
+  sb_UnDo.Hint := 'æ’¤é”€ã€Ctrl + Zã€‘';
+  sb_ReDo.Hint := 'é‡åšã€Shift + Zã€‘';
+  sb_Clear.Hint := 'æ¸…ç©ºé‡æ¥';
+  sb_Inf.Hint := 'åœ°å›¾è¯´æ˜ä¿¡æ¯';
+  sb_Xsb_OK.Hint := 'åœ°å›¾æ ‡å‡†åŒ–ã€å³é”®: æœ€å°æ ‡å‡†åŒ–ã€‘';
+  sb_Help.Hint := 'å¸®åŠ©ã€F1]';
+  sb_LoadPic.Hint := 'æˆªå›¾è¯†åˆ«';
+  bt_Skin.Hint := 'æ›´æ¢çš®è‚¤ã€F2ã€‘'; 
+  sb_Trial.Hint := 'æ¼”ç»ƒåœºã€æ­£æ¨æ¼”ç»ƒï¼šF5/å•å‡»ï¼›é€†æ¨æ¼”ç»ƒï¼šF6/Ctrl + å•å‡»ã€‘';
 
-  bt_LeftBar.Hint := 'ÇĞ»»±à¼­Ä£Ê½»ò°ÚÏä×ÓÄ£Ê½¡¾H¡¿';
+  bt_LeftBar.Hint := 'åˆ‡æ¢ç¼–è¾‘æ¨¡å¼æˆ–æ‘†ç®±å­æ¨¡å¼ã€Hã€‘';
 
-  img_Wall.Hint := '»æÖÆ -- ¡ºÇ½±Ú¡»';
-  img_Box.Hint := '»æÖÆ -- ¡ºÏä×Ó¡»';
-  img_Goal.Hint := '»æÖÆ -- ¡ºÄ¿±êµã¡»';
-  img_Floor.Hint := '»æÖÆ -- ¡ºµØ°å¡»';
-  img_Player.Hint := '»æÖÆ -- ¡º²Ö¹ÜÔ±¡»';
-  img_Select.Hint := '½øÈë¡°ä¯ÀÀÄ£Ê½¡±';
+  img_Wall.Hint := 'ç»˜åˆ¶ -- ã€å¢™å£ã€';
+  img_Box.Hint := 'ç»˜åˆ¶ -- ã€ç®±å­ã€';
+  img_Goal.Hint := 'ç»˜åˆ¶ -- ã€ç›®æ ‡ç‚¹ã€';
+  img_Floor.Hint := 'ç»˜åˆ¶ -- ã€åœ°æ¿ã€';
+  img_Player.Hint := 'ç»˜åˆ¶ -- ã€ä»“ç®¡å‘˜ã€';
+  img_Select.Hint := 'è¿›å…¥â€œæµè§ˆæ¨¡å¼â€';
 
   Screen.Cursors[cursorWall]  := LoadCursor(HInstance, 'CURSOR_WALL');
   Screen.Cursors[cursorBox]   := LoadCursor(HInstance, 'CURSOR_BOX');
@@ -481,7 +481,7 @@ var
   Cell: Integer;
 begin
   isMouseRrghtDown := false;
-  if Button = mbleft then begin                                                 // ×ó¼ü
+  if Button = mbleft then begin                                                 // å·¦é”®
     with Sender as TDrawGrid do begin
        MouseToCell(x, y, curCell.X, curCell.Y);
        Inc(curCell.X);
@@ -541,7 +541,7 @@ begin
             SelPoint_RB.X := curCell.X;
             SelPoint_RB.Y := curCell.Y;
          end;
-         8: Begin           // °ÚÏä×ÓÄ£Ê½
+         8: Begin           // æ‘†ç®±å­æ¨¡å¼
             if Cell in [ 4, 5 ] then begin
                manPos.X := 0;
                manPos.Y := 0;
@@ -556,8 +556,8 @@ begin
        Invalidate;
     end;
     isDrawing := True;
-  end else if Button = mbright then begin                                       // ÓÒ¼ü£¬²Á³ı
-    if mySelect in [0, 8] then begin      // °ÚÏä×ÓÄ£Ê½»òä¯ÀÀÄ£Ê½
+  end else if Button = mbright then begin                                       // å³é”®ï¼Œæ“¦é™¤
+    if mySelect in [0, 8] then begin      // æ‘†ç®±å­æ¨¡å¼æˆ–æµè§ˆæ¨¡å¼
     end else begin
       with Sender as TDrawGrid do begin
          MouseToCell(x, y, curCell.X, curCell.Y);
@@ -593,7 +593,7 @@ procedure TEditorForm_.DrawGrid1MouseMove(Sender: TObject;
 var
   xx, yy, Cell: Integer;
 begin
-  isMoving := True;            // ÒÆ¶¯ÁËÊó±ê
+  isMoving := True;            // ç§»åŠ¨äº†é¼ æ ‡
   with Sender as TDrawGrid do begin
     MouseToCell(x, y, xx, yy);
     if (xx >= 0) and (xx < ColCount) and (yy >= 0) and (yy < RowCount) then begin
@@ -668,7 +668,7 @@ begin
   end;
 end;
 
-// ¼ÆÊıÏä×ÓÄ¿±êµã
+// è®¡æ•°ç®±å­ç›®æ ‡ç‚¹
 procedure TEditorForm_.myCount;
 var
   i, j, Boxs, Goals: Integer;
@@ -705,7 +705,7 @@ end;
 procedure TEditorForm_.DrawGrid1MouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if ssShift in Shift then begin     // ËõĞ¡
+  if ssShift in Shift then begin     // ç¼©å°
     if CellSize > 20 then begin
       CellSize := CellSize - 2;
       DrawGrid1.DefaultColWidth := CellSize;
@@ -727,7 +727,7 @@ end;
 procedure TEditorForm_.DrawGrid1MouseWheelUp(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  if ssShift in Shift then begin     // ·Å´ó
+  if ssShift in Shift then begin     // æ”¾å¤§
     if CellSize < 60 then begin
       CellSize := CellSize + 2;
       DrawGrid1.DefaultColWidth := CellSize;
@@ -748,7 +748,7 @@ end;
 
 procedure TEditorForm_.FormShow(Sender: TObject);
 begin
-  // ×ó²à±ßÀ¸
+  // å·¦ä¾§è¾¹æ 
   if mySelect = 8 then begin
      Panel3.Visible := False;
      bt_LeftBar.Caption := '>';
@@ -764,10 +764,10 @@ begin
   DrawGrid1.SetFocus;
 end;
 
-// µØÍ¼±ê×¼»¯£¬°üÀ¨£º¼òµ¥±ê×¼»¯ -- ±£Áô¹Ø¿¨µÄÇ½ÍâÔìĞÍ
+// åœ°å›¾æ ‡å‡†åŒ–ï¼ŒåŒ…æ‹¬ï¼šç®€å•æ ‡å‡†åŒ– -- ä¿ç•™å…³å¡çš„å¢™å¤–é€ å‹
 function TEditorForm_.MapNormalize(isMinimum: Boolean): Integer;
 const
-  dr4 : array[0..3] of Integer = (  0, 0, -1, 1 );         // ËÄÁÚ³£Á¿£º×ó¡¢ÓÒ¡¢ÉÏ¡¢ÏÂ
+  dr4 : array[0..3] of Integer = (  0, 0, -1, 1 );         // å››é‚»å¸¸é‡ï¼šå·¦ã€å³ã€ä¸Šã€ä¸‹
   dc4 : array[0..3] of Integer = ( -1, 1,  0, 0 );
 var
   i, j, k, mr, mc, nRen, nPos, p, tail: Integer;
@@ -780,7 +780,7 @@ begin
   mc := manPos.X;
   
   Result := 1;
-  if (mr < 0) or (mc < 0) then Exit;           // Ã»ÓĞ²Ö¹ÜÔ±
+  if (mr < 0) or (mc < 0) then Exit;           // æ²¡æœ‰ä»“ç®¡å‘˜
 
   nRen := 0;
   for i := 1 to MaxSize do begin
@@ -795,9 +795,9 @@ begin
     end;
   end;
 
-  if nRen <> 1 then Exit;               // ²Ö¹ÜÔ± <> 1
+  if nRen <> 1 then Exit;               // ä»“ç®¡å‘˜ <> 1
 
-  // Îª·½±ã£¬ÔÚÁÙÊ±µØÍ¼ËÄÖÜ¼ÓÉÏÇ½±Ú¿ò
+  // ä¸ºæ–¹ä¾¿ï¼Œåœ¨ä¸´æ—¶åœ°å›¾å››å‘¨åŠ ä¸Šå¢™å£æ¡†
   for i := 0 to MaxSize+1 do begin
     MapBoard_OK[i,         0        ] := '#';
     MapBoard_OK[i,         MaxSize+1] := '#';
@@ -805,14 +805,14 @@ begin
     MapBoard_OK[MaxSize+1, i        ] := '#';
   end;
 
-  // ÊÇ·ñ¿É´ï¸ñ×Ó±ê¼Ç
+  // æ˜¯å¦å¯è¾¾æ ¼å­æ ‡è®°
   for i := 1 to MaxSize do begin
     for j := 1 to MaxSize do begin
       Mark[i][j] := false;
     end;
   end;
 
-  nBox := 0;    // ¼ÇÂ¼Ïä×ÓÊı¡¢Ä¿±êÊı
+  nBox := 0;    // è®°å½•ç®±å­æ•°ã€ç›®æ ‡æ•°
   nDst := 0;
 
   p := 0; tail := 0;
@@ -823,7 +823,7 @@ begin
     mr := (nPos shr 16) and $FFFF;
     mc := nPos and $FFFF;;
 
-    // ¼ÆÊı¿É´ïÇøÓòÄÚµÄÏä×ÓÊıºÍÄ¿±êÊı
+    // è®¡æ•°å¯è¾¾åŒºåŸŸå†…çš„ç®±å­æ•°å’Œç›®æ ‡æ•°
     case MapBoard_OK[mr, mc] of
       '$':
         begin
@@ -840,7 +840,7 @@ begin
         end;
     end;
 
-    // ÏòÖÜ±ßÌ½Ë÷£¬¼ì²éÊÇ·ñ¿É´ï
+    // å‘å‘¨è¾¹æ¢ç´¢ï¼Œæ£€æŸ¥æ˜¯å¦å¯è¾¾
     for k := 0 to 3 do begin
       mr2 := mr + dr4[k];
       mc2 := mc + dc4[k];
@@ -848,11 +848,11 @@ begin
       if (MapBoard_OK[mr2, mc2] = '#') or Mark[mr2, mc2] then Continue;
 
       Result := 3;
-      if (mr2 = 1) or (mc2 = 1) or (mr2 = MaxSize) or (mc2 = MaxSize) then Exit;    // Î´·â¿ÚµÄµØÍ¼
+      if (mr2 = 1) or (mc2 = 1) or (mr2 = MaxSize) or (mc2 = MaxSize) then Exit;    // æœªå°å£çš„åœ°å›¾
 
       Inc(tail);
-      pt[tail] := (mr2 shl 16) or mc2;;   // ĞÂµÄ¿É´ï¸ñ×Ó
-      Mark[mr2, mc2] := True;             // ¿É´ï±ê¼Ç
+      pt[tail] := (mr2 shl 16) or mc2;;   // æ–°çš„å¯è¾¾æ ¼å­
+      Mark[mr2, mc2] := True;             // å¯è¾¾æ ‡è®°
     end;
     Inc(p);
   end;
@@ -860,22 +860,22 @@ begin
   Result := 2;
   StatusBar1.Panels[5].Text := IntToStr(nBox);
   StatusBar1.Panels[7].Text := IntToStr(nDst);
-  if (nBox <> nDst) or (nBox < 1) or (nDst < 1) then Exit;                // ¿É´ïÇøÓòÄÚµÄÏä×ÓÓëÄ¿±êµãÊı²»ÕıÈ·
+  if (nBox <> nDst) or (nBox < 1) or (nDst < 1) then Exit;                // å¯è¾¾åŒºåŸŸå†…çš„ç®±å­ä¸ç›®æ ‡ç‚¹æ•°ä¸æ­£ç¡®
 
-  // ÕûÀí¹Ø¿¨ÔªËØ
+  // æ•´ç†å…³å¡å…ƒç´ 
   for i := 1 to MaxSize do begin
     for j := 1 to MaxSize do begin
-      if not Mark[i, j] then begin     // ¿É´ïÇøÓòÖ®Íâ
-        if (MapBoard_OK[i, j] in [ '*', '$', '#' ]) and (not isMinimum) then MapBoard_OK[i, j] := '#'  // Ç½ÍâÔìĞÍ
+      if not Mark[i, j] then begin     // å¯è¾¾åŒºåŸŸä¹‹å¤–
+        if (MapBoard_OK[i, j] in [ '*', '$', '#' ]) and (not isMinimum) then MapBoard_OK[i, j] := '#'  // å¢™å¤–é€ å‹
         else MapBoard_OK[i, j] := '-';
       end;
     end;
   end;
 
-  // ±ê×¼»¯
+  // æ ‡å‡†åŒ–
   for i := 1 to MaxSize do begin
     for j := 1 to MaxSize do begin
-      if Mark[i, j] then begin  // Ì½²éÄÚ²¿ÓĞĞ§ÔªËØµÄ°Ë¸ö·½Î»£¬ÊÇ·ñ¿ÉÒÔ°²ÅÅÇ½±Ú
+      if Mark[i, j] then begin  // æ¢æŸ¥å†…éƒ¨æœ‰æ•ˆå…ƒç´ çš„å…«ä¸ªæ–¹ä½ï¼Œæ˜¯å¦å¯ä»¥å®‰æ’å¢™å£
         if (MapBoard_OK[i - 1, j] <> '#') and (not Mark[i - 1, j]) then
             MapBoard_OK[i - 1, j] := '#';
         if (MapBoard_OK[i + 1, j] <> '#') and (not Mark[i + 1, j]) then
@@ -898,7 +898,7 @@ begin
 
   SetUnDoReDo;
   
-  // »ØÌî±à¼­µØÍ¼
+  // å›å¡«ç¼–è¾‘åœ°å›¾
   for i := 1 to MaxSize do begin
     for j := 1 to MaxSize do begin
       case MapBoard_OK[i, j] of
@@ -928,16 +928,16 @@ begin
   case n of
     0: begin
        DrawGrid1.Invalidate;
-       MessageBox(Handle, '±ê×¼»¯³É¹¦£¡', 'ĞÅÏ¢', MB_ICONINFORMATION + MB_OK);
+       MessageBox(Handle, 'æ ‡å‡†åŒ–æˆåŠŸï¼', 'ä¿¡æ¯', MB_ICONINFORMATION + MB_OK);
     end;
     1: begin
-       MessageBox(Handle, '²Ö¹ÜÔ±Êı²»ÕıÈ·£¡', '´íÎó', MB_ICONERROR + MB_OK)
+       MessageBox(Handle, 'ä»“ç®¡å‘˜æ•°ä¸æ­£ç¡®ï¼', 'é”™è¯¯', MB_ICONERROR + MB_OK)
     end;
     2: begin
-       MessageBox(Handle, 'ÓĞĞ§µÄÏä×ÓÊıÓëÄ¿±êÊı²»·û£¡', '´íÎó', MB_ICONERROR + MB_OK)
+       MessageBox(Handle, 'æœ‰æ•ˆçš„ç®±å­æ•°ä¸ç›®æ ‡æ•°ä¸ç¬¦ï¼', 'é”™è¯¯', MB_ICONERROR + MB_OK)
     end;
     3: begin        
-       MessageBox(Handle, 'ÉĞÎ´·â±ÕµÄµØÍ¼£¡', '´íÎó', MB_ICONERROR + MB_OK)
+       MessageBox(Handle, 'å°šæœªå°é—­çš„åœ°å›¾ï¼', 'é”™è¯¯', MB_ICONERROR + MB_OK)
     end;
   end;
 end;
@@ -953,21 +953,21 @@ begin
   case n of
     0: begin
        DrawGrid1.Invalidate;
-       MessageBox(Handle, '±ê×¼»¯³É¹¦£¡', 'ĞÅÏ¢', MB_ICONINFORMATION + MB_OK);
+       MessageBox(Handle, 'æ ‡å‡†åŒ–æˆåŠŸï¼', 'ä¿¡æ¯', MB_ICONINFORMATION + MB_OK);
     end;
     1: begin
-       MessageBox(Handle, '²Ö¹ÜÔ±Êı²»ÕıÈ·£¡', '´íÎó', MB_ICONERROR + MB_OK)
+       MessageBox(Handle, 'ä»“ç®¡å‘˜æ•°ä¸æ­£ç¡®ï¼', 'é”™è¯¯', MB_ICONERROR + MB_OK)
     end;
     2: begin
-       MessageBox(Handle, 'ÓĞĞ§µÄÏä×ÓÊıÓëÄ¿±êÊı²»·û£¡', '´íÎó', MB_ICONERROR + MB_OK)
+       MessageBox(Handle, 'æœ‰æ•ˆçš„ç®±å­æ•°ä¸ç›®æ ‡æ•°ä¸ç¬¦ï¼', 'é”™è¯¯', MB_ICONERROR + MB_OK)
     end;
     3: begin
-       MessageBox(Handle, 'ÉĞÎ´·â±ÕµÄµØÍ¼£¡', '´íÎó', MB_ICONERROR + MB_OK)
+       MessageBox(Handle, 'å°šæœªå°é—­çš„åœ°å›¾ï¼', 'é”™è¯¯', MB_ICONERROR + MB_OK)
     end;
   end;
 end;
 
-// ÅĞ¶ÏÊÇ·ñÎªÓĞĞ§µÄ XSB ĞĞ
+// åˆ¤æ–­æ˜¯å¦ä¸ºæœ‰æ•ˆçš„ XSB è¡Œ
 function isXSB(str: string): boolean;
 var
   n, k: Integer;
@@ -980,7 +980,7 @@ begin
     exit;
 
   k := 1;
-  // ¼ì²éÊÇ·ñÊÇ¿ÕĞĞ -- ½öÓĞ¿Õ¸ñºÍÌø¸ñ·û
+  // æ£€æŸ¥æ˜¯å¦æ˜¯ç©ºè¡Œ -- ä»…æœ‰ç©ºæ ¼å’Œè·³æ ¼ç¬¦
   while k <= n do
   begin
     if (str[k] <> #20) and (str[k] <> #8) or (str[k] = '') then
@@ -1001,7 +1001,7 @@ begin
   result := k > n;
 end;
 
-// ·Ö¸î×Ö·û´®
+// åˆ†å‰²å­—ç¬¦ä¸²
 function Split(src: string): TStringList;
 var
   i: integer;
@@ -1035,20 +1035,20 @@ begin
     result.Add(src);
 end;
 
-// ´Ó¼ôÇĞ°å¼ÓÔØ XSB
+// ä»å‰ªåˆ‡æ¿åŠ è½½ XSB
 function TEditorForm_.LoadMapsFromClipboard: boolean;
 var
   line, line2: string;
-  is_XSB: Boolean;                 // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨XSB
-  is_Comment: Boolean;             // ÊÇ·ñÕıÔÚ½âÎö¹Ø¿¨ËµÃ÷ĞÅÏ¢
-  n, k: Integer;                   // XSBµÄ½âÎö¿ØÖÆ
+  is_XSB: Boolean;                 // æ˜¯å¦æ­£åœ¨è§£æå…³å¡XSB
+  is_Comment: Boolean;             // æ˜¯å¦æ­£åœ¨è§£æå…³å¡è¯´æ˜ä¿¡æ¯
+  n, k: Integer;                   // XSBçš„è§£ææ§åˆ¶
   XSB_Text: string;
   data_Text: TStringList;
 
 begin
   Result := False;
 
-  // ²éÑ¯¼ôÌù°åÖĞÌØ¶¨¸ñÊ½µÄÊı¾İÄÚÈİ
+  // æŸ¥è¯¢å‰ªè´´æ¿ä¸­ç‰¹å®šæ ¼å¼çš„æ•°æ®å†…å®¹
   if (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_OEMTEXT)) then begin
      XSB_Text := Clipboard.asText;
      data_Text := Split(XSB_Text);
@@ -1069,16 +1069,16 @@ begin
 
     while k < data_Text.Count do begin
 
-      line := data_Text.Strings[k];       // ¶ÁÈ¡Ò»ĞĞ
+      line := data_Text.Strings[k];       // è¯»å–ä¸€è¡Œ
       Inc(k);
       line2 := Trim(line);
 
-      if (not is_Comment) and isXSB(line) then begin       // ¼ì²éÊÇ·ñÎª XSB ĞĞ
-        if not is_XSB then begin     // ¿ªÊ¼ XSB ¿é
+      if (not is_Comment) and isXSB(line) then begin       // æ£€æŸ¥æ˜¯å¦ä¸º XSB è¡Œ
+        if not is_XSB then begin     // å¼€å§‹ XSB å—
 
           if MapNode.Map.Count > 0 then Break;
 
-          is_XSB := True;    // ¿ªÊ¼¹Ø¿¨ XSB ¿é
+          is_XSB := True;    // å¼€å§‹å…³å¡ XSB å—
           is_Comment := False;
           MapNode.Map.Clear;
           MapNode.Title := '';
@@ -1086,11 +1086,11 @@ begin
           MapNode.Comment := '';
         end;
 
-        MapNode.Map.Add(line);    // ¸÷ XSB ĞĞ
+        MapNode.Map.Add(line);    // å„ XSB è¡Œ
 
       end
       else if (not is_Comment) and (AnsiStartsText('title', line2)) then
-      begin   // Æ¥Åä Title£¬±êÌâ
+      begin   // åŒ¹é… Titleï¼Œæ ‡é¢˜
         n := Pos(':', line2);
         if n > 0 then
            MapNode.Title := trim(Copy(line2, n + 1, MaxInt))
@@ -1098,10 +1098,10 @@ begin
            MapNode.Title := trim(Copy(line2, 6, MaxInt));
 
         if is_XSB then
-           is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+           is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
       end
       else if (not is_Comment) and (AnsiStartsText('author', line2)) then
-      begin  // Æ¥Åä Author£¬×÷Õß
+      begin  // åŒ¹é… Authorï¼Œä½œè€…
         n := Pos(':', line2);
         if n > 0 then
            MapNode.Author := trim(Copy(line2, n + 1, MaxInt))
@@ -1109,16 +1109,16 @@ begin
            MapNode.Author := trim(Copy(line2, 7, MaxInt));
 
         if is_XSB then
-           is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+           is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
       end
       else if (AnsiStartsText('comment-end', line2)) or (AnsiStartsText('comment_end', line2)) then
-      begin  // Æ¥Åä"×¢ÊÍ"¿é½áÊø
-        is_Comment := False;  // ½áÊø"×¢ÊÍ"¿é
+      begin  // åŒ¹é…"æ³¨é‡Š"å—ç»“æŸ
+        is_Comment := False;  // ç»“æŸ"æ³¨é‡Š"å—
       end
       else if (AnsiStartsText('comment', line2)) then
-      begin  //Æ¥Åä"×¢ÊÍ"¿é¿ªÊ¼
+      begin  //åŒ¹é…"æ³¨é‡Š"å—å¼€å§‹
         if is_XSB then
-           is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+           is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
 
         n := Pos(':', line2);
         if n > 0 then
@@ -1127,31 +1127,31 @@ begin
            line := trim(Copy(line2, 8, MaxInt));
 
         if Length(line) > 0 then
-           MapNode.Comment := line     // µ¥ĞĞ"×¢ÊÍ"
+           MapNode.Comment := line     // å•è¡Œ"æ³¨é‡Š"
         else
-           is_Comment := True;         // ½áÊø"×¢ÊÍ"¿é
+           is_Comment := True;         // ç»“æŸ"æ³¨é‡Š"å—
       end
       else if is_Comment then
-      begin  // "ËµÃ÷"ĞÅÏ¢
+      begin  // "è¯´æ˜"ä¿¡æ¯
         if Length(MapNode.Comment) > 0 then
            MapNode.Comment := MapNode.Comment + #10 + line
         else
            MapNode.Comment := line;
 
         if is_XSB then
-           is_XSB := false;      // ½áÊø¹Ø¿¨SXBµÄ½âÎö
+           is_XSB := false;      // ç»“æŸå…³å¡SXBçš„è§£æ
       end
       else
       begin
         if is_XSB then
-           is_XSB := false;      // ½áÊø¹Ø¿¨SXB¿éµÄ½âÎö
+           is_XSB := false;      // ç»“æŸå…³å¡SXBå—çš„è§£æ
       end;
     end;
 
     RecogForm_.MyStringListFree(data_Text);
   end;
   
-  // ½ö½ö½âÎöµÚÒ»¸ö XSB ¼´¿É
+  // ä»…ä»…è§£æç¬¬ä¸€ä¸ª XSB å³å¯
   if MapNode.Map.Count > 0 then Result := true;
 
 end;
@@ -1161,7 +1161,7 @@ var
   i, j, nRows, nCols, len: Integer;
   ch: Char;
 begin
-  if LoadMapsFromClipboard and (MessageBox(Handle, 'µ±Ç°»æÖÆµÄÄÚÈİ½«±»¸²¸Ç£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
+  if LoadMapsFromClipboard and (MessageBox(Handle, 'å½“å‰ç»˜åˆ¶çš„å†…å®¹å°†è¢«è¦†ç›–ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
      SetUnDoReDo;
      for i := 1 to MaxSize do begin
          for j := 1 to MaxSize do begin
@@ -1219,7 +1219,7 @@ begin
   end;
 end;
 
-// È¡µÃ¹Ø¿¨XSB¼°Æä×ÊÁÏ
+// å–å¾—å…³å¡XSBåŠå…¶èµ„æ–™
 function TEditorForm_.GetXSB: string;
 var
   i, j: Integer;
@@ -1315,7 +1315,7 @@ begin
   Clipboard.SetTextBuf(PChar(GetXSB));
 
   isSaved := True;
-  StatusBar1.Panels[8].Text := 'XSB ÒÑ¸´ÖÆµ½¼ôÇĞ°å£¡';
+  StatusBar1.Panels[8].Text := 'XSB å·²å¤åˆ¶åˆ°å‰ªåˆ‡æ¿ï¼';
 end;
 
 procedure TEditorForm_.sb_SaveToFileClick(Sender: TObject);
@@ -1332,7 +1332,7 @@ begin
       if (myExtName = '') or (myExtName = '.') then
           myFileName := changefileext(myFileName, '.xsb');
 
-      if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' ÎÄµµÒÑ¾­´æÔÚ£¬¸²Ğ´ËüÂğ£¿'), '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
+      if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' æ–‡æ¡£å·²ç»å­˜åœ¨ï¼Œè¦†å†™å®ƒå—ï¼Ÿ'), 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
         try
           AssignFile(myXSBFile, myFileName);
           ReWrite(myXSBFile);
@@ -1340,12 +1340,12 @@ begin
             Writeln(myXSBFile, GetXSB);
 
             isSaved := True;
-            StatusBar1.Panels[8].Text := '±£´æ³É¹¦£¡';
+            StatusBar1.Panels[8].Text := 'ä¿å­˜æˆåŠŸï¼';
           finally
             Closefile(myXSBFile);
           end;
         except
-          StatusBar1.Panels[8].Text := 'Óöµ½´íÎó£¬±£´æÊ§°Ü£¡';
+          StatusBar1.Panels[8].Text := 'é‡åˆ°é”™è¯¯ï¼Œä¿å­˜å¤±è´¥ï¼';
         end;
       end;
    end;
@@ -1356,7 +1356,7 @@ procedure TEditorForm_.sb_ClearClick(Sender: TObject);
 var
   i, j: Integer;
 begin
-  if MessageBox(Handle, 'µ±Ç°»æÖÆµÄÄÚÈİ½«±»È«²¿²Á³ı£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = mrOK then begin
+  if MessageBox(Handle, 'å½“å‰ç»˜åˆ¶çš„å†…å®¹å°†è¢«å…¨éƒ¨æ“¦é™¤ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = mrOK then begin
      SetUnDoReDo;
      for i := 1 to MaxSize do begin
         for j := 1 to MaxSize do begin
@@ -1373,32 +1373,32 @@ procedure TEditorForm_.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   case Key of
-    VK_F1:                       // F1£¬°ïÖú
+    VK_F1:                       // F1ï¼Œå¸®åŠ©
       begin
         sb_Help.Click;
       end;
-    VK_F2:                         // F2£¬¸ü»»Æ¤·ô
+    VK_F2:                         // F2ï¼Œæ›´æ¢çš®è‚¤
       bt_Skin.Click;
-    VK_F5:                         // F5£¬ÕıÍÆÑİÁ·
+    VK_F5:                         // F5ï¼Œæ­£æ¨æ¼”ç»ƒ
       sb_Trial.Click;
-    VK_F6:                         // F6£¬ÄæÍÆÑİÁ·
+    VK_F6:                         // F6ï¼Œé€†æ¨æ¼”ç»ƒ
       sb_Trial.Click;
-    37:                                                    // Ctrl + ¡û£¬×óÒÆÁĞ
+    37:                                                    // Ctrl + â†ï¼Œå·¦ç§»åˆ—
       if ssCtrl in Shift then begin
          N2.Click;
          Key := 0;
       end;
-    38:                                                    // Ctrl + ¡ü£¬ÉÏÒÆĞĞ
+    38:                                                    // Ctrl + â†‘ï¼Œä¸Šç§»è¡Œ
       if ssCtrl in Shift then begin
          N4.Click;
          Key := 0;
       end;
-    39:                                                     // Ctrl + ¡ú£¬ÓÒÒÆÁĞ
+    39:                                                     // Ctrl + â†’ï¼Œå³ç§»åˆ—
       if ssCtrl in Shift then begin
          N1.Click;
          Key := 0;
       end;
-    40:                                                    // Ctrl + ¡ı£¬ÏÂÒÆĞĞ
+    40:                                                    // Ctrl + â†“ï¼Œä¸‹ç§»è¡Œ
       if ssCtrl in Shift then begin
          N3.Click;
          Key := 0;
@@ -1410,7 +1410,7 @@ procedure TEditorForm_.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   case Ord(Key) of
     45:
-      begin                      // -£¬ËõĞ¡
+      begin                      // -ï¼Œç¼©å°
         if CellSize > 20 then begin
           CellSize := CellSize - 2;
           DrawGrid1.DefaultColWidth := CellSize;
@@ -1419,7 +1419,7 @@ begin
         end;
       end;
     43:
-      begin                      // +£¬·Å´ó
+      begin                      // +ï¼Œæ”¾å¤§
         if CellSize < 60 then begin
           CellSize := CellSize + 2;
           DrawGrid1.DefaultColWidth := CellSize;
@@ -1427,7 +1427,7 @@ begin
           DrawGrid1.Invalidate;
         end;
       end;
-    27, 42:                      // *£¬»¹Ô­
+    27, 42:                      // *ï¼Œè¿˜åŸ
       begin
         CellSize := 60;
         DrawGrid1.DefaultColWidth := CellSize;
@@ -1442,27 +1442,27 @@ procedure TEditorForm_.FormKeyUp(Sender: TObject; var Key: Word;
 begin
 //  Caption := IntToStr(ord(Key));
   case Key of
-    72:                  // H,   °ÚÏä×ÓÄ£Ê½
+    72:                  // H,   æ‘†ç®±å­æ¨¡å¼
       bt_LeftBar.Click;
     71:                  // G
          N6.Click;
     84:                  // T
          N7.Click;
-    90:                 // Ctrl(Shift) + Z£¬ UnDo¡¢ReDo
+    90:                 // Ctrl(Shift) + Zï¼Œ UnDoã€ReDo
       if ssShift in Shift then begin
         sb_ReDo.Click;
       end else if ssCtrl in Shift then begin
         sb_UnDo.Click;
       end;
-    83:                 // Ctrl + S£¬ XSB ±£´æµ½ÎÄµµ
+    83:                 // Ctrl + Sï¼Œ XSB ä¿å­˜åˆ°æ–‡æ¡£
       if ssCtrl in Shift then begin
          sb_SaveToFile.Click;
       end;
-    67:                 // Ctrl + C£¬ XSB ËÍÈë¼ôÇĞ°å
+    67:                 // Ctrl + Cï¼Œ XSB é€å…¥å‰ªåˆ‡æ¿
       if ssCtrl in Shift then begin
         sb_Save.Click;
       end;
-    86:                // Ctrl + V£¬ ´Ó¼ôÇĞ°å¼ÓÔØ XSB
+    86:                // Ctrl + Vï¼Œ ä»å‰ªåˆ‡æ¿åŠ è½½ XSB
       if ssCtrl in Shift then begin
          sb_Load.Click;
       end;
@@ -1521,7 +1521,7 @@ begin
   else UnDoList.Add(str);
 end;
 
-// Set UnDo¡¢ReDo
+// Set UnDoã€ReDo
 procedure SetXSB(str: string);
 var
   i, j, nRows, nCols: Integer;
@@ -1609,7 +1609,7 @@ begin
   myCount;  
 end;
 
-// ÓÒÒÆÒ»ÁĞ
+// å³ç§»ä¸€åˆ—
 procedure TEditorForm_.N1Click(Sender: TObject);
 var
   i, j: Integer;
@@ -1621,7 +1621,7 @@ begin
        inc(i);
    end;
    if (i > MaxSize) or
-      (MessageBox(Handle, '×îÓÒÁĞÉÏµÄÔªËØ»á¶ªÊ§£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
+      (MessageBox(Handle, 'æœ€å³åˆ—ä¸Šçš„å…ƒç´ ä¼šä¸¢å¤±ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
       for i := 1 to MaxSize do begin
           for j := MaxSize downto 2 do begin
               MapBoard[i, j] := MapBoard[i, j-1];
@@ -1635,7 +1635,7 @@ begin
    isSaved := False;
 end;
 
-// ÏÂÒÆÒ»ĞĞ
+// ä¸‹ç§»ä¸€è¡Œ
 procedure TEditorForm_.N3Click(Sender: TObject);
 var
   i, j: Integer;
@@ -1647,7 +1647,7 @@ begin
        inc(i);
    end;
    if (i > MaxSize) or
-      (MessageBox(Handle, '×îµ×ĞĞÉÏµÄÔªËØ»á¶ªÊ§£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
+      (MessageBox(Handle, 'æœ€åº•è¡Œä¸Šçš„å…ƒç´ ä¼šä¸¢å¤±ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
       for i := MaxSize downto 2 do begin
           for j := 1 to MaxSize do begin
               MapBoard[i, j] := MapBoard[i-1, j];
@@ -1661,7 +1661,7 @@ begin
    isSaved := False;
 end;
 
-// ×óÒÆÒ»ÁĞ
+// å·¦ç§»ä¸€åˆ—
 procedure TEditorForm_.N2Click(Sender: TObject);
 var
   i, j: Integer;
@@ -1673,7 +1673,7 @@ begin
        inc(i);
    end;
    if (i > MaxSize) or
-      (MessageBox(Handle, '×î×óÁĞÉÏµÄÔªËØ»á¶ªÊ§£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
+      (MessageBox(Handle, 'æœ€å·¦åˆ—ä¸Šçš„å…ƒç´ ä¼šä¸¢å¤±ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
       for i := 1 to MaxSize do begin
           for j := 1 to MaxSize-1 do begin
               MapBoard[i, j] := MapBoard[i, j+1];
@@ -1687,7 +1687,7 @@ begin
    isSaved := False;
 end;
 
-// ÉÏÒÆÒ»ĞĞ
+// ä¸Šç§»ä¸€è¡Œ
 procedure TEditorForm_.N4Click(Sender: TObject);
 var
   i, j: Integer;
@@ -1699,7 +1699,7 @@ begin
        inc(i);
    end;
    if (i > MaxSize) or                            
-      (MessageBox(Handle, '×î¶¥ĞĞÉÏµÄÔªËØ»á¶ªÊ§£¬È·¶¨Âğ£¿', '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
+      (MessageBox(Handle, 'æœ€é¡¶è¡Œä¸Šçš„å…ƒç´ ä¼šä¸¢å¤±ï¼Œç¡®å®šå—ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = mrOK) then begin
       for i := 1 to MaxSize-1 do begin
           for j := 1 to MaxSize do begin
               MapBoard[i, j] := MapBoard[i+1, j];
@@ -1720,7 +1720,7 @@ var
 begin
   if isSaved then CanClose := True
   else begin
-     n := MessageBox(Handle, 'ÓĞĞÂµÄĞŞ¸Ä£¬±£´æÂğ£¿', 'ÌáĞÑ', MB_ICONQUESTION + MB_YESNOCANCEL);
+     n := MessageBox(Handle, 'æœ‰æ–°çš„ä¿®æ”¹ï¼Œä¿å­˜å—ï¼Ÿ', 'æé†’', MB_ICONQUESTION + MB_YESNOCANCEL);
      if n = mrYes then begin
 
         sb_SaveToFile.Click;
@@ -1742,7 +1742,7 @@ begin
   if Height < 560 then  Height := 560;
 end;
 
-// ÊÇ·ñ Lurd ×Ö·û´®
+// æ˜¯å¦ Lurd å­—ç¬¦ä¸²
 function TEditorForm_.isLurd(str: String): boolean;
 var
   n, k: Integer;
@@ -1762,7 +1762,7 @@ begin
   result := k > n;
 end;
 
-// ÓÃ´ğ°¸µ¹ÍÆ¹Ø¿¨ - ÄæÍÆ·¨¼ÆËã¹Ø¿¨³õÌ¬
+// ç”¨ç­”æ¡ˆå€’æ¨å…³å¡ - é€†æ¨æ³•è®¡ç®—å…³å¡åˆæ€
 function TEditorForm_.LurdToXSB(mStr: String): boolean;
 var
   m_tLevel: array[1..MaxSize*2+1, 1..MaxSize*2+1] of Char;
@@ -1774,22 +1774,22 @@ begin
     try
         for i := 1 to MaxSize*2 do begin
             for j := 1 to MaxSize*2 do begin
-                m_tLevel[i][j] := '_';  //ÔİÊ±¼Ù¶¨È«²¿ÎªÇ½ÍâµØ°å
+                m_tLevel[i][j] := '_';  //æš‚æ—¶å‡å®šå…¨éƒ¨ä¸ºå¢™å¤–åœ°æ¿
             end;
         end;
 
-        row := MaxSize; col := MaxSize;  //Ô¤Éè²Ö¹ÜÔ±³õÊ¼Î»ÖÃ
+        row := MaxSize; col := MaxSize;  //é¢„è®¾ä»“ç®¡å‘˜åˆå§‹ä½ç½®
         m_tLevel[row][col] := '-';
 
-        top := row; bottom := row; left := col; right := col;  //¹Ø¿¨ËÄÖÁ
-        len := Length(mStr);  //´ğ°¸³¤¶È
+        top := row; bottom := row; left := col; right := col;  //å…³å¡å››è‡³
+        len := Length(mStr);  //ç­”æ¡ˆé•¿åº¦
         for k := len downto 1 do begin
             case mStr[k] of
                 'r': begin
                     col2 := col - 1;
                     if (col2 <= 1) or (m_tLevel[row][col2] in [ '$', '*' ]) then Exit
                     else begin
-                        if m_tLevel[row][col2] = '_' then begin  //²Ö¹ÜÔ±µÄĞÂÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ
+                        if m_tLevel[row][col2] = '_' then begin  //ä»“ç®¡å‘˜çš„æ–°ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®
                             m_tLevel[row][col2] := '-';
                         end;
                         col := col2;
@@ -1800,7 +1800,7 @@ begin
                     row2 := row - 1;
                     if (row2 <= 1) or (m_tLevel[row2][col] in [ '$', '*' ]) then Exit
                     else begin
-                        if m_tLevel[row2][col] = '_' then begin  //²Ö¹ÜÔ±µÄĞÂÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ
+                        if m_tLevel[row2][col] = '_' then begin  //ä»“ç®¡å‘˜çš„æ–°ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®
                             m_tLevel[row2][col] := '-';
                         end;
                         row := row2;
@@ -1811,7 +1811,7 @@ begin
                     col2 := col + 1;
                     if (col2 > MaxSize * 2) or (m_tLevel[row][col2] in [ '$', '*' ]) then Exit
                     else begin
-                        if m_tLevel[row][col2] = '_' then begin  //²Ö¹ÜÔ±µÄĞÂÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ
+                        if m_tLevel[row][col2] = '_' then begin  //ä»“ç®¡å‘˜çš„æ–°ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®
                             m_tLevel[row][col2] := '-';
                         end;
                         col := col2;
@@ -1822,7 +1822,7 @@ begin
                     row2 := row + 1;
                     if (row2 > MaxSize * 2) or (m_tLevel[row2][col] in [ '$', '*' ]) then Exit
                     else begin
-                        if m_tLevel[row2][col] = '_' then begin  //²Ö¹ÜÔ±µÄĞÂÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ
+                        if m_tLevel[row2][col] = '_' then begin  //ä»“ç®¡å‘˜çš„æ–°ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®
                             m_tLevel[row2][col] := '-';
                         end;
                         row := row2;
@@ -1833,27 +1833,27 @@ begin
                     col2 := col - 1;
                     box_col := col + 1;
 
-                    //½çÍâ»òÓöµ½Ã¬¶ÜµÄ¸ñ×Ó
+                    //ç•Œå¤–æˆ–é‡åˆ°çŸ›ç›¾çš„æ ¼å­
                     if (col2 <= 1) or (box_col > MaxSize * 2) or (m_tLevel[row][col2] in [ '$', '*' ]) or (m_tLevel[row][box_col] = '-') then Exit;
 
-                    if m_tLevel[row][col2] = '_' then begin  //²Ö¹ÜÔ±µÄĞÂÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ
+                    if m_tLevel[row][col2] = '_' then begin  //ä»“ç®¡å‘˜çš„æ–°ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®
                         m_tLevel[row][col2] := '-';
                     end;
 
-                    if (m_tLevel[row][box_col] in [ '_', '*' ]) then begin  //Ïä×ÓµÄÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ»òÏä×ÓÔÚÄ¿±êµãÎ»ÉÏ
+                    if (m_tLevel[row][box_col] in [ '_', '*' ]) then begin  //ç®±å­çš„ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®æˆ–ç®±å­åœ¨ç›®æ ‡ç‚¹ä½ä¸Š
                         m_tLevel[row][box_col] := '.';
                     end else if m_tLevel[row][box_col] = '$' then begin
                         m_tLevel[row][box_col] := '-';
                     end;
-                    if m_tLevel[row][col] = '.' then begin  //Ïä×ÓÒÆµ½²Ö¹ÜÔ±µÄÎ»ÖÃ
+                    if m_tLevel[row][col] = '.' then begin  //ç®±å­ç§»åˆ°ä»“ç®¡å‘˜çš„ä½ç½®
                         m_tLevel[row][col] := '*';
                     end else begin
                         m_tLevel[row][col] := '$';
                     end;
 
-                    col := col2;  //²Ö¹ÜÔ±ÒÆµ½ĞÂÎ»ÖÃ
+                    col := col2;  //ä»“ç®¡å‘˜ç§»åˆ°æ–°ä½ç½®
 
-                    if left > col then left := col;  //µ÷Õû¹Ø¿¨ËÄÖÁ
+                    if left > col then left := col;  //è°ƒæ•´å…³å¡å››è‡³
                     if right < box_col then right := box_col;
 
                 end;
@@ -1861,27 +1861,27 @@ begin
                     row2 := row - 1;
                     box_row := row + 1;
 
-                    //½çÍâ»òÓöµ½Ã¬¶ÜµÄ¸ñ×Ó
+                    //ç•Œå¤–æˆ–é‡åˆ°çŸ›ç›¾çš„æ ¼å­
                     if (row2 <= 1) or (box_row > MaxSize * 2) or (m_tLevel[row2][col] in [ '$', '*' ]) or (m_tLevel[box_row][col] = '-') then Exit;
 
-                    if m_tLevel[row2][col] = '_' then begin  //²Ö¹ÜÔ±µÄĞÂÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ
+                    if m_tLevel[row2][col] = '_' then begin  //ä»“ç®¡å‘˜çš„æ–°ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®
                         m_tLevel[row2][col] := '-';
                     end;
 
-                    if (m_tLevel[box_row][col] in [ '_', '*' ]) then begin  //Ïä×ÓµÄÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ»òÏä×ÓÔÚÄ¿±êµãÎ»ÉÏ
+                    if (m_tLevel[box_row][col] in [ '_', '*' ]) then begin  //ç®±å­çš„ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®æˆ–ç®±å­åœ¨ç›®æ ‡ç‚¹ä½ä¸Š
                         m_tLevel[box_row][col] := '.';
                     end else if m_tLevel[box_row][col] = '$' then begin
                         m_tLevel[box_row][col] := '-';
                     end;
-                    if m_tLevel[row][col] = '.' then begin  //Ïä×ÓÒÆµ½²Ö¹ÜÔ±µÄÎ»ÖÃ
+                    if m_tLevel[row][col] = '.' then begin  //ç®±å­ç§»åˆ°ä»“ç®¡å‘˜çš„ä½ç½®
                         m_tLevel[row][col] := '*';
                     end else begin
                         m_tLevel[row][col] := '$';
                     end;
 
-                    row := row2;  //²Ö¹ÜÔ±ÒÆµ½ĞÂÎ»ÖÃ
+                    row := row2;  //ä»“ç®¡å‘˜ç§»åˆ°æ–°ä½ç½®
 
-                    if top > row then top := row;  //µ÷Õû¹Ø¿¨ËÄÖÁ
+                    if top > row then top := row;  //è°ƒæ•´å…³å¡å››è‡³
                     if bottom < box_row then bottom := box_row;
 
                 end;
@@ -1889,28 +1889,28 @@ begin
                     col2 := col + 1;
                     box_col := col - 1;
 
-                    //½çÍâ»òÓöµ½Ã¬¶ÜµÄ¸ñ×Ó
+                    //ç•Œå¤–æˆ–é‡åˆ°çŸ›ç›¾çš„æ ¼å­
                     if (box_col <= 1) or (col2 > MaxSize * 2) or (m_tLevel[row][col2] in [ '$', '*' ]) or (m_tLevel[row][box_col] = '-') then Exit;
 
-                    if (m_tLevel[row][col2] = '_') then begin  //²Ö¹ÜÔ±µÄĞÂÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ
+                    if (m_tLevel[row][col2] = '_') then begin  //ä»“ç®¡å‘˜çš„æ–°ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®
                         m_tLevel[row][col2] := '-';
                     end;
 
-                    if (m_tLevel[row][box_col] in [ '_', '*' ]) then begin  //Ïä×ÓµÄÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ»òÏä×ÓÔÚÄ¿±êµãÎ»ÉÏ
+                    if (m_tLevel[row][box_col] in [ '_', '*' ]) then begin  //ç®±å­çš„ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®æˆ–ç®±å­åœ¨ç›®æ ‡ç‚¹ä½ä¸Š
                         m_tLevel[row][box_col] := '.';
                     end else if m_tLevel[row][box_col] = '$' then begin
                         m_tLevel[row][box_col] := '-';
                     end;
 
-                    if m_tLevel[row][col] = '.' then begin //Ïä×ÓÒÆµ½²Ö¹ÜÔ±µÄÎ»ÖÃ
+                    if m_tLevel[row][col] = '.' then begin //ç®±å­ç§»åˆ°ä»“ç®¡å‘˜çš„ä½ç½®
                         m_tLevel[row][col] := '*';
                     end else begin
                         m_tLevel[row][col] := '$';
                     end;
 
-                    col := col2;  //²Ö¹ÜÔ±ÒÆµ½ĞÂÎ»ÖÃ
+                    col := col2;  //ä»“ç®¡å‘˜ç§»åˆ°æ–°ä½ç½®
 
-                    if right < col then right := col;  //µ÷Õû¹Ø¿¨ËÄÖÁ
+                    if right < col then right := col;  //è°ƒæ•´å…³å¡å››è‡³
                     if left > box_col then left := box_col;
 
                 end;
@@ -1918,27 +1918,27 @@ begin
                     row2 := row + 1;
                     box_row := row - 1;
 
-                    //½çÍâ»òÓöµ½Ã¬¶ÜµÄ¸ñ×Ó
+                    //ç•Œå¤–æˆ–é‡åˆ°çŸ›ç›¾çš„æ ¼å­
                     if (box_row <= 1) or (row2 > MaxSize * 2) or (m_tLevel[row2][col] in [ '$', '*' ]) or (m_tLevel[box_row][col] = '-') then Exit;
 
-                    if (m_tLevel[row2][col] = '_') then begin  //²Ö¹ÜÔ±µÄĞÂÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ
+                    if (m_tLevel[row2][col] = '_') then begin  //ä»“ç®¡å‘˜çš„æ–°ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®
                         m_tLevel[row2][col] := '-';
                     end;
 
-                    if (m_tLevel[box_row][col] in [ '_', '*' ]) then begin  //Ïä×ÓµÄÎ»ÖÃÊÇµÚÒ»´Î·ÃÎÊ»òÏä×ÓÔÚÄ¿±êµãÎ»ÉÏ
+                    if (m_tLevel[box_row][col] in [ '_', '*' ]) then begin  //ç®±å­çš„ä½ç½®æ˜¯ç¬¬ä¸€æ¬¡è®¿é—®æˆ–ç®±å­åœ¨ç›®æ ‡ç‚¹ä½ä¸Š
                         m_tLevel[box_row][col] := '.';
                     end else if m_tLevel[box_row][col] = '$' then begin
                         m_tLevel[box_row][col] := '-';
                     end;
-                    if m_tLevel[row][col] = '.' then begin  //Ïä×ÓÒÆµ½²Ö¹ÜÔ±µÄÎ»ÖÃ
+                    if m_tLevel[row][col] = '.' then begin  //ç®±å­ç§»åˆ°ä»“ç®¡å‘˜çš„ä½ç½®
                         m_tLevel[row][col] := '*';
                     end else begin
                         m_tLevel[row][col] := '$';
                     end;
 
-                    row := row2;  //²Ö¹ÜÔ±ÒÆµ½ĞÂÎ»ÖÃ
+                    row := row2;  //ä»“ç®¡å‘˜ç§»åˆ°æ–°ä½ç½®
 
-                    if bottom < row then bottom := row;  //µ÷Õû¹Ø¿¨ËÄÖÁ
+                    if bottom < row then bottom := row;  //è°ƒæ•´å…³å¡å››è‡³
                     if top > box_row then top := box_row;
                 end;
             end;
@@ -1946,14 +1946,14 @@ begin
 
         if (right-left < 2) and (bottom-top < 2) then Exit;
 
-        //²Ö¹ÜÔ±
+        //ä»“ç®¡å‘˜
         if m_tLevel[row][col] = '.' then begin
             m_tLevel[row][col] := '+';
         end else begin
             m_tLevel[row][col] := '@';
         end;
 
-        //¹Ø¿¨±ê×¼»¯
+        //å…³å¡æ ‡å‡†åŒ–
         for i := top to bottom do begin
             for j := left to right do begin
                 if (m_tLevel[i][j] <> '_') and (m_tLevel[i][j] <> '#') then begin
@@ -1969,7 +1969,7 @@ begin
             end;
         end;
 
-        // ¼ÓÔØ¹Ø¿¨µ½±à¼­Çø
+        // åŠ è½½å…³å¡åˆ°ç¼–è¾‘åŒº
         for i := top-1 to bottom+1 do begin
             s := '';
             for j := left-1 to right+1 do begin
@@ -2177,10 +2177,10 @@ begin
   StatusBar1.Panels[8].Text := sb_Trial.Hint;
 end;
 
-// ½øÈëÑİÁ·³¡
+// è¿›å…¥æ¼”ç»ƒåœº
 procedure TEditorForm_.sb_TrialClick(Sender: TObject);
 const
-  dr4 : array[0..3] of Integer = (  0, 0, -1, 1 );         // ËÄÁÚ³£Á¿£º×ó¡¢ÓÒ¡¢ÉÏ¡¢ÏÂ
+  dr4 : array[0..3] of Integer = (  0, 0, -1, 1 );         // å››é‚»å¸¸é‡ï¼šå·¦ã€å³ã€ä¸Šã€ä¸‹
   dc4 : array[0..3] of Integer = ( -1, 1,  0, 0 );
 var
   i, j, k, mr, mc, nRen, nPos, p, tail, nBox: Integer;
@@ -2207,11 +2207,11 @@ begin
   end;
 
   if nRen <> 1 then begin
-     MessageBox(Handle, '²Ö¹ÜÔ±Êı²»ÕıÈ·£¡', '´íÎó', MB_ICONERROR + MB_OK);           // Ã»ÓĞ²Ö¹ÜÔ±
+     MessageBox(Handle, 'ä»“ç®¡å‘˜æ•°ä¸æ­£ç¡®ï¼', 'é”™è¯¯', MB_ICONERROR + MB_OK);           // æ²¡æœ‰ä»“ç®¡å‘˜
      Exit;
   end;
   
-  // ÎªÁË¼ÆËãºÍ±È¶ÔµÄ·½±ã£¬ÔÚÁÙÊ±µØÍ¼ËÄÖÜ¼ÓÉÏÇ½±Ú¿ò
+  // ä¸ºäº†è®¡ç®—å’Œæ¯”å¯¹çš„æ–¹ä¾¿ï¼Œåœ¨ä¸´æ—¶åœ°å›¾å››å‘¨åŠ ä¸Šå¢™å£æ¡†
   for i := 0 to MaxSize+1 do begin
     MapBoard_OK[i,         0        ] := '#';
     MapBoard_OK[i,         MaxSize+1] := '#';
@@ -2219,7 +2219,7 @@ begin
     MapBoard_OK[MaxSize+1, i        ] := '#';
   end;
 
-  // ÊÇ·ñ¿É´ï¸ñ×Ó±ê¼Ç
+  // æ˜¯å¦å¯è¾¾æ ¼å­æ ‡è®°
   for i := 1 to MaxSize do begin
     for j := 1 to MaxSize do begin
       Mark[i][j] := false;
@@ -2237,7 +2237,7 @@ begin
 
     if MapBoard_OK[mr, mc] in ['$', '*'] then Inc(nBox);
 
-    // ÏòÖÜ±ßÌ½Ë÷£¬¼ì²éÊÇ·ñ¿É´ï
+    // å‘å‘¨è¾¹æ¢ç´¢ï¼Œæ£€æŸ¥æ˜¯å¦å¯è¾¾
     for k := 0 to 3 do begin
       mr2 := mr + dr4[k];
       mc2 := mc + dc4[k];
@@ -2245,18 +2245,18 @@ begin
       if (MapBoard_OK[mr2, mc2] = '#') or Mark[mr2, mc2] then Continue;
 
       if (mr2 = 1) or (mc2 = 1) or (mr2 = MaxSize) or (mc2 = MaxSize) then begin
-         MessageBox(Handle, 'ÉĞÎ´·â±ÕµÄµØÍ¼£¡', '´íÎó', MB_ICONERROR + MB_OK);    // Î´·â¿ÚµÄµØÍ¼
+         MessageBox(Handle, 'å°šæœªå°é—­çš„åœ°å›¾ï¼', 'é”™è¯¯', MB_ICONERROR + MB_OK);    // æœªå°å£çš„åœ°å›¾
          Exit;
       end;
 
       Inc(tail);
-      pt[tail] := (mr2 shl 16) or mc2;;   // ĞÂµÄ¿É´ï¸ñ×Ó
-      Mark[mr2, mc2] := True;             // ¿É´ï±ê¼Ç
+      pt[tail] := (mr2 shl 16) or mc2;;   // æ–°çš„å¯è¾¾æ ¼å­
+      Mark[mr2, mc2] := True;             // å¯è¾¾æ ‡è®°
     end;
     Inc(p);
   end;
 
-  // ÊáÀíµ¥Ôª¸ñÊı¾İ
+  // æ¢³ç†å•å…ƒæ ¼æ•°æ®
   for i := 1 to MaxSize do begin
     for j := 1 to MaxSize do begin
       if (MapBoard[i, j] < 0) or (MapBoard[i, j] > 6) then MapBoard_OK[i, j] := '-'
@@ -2264,7 +2264,7 @@ begin
     end;
   end;
 
-  // ÒÔÈËµÄ»î¶¯·¶Î§¶¨ÒåµØÍ¼µÄ¡°ËÄÖÁ¡±
+  // ä»¥äººçš„æ´»åŠ¨èŒƒå›´å®šä¹‰åœ°å›¾çš„â€œå››è‡³â€
   flg := True;
   top := 1;
   while flg and (top <= MaxSize) do begin
@@ -2318,7 +2318,7 @@ begin
       if flg then dec(right);
   end;
 
-  // ÊÔÁ·³¡·¶Î§£¬¶¨ÒåÎªÈËµÄ»î¶¯·¶Î§ÏòÍâÀ©³äÒ»¸öµ¥Ôª¸ñ
+  // è¯•ç»ƒåœºèŒƒå›´ï¼Œå®šä¹‰ä¸ºäººçš„æ´»åŠ¨èŒƒå›´å‘å¤–æ‰©å……ä¸€ä¸ªå•å…ƒæ ¼
   Dec(top);
   Dec(left);
   Inc(bottom);
@@ -2328,7 +2328,7 @@ begin
 
   PathFinder.init(TrialForm.mapCols, TrialForm.mapRows);
 
-  // ½«ÊÔÁ·µØÍ¼ËÍÈëÊÔÁ·³¡
+  // å°†è¯•ç»ƒåœ°å›¾é€å…¥è¯•ç»ƒåœº
   for i := top to bottom do begin
       for j := left to right do begin
           case MapBoard_OK[i, j] of
@@ -2343,13 +2343,13 @@ begin
       end;
   end;
 
-  // ½øÈëÊÔÁ·³¡
-  if GetKeyState(VK_CONTROL) < 0 then begin  // ÊÇ·ñ°´ÏÂ ctrl ¼ü
-    TrialForm.isBK := True;         // ÄæÍÆÑİÁ·³¡
-    TrialForm.Caption := 'ÄæÍÆÑİÁ·³¡';
+  // è¿›å…¥è¯•ç»ƒåœº
+  if GetKeyState(VK_CONTROL) < 0 then begin  // æ˜¯å¦æŒ‰ä¸‹ ctrl é”®
+    TrialForm.isBK := True;         // é€†æ¨æ¼”ç»ƒåœº
+    TrialForm.Caption := 'é€†æ¨æ¼”ç»ƒåœº';
   end else begin
-    TrialForm.isBK := False;        // ÕıÍÆÑİÁ·³¡
-    TrialForm.Caption := 'ÕıÍÆÑİÁ·³¡';
+    TrialForm.isBK := False;        // æ­£æ¨æ¼”ç»ƒåœº
+    TrialForm.Caption := 'æ­£æ¨æ¼”ç»ƒåœº';
   end;
 
   TrialForm.StatusBar1.Panels[5].Text := Format('%d', [ nBox ]);
@@ -2358,7 +2358,7 @@ begin
   TrialForm.Show;
 end;
 
-// Çå³ıÏä×Ó
+// æ¸…é™¤ç®±å­
 procedure TEditorForm_.N9Click(Sender: TObject);
 var
   i, j: Integer;
@@ -2380,7 +2380,7 @@ begin
   DrawGrid1.Invalidate;
 end;
 
-// Çå³ıÄ¿±êµã
+// æ¸…é™¤ç›®æ ‡ç‚¹
 procedure TEditorForm_.N10Click(Sender: TObject);
 var
   i, j: Integer;
@@ -2403,7 +2403,7 @@ begin
   DrawGrid1.Invalidate;
 end;
 
-//½ö±£ÁôÏä×Ó
+//ä»…ä¿ç•™ç®±å­
 procedure TEditorForm_.N11Click(Sender: TObject);
 var
   i, j: Integer;

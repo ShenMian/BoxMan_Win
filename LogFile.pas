@@ -1,4 +1,4 @@
-unit LogFile;
+ï»¿unit LogFile;
 
 interface
   procedure LogFileInit(ph: string);
@@ -9,31 +9,31 @@ interface
 var
   myLogFile, myLogFile_: Textfile;
 
-  AppPath, curSkinFileName: string;      // Æ¤·ôÎÄµµÃû
+  AppPath, curSkinFileName: string;      // çš®è‚¤æ–‡æ¡£å
 
 implementation
 
-// ³õÊ¼»¯ Log ÎÄ¼ş
+// åˆå§‹åŒ– Log æ–‡ä»¶
 procedure LogFileInit(ph: string);
 begin
   AssignFile(myLogFile, ph);
   ReWrite(myLogFile);
 end;
 
-// ¹Ø±Õ Log ÎÄ¼ş
+// å…³é—­ Log æ–‡ä»¶
 procedure LogFileClose();
 begin
   Closefile(myLogFile);
 end;
 
-// ³õÊ¼»¯¶¯×÷ Log ÎÄ¼ş
+// åˆå§‹åŒ–åŠ¨ä½œ Log æ–‡ä»¶
 procedure LogFileInit_(ph: string);
 begin
   AssignFile(myLogFile_, ph);
   ReWrite(myLogFile_);
 end;
 
-// ¹Ø±Õ¶¯×÷ Log ÎÄ¼ş
+// å…³é—­åŠ¨ä½œ Log æ–‡ä»¶
 procedure LogFileClose_();
 begin
   Closefile(myLogFile_);

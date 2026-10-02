@@ -1,4 +1,4 @@
-unit OpenFile;
+ï»¿unit OpenFile;
 
 interface
 
@@ -51,11 +51,11 @@ uses
 
 procedure TMyOpenFile.FormCreate(Sender: TObject);
 begin
-  Caption := 'µ¼Èë´ğ°¸';
-  Button1.Caption := 'µ¼Èë´ğ°¸(&I)';
-  Button2.Caption := 'È¡Ïû(&C)';
-  SpeedButton1.Caption := 'ÎÒµÄÎÄµµ';
-  SpeedButton2.Caption := '×ÀÃæ';
+  Caption := 'å¯¼å…¥ç­”æ¡ˆ';
+  Button1.Caption := 'å¯¼å…¥ç­”æ¡ˆ(&I)';
+  Button2.Caption := 'å–æ¶ˆ(&C)';
+  SpeedButton1.Caption := 'æˆ‘çš„æ–‡æ¡£';
+  SpeedButton2.Caption := 'æ¡Œé¢';
 end;
 
 procedure TMyOpenFile.FormShow(Sender: TObject);
@@ -63,10 +63,10 @@ begin
   isStopThread_Ans := True;
   FileListBox1.Update;
   Label1.Caption := '';
-  Caption := 'µ¼Èë´ğ°¸';
+  Caption := 'å¯¼å…¥ç­”æ¡ˆ';
 end;
 
-// Í¨¹ı×¢²á±í£¬È¡µÃ¡°ÎÒµÄÎÄµµ¡±ºÍ¡°×ÀÃæ¡±ÎÄ¼ş¼Ğ
+// é€šè¿‡æ³¨å†Œè¡¨ï¼Œå–å¾—â€œæˆ‘çš„æ–‡æ¡£â€å’Œâ€œæ¡Œé¢â€æ–‡ä»¶å¤¹
 function GetShellFolders(strDir: string): string;
 const
   regPath = '\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders';
@@ -86,16 +86,16 @@ begin
   result := strFolders;
 end;
       
-// »ñÈ¡¡°×ÀÃæ¡±ÎÄ¼ş¼Ğ
+// è·å–â€œæ¡Œé¢â€æ–‡ä»¶å¤¹
 function GetDeskeptPath: string;
 begin
-  Result := GetShellFolders('Desktop'); //ÊÇÈ¡µÃ×ÀÃæÎÄ¼ş¼ĞµÄÂ·¾¶
+  Result := GetShellFolders('Desktop'); //æ˜¯å–å¾—æ¡Œé¢æ–‡ä»¶å¤¹çš„è·¯å¾„
 end;
       
-// »ñÈ¡¡°ÎÒµÄÎÄµµ¡±ÎÄ¼ş¼Ğ
+// è·å–â€œæˆ‘çš„æ–‡æ¡£â€æ–‡ä»¶å¤¹
 function GetMyDoumentpath: string;
 begin
-  Result := GetShellFolders('Personal'); //ÎÒµÄÎÄµµ
+  Result := GetShellFolders('Personal'); //æˆ‘çš„æ–‡æ¡£
 end;
 
 procedure TMyOpenFile.DirectoryListBox1Change(Sender: TObject);
@@ -117,7 +117,7 @@ end;
 procedure TMyOpenFile.Button1Click(Sender: TObject);
 begin
   if not isStopThread_Ans then begin
-     MessageBox(Handle, 'ºóÌ¨ÕıÃ¦£¬ÇëÉÔºóÔÙÊÔ£¡', 'ÌáÊ¾', MB_ICONINFORMATION  + MB_OK);
+     MessageBox(Handle, 'åå°æ­£å¿™ï¼Œè¯·ç¨åå†è¯•ï¼', 'æç¤º', MB_ICONINFORMATION  + MB_OK);
   end;
   
   if FileListBox1.FileName <> '' then begin

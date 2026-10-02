@@ -1,4 +1,4 @@
-unit Actions;
+ï»¿unit Actions;
 
 interface
 
@@ -39,27 +39,27 @@ type
     procedure FormCreate(Sender: TObject);
     procedure LoadBoxSelect(Sender: TObject);
     procedure SaveBoxSelect(Sender: TObject);
-    procedure SaveToFile();         // ±£´æ¶¯×÷µ½ÎÄµµ
+    procedure SaveToFile();         // ä¿å­˜åŠ¨ä½œåˆ°æ–‡æ¡£
     procedure LoadFromFile();
-    procedure Button3Click(Sender: TObject);       // ´ÓÎÄµµ¼ÓÔØ¶¯×÷
+    procedure Button3Click(Sender: TObject);       // ä»æ–‡æ¡£åŠ è½½åŠ¨ä½œ
 
   private
     { Private declarations }
   public
     { Public declarations }
 
-    isBK: Boolean;            // ´«Èë²ÎÊı£¬ÊÇ·ñÄæÍÆ
-    Act: string;              // ½âÎö³öµÄ¶¯×÷×Ö·û´®
-    M_X, M_Y: Integer;        // ½âÎö³öµÄÄæÍÆÖĞÈËµÄ³õÊ¼Î»ÖÃ
-    MyPath: string;           // ¶¯×÷ÎÄµµ´æÈ¡Â·¾¶
-    ExePath: string;          // ¶¯×÷ÎÄµµ´æÈ¡Â·¾¶
+    isBK: Boolean;            // ä¼ å…¥å‚æ•°ï¼Œæ˜¯å¦é€†æ¨
+    Act: string;              // è§£æå‡ºçš„åŠ¨ä½œå­—ç¬¦ä¸²
+    M_X, M_Y: Integer;        // è§£æå‡ºçš„é€†æ¨ä¸­äººçš„åˆå§‹ä½ç½®
+    MyPath: string;           // åŠ¨ä½œæ–‡æ¡£å­˜å–è·¯å¾„
+    ExePath: string;          // åŠ¨ä½œæ–‡æ¡£å­˜å–è·¯å¾„
 
   end;
 
 var
   ActionForm: TActionForm;
 
-  Act_ManPos_BK: TPoint;   // ÄæÍÆÈËµÄ×ø±ê
+  Act_ManPos_BK: TPoint;   // é€†æ¨äººçš„åæ ‡
 
 implementation
 
@@ -78,7 +78,7 @@ end;
 
 procedure TActionForm.FormShow(Sender: TObject);
 begin
-  // ÊÓÇé¿ö£¬¼ÓÔØ¼ôÌù°åÖĞµÄÄÚÈİ
+  // è§†æƒ…å†µï¼ŒåŠ è½½å‰ªè´´æ¿ä¸­çš„å†…å®¹
   if (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_OEMTEXT)) and (MemoAct.Lines.Count = 0) then begin
       MemoAct.Lines.Add(Clipboard.asText);
   end;
@@ -93,7 +93,7 @@ var
   MyTextFile: TextFile; 
 
 begin
-  // ±£´æµ±Ç°µãÖ®Ç°µÄ¶¯×÷£¬ÒÔ±¸¡°ºó»Ú¡±Ê±Ê¹ÓÃ
+  // ä¿å­˜å½“å‰ç‚¹ä¹‹å‰çš„åŠ¨ä½œï¼Œä»¥å¤‡â€œåæ‚”â€æ—¶ä½¿ç”¨
   if isBK and (UnDoPos_BK < MaxLenPath) then begin
      UndoList_BK[UnDoPos_BK+1] := #0;
      str  := PChar(@UndoList_BK);
@@ -114,34 +114,34 @@ begin
      end;
   end;
 
-  // ÒÔÏÂÎª¡°Ö´ĞĞ¡±¹¦ÄÜ
+  // ä»¥ä¸‹ä¸ºâ€œæ‰§è¡Œâ€åŠŸèƒ½
   len := MemoAct.Lines.Count;
 
   Act := '';
-  f := False;  // ÊÇ·ñ¿ªÊ¼¡°Lurd¡±ĞĞ
+  f := False;  // æ˜¯å¦å¼€å§‹â€œLurdâ€è¡Œ
   for i := 0 to len-1 do begin
       str := StringReplace(ActionForm.MemoAct.Lines[i], #9, '', [rfReplaceAll]);
       str := StringReplace(str, ' ', '', [rfReplaceAll]);
       str := StringReplace(str, #10, '', [rfReplaceAll]);
       str := StringReplace(str, #13, '', [rfReplaceAll]);
 
-      if Length(str) <= 0 then Continue;         // Ìø¹ı¿ÕĞĞ
+      if Length(str) <= 0 then Continue;         // è·³è¿‡ç©ºè¡Œ
       
       if (not f) and (not isLurd_2(str)) then Continue
       else f := True;
       
       if not isLurd_2(str) then begin
          Act := '';
-         MessageBox(handle, '°üº¬ÁËÎŞĞ§µÄ¶¯×÷×Ö·û£¬Çë¼ì²é²¢ĞŞÕıºóÔÙÖ´ĞĞ£¡', '´íÎó', MB_ICONERROR or MB_OK);
+         MessageBox(handle, 'åŒ…å«äº†æ— æ•ˆçš„åŠ¨ä½œå­—ç¬¦ï¼Œè¯·æ£€æŸ¥å¹¶ä¿®æ­£åå†æ‰§è¡Œï¼', 'é”™è¯¯', MB_ICONERROR or MB_OK);
          Exit;
       end;
       Act := Act + MemoAct.Lines[i];
   end;
 
-  // ½âÎö¶¯×÷×Ö·û´®
+  // è§£æåŠ¨ä½œå­—ç¬¦ä¸²
   M_X := -1;
   M_Y := -1;
-  if isBK then begin             // ÄæÍÆ
+  if isBK then begin             // é€†æ¨
       i := pos('[', Act);
       j := pos(']', Act);
       if (i > 0) and (j > 0) and (j > i) then begin
@@ -171,7 +171,7 @@ begin
 
          if k > 0 then delete(Act, 1, k);
       end;
-  end else begin               // ÕıÍÆ
+  end else begin               // æ­£æ¨
       i := pos('[', str);
 
       if i > 0 then Act := copy(Act, 1, i-1);
@@ -181,7 +181,7 @@ begin
   Close();
 end;
 
-// ¶¯×÷×óĞı
+// åŠ¨ä½œå·¦æ—‹
 procedure TActionForm.Left_TrunClick(Sender: TObject);
 var
   i, j, len, size: Integer;
@@ -211,7 +211,7 @@ begin
   end;
 end;
 
-// ¶¯×÷ÓÒĞı
+// åŠ¨ä½œå³æ—‹
 procedure TActionForm.Right_TrunClick(Sender: TObject);
 var
   i, j, len, size: Integer;
@@ -241,7 +241,7 @@ begin
   end;
 end;
 
-// ¶¯×÷×óÓÒ·­×ª
+// åŠ¨ä½œå·¦å³ç¿»è½¬
 procedure TActionForm.H_MirrorClick(Sender: TObject);
 var
   i, j, len, size: Integer;
@@ -271,7 +271,7 @@ begin
   end;
 end;
 
-// ¶¯×÷ÉÏÏÂ·­×ª
+// åŠ¨ä½œä¸Šä¸‹ç¿»è½¬
 procedure TActionForm.V_MirrorClick(Sender: TObject);
 var
   i, j, len, size: Integer;
@@ -307,32 +307,32 @@ begin
   case Key of
     97, 65: if Shift = [ssCtrl] then begin                // Ctrl + A
           MemoAct.SetFocus;
-          MemoAct.SelectAll;                              // È«Ñ¡
+          MemoAct.SelectAll;                              // å…¨é€‰
       end;
   end;
 end;
 
 procedure TActionForm.FormCreate(Sender: TObject);
 begin
-  Caption := '¶¯×÷±à¼­';
-  Run_CurTru.Caption := '°´ÏÖ³¡Ğı×ªÖ´ĞĞ';
-  Run_CurPos.Caption := '´Óµ±Ç°µãÖ´ĞĞ';
-  Label1.Caption := 'ÖØ¸´´ÎÊı£º';
-  Label2.Caption := '¼ÓÔØ£º';
-  Label3.Caption := '´æÈë£º';
-  Left_Trun.Caption := '×óĞı(&L)';
-  Right_Trun.Caption := 'ÓÒĞı(&R)';
-  H_Mirror.Caption := '×óÓÒ·­×ª(&H)';
-  V_Mirror.Caption := 'ÉÏÏÂ·­×ª(&V)';
-  Button1.Caption := 'Ö´ĞĞ(&E)';
-  Button2.Caption := 'È¡Ïû(&C)';
-  LoadBox.Items.Text := '¼ôÇĞ°å'#13#10'ÒÑ×ö¶¯×÷'#13#10'ºóĞø¶¯×÷'#13#10'¼Ä´æÆ÷ 1'#13#10'¼Ä´æÆ÷ 2'#13#10'¼Ä´æÆ÷ 3'#13#10'¼Ä´æÆ÷ 4'#13#10'ÎÄµµ'#13#10'ÉÏ´ÎÖ´ĞĞÇ°µÄ¶¯×÷';
-  SaveBox.Items.Text := '¼ôÇĞ°å'#13#10'¼Ä´æÆ÷ 1'#13#10'¼Ä´æÆ÷ 2'#13#10'¼Ä´æÆ÷ 3'#13#10'¼Ä´æÆ÷ 4'#13#10'ÎÄµµ';
+  Caption := 'åŠ¨ä½œç¼–è¾‘';
+  Run_CurTru.Caption := 'æŒ‰ç°åœºæ—‹è½¬æ‰§è¡Œ';
+  Run_CurPos.Caption := 'ä»å½“å‰ç‚¹æ‰§è¡Œ';
+  Label1.Caption := 'é‡å¤æ¬¡æ•°ï¼š';
+  Label2.Caption := 'åŠ è½½ï¼š';
+  Label3.Caption := 'å­˜å…¥ï¼š';
+  Left_Trun.Caption := 'å·¦æ—‹(&L)';
+  Right_Trun.Caption := 'å³æ—‹(&R)';
+  H_Mirror.Caption := 'å·¦å³ç¿»è½¬(&H)';
+  V_Mirror.Caption := 'ä¸Šä¸‹ç¿»è½¬(&V)';
+  Button1.Caption := 'æ‰§è¡Œ(&E)';
+  Button2.Caption := 'å–æ¶ˆ(&C)';
+  LoadBox.Items.Text := 'å‰ªåˆ‡æ¿'#13#10'å·²åšåŠ¨ä½œ'#13#10'åç»­åŠ¨ä½œ'#13#10'å¯„å­˜å™¨ 1'#13#10'å¯„å­˜å™¨ 2'#13#10'å¯„å­˜å™¨ 3'#13#10'å¯„å­˜å™¨ 4'#13#10'æ–‡æ¡£'#13#10'ä¸Šæ¬¡æ‰§è¡Œå‰çš„åŠ¨ä½œ';
+  SaveBox.Items.Text := 'å‰ªåˆ‡æ¿'#13#10'å¯„å­˜å™¨ 1'#13#10'å¯„å­˜å™¨ 2'#13#10'å¯„å­˜å™¨ 3'#13#10'å¯„å­˜å™¨ 4'#13#10'æ–‡æ¡£';
 
   KeyPreview := true;
 end;
 
-// ±£´æ¶¯×÷µ½ÎÄµµ
+// ä¿å­˜åŠ¨ä½œåˆ°æ–‡æ¡£
 procedure TActionForm.SaveToFile();
 var
   myFileName, myExtName: string;
@@ -348,19 +348,19 @@ begin
      if (myExtName = '') or (myExtName = '.') then
         myFileName := changefileext(myFileName, '.txt');
 
-     if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' ÎÄµµÒÑ¾­´æÔÚ£¬¸²Ğ´ËüÂğ£¿'), '¾¯¸æ', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
+     if not FileExists(myFileName) or (MessageBox(Handle, PChar(myFileName + #10 + ' æ–‡æ¡£å·²ç»å­˜åœ¨ï¼Œè¦†å†™å®ƒå—ï¼Ÿ'), 'è­¦å‘Š', MB_ICONWARNING + MB_OKCANCEL) = idOK) then begin
         try
           MemoAct.Lines.SaveToFile(myFileName);
-          StatusBar1.Panels[0].Text := 'ÎÄµµ ' + myFileName + '±£´æ³É¹¦£¡';
+          StatusBar1.Panels[0].Text := 'æ–‡æ¡£ ' + myFileName + 'ä¿å­˜æˆåŠŸï¼';
         except
-          StatusBar1.Panels[0].Text := 'Ğ´¡¾' + myFileName + '¡¿ÎÄµµÊ±Óöµ½´íÎó£¡';
+          StatusBar1.Panels[0].Text := 'å†™ã€' + myFileName + 'ã€‘æ–‡æ¡£æ—¶é‡åˆ°é”™è¯¯ï¼';
         end;
      end;
      
   end;
 end;
 
-// ´ÓÎÄµµ¼ÓÔØ¶¯×÷
+// ä»æ–‡æ¡£åŠ è½½åŠ¨ä½œ
 procedure TActionForm.LoadFromFile();
 var
   myFileName, myExtName: string;
@@ -376,12 +376,12 @@ begin
      try
        MemoAct.Lines.LoadFromFile(myFileName);
      except
-       StatusBar1.Panels[0].Text := '¼ÓÔØ¡¾' + myFileName + '¡¿Ê±Óöµ½´íÎó£¡';
+       StatusBar1.Panels[0].Text := 'åŠ è½½ã€' + myFileName + 'ã€‘æ—¶é‡åˆ°é”™è¯¯ï¼';
      end;
   end;
 end;
 
-// Ñ¡ÔñÁË¡°¼ÓÔØ¡±ÁĞ±íÏî
+// é€‰æ‹©äº†â€œåŠ è½½â€åˆ—è¡¨é¡¹
 procedure TActionForm.LoadBoxSelect(Sender: TObject);
 var
   str: string;
@@ -390,14 +390,14 @@ begin
   StatusBar1.Panels[0].Text := '';
   MemoAct.Lines.Clear;
   case LoadBox.ItemIndex of
-    0:                              // ¼ôÇĞ°å
+    0:                              // å‰ªåˆ‡æ¿
       begin
-        // ÊÓÇé¿ö£¬¼ÓÔØ¼ôÌù°åÖĞµÄÄÚÈİ
+        // è§†æƒ…å†µï¼ŒåŠ è½½å‰ªè´´æ¿ä¸­çš„å†…å®¹
         if (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_OEMTEXT)) and (MemoAct.Lines.Count = 0) then begin
             MemoAct.Lines.Add(Clipboard.asText);
         end;
       end;
-    1:                              // ÒÑ×ö¶¯×÷
+    1:                              // å·²åšåŠ¨ä½œ
      begin
         if isBK and (UnDoPos_BK < MaxLenPath) and (Act_ManPos_BK.X > 0) and (Act_ManPos_BK.Y > 0) then begin
            UndoList_BK[UnDoPos_BK+1] := #0;
@@ -409,7 +409,7 @@ begin
 
         MemoAct.Lines.Add(str);
       end;
-    2:                              // ºóĞø¶¯×÷
+    2:                              // åç»­åŠ¨ä½œ
       begin
         if isBK and (ReDoPos_BK < MaxLenPath) then begin
            RedoList_BK[ReDoPos_BK+1] := #0;
@@ -424,88 +424,88 @@ begin
     3:
       try
          MemoAct.Lines.LoadFromFile(ExePath + '\temp\reg1.txt');
-         StatusBar1.Panels[0].Text := '¡¾¼Ä´æÆ÷ 1¡¿¼ÓÔØ³É¹¦£¡';
+         StatusBar1.Panels[0].Text := 'ã€å¯„å­˜å™¨ 1ã€‘åŠ è½½æˆåŠŸï¼';
       except
-         StatusBar1.Panels[0].Text := '¡¾¼Ä´æÆ÷ 1¡¿¼ÓÔØÊ§°Ü£¡';
+         StatusBar1.Panels[0].Text := 'ã€å¯„å­˜å™¨ 1ã€‘åŠ è½½å¤±è´¥ï¼';
       end;
     4:
       try
          MemoAct.Lines.LoadFromFile(ExePath + '\temp\reg2.txt');
-         StatusBar1.Panels[0].Text := '¡¾¼Ä´æÆ÷ 2¡¿¼ÓÔØ³É¹¦£¡';
+         StatusBar1.Panels[0].Text := 'ã€å¯„å­˜å™¨ 2ã€‘åŠ è½½æˆåŠŸï¼';
       except
-         StatusBar1.Panels[0].Text := '¡¾¼Ä´æÆ÷ 2¡¿¼ÓÔØÊ§°Ü£¡';
+         StatusBar1.Panels[0].Text := 'ã€å¯„å­˜å™¨ 2ã€‘åŠ è½½å¤±è´¥ï¼';
       end;
     5:
       try
          MemoAct.Lines.LoadFromFile(ExePath + '\temp\reg3.txt');
-         StatusBar1.Panels[0].Text := '¡¾¼Ä´æÆ÷ 3¡¿¼ÓÔØ³É¹¦£¡';
+         StatusBar1.Panels[0].Text := 'ã€å¯„å­˜å™¨ 3ã€‘åŠ è½½æˆåŠŸï¼';
       except
-         StatusBar1.Panels[0].Text := '¡¾¼Ä´æÆ÷ 3¡¿¼ÓÔØÊ§°Ü£¡';
+         StatusBar1.Panels[0].Text := 'ã€å¯„å­˜å™¨ 3ã€‘åŠ è½½å¤±è´¥ï¼';
       end;
     6:
       try
          MemoAct.Lines.LoadFromFile(ExePath + '\temp\reg4.txt');
-         StatusBar1.Panels[0].Text := '¡¾¼Ä´æÆ÷ 4¡¿¼ÓÔØ³É¹¦£¡';
+         StatusBar1.Panels[0].Text := 'ã€å¯„å­˜å™¨ 4ã€‘åŠ è½½æˆåŠŸï¼';
       except
-         StatusBar1.Panels[0].Text := '¡¾¼Ä´æÆ÷ 4¡¿¼ÓÔØÊ§°Ü£¡';
+         StatusBar1.Panels[0].Text := 'ã€å¯„å­˜å™¨ 4ã€‘åŠ è½½å¤±è´¥ï¼';
       end;
-    7:                              // ÎÄµµ
+    7:                              // æ–‡æ¡£
       LoadFromFile();
     8:
       try
          MemoAct.Lines.LoadFromFile(ExePath + '\temp\reg0.txt');
 //         Run_CurPos.Checked := false;
-         StatusBar1.Panels[0].Text := '³É¹¦¼ÓÔØµ½ÉÏ´ÎÖ´ĞĞÇ°µÄ¶¯×÷£¡';
+         StatusBar1.Panels[0].Text := 'æˆåŠŸåŠ è½½åˆ°ä¸Šæ¬¡æ‰§è¡Œå‰çš„åŠ¨ä½œï¼';
       except
-         StatusBar1.Panels[0].Text := '¼ÓÔØÉÏ´ÎÇ°µÄ¶¯×÷Ê§°Ü£¡';
+         StatusBar1.Panels[0].Text := 'åŠ è½½ä¸Šæ¬¡å‰çš„åŠ¨ä½œå¤±è´¥ï¼';
       end;
 
   end;
 end;
 
-// Ñ¡ÔñÁË¡°´æÈë¡±ÁĞ±íÏî
+// é€‰æ‹©äº†â€œå­˜å…¥â€åˆ—è¡¨é¡¹
 procedure TActionForm.SaveBoxSelect(Sender: TObject);
 begin
   StatusBar1.Panels[0].Text := '';
   case SaveBox.ItemIndex of
-  0:                              // ¼ôÇĞ°å
+  0:                              // å‰ªåˆ‡æ¿
       begin
         Clipboard.SetTextBuf(PChar(MemoAct.Lines.Text));
-        StatusBar1.Panels[0].Text := 'ÒÑ´æÈë¼ôÇĞ°å£¡';
+        StatusBar1.Panels[0].Text := 'å·²å­˜å…¥å‰ªåˆ‡æ¿ï¼';
       end;
   1:
     try
        if not DirectoryExists(ExePath+'temp') then ForceDirectories(ExePath+'temp');
        MemoAct.Lines.SaveToFile(ExePath + '\temp\reg1.txt');
-       StatusBar1.Panels[0].Text := 'ÒÑ´æÈë¡¾¼Ä´æÆ÷ 1¡¿£¬¿ÉÔÚÊ×½çÃæ°´¡¾F5¡¿¿ìËÙ¼ÓÔØ²¢Ö´ĞĞ£¡- °´µ±Ç°Ğı×ª£¬´Óµ±Ç°µã£¬Ö´ĞĞÒ»´Î¡£';
+       StatusBar1.Panels[0].Text := 'å·²å­˜å…¥ã€å¯„å­˜å™¨ 1ã€‘ï¼Œå¯åœ¨é¦–ç•Œé¢æŒ‰ã€F5ã€‘å¿«é€ŸåŠ è½½å¹¶æ‰§è¡Œï¼- æŒ‰å½“å‰æ—‹è½¬ï¼Œä»å½“å‰ç‚¹ï¼Œæ‰§è¡Œä¸€æ¬¡ã€‚';
     except
-       StatusBar1.Panels[0].Text := '´æÈë¡¾¼Ä´æÆ÷ 1¡¿Ê§°Ü£¡';
+       StatusBar1.Panels[0].Text := 'å­˜å…¥ã€å¯„å­˜å™¨ 1ã€‘å¤±è´¥ï¼';
     end;
   2:
     try
        if not DirectoryExists(ExePath+'temp') then ForceDirectories(ExePath+'temp');
        MemoAct.Lines.SaveToFile(ExePath + '\temp\reg2.txt');
-       StatusBar1.Panels[0].Text := 'ÒÑ´æÈë¡¾¼Ä´æÆ÷ 2¡¿£¬¿ÉÔÚÊ×½çÃæ°´¡¾F6¡¿¿ìËÙ¼ÓÔØ²¢Ö´ĞĞ£¡- °´µ±Ç°Ğı×ª£¬´Óµ±Ç°µã£¬Ö´ĞĞÒ»´Î¡£';
+       StatusBar1.Panels[0].Text := 'å·²å­˜å…¥ã€å¯„å­˜å™¨ 2ã€‘ï¼Œå¯åœ¨é¦–ç•Œé¢æŒ‰ã€F6ã€‘å¿«é€ŸåŠ è½½å¹¶æ‰§è¡Œï¼- æŒ‰å½“å‰æ—‹è½¬ï¼Œä»å½“å‰ç‚¹ï¼Œæ‰§è¡Œä¸€æ¬¡ã€‚';
     except
-       StatusBar1.Panels[0].Text := '´æÈë¡¾¼Ä´æÆ÷ 2¡¿Ê§°Ü£¡';
+       StatusBar1.Panels[0].Text := 'å­˜å…¥ã€å¯„å­˜å™¨ 2ã€‘å¤±è´¥ï¼';
     end;
   3:
     try
        if not DirectoryExists(ExePath+'temp') then ForceDirectories(ExePath+'temp');
        MemoAct.Lines.SaveToFile(ExePath + '\temp\reg3.txt');
-       StatusBar1.Panels[0].Text := 'ÒÑ´æÈë¡¾¼Ä´æÆ÷ 3¡¿£¬¿ÉÔÚÊ×½çÃæ°´¡¾F7¡¿¿ìËÙ¼ÓÔØ²¢Ö´ĞĞ£¡- °´µ±Ç°Ğı×ª£¬´Óµ±Ç°µã£¬Ö´ĞĞÒ»´Î¡£';
+       StatusBar1.Panels[0].Text := 'å·²å­˜å…¥ã€å¯„å­˜å™¨ 3ã€‘ï¼Œå¯åœ¨é¦–ç•Œé¢æŒ‰ã€F7ã€‘å¿«é€ŸåŠ è½½å¹¶æ‰§è¡Œï¼- æŒ‰å½“å‰æ—‹è½¬ï¼Œä»å½“å‰ç‚¹ï¼Œæ‰§è¡Œä¸€æ¬¡ã€‚';
     except
-       StatusBar1.Panels[0].Text := '´æÈë¡¾¼Ä´æÆ÷ 3¡¿Ê§°Ü£¡';
+       StatusBar1.Panels[0].Text := 'å­˜å…¥ã€å¯„å­˜å™¨ 3ã€‘å¤±è´¥ï¼';
     end;
   4:
     try
        if not DirectoryExists(ExePath+'temp') then ForceDirectories(ExePath+'temp');
        MemoAct.Lines.SaveToFile(ExePath + '\temp\reg4.txt');
-       StatusBar1.Panels[0].Text := 'ÒÑ´æÈë¡¾¼Ä´æÆ÷ 4¡¿£¬¿ÉÔÚÊ×½çÃæ°´¡¾F8¡¿¿ìËÙ¼ÓÔØ²¢Ö´ĞĞ£¡- °´µ±Ç°Ğı×ª£¬´Óµ±Ç°µã£¬Ö´ĞĞÒ»´Î¡£';
+       StatusBar1.Panels[0].Text := 'å·²å­˜å…¥ã€å¯„å­˜å™¨ 4ã€‘ï¼Œå¯åœ¨é¦–ç•Œé¢æŒ‰ã€F8ã€‘å¿«é€ŸåŠ è½½å¹¶æ‰§è¡Œï¼- æŒ‰å½“å‰æ—‹è½¬ï¼Œä»å½“å‰ç‚¹ï¼Œæ‰§è¡Œä¸€æ¬¡ã€‚';
     except
-       StatusBar1.Panels[0].Text := '´æÈë¡¾¼Ä´æÆ÷ 4¡¿Ê§°Ü£¡';
+       StatusBar1.Panels[0].Text := 'å­˜å…¥ã€å¯„å­˜å™¨ 4ã€‘å¤±è´¥ï¼';
     end;
-  5:                              // ÎÄµµ
+  5:                              // æ–‡æ¡£
     SaveToFile();
   end;
 end;
@@ -515,9 +515,9 @@ begin
   try
      MemoAct.Lines.LoadFromFile(ExePath + '\temp\reg0.txt');
      Run_CurPos.Checked := false;
-     StatusBar1.Panels[0].Text := '³É¹¦¼ÓÔØµ½ÉÏ´ÎÖ´ĞĞÇ°µÄ¶¯×÷£¡';
+     StatusBar1.Panels[0].Text := 'æˆåŠŸåŠ è½½åˆ°ä¸Šæ¬¡æ‰§è¡Œå‰çš„åŠ¨ä½œï¼';
   except
-     StatusBar1.Panels[0].Text := '¼ÓÔØÉÏ´ÎÇ°µÄ¶¯×÷Ê§°Ü£¡';
+     StatusBar1.Panels[0].Text := 'åŠ è½½ä¸Šæ¬¡å‰çš„åŠ¨ä½œå¤±è´¥ï¼';
   end;
 end;
 

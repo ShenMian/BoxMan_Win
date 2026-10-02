@@ -1,4 +1,4 @@
-unit Recog_;
+ï»¿unit Recog_;
 
 {$DEFINE TEST}
 
@@ -119,12 +119,12 @@ type
     procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
     procedure FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);                                  // »­ÔªËØÑ¡Ôñ¿ò¡¢¸Ä±äÊó±êÑùÊ½
-    procedure findSubimages;                                                    // Ê¶±ğ
-    function isSubimage(img1: TBitmap; c, r: Integer): boolean;                 // ÓëÑù±¾±È½Ï
+      MousePos: TPoint; var Handled: Boolean);                                  // ç”»å…ƒç´ é€‰æ‹©æ¡†ã€æ”¹å˜é¼ æ ‡æ ·å¼
+    procedure findSubimages;                                                    // è¯†åˆ«
+    function isSubimage(img1: TBitmap; c, r: Integer): boolean;                 // ä¸æ ·æœ¬æ¯”è¾ƒ
     function getAverageGrey(img: TBitmap; isYangben: Boolean; var PicColor: TColors;
-      var dest: TIntArr): integer;                                              // »ñÈ¡Í¼Æ¬µÄÆ½¾ù»Ò¶ÈÖµ
-    function calSimilarity(a, b: TIntArr): double;                              // Í¨¹ıººÃ÷¾àÀë¼ÆËãÏàËÆ¶È
+      var dest: TIntArr): integer;                                              // è·å–å›¾ç‰‡çš„å¹³å‡ç°åº¦å€¼
+    function calSimilarity(a, b: TIntArr): double;                              // é€šè¿‡æ±‰æ˜è·ç¦»è®¡ç®—ç›¸ä¼¼åº¦
 
     procedure SetTop(Y: Integer);
     procedure SetBottom(Y: Integer);
@@ -242,12 +242,12 @@ type
 var
   RecogForm_: TRecogForm_;
 
-  mySelect: Integer;                     // Ñ¡ÔñµÄÔªËØ
-  PicRows, PicCols: Integer;             // ¼ÆËã³öÀ´µÄ¹Ø¿¨³ß´ç
+  mySelect: Integer;                     // é€‰æ‹©çš„å…ƒç´ 
+  PicRows, PicCols: Integer;             // è®¡ç®—å‡ºæ¥çš„å…³å¡å°ºå¯¸
 
-  myScale: Integer;                      // Í¼ÏñËõ·Å±¶Êı
+  myScale: Integer;                      // å›¾åƒç¼©æ”¾å€æ•°
 
-  pxSize: Integer;                       // Ñù±¾ÏñËØÊı
+  pxSize: Integer;                       // æ ·æœ¬åƒç´ æ•°
 
   myMap: array[0..99, 0..99] of Char;
 
@@ -256,14 +256,14 @@ var
   clMap: array[0..99, 0..99] of Integer;
 {$ENDIF}
 
-  myClickPoint, myMovePoint: TPoint;     // Êó±ê°´ÏÂÊ±µÄ×ø±êºÍÒÆ¶¯Ê±µÄÎ»ÖÃ
-  rg_ManPos: TPoint;                     // ÈËµÄ×ø±ê
+  myClickPoint, myMovePoint: TPoint;     // é¼ æ ‡æŒ‰ä¸‹æ—¶çš„åæ ‡å’Œç§»åŠ¨æ—¶çš„ä½ç½®
+  rg_ManPos: TPoint;                     // äººçš„åæ ‡
 
   old_Left, old_Top, old_Right, old_Bottom, old_RowHeight, old_ColWidth, old_Tag: Integer;
 
   rUnDoList, rReDoList: TStringList;
 
-  procedure LoadSkin_;         // »»·ô
+  procedure LoadSkin_;         // æ¢è‚¤
 
 implementation
 
@@ -282,22 +282,22 @@ const
   XSB_Char :array[1..7] of Char = ( '#', '$', '*', '.', '-', '@', '+' );
 
 var
-  m_SampleArray0: TIntArr;                             //Ñù±¾µÄ±È½ÏÊı×é
-  my_Color0, my_Color1: TColors;                       //Í¼Æ¬µÄÉ«Ïà·Ö²¼
-  my_Grey0, my_Grey1: Integer;                         //Í¼Æ¬µÄ»Ò¶ÈÖµ
+  m_SampleArray0: TIntArr;                             //æ ·æœ¬çš„æ¯”è¾ƒæ•°ç»„
+  my_Color0, my_Color1: TColors;                       //å›¾ç‰‡çš„è‰²ç›¸åˆ†å¸ƒ
+  my_Grey0, my_Grey1: Integer;                         //å›¾ç‰‡çš„ç°åº¦å€¼
 
   cur_Rect: TRect;
 
   mySizeOf, mySizeOf_: Integer;
 
-  //ÁÙÊ±Òş²ØÒ»ÏÂµÄÔªËØ
-  myHintChar: Char;           // Shift ¼ü
-  myHintPos: TPoint;          // Ctrl ¼ü
+  //ä¸´æ—¶éšè—ä¸€ä¸‹çš„å…ƒç´ 
+  myHintChar: Char;           // Shift é”®
+  myHintPos: TPoint;          // Ctrl é”®
 
-  isShiftDown: Boolean;       // ÊÇ·ñ Shift ±»µ¥¶À°´ÏÂ£¬´ËÊ±£¬Êó±ê¹öÂÖ¿ÉÒÔÎ¢µ÷¿òÏßµÈ
-  isSheelEnable: Boolean;     // ÊÇ·ñÔÊĞí¹öÂÖÎ¢µ÷¿òÏß
+  isShiftDown: Boolean;       // æ˜¯å¦ Shift è¢«å•ç‹¬æŒ‰ä¸‹ï¼Œæ­¤æ—¶ï¼Œé¼ æ ‡æ»šè½®å¯ä»¥å¾®è°ƒæ¡†çº¿ç­‰
+  isSheelEnable: Boolean;     // æ˜¯å¦å…è®¸æ»šè½®å¾®è°ƒæ¡†çº¿
 
-  myStartTime: Int64;         // ¼ÇÂ¼Êó±êË«»÷Ê¹ÓÃµÄµÚÒ»»÷µÄÊ±¼ä´Á
+  myStartTime: Int64;         // è®°å½•é¼ æ ‡åŒå‡»ä½¿ç”¨çš„ç¬¬ä¸€å‡»çš„æ—¶é—´æˆ³
 
 {$IFDEF TEST}
   tmpPic: TBitmap;
@@ -308,7 +308,7 @@ var
 {$R *.dfm}
 {$R MyCursor_.res}
 
-// ÊÍ·Å TStringList µÄÄÚ´æ
+// é‡Šæ”¾ TStringList çš„å†…å­˜
 procedure TRecogForm_.MyStringListFree(var _StringList_: TStringList);
 begin
   if Assigned(_StringList_) then begin
@@ -318,14 +318,14 @@ begin
   end;
 end;
 
-// »»·ô
+// æ¢è‚¤
 procedure LoadSkin_;
 begin
   if LoadSkinForm.ShowModal = mrOK then
   begin
     if not LoadSkinForm.LoadSkin(ExtractFilePath(Application.ExeName) + 'Skins\' +LoadSkinForm.SkinFileName) then
     begin
-      LoadSkinForm.LoadDefaultSkin();         // Ê¹ÓÃÄ¬ÈÏµÄ¼òµ¥Æ¤·ô
+      LoadSkinForm.LoadDefaultSkin();         // ä½¿ç”¨é»˜è®¤çš„ç®€å•çš®è‚¤
     end;
 
     RecogForm_.Image4.Canvas.CopyRect(Rect(0, 0, 60, 60), FloorPic.Canvas, Rect(0, 0, FloorPic.Width, FloorPic.Height));
@@ -354,7 +354,7 @@ function GetJavaTime( d: TDateTime ): Int64;
 var
   dJavaStart: TDateTime;
 begin
-  //javaÀïµÄÊ±¼äÊÇ´Ó1970Äê1ÔÂ1ÈÕ0µãµ½µ±Ç°µÄ¼ä¸ô
+  //javaé‡Œçš„æ—¶é—´æ˜¯ä»1970å¹´1æœˆ1æ—¥0ç‚¹åˆ°å½“å‰çš„é—´éš”
   dJavaStart := EncodeDateTime( 1970, 1, 1, 0, 0, 0, 0 );
   Result := MilliSecondsBetween( d, dJavaStart );
 end;
@@ -423,16 +423,16 @@ begin
   Map_ColWidth.MaxValue := Map_Right.Value - Map_Left.Value;
 end;
 
-// Ê¶±ğ
+// è¯†åˆ«
 procedure TRecogForm_.findSubimages;
 var
-  img0, img1: TBitmap;   // Ñù±¾Í¼Æ¬¡¢¸ñ×ÓÍ¼Æ¬
-  rt0, rt1, rt2: TRect;  // Ñù±¾¡¢Í¼Æ¬¸ñ×Ó¡¢ÁÙÊ±
+  img0, img1: TBitmap;   // æ ·æœ¬å›¾ç‰‡ã€æ ¼å­å›¾ç‰‡
+  rt0, rt1, rt2: TRect;  // æ ·æœ¬ã€å›¾ç‰‡æ ¼å­ã€ä¸´æ—¶
 	ww, hh, r, c, x, y: integer;
 begin
 
-	ww := cur_Rect.right - cur_Rect.left - 4;  // Êµ¼ÊÈ¡Ñù³ß´ç£¬¼´ÖÜ±ß¸÷ÈÃ³ö 2 ¸öÏñËØ
-	hh := cur_Rect.bottom - cur_Rect.top - 4;  // Êµ¼ÊÈ¡Ñù³ß´ç£¬¼´ÖÜ±ß¸÷ÈÃ³ö 2 ¸öÏñËØ
+	ww := cur_Rect.right - cur_Rect.left - 4;  // å®é™…å–æ ·å°ºå¯¸ï¼Œå³å‘¨è¾¹å„è®©å‡º 2 ä¸ªåƒç´ 
+	hh := cur_Rect.bottom - cur_Rect.top - 4;  // å®é™…å–æ ·å°ºå¯¸ï¼Œå³å‘¨è¾¹å„è®©å‡º 2 ä¸ªåƒç´ 
 	img0 := TBitmap.create;
 	img1 := TBitmap.create;
 	img0.width := ww;
@@ -448,22 +448,22 @@ begin
 
 	rt2 := Rect(0, 0, ww, hh);
 
-	rt0 := Rect(cur_Rect.left + 2, cur_Rect.top + 2, cur_Rect.left + 2 + img0.width, cur_Rect.top + 2 + img0.height);  // Ñù±¾·¶Î§
-	img0.Canvas.CopyRect(rt2, Image1.Canvas, rt0);                                                    // Ñù±¾Í¼Æ¬
-	my_Grey0 := getAverageGrey(img0, True, my_Color0, m_SampleArray0);                                // »ñÈ¡Ñù±¾µÄÖ÷ÑÕÉ«
+	rt0 := Rect(cur_Rect.left + 2, cur_Rect.top + 2, cur_Rect.left + 2 + img0.width, cur_Rect.top + 2 + img0.height);  // æ ·æœ¬èŒƒå›´
+	img0.Canvas.CopyRect(rt2, Image1.Canvas, rt0);                                                    // æ ·æœ¬å›¾ç‰‡
+	my_Grey0 := getAverageGrey(img0, True, my_Color0, m_SampleArray0);                                // è·å–æ ·æœ¬çš„ä¸»é¢œè‰²
 
-	// ´Ó"×óÉÏ½Ç"¿ªÊ¼ËÑË÷×ÓÍ¼
+	// ä»"å·¦ä¸Šè§’"å¼€å§‹æœç´¢å­å›¾
 	y := Map_Top.Value;
 
 	for r := 0 to PicRows do begin
 		x := Map_Left.Value;
 		for c := 0 to PicCols do begin
       if myMap[r, c] = '-' then begin
-              rt1 := Rect(x + 2, y + 2, x + 2 + ww, y + 2 + hh);   // ¸ñ×Ó·¶Î§
-              img1.Canvas.CopyRect(rt2, Image1.Canvas, rt1);                                   // ¸ñ×ÓÍ¼Æ¬
+              rt1 := Rect(x + 2, y + 2, x + 2 + ww, y + 2 + hh);   // æ ¼å­èŒƒå›´
+              img1.Canvas.CopyRect(rt2, Image1.Canvas, rt1);                                   // æ ¼å­å›¾ç‰‡
               if isSubimage(img1, c, r) then begin
                  case mySelect of
-                   1: myMap[r, c] := XSB_Char[1];                                       // Ç½±Ú
+                   1: myMap[r, c] := XSB_Char[1];                                       // å¢™å£
                    2: myMap[r, c] := XSB_Char[2];
                    3: myMap[r, c] := XSB_Char[3];
                    4: myMap[r, c] := XSB_Char[4];
@@ -477,8 +477,8 @@ begin
       end else begin
 
 {$IFDEF TEST}
-    rt1 := Rect(x + 2, y + 2, x + 2 + ww, y + 2 + hh);   // ¸ñ×Ó·¶Î§
-    img1.Canvas.CopyRect(rt2, Image1.Canvas, rt1);       // ¸ñ×ÓÍ¼Æ¬
+    rt1 := Rect(x + 2, y + 2, x + 2 + ww, y + 2 + hh);   // æ ¼å­èŒƒå›´
+    img1.Canvas.CopyRect(rt2, Image1.Canvas, rt1);       // æ ¼å­å›¾ç‰‡
     isSubimage(img1, c, r);
     duMap[r, c] := imgDu;
     clMap[r, c] := clrDu;
@@ -493,8 +493,8 @@ begin
   LoadSkinForm.MyBMPFree(img1);
 end;
 
-// Á½¸öÉ«ÏàÊı×éÊÇ·ñÏà½ü
-// Á½¸öÉ«ÏàÊı×éÊÇ·ñÏà½ü
+// ä¸¤ä¸ªè‰²ç›¸æ•°ç»„æ˜¯å¦ç›¸è¿‘
+// ä¸¤ä¸ªè‰²ç›¸æ•°ç»„æ˜¯å¦ç›¸è¿‘
 function isColorNear(c1, c2: TColors): Boolean;
 var
   i, n1, n2, m1, m2: Integer;
@@ -520,14 +520,14 @@ begin
   end;
 end;
 
-// ÓëÑù±¾±È½Ï
+// ä¸æ ·æœ¬æ¯”è¾ƒ
 function TRecogForm_.isSubimage(img1: TBitmap; c, r: Integer): boolean;
 var
-	m_SampleArray1: TIntArr;   // ¸ñ×ÓµÄ±È½ÏÊı×é
+	m_SampleArray1: TIntArr;   // æ ¼å­çš„æ¯”è¾ƒæ•°ç»„
 	v: double;                 // , v_
   flg: boolean;
 begin
-	my_Grey1 := getAverageGrey(img1, False, my_Color1, m_SampleArray1);                  // »ñÈ¡±È½ÏÍ¼¿éµÄÖ÷ÑÕÉ«
+	my_Grey1 := getAverageGrey(img1, False, my_Color1, m_SampleArray1);                  // è·å–æ¯”è¾ƒå›¾å—çš„ä¸»é¢œè‰²
 
 	v  := calSimilarity(m_SampleArray0, m_SampleArray1) * 100;
 //  v_ := ColorNear(my_Color0, my_Color1) * 100;
@@ -537,16 +537,16 @@ begin
 //  clrDu := Trunc(v_);
 {$ENDIF}
 
-  // ±È½ÏÓëÑù±¾É«ÏàÏàËÆ¶È
+  // æ¯”è¾ƒä¸æ ·æœ¬è‰²ç›¸ç›¸ä¼¼åº¦
 
-	flg := (Trunc(v) >= TrackBar2.Position) and                                   // ÏàËÆ¶È
-         ((not CheckBox5.Checked) or (my_Grey0 = my_Grey1)) and                 // Æ½¾ù»Ò¶È
-         ((not CheckBox4.Checked) or isColorNear(my_Color0, my_Color1));        // É«Ïà
+	flg := (Trunc(v) >= TrackBar2.Position) and                                   // ç›¸ä¼¼åº¦
+         ((not CheckBox5.Checked) or (my_Grey0 = my_Grey1)) and                 // å¹³å‡ç°åº¦
+         ((not CheckBox4.Checked) or isColorNear(my_Color0, my_Color1));        // è‰²ç›¸
 
   result := flg;
 end;
 
-// RGB ÑÕÉ«×ª HSL £¨É«µ÷¡¢±¥ºÍ¶ÈºÍÁÁ¶È£©
+// RGB é¢œè‰²è½¬ HSL ï¼ˆè‰²è°ƒã€é¥±å’Œåº¦å’Œäº®åº¦ï¼‰
 procedure RGBtoHSL(R, G, B: Integer; var H, S, L: Double);
 var
   Delta: Double;
@@ -592,7 +592,7 @@ begin
   L := (Lum * 100);
 end;
 
-// »ñÈ¡Í¼Æ¬µÄÆ½¾ù»Ò¶ÈÖµ
+// è·å–å›¾ç‰‡çš„å¹³å‡ç°åº¦å€¼
 function TRecogForm_.getAverageGrey(img: TBitmap; isYangben: Boolean; var PicColor: TColors; var dest: TIntArr): Integer;
 var
   i, j, width, height, size, n: integer;
@@ -609,9 +609,9 @@ var
 begin
   for i := 0 to 7 do PicColor[i] := 0;
 
-	// ×ª»»ÖÁ»Ò¶ÈÍ¼
-	width := img.Width;         //»ñÈ¡Î»Í¼µÄ¿í
-	height := img.Height;       //»ñÈ¡Î»Í¼µÄ¸ß
+	// è½¬æ¢è‡³ç°åº¦å›¾
+	width := img.Width;         //è·å–ä½å›¾çš„å®½
+	height := img.Height;       //è·å–ä½å›¾çš„é«˜
   size := width * height;
   R1 := Rect(0, 0, width, height);
 	sumGrey := 0;
@@ -623,7 +623,7 @@ begin
 			green := psub[j*3+1];
 			red   := psub[j*3+2];
 
-			//¼ÆËãÍ¼¿éµÄÉ«Ïà
+			//è®¡ç®—å›¾å—çš„è‰²ç›¸
       RGBtoHSL(red and $FFFFF8, green and $FFFFF8, blue and $FFFFF8, H, S, L);
       n := Trunc(H);
 //			inc(PicColor[n]);
@@ -647,9 +647,9 @@ begin
 		end;
 	end;
 
-  result := Trunc(sumGrey / size) and $FFFFF8;                                  // Æ½¾ù»Ò¶ÈÖµ       
+  result := Trunc(sumGrey / size) and $FFFFF8;                                  // å¹³å‡ç°åº¦å€¼       
 
-  // Ëõ·ÅÖÁ 32 * 32
+  // ç¼©æ”¾è‡³ 32 * 32
 	image := TBitmap.create;
   image.Canvas.CopyMode := cmSrcCopy;
   try
@@ -660,7 +660,7 @@ begin
     image.PixelFormat := pf24bit;
     image.Canvas.CopyRect(R2, img.Canvas, R1);
 
-    // »ñÈ¡»Ò¶ÈÍ¼µÄÆ½¾ùÏñËØÑÕÉ«Öµ
+    // è·å–ç°åº¦å›¾çš„å¹³å‡åƒç´ é¢œè‰²å€¼
     sumGrey := 0;
     for i := 0 to 31 do begin
       psub := image.ScanLine[i];
@@ -671,7 +671,7 @@ begin
     end;
     averageColor := Trunc(sumGrey / size);
 
-    // »ñÈ¡»Ò¶ÈÍ¼µÄÏñËØ±È½ÏÊı×é£¨Æ½¾ùÖµµÄÀë²î£©
+    // è·å–ç°åº¦å›¾çš„åƒç´ æ¯”è¾ƒæ•°ç»„ï¼ˆå¹³å‡å€¼çš„ç¦»å·®ï¼‰
     for i := 0 to 31 do begin
       psub := image.ScanLine[i];
 
@@ -707,23 +707,23 @@ begin
   end;
 end;
 
-// Í¨¹ıººÃ÷¾àÀë¼ÆËãÏàËÆ¶È
+// é€šè¿‡æ±‰æ˜è·ç¦»è®¡ç®—ç›¸ä¼¼åº¦
 function TRecogForm_.calSimilarity(a, b: TIntArr): Double;
 var
   i, hammingDistance, length: integer;
 begin
-	// »ñÈ¡Á½¸öËõÂÔÍ¼µÄÆ½¾ùÏñËØ±È½ÏÊı×éµÄººÃ÷¾àÀë£¨¾àÀëÔ½´ó²îÒìÔ½´ó£©
+	// è·å–ä¸¤ä¸ªç¼©ç•¥å›¾çš„å¹³å‡åƒç´ æ¯”è¾ƒæ•°ç»„çš„æ±‰æ˜è·ç¦»ï¼ˆè·ç¦»è¶Šå¤§å·®å¼‚è¶Šå¤§ï¼‰
 	hammingDistance := 0;
 	for i := 0 to 1023 do begin
 		if b[i] = a[i] then hammingDistance := hammingDistance + 1;
 	end;
 
-	// Í¨¹ıººÃ÷¾àÀë¼ÆËãÏàËÆ¶È
+	// é€šè¿‡æ±‰æ˜è·ç¦»è®¡ç®—ç›¸ä¼¼åº¦
 	length := 32*32;
-	result := Sqr(hammingDistance / length);        // Ê¹ÓÃÖ¸ÊıÇúÏßµ÷ÕûÏàËÆ¶È½á¹û
+	result := Sqr(hammingDistance / length);        // ä½¿ç”¨æŒ‡æ•°æ›²çº¿è°ƒæ•´ç›¸ä¼¼åº¦ç»“æœ
 end;
 
-// ³õÊ¼»­Ãæ
+// åˆå§‹ç”»é¢
 procedure TRecogForm_.FormActivate(Sender: TObject);
 begin
   Image1.Tag := 0;
@@ -740,7 +740,7 @@ begin
   rReDoList.Clear;
 end;
 
-// ¼ÓÔØÍ¼Æ¬
+// åŠ è½½å›¾ç‰‡
 procedure TRecogForm_.sb_OpenClick(Sender: TObject);
 var
   i, j: Integer;
@@ -755,7 +755,7 @@ begin
        tmpBmp.Assign(Image2.Picture.Graphic);
        Image2.Picture.Bitmap := tmpBmp;
 
-       myScale := 1;                                // ¸Õ´ò¿ªÍ¼ÏñÊ±£¬²»×öËõ·Å
+       myScale := 1;                                // åˆšæ‰“å¼€å›¾åƒæ—¶ï¼Œä¸åšç¼©æ”¾
        Image1.Width  := Image2.Width * myScale;
        Image1.Height := Image2.Height * myScale;
        Image1.Visible := True;
@@ -813,8 +813,8 @@ begin
        end;
        rg_ManPos.X := -1;
        rg_ManPos.Y := -1;
-       CheckBox1.Checked := False;                    // ÊÇ·ñÊÖ¶¯
-       CheckBox2.Checked := False;                    // XSB×Ö·û
+       CheckBox1.Checked := False;                    // æ˜¯å¦æ‰‹åŠ¨
+       CheckBox2.Checked := False;                    // XSBå­—ç¬¦
 
        myMovePoint.X := -1;
        myMovePoint.Y := -1;
@@ -831,7 +831,7 @@ begin
   end;
 end;
 
-// ½ØÆÁ
+// æˆªå±
 procedure TRecogForm_.sb_ScreenClick(Sender: TObject);
 var
   i, j: Integer;
@@ -846,21 +846,21 @@ begin
    Fullscreen := TBitmap.Create;
 
    try
-     //´´½¨Ò»¸öBITMAPÀ´´æ·ÅÍ¼Ïó
+     //åˆ›å»ºä¸€ä¸ªBITMAPæ¥å­˜æ”¾å›¾è±¡
      Fullscreen.Width := screen.width;
      Fullscreen.Height := screen.Height;
-     DC := GetDC(0); //È¡µÃÆÁÄ»µÄDC£¬²ÎÊı0Ö¸µÄÊÇÆÁÄ»
-     //´´½¨Ò»¸öCANVAS¶ÔÏó
+     DC := GetDC(0); //å–å¾—å±å¹•çš„DCï¼Œå‚æ•°0æŒ‡çš„æ˜¯å±å¹•
+     //åˆ›å»ºä¸€ä¸ªCANVASå¯¹è±¡
      FullscreenCanvas := TCanvas.Create;
      try
        FullscreenCanvas.Handle := DC;
        Fullscreen.Canvas.CopyRect(Rect(0, 0, screen.Width, screen.Height),
        fullscreenCanvas, Rect(0, 0, Screen.Width, Screen.Height));
      finally
-       //°ÑÕû¸öÆÁÄ»¸´ÖÆµ½BITMAPÖĞ
+       //æŠŠæ•´ä¸ªå±å¹•å¤åˆ¶åˆ°BITMAPä¸­
        FullscreenCanvas.Free;
-       //ÊÍ·ÅCANVAS¶ÔÏó
-       ReleaseDC(0, DC); //ÊÍ·ÅDC
+       //é‡Šæ”¾CANVASå¯¹è±¡
+       ReleaseDC(0, DC); //é‡Šæ”¾DC
      end;
 
      mySelect := 0;
@@ -870,7 +870,7 @@ begin
      image2.Width := fullscreen.Width;
      image2.Height := fullscreen.Height;
 
-     myScale := 1;                                // ¸Õ´ò¿ªÍ¼ÏñÊ±£¬²»×öËõ·Å
+     myScale := 1;                                // åˆšæ‰“å¼€å›¾åƒæ—¶ï¼Œä¸åšç¼©æ”¾
      Image1.Width  := Image2.Width;
      Image1.Height := Image2.Height;
      Image1.Visible := True;
@@ -926,8 +926,8 @@ begin
      end;
      rg_ManPos.X := -1;
      rg_ManPos.Y := -1;
-     CheckBox1.Checked := False;                    // ÊÇ·ñÊÖ¶¯
-     CheckBox2.Checked := False;                    // ÊÇ·ñXSB×Ö·û
+     CheckBox1.Checked := False;                    // æ˜¯å¦æ‰‹åŠ¨
+     CheckBox2.Checked := False;                    // æ˜¯å¦XSBå­—ç¬¦
 
      myMovePoint.X := -1;
      myMovePoint.Y := -1;
@@ -946,7 +946,7 @@ begin
    Application.ProcessMessages;
 end;
 
-// »æÖÆ»­Ãæ
+// ç»˜åˆ¶ç”»é¢
 procedure TRecogForm_.myDraw;
 var
   i, j, x, y, boxs, goals: Integer;
@@ -988,10 +988,10 @@ begin
   for i := 0 to PicRows do begin
       for j := 0 to PicCols do begin
           if myMap[i, j] in [ '#', '$', '*', '.', '@', '+' ] then begin
-             if (myHintPos.X = j) and (myHintPos.Y = i) then Continue;          // Ctrl ¼ü£¬ÆÁ±ÎÒ»¸ö¸ñ×Ó
+             if (myHintPos.X = j) and (myHintPos.Y = i) then Continue;          // Ctrl é”®ï¼Œå±è”½ä¸€ä¸ªæ ¼å­
 
-             if myMap[i, j] <> myHintChar then begin                            // Shift ¼ü£¬ÆÁ±ÎÍ¬Àà¸ñ×Ó
-               // »­³öÊ¶±ğ³öµÄÔªËØ
+             if myMap[i, j] <> myHintChar then begin                            // Shift é”®ï¼Œå±è”½åŒç±»æ ¼å­
+               // ç”»å‡ºè¯†åˆ«å‡ºçš„å…ƒç´ 
                x := j * Map_ColWidth.Value + Map_Left.Value;
                y := i * Map_RowHeight.Value + Map_Top.Value;
                if CheckBox2.Checked then begin
@@ -1014,7 +1014,7 @@ begin
                end;
              end;
              
-             // Í³¼ÆÏä×Ó¡¢Ä¿±êµãÊı
+             // ç»Ÿè®¡ç®±å­ã€ç›®æ ‡ç‚¹æ•°
              if myMap[i, j] = '$' then inc(boxs)
              else if myMap[i, j] in [ '.', '+' ] then inc(goals)
              else if myMap[i, j] = '*' then begin
@@ -1043,10 +1043,10 @@ begin
   end;
 
 {$IFDEF TEST}
-// ÔÚ¹¤¾ßÀ¸£¬»­³öÑù±¾
+// åœ¨å·¥å…·æ ï¼Œç”»å‡ºæ ·æœ¬
   if (Image3.Visible) and (cur_Rect.left > 0) then begin
-    ww := (cur_Rect.right - cur_Rect.left) div myScale - 4;  // Êµ¼ÊÈ¡Ñù³ß´ç£¬¼´ÖÜ±ß¸÷ÈÃ³ö 2 ¸öÏñËØ
-    hh := (cur_Rect.bottom - cur_Rect.top) div myScale - 4;  // Êµ¼ÊÈ¡Ñù³ß´ç£¬¼´ÖÜ±ß¸÷ÈÃ³ö 2 ¸öÏñËØ
+    ww := (cur_Rect.right - cur_Rect.left) div myScale - 4;  // å®é™…å–æ ·å°ºå¯¸ï¼Œå³å‘¨è¾¹å„è®©å‡º 2 ä¸ªåƒç´ 
+    hh := (cur_Rect.bottom - cur_Rect.top) div myScale - 4;  // å®é™…å–æ ·å°ºå¯¸ï¼Œå³å‘¨è¾¹å„è®©å‡º 2 ä¸ªåƒç´ 
 
     R1 := Rect(0, 0, 32, 32);
     R2 := Rect(0, 0, 32, 32);
@@ -1055,7 +1055,7 @@ begin
     Image3.Canvas.FrameRect(R1);
 
     R1 := Rect(32, 0, 64, 32);
-    R2 := Rect(cur_Rect.left div myScale + 2, cur_Rect.top div myScale + 2, cur_Rect.left div myScale + 2 + ww, cur_Rect.top div myScale + 2 + hh);  // Ñù±¾·¶Î§
+    R2 := Rect(cur_Rect.left div myScale + 2, cur_Rect.top div myScale + 2, cur_Rect.left div myScale + 2 + ww, cur_Rect.top div myScale + 2 + hh);  // æ ·æœ¬èŒƒå›´
     Image3.Canvas.CopyRect(R1, Image2.Canvas, R2);
     Image3.Canvas.FrameRect(R1);
   end;
@@ -1065,7 +1065,7 @@ begin
   StatusBar1.Panels[7].Text := IntToStr(goals);
 end;
 
-// »­±ß½ç
+// ç”»è¾¹ç•Œ
 procedure TRecogForm_.DrawBianJie;
 var
   R1, R0: TRect;
@@ -1079,35 +1079,35 @@ begin
   Image1.Canvas.FrameRect(R0);
 end;
 
-// ÉèÖÃ×ó±ß½ç
+// è®¾ç½®å·¦è¾¹ç•Œ
 procedure TRecogForm_.B_LeftClick(Sender: TObject);
 begin
   SetLeft(myClickPoint.X);
   myDraw;
 end;
 
-// ÉèÖÃÓÒ±ß½ç
+// è®¾ç½®å³è¾¹ç•Œ
 procedure TRecogForm_.B_RightClick(Sender: TObject);
 begin
   SetRight(myClickPoint.X);
   myDraw;
 end;
 
-// ÉèÖÃÉÏ±ß½ç
+// è®¾ç½®ä¸Šè¾¹ç•Œ
 procedure TRecogForm_.B_TopClick(Sender: TObject);
 begin
   SetTop(myClickPoint.Y);
   myDraw;
 end;
 
-// ÉèÖÃÏÂ±ß½ç
+// è®¾ç½®ä¸‹è¾¹ç•Œ
 procedure TRecogForm_.B_BottomClick(Sender: TObject);
 begin
   SetBottom(myClickPoint.Y);
   myDraw;
 end;
 
-// Êó±ê°´ÏÂ
+// é¼ æ ‡æŒ‰ä¸‹
 procedure TRecogForm_.Image1MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
@@ -1146,7 +1146,7 @@ begin
   end;
 end;
 
-// Êó±êÌ§Æğ
+// é¼ æ ‡æŠ¬èµ·
 procedure TRecogForm_.Image1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
@@ -1157,10 +1157,10 @@ begin
 
    if mySelect = 0 then begin
       myEndTime := GetJavaTime(Now);
-      if Button = mbright then begin                                            // ÓÒ¼üµ¥»÷
+      if Button = mbright then begin                                            // å³é”®å•å‡»
          B_Right.Click;
          B_Bottom.Click;
-      end else if (Button = mbleft) and (Abs(myEndTime - myStartTime) < 300) then begin  // ×ó¼üË«»÷
+      end else if (Button = mbleft) and (Abs(myEndTime - myStartTime) < 300) then begin  // å·¦é”®åŒå‡»
          B_Top.Click;
          B_Left.Click;
       end;
@@ -1179,13 +1179,13 @@ begin
    yy := r * Map_RowHeight.Value + Map_Top.Value;
    cur_Rect := Rect(xx, yy, xx + Map_ColWidth.Value, yy + Map_RowHeight.Value);
 
-   // ±¸·İ
+   // å¤‡ä»½
    SetUnDoReDo;
 
    if Button = mbleft then begin
-     // Ê¶±ğ»ò±à¼­
-     if mySelect in [ 1, 2, 3, 4 ] then begin                                   // Ç½±Ú¡¢Ïä×Ó¡¢Ïä×ÓÔÚÄ¿±êµã¡¢Ä¿±êµã
-        if CheckBox1.Checked then begin                                         // ÊÖ¶¯±à¼­Ä£Ê½
+     // è¯†åˆ«æˆ–ç¼–è¾‘
+     if mySelect in [ 1, 2, 3, 4 ] then begin                                   // å¢™å£ã€ç®±å­ã€ç®±å­åœ¨ç›®æ ‡ç‚¹ã€ç›®æ ‡ç‚¹
+        if CheckBox1.Checked then begin                                         // æ‰‹åŠ¨ç¼–è¾‘æ¨¡å¼
            case mySelect of
              1: begin
                 if myMap[r, c] in [ '@', '+' ] then begin
@@ -1220,11 +1220,11 @@ begin
                 else myMap[r, c] := '.';
              end;
            end;
-        end else begin                                                          // Ê¶±ğÄ£Ê½
-           if myMap[r, c] = '-' then findSubimages                              // Èô±»µã»÷µÄÎ»ÖÃÉÏ»¹¡°¿Õ×Å¡±£¬ÔòÖ´ĞĞÊ¶±ğ
-           else myMap[r, c] := XSB_Char[mySelect];                              // Èô±»µã»÷µÄÎ»ÖÃÉÏÒÑ¾­ÓĞÁË¡°Ê¶±ğ¡±£¬ÔòÖ±½ÓĞŞ¸Ä´Ë¸ñ×Ó                    
+        end else begin                                                          // è¯†åˆ«æ¨¡å¼
+           if myMap[r, c] = '-' then findSubimages                              // è‹¥è¢«ç‚¹å‡»çš„ä½ç½®ä¸Šè¿˜â€œç©ºç€â€ï¼Œåˆ™æ‰§è¡Œè¯†åˆ«
+           else myMap[r, c] := XSB_Char[mySelect];                              // è‹¥è¢«ç‚¹å‡»çš„ä½ç½®ä¸Šå·²ç»æœ‰äº†â€œè¯†åˆ«â€ï¼Œåˆ™ç›´æ¥ä¿®æ”¹æ­¤æ ¼å­                    
         end;
-     end else if mySelect = 5 then begin                                        // ²Ö¹ÜÔ±£¬Ö´ĞĞ±à¼­
+     end else if mySelect = 5 then begin                                        // ä»“ç®¡å‘˜ï¼Œæ‰§è¡Œç¼–è¾‘
         if myMap[r, c] in [ '@', '+' ] then begin
           if myMap[r, c] = '@' then myMap[r, c] := '+'
           else  myMap[r, c] := '@';
@@ -1237,13 +1237,13 @@ begin
           rg_ManPos.Y := r;
           myMap[r, c] := '@';
         end;
-     end else if mySelect = 6 then begin                                        // ²Á³ı
+     end else if mySelect = 6 then begin                                        // æ“¦é™¤
         if myMap[r, c] in [ '@', '+' ] then begin
           rg_ManPos.X := -1;
           rg_ManPos.Y := -1;
         end;
         myMap[r, c] := '-';
-     end;                                                                       // ÓÒ¼ü == É¾³ı
+     end;                                                                       // å³é”® == åˆ é™¤
    end else begin
      if myMap[r, c] in [ '@', '+' ] then begin
         rg_ManPos.X := -1;
@@ -1254,7 +1254,7 @@ begin
    myDraw;
 end;
 
-// Êó±êÍÏ¶¯ -- »­Ñ¡Ôñ¿ò
+// é¼ æ ‡æ‹–åŠ¨ -- ç”»é€‰æ‹©æ¡†
 procedure TRecogForm_.Map_LeftChange(Sender: TObject);
 begin
   SetLeft(Map_Left.Value);
@@ -1362,60 +1362,60 @@ begin
   pl_Floor.Color := $DBCDBF;
   pl_Select.Color := $DBCDBF;
 
-  Caption := '¹Ø¿¨½ØÍ¼Ê¶±ğ';
+  Caption := 'å…³å¡æˆªå›¾è¯†åˆ«';
 
-  Label1.Caption := '×ó±ß½ç:';
-  Label2.Caption := 'ÓÒ±ß½ç:';
-  Label3.Caption := 'ÉÏ±ß½ç:';
-  Label4.Caption := 'ÏÂ±ß½ç:';
-  Label5.Caption := 'ĞĞ¸ß:';
-  Label8.Caption := 'ÁĞ¿í:';
+  Label1.Caption := 'å·¦è¾¹ç•Œ:';
+  Label2.Caption := 'å³è¾¹ç•Œ:';
+  Label3.Caption := 'ä¸Šè¾¹ç•Œ:';
+  Label4.Caption := 'ä¸‹è¾¹ç•Œ:';
+  Label5.Caption := 'è¡Œé«˜:';
+  Label8.Caption := 'åˆ—å®½:';
 
-  Panel4.Caption := 'Ñù±¾²Î¿¼';
+  Panel4.Caption := 'æ ·æœ¬å‚è€ƒ';
   Panel4.Color := $DBCDBF;
 
-  Label7.Caption := 'ÏàËÆ¶È: 60%';
+  Label7.Caption := 'ç›¸ä¼¼åº¦: 60%';
 
-  CheckBox1.Caption := 'ÊÖ¶¯±à¼­';
-  CheckBox2.Caption := 'XSB×Ö·û';
-  CheckBox4.Caption := 'É«Ïà';
-  CheckBox5.Caption := 'Æ½¾ù»Ò¶È';
+  CheckBox1.Caption := 'æ‰‹åŠ¨ç¼–è¾‘';
+  CheckBox2.Caption := 'XSBå­—ç¬¦';
+  CheckBox4.Caption := 'è‰²ç›¸';
+  CheckBox5.Caption := 'å¹³å‡ç°åº¦';
 
-  sb_Return.Hint := '½áÊøÊ¶±ğ£¬·µ»Ø±à¼­¡¾Ctrl + Q¡¿';
-  bt_Skin.Hint := '¸ü»»Æ¤·ô';
+  sb_Return.Hint := 'ç»“æŸè¯†åˆ«ï¼Œè¿”å›ç¼–è¾‘ã€Ctrl + Qã€‘';
+  bt_Skin.Hint := 'æ›´æ¢çš®è‚¤';
   
-  B_Top.Caption    := 'ÉÏ±ß½ç(&T) - Top';
-  B_Bottom.Caption := 'ÏÂ±ß½ç(&B) - Bottom';
-  B_Left.Caption   := '×ó±ß½ç(&L) - Left';
-  B_Right.Caption  := 'ÓÒ±ß½ç(&R) - Right';
+  B_Top.Caption    := 'ä¸Šè¾¹ç•Œ(&T) - Top';
+  B_Bottom.Caption := 'ä¸‹è¾¹ç•Œ(&B) - Bottom';
+  B_Left.Caption   := 'å·¦è¾¹ç•Œ(&L) - Left';
+  B_Right.Caption  := 'å³è¾¹ç•Œ(&R) - Right';
 
-  StatusBar1.Panels[0].Text := 'ĞĞÊı';
-  StatusBar1.Panels[2].Text := 'ÁĞÊı';
-  StatusBar1.Panels[4].Text := 'Ïä×ÓÊı';
-  StatusBar1.Panels[6].Text := 'Ä¿±êÊı';
+  StatusBar1.Panels[0].Text := 'è¡Œæ•°';
+  StatusBar1.Panels[2].Text := 'åˆ—æ•°';
+  StatusBar1.Panels[4].Text := 'ç®±å­æ•°';
+  StatusBar1.Panels[6].Text := 'ç›®æ ‡æ•°';
 
-  sb_Open.Hint := '´ò¿ª¹Ø¿¨½ØÍ¼¡¾Ctrl + O¡¿';
-  sb_Screen.Hint := '½ØÈ¡ÆÁÄ»Í¼Ïñ¡¾Ctrl + K¡¿';      
-  sb_Copy.Hint := '¸´ÖÆ XSB µ½¼ôÇĞ°å¡¾Ctrl + C¡¿';
-  sb_UnDo.Hint := '³·Ïú¡¾Ctrl + Z¡¿';
-  sb_ReDo.Hint := 'ÖØ×ö¡¾Shift + Z¡¿';
-  sb_Clear.Hint := 'Çå¿ÕÒÑÊ¶±ğÄÚÈİ';
-  sb_Scale.Hint := 'Ëõ·ÅÍ¼Ïñ';   
+  sb_Open.Hint := 'æ‰“å¼€å…³å¡æˆªå›¾ã€Ctrl + Oã€‘';
+  sb_Screen.Hint := 'æˆªå–å±å¹•å›¾åƒã€Ctrl + Kã€‘';      
+  sb_Copy.Hint := 'å¤åˆ¶ XSB åˆ°å‰ªåˆ‡æ¿ã€Ctrl + Cã€‘';
+  sb_UnDo.Hint := 'æ’¤é”€ã€Ctrl + Zã€‘';
+  sb_ReDo.Hint := 'é‡åšã€Shift + Zã€‘';
+  sb_Clear.Hint := 'æ¸…ç©ºå·²è¯†åˆ«å†…å®¹';
+  sb_Scale.Hint := 'ç¼©æ”¾å›¾åƒ';   
 
-  SpeedButton1.Caption := '¡Ş';
-  SpeedButton2.Caption := '¡Ş';
-  SpeedButton3.Hint := 'ÒÔ½ØÍ¼¡¾×î×ó±ß¡¿Îª¹Ø¿¨¡¾×ó±ß½ç¡¿';
-  SpeedButton1.Hint := 'ÒÔ½ØÍ¼¡¾×îÓÒ±ß¡¿Îª¹Ø¿¨¡¾ÓÒ±ß½ç¡¿';
-  SpeedButton4.Hint := 'ÒÔ½ØÍ¼¡¾×îÉÏ±ß¡¿Îª¹Ø¿¨¡¾ÉÏ±ß½ç¡¿';
-  SpeedButton2.Hint := 'ÒÔ½ØÍ¼¡¾×îÏÂ±ß¡¿Îª¹Ø¿¨¡¾ÏÂ±ß½ç¡¿';
+  SpeedButton1.Caption := 'âˆ';
+  SpeedButton2.Caption := 'âˆ';
+  SpeedButton3.Hint := 'ä»¥æˆªå›¾ã€æœ€å·¦è¾¹ã€‘ä¸ºå…³å¡ã€å·¦è¾¹ç•Œã€‘';
+  SpeedButton1.Hint := 'ä»¥æˆªå›¾ã€æœ€å³è¾¹ã€‘ä¸ºå…³å¡ã€å³è¾¹ç•Œã€‘';
+  SpeedButton4.Hint := 'ä»¥æˆªå›¾ã€æœ€ä¸Šè¾¹ã€‘ä¸ºå…³å¡ã€ä¸Šè¾¹ç•Œã€‘';
+  SpeedButton2.Hint := 'ä»¥æˆªå›¾ã€æœ€ä¸‹è¾¹ã€‘ä¸ºå…³å¡ã€ä¸‹è¾¹ç•Œã€‘';
   
-  img_Wall.Hint := '½øÈë¡ºÇ½±Ú¡»¡°Ê¶±ğÄ£Ê½¡±';
-  img_Box.Hint := '½øÈë¡ºÏä×Ó¡»¡°Ê¶±ğÄ£Ê½¡±';
-  img_BoxGoal.Hint := '½øÈë¡ºÄ¿±êÎ»Ïä×Ó¡»¡°Ê¶±ğÄ£Ê½¡±';
-  img_Goal.Hint := '½øÈë¡ºÄ¿±êÎ»¡»¡°Ê¶±ğÄ£Ê½¡±';
-  img_Player.Hint := '½øÈë¡º²Ö¹ÜÔ±¡»¡°Ê¶±ğÄ£Ê½¡±';
-  img_Floor.Hint := '²Á³ıÒÑÓĞµÄÊ¶±ğ';
-  img_Select.Hint := '½øÈë¡°±ß¿òµ÷Õû¡±Ä£Ê½';
+  img_Wall.Hint := 'è¿›å…¥ã€å¢™å£ã€â€œè¯†åˆ«æ¨¡å¼â€';
+  img_Box.Hint := 'è¿›å…¥ã€ç®±å­ã€â€œè¯†åˆ«æ¨¡å¼â€';
+  img_BoxGoal.Hint := 'è¿›å…¥ã€ç›®æ ‡ä½ç®±å­ã€â€œè¯†åˆ«æ¨¡å¼â€';
+  img_Goal.Hint := 'è¿›å…¥ã€ç›®æ ‡ä½ã€â€œè¯†åˆ«æ¨¡å¼â€';
+  img_Player.Hint := 'è¿›å…¥ã€ä»“ç®¡å‘˜ã€â€œè¯†åˆ«æ¨¡å¼â€';
+  img_Floor.Hint := 'æ“¦é™¤å·²æœ‰çš„è¯†åˆ«';
+  img_Select.Hint := 'è¿›å…¥â€œè¾¹æ¡†è°ƒæ•´â€æ¨¡å¼';
 
   Screen.Cursors[cursorWall_]     := LoadCursor(HInstance, 'CURSOR_WALL_');
   Screen.Cursors[cursorBox_]      := LoadCursor(HInstance, 'CURSOR_BOX_');
@@ -1489,7 +1489,7 @@ begin
   Clipboard.SetTextBuf(PChar(GetXSB(PicRows, PicCols)));
 end;
 
-// »­ÔªËØÑ¡Ôñ¿ò¡¢¸Ä±äÊó±êÑùÊ½
+// ç”»å…ƒç´ é€‰æ‹©æ¡†ã€æ”¹å˜é¼ æ ‡æ ·å¼
 procedure TRecogForm_.SetSelect;
 var
   i: Integer;
@@ -1501,7 +1501,7 @@ begin
            if mySelect = i then begin
               pl_Select.Color := clRed;
               Image1.Cursor := crCross;
-              StatusBar1.Panels[8].Text := '³ıÍÏ¶¯µ÷ÕûÍâ£¬»¹¿ÉÒÔÓÃ¡¾L¡¢T¡¢R¡¢B¡¿¼ü¶¨Òå¡°×óÉÏÓÒÏÂ¡±±ß¿ò£»¡¾×ó¼üË«»÷¡¿¿É¿ìËÙÖ¸¶¨¡°×óÉÏ½Ç¡±£»¡¾ÓÒ¼üµ¥»÷¡¿¿É¿ìËÙÖ¸¶¨¡°ÓÒÏÂ½Ç¡±';
+              StatusBar1.Panels[8].Text := 'é™¤æ‹–åŠ¨è°ƒæ•´å¤–ï¼Œè¿˜å¯ä»¥ç”¨ã€Lã€Tã€Rã€Bã€‘é”®å®šä¹‰â€œå·¦ä¸Šå³ä¸‹â€è¾¹æ¡†ï¼›ã€å·¦é”®åŒå‡»ã€‘å¯å¿«é€ŸæŒ‡å®šâ€œå·¦ä¸Šè§’â€ï¼›ã€å³é”®å•å‡»ã€‘å¯å¿«é€ŸæŒ‡å®šâ€œå³ä¸‹è§’â€';
            end
            else pl_Select.Color := clInactiveCaption;
          end;
@@ -1509,7 +1509,7 @@ begin
            if mySelect = i then begin
               pl_Wall.Color := clRed;
               Image1.Cursor := cursorWall_;
-              StatusBar1.Panels[8].Text := 'Ê¶±ğ - Ç½±Ú';
+              StatusBar1.Panels[8].Text := 'è¯†åˆ« - å¢™å£';
            end
            else pl_Wall.Color := clInactiveCaption;
          end;
@@ -1517,7 +1517,7 @@ begin
            if mySelect = i then begin
               pl_Box.Color := clRed;
               Image1.Cursor := cursorBox_;
-              StatusBar1.Panels[8].Text := 'Ê¶±ğ - Ïä×Ó';
+              StatusBar1.Panels[8].Text := 'è¯†åˆ« - ç®±å­';
            end
            else pl_Box.Color := clInactiveCaption;
          end;
@@ -1525,7 +1525,7 @@ begin
            if mySelect = i then begin
               pl_BoxGoal.Color := clRed;
               Image1.Cursor := cursorBoxGoal_;
-              StatusBar1.Panels[8].Text := 'Ê¶±ğ - Ïä×ÓÔÚÄ¿±êÎ»';
+              StatusBar1.Panels[8].Text := 'è¯†åˆ« - ç®±å­åœ¨ç›®æ ‡ä½';
            end
            else pl_BoxGoal.Color := clInactiveCaption;
          end;
@@ -1533,7 +1533,7 @@ begin
            if mySelect = i then begin
               pl_Goal.Color := clRed;
               Image1.Cursor := cursorGoal_;
-              StatusBar1.Panels[8].Text := 'Ê¶±ğ - Ä¿±êµã';
+              StatusBar1.Panels[8].Text := 'è¯†åˆ« - ç›®æ ‡ç‚¹';
            end
            else pl_Goal.Color := clInactiveCaption;
          end;
@@ -1541,7 +1541,7 @@ begin
            if mySelect = i then begin
               pl_Player.Color := clRed;
               Image1.Cursor := cursorMan_;
-              StatusBar1.Panels[8].Text := 'Ê¶±ğ - ²Ö¹ÜÔ±';
+              StatusBar1.Panels[8].Text := 'è¯†åˆ« - ä»“ç®¡å‘˜';
            end
            else pl_Player.Color := clInactiveCaption;
          end;
@@ -1549,7 +1549,7 @@ begin
            if mySelect = i then begin
               pl_Floor.Color := clRed;
               Image1.Cursor := cursorErase_;
-              StatusBar1.Panels[8].Text := '²Á³ıÊ¶±ğ';
+              StatusBar1.Panels[8].Text := 'æ“¦é™¤è¯†åˆ«';
            end
            else pl_Floor.Color := clInactiveCaption;
          end;
@@ -1557,42 +1557,42 @@ begin
   end;
 end;
 
-// Ñ¡ÔñÇ½±Ú
+// é€‰æ‹©å¢™å£
 procedure TRecogForm_.img_WallClick(Sender: TObject);
 begin
   mySelect := 1;
   SetSelect;
 end;
 
-// Ñ¡ÔñÏä×Ó
+// é€‰æ‹©ç®±å­
 procedure TRecogForm_.img_BoxClick(Sender: TObject);
 begin
   mySelect := 2;
   SetSelect;
 end;
 
-// Ñ¡ÔñÏä×ÓÔÚÄ¿±êµã
+// é€‰æ‹©ç®±å­åœ¨ç›®æ ‡ç‚¹
 procedure TRecogForm_.img_BoxGoalClick(Sender: TObject);
 begin
   mySelect := 3;
   SetSelect;
 end;
 
-// Ñ¡ÔñÄ¿±êµã
+// é€‰æ‹©ç›®æ ‡ç‚¹
 procedure TRecogForm_.img_GoalClick(Sender: TObject);
 begin
   mySelect := 4;
   SetSelect;
 end;
 
-// Ñ¡ÔñÈË
+// é€‰æ‹©äºº
 procedure TRecogForm_.img_PlayerClick(Sender: TObject);
 begin
   mySelect := 5;
   SetSelect;
 end;
 
-// Ñ¡ÔñµØ°å
+// é€‰æ‹©åœ°æ¿
 procedure TRecogForm_.img_FloorClick(Sender: TObject);
 begin
   mySelect := 6;
@@ -1733,14 +1733,14 @@ begin
   end;
 end;
 
-// Çå¿ÕµØÍ¼
+// æ¸…ç©ºåœ°å›¾
 procedure TRecogForm_.sb_ClearClick(Sender: TObject);
 var
   i, j: Integer;
 begin
   if not Image1.Visible then Exit;
 
-  if MessageBox(Handle, 'Çå¿ÕÒÑ×öµÄÈ«²¿Ê¶±ğ£¬È·¶¨Âğ£¿', 'ÌáĞÑ', MB_ICONINFORMATION + MB_OKCANCEL) = idOK then
+  if MessageBox(Handle, 'æ¸…ç©ºå·²åšçš„å…¨éƒ¨è¯†åˆ«ï¼Œç¡®å®šå—ï¼Ÿ', 'æé†’', MB_ICONINFORMATION + MB_OKCANCEL) = idOK then
   begin
      SetUnDoReDo;
      for i := 0 to 99 do begin
@@ -1775,26 +1775,26 @@ begin
         myHintPos.Y := (myMovePoint.Y - Map_Top.Value) div Map_RowHeight.Value;
         myDraw;
      end else myHintChar := '-';
-    81:                // Ctrl + Q£¬ ÍË³ö
+    81:                // Ctrl + Qï¼Œ é€€å‡º
       if ssCtrl in Shift then
       begin
         sb_Return.Click;
       end;
-    90:                 // Ctrl(Shift) + Z£¬ UnDo¡¢ReDo
+    90:                 // Ctrl(Shift) + Zï¼Œ UnDoã€ReDo
       if ssShift in Shift then begin
         sb_ReDo.Click;
       end else if ssCtrl in Shift then begin
         sb_UnDo.Click;
       end;
-    75:                 // ½ØÈ¡ÆÁÄ»Í¼Ïñ
+    75:                 // æˆªå–å±å¹•å›¾åƒ
       if ssCtrl in Shift then begin
         sb_Screen.Click;
       end;
-    79:                 // Ctrl + O£¬ ´ò¿ªÍ¼Æ¬ÎÄµµ
+    79:                 // Ctrl + Oï¼Œ æ‰“å¼€å›¾ç‰‡æ–‡æ¡£
       if ssCtrl in Shift then begin
         sb_Open.Click;                       
       end;
-    67:                // Ctrl + C£¬ ÖÆ XSB µ½¼ôÇĞ°å¸´
+    67:                // Ctrl + Cï¼Œ åˆ¶ XSB åˆ°å‰ªåˆ‡æ¿å¤
       if ssCtrl in Shift then begin
          sb_Copy.Click;
       end;
@@ -1838,7 +1838,7 @@ begin
         Map_Bottom.SetFocus;
         myDraw;
       end;
-    VK_F2:                         // F2£¬¸ü»»Æ¤·ô
+    VK_F2:                         // F2ï¼Œæ›´æ¢çš®è‚¤
       bt_Skin.Click;
   end;
 end;
@@ -1861,7 +1861,7 @@ begin
   isSheelEnable := False;
 
   if mySelect = 0 then begin
-    StatusBar1.Panels[8].Text := '³ıÍÏ»ò¹öÂÖ¶¯µ÷ÕûÍâ£¬»¹¿ÉÒÔÓÃ¡¾L¡¢T¡¢R¡¢B¡¿¼ü¶¨Òå¡°×óÉÏÓÒÏÂ¡±±ß¿ò£»ÌØ±ğµÄ£º¡¾×ó¼üË«»÷¡¿¿É¿ìËÙÖ¸¶¨¡°×óÉÏ½Ç¡±£»¡¾ÓÒ¼üµ¥»÷¡¿¿É¿ìËÙÖ¸¶¨¡°ÓÒÏÂ½Ç¡±';
+    StatusBar1.Panels[8].Text := 'é™¤æ‹–æˆ–æ»šè½®åŠ¨è°ƒæ•´å¤–ï¼Œè¿˜å¯ä»¥ç”¨ã€Lã€Tã€Rã€Bã€‘é”®å®šä¹‰â€œå·¦ä¸Šå³ä¸‹â€è¾¹æ¡†ï¼›ç‰¹åˆ«çš„ï¼šã€å·¦é”®åŒå‡»ã€‘å¯å¿«é€ŸæŒ‡å®šâ€œå·¦ä¸Šè§’â€ï¼›ã€å³é”®å•å‡»ã€‘å¯å¿«é€ŸæŒ‡å®šâ€œå³ä¸‹è§’â€';
     case mySizeOf of
       0: begin
         Image1.Cursor := crCross;
@@ -1869,47 +1869,47 @@ begin
            Image1.Cursor := crSizeNWSE;
            mySizeOf_ := 8;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾ÍÏ¶¯ / Êó±ê¹öÂÖ¡¿µ÷Õû¡¾×óÉÏ½Ç¡¿';     //  Shift +
+           StatusBar1.Panels[8].Text := 'ã€æ‹–åŠ¨ / é¼ æ ‡æ»šè½®ã€‘è°ƒæ•´ã€å·¦ä¸Šè§’ã€‘';     //  Shift +
         end else if (Abs(X - (Map_Left.Value + Map_ColWidth.Value)) < 4) and (Abs(Y - (Map_Top.Value + Map_RowHeight.Value)) < 4) then begin
            Image1.Cursor := crSizeNWSE;
            mySizeOf_ := 7;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾ÍÏ¶¯ / Êó±ê¹öÂÖ¡¿Í¬Ê±µ÷Õû¡¾ĞĞ¸ßÁĞ¿í¡¿';   //   Shift +
+           StatusBar1.Panels[8].Text := 'ã€æ‹–åŠ¨ / é¼ æ ‡æ»šè½®ã€‘åŒæ—¶è°ƒæ•´ã€è¡Œé«˜åˆ—å®½ã€‘';   //   Shift +
         end else if (X > Map_Left.Value + 4) and (X < Map_Left.Value + Map_ColWidth.Value - 4) and (Y > Map_Top.Value + 4) and (Y < Map_Top.Value + Map_RowHeight.Value - 4) then begin
            Image1.Cursor := cursorSheel_;
            mySizeOf_ := 7;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾Êó±ê¹öÂÖ¡¿Í¬Ê±µ÷Õû¡¾ĞĞ¸ßÁĞ¿í¡¿';     //    Shift +
+           StatusBar1.Panels[8].Text := 'ã€é¼ æ ‡æ»šè½®ã€‘åŒæ—¶è°ƒæ•´ã€è¡Œé«˜åˆ—å®½ã€‘';     //    Shift +
         end else if (Abs(X - Map_Left.Value) < 4) and (Y - Map_Top.Value > 8) and (Map_Bottom.Value - Y > 8) then begin
            Image1.Cursor := crSizeWE;
            mySizeOf_ := 1;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾ÍÏ¶¯ / Êó±ê¹öÂÖ¡¿µ÷Õû¡¾×ó±ß½ç¡¿';   //   Shift +
+           StatusBar1.Panels[8].Text := 'ã€æ‹–åŠ¨ / é¼ æ ‡æ»šè½®ã€‘è°ƒæ•´ã€å·¦è¾¹ç•Œã€‘';   //   Shift +
         end else if (Abs(X - Map_Right.Value) < 4) and (Y - Map_Top.Value > 8) and (Map_Bottom.Value - Y > 8) then begin
            Image1.Cursor := crSizeWE;
            mySizeOf_ := 2;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾ÍÏ¶¯ / Êó±ê¹öÂÖ¡¿µ÷Õû¡¾ÓÒ±ß½ç¡¿';  //   Shift +
+           StatusBar1.Panels[8].Text := 'ã€æ‹–åŠ¨ / é¼ æ ‡æ»šè½®ã€‘è°ƒæ•´ã€å³è¾¹ç•Œã€‘';  //   Shift +
         end else if (Abs(Y - Map_Top.Value) < 4) and (X - Map_Left.Value > 8) and (Map_Right.Value - X > 8) then begin
            Image1.Cursor := crSizeNS;
            mySizeOf_ := 3;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾ÍÏ¶¯ / Êó±ê¹öÂÖ¡¿µ÷Õû¡¾ÉÏ±ß½ç¡¿';   //  Shift +
+           StatusBar1.Panels[8].Text := 'ã€æ‹–åŠ¨ / é¼ æ ‡æ»šè½®ã€‘è°ƒæ•´ã€ä¸Šè¾¹ç•Œã€‘';   //  Shift +
         end else if (Abs(Y - Map_Bottom.Value) < 4) and (X - Map_Left.Value > 8) and (Map_Right.Value - X > 8) then begin
            Image1.Cursor := crSizeNS;
            mySizeOf_ := 4;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾ÍÏ¶¯ / Êó±ê¹öÂÖ¡¿µ÷Õû¡¾ÏÂ±ß½ç¡¿';     //       Shift +
+           StatusBar1.Panels[8].Text := 'ã€æ‹–åŠ¨ / é¼ æ ‡æ»šè½®ã€‘è°ƒæ•´ã€ä¸‹è¾¹ç•Œã€‘';     //       Shift +
         end else if (Abs(X - (Map_Left.Value + Map_ColWidth.Value)) < 4) and (Y - Map_Top.Value > 8) and (Map_Bottom.Value - Y > 8) then begin
            Image1.Cursor := crSizeWE;
            mySizeOf_ := 5;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾ÍÏ¶¯ / Êó±ê¹öÂÖ¡¿µ÷Õû¡¾ÁĞ¿í¡¿';         //        Shift +
+           StatusBar1.Panels[8].Text := 'ã€æ‹–åŠ¨ / é¼ æ ‡æ»šè½®ã€‘è°ƒæ•´ã€åˆ—å®½ã€‘';         //        Shift +
         end else if (Abs(Y - (Map_Top.Value + Map_RowHeight.Value)) < 4) and (X - Map_Left.Value > 8) and (Map_Right.Value - X > 8) then begin
            Image1.Cursor := crSizeNS;
            mySizeOf_ := 6;
            isSheelEnable := True;
-           StatusBar1.Panels[8].Text := '¡¾ÍÏ¶¯ / Êó±ê¹öÂÖ¡¿µ÷Õû¡¾ĞĞ¸ß¡¿';     //    Shift + 
+           StatusBar1.Panels[8].Text := 'ã€æ‹–åŠ¨ / é¼ æ ‡æ»šè½®ã€‘è°ƒæ•´ã€è¡Œé«˜ã€‘';     //    Shift + 
         end;
       end;
       1: begin
@@ -1919,7 +1919,7 @@ begin
            PicCols := PicCols - 1;
         end;
         myDraw;
-        StatusBar1.Panels[8].Text := 'ÍÏ¶¯µ÷Õû¡¾×ó±ß½ç¡¿';
+        StatusBar1.Panels[8].Text := 'æ‹–åŠ¨è°ƒæ•´ã€å·¦è¾¹ç•Œã€‘';
       end;
       2: begin
         SetRight(X);
@@ -1928,7 +1928,7 @@ begin
            PicCols := PicCols - 1;
         end;
         myDraw;
-        StatusBar1.Panels[8].Text := 'ÍÏ¶¯µ÷Õû¡¾ÓÒ±ß½ç¡¿';
+        StatusBar1.Panels[8].Text := 'æ‹–åŠ¨è°ƒæ•´ã€å³è¾¹ç•Œã€‘';
       end;
       3: begin
         SetTop(Y);
@@ -1937,7 +1937,7 @@ begin
            PicRows := PicRows - 1;
         end;
         myDraw;
-        StatusBar1.Panels[8].Text := 'ÍÏ¶¯µ÷Õû¡¾ÉÏ±ß½ç¡¿';
+        StatusBar1.Panels[8].Text := 'æ‹–åŠ¨è°ƒæ•´ã€ä¸Šè¾¹ç•Œã€‘';
       end;
       4: begin
         SetBottom(Y);
@@ -1946,7 +1946,7 @@ begin
            PicRows := PicRows - 1;
         end;
         myDraw;
-        StatusBar1.Panels[8].Text := 'ÍÏ¶¯µ÷Õû¡¾ÏÂ±ß½ç¡¿';
+        StatusBar1.Panels[8].Text := 'æ‹–åŠ¨è°ƒæ•´ã€ä¸‹è¾¹ç•Œã€‘';
       end;
       5: begin
         if (X - Map_Left.Value > 9) and (X < Map_Right.Value) then
@@ -1956,7 +1956,7 @@ begin
            PicCols := PicCols - 1;
         end;
         myDraw;
-        StatusBar1.Panels[8].Text := 'ÍÏ¶¯µ÷Õû¡¾ÁĞ¿í¡¿';
+        StatusBar1.Panels[8].Text := 'æ‹–åŠ¨è°ƒæ•´ã€åˆ—å®½ã€‘';
       end;
       6: begin
         if (Y - Map_Top.Value > 9) and (Y < Map_Bottom.Value) then
@@ -1966,7 +1966,7 @@ begin
            PicRows := PicRows - 1;
         end;
         myDraw;
-        StatusBar1.Panels[8].Text := 'ÍÏ¶¯µ÷Õû¡¾ĞĞ¸ß¡¿';
+        StatusBar1.Panels[8].Text := 'æ‹–åŠ¨è°ƒæ•´ã€è¡Œé«˜ã€‘';
       end;
       7: begin
         if (X - Map_Left.Value > 9) and (X < Map_Right.Value) and (Y - Map_Top.Value > 9) and (Y < Map_Bottom.Value) then begin
@@ -1982,7 +1982,7 @@ begin
            PicRows := PicRows - 1;
         end;
         myDraw;
-        StatusBar1.Panels[8].Text := 'ÍÏ¶¯Í¬Ê±µ÷Õû¡¾ĞĞ¸ßÁĞ¿í¡¿';
+        StatusBar1.Panels[8].Text := 'æ‹–åŠ¨åŒæ—¶è°ƒæ•´ã€è¡Œé«˜åˆ—å®½ã€‘';
       end;
       8: begin
         if (X > 0) and (X < Map_Right.Value) and (Y > 0) and (Y < Map_Bottom.Value) then begin
@@ -1998,7 +1998,7 @@ begin
            PicRows := PicRows - 1;
         end;
         myDraw;
-        StatusBar1.Panels[8].Text := 'ÍÏ¶¯µ÷Õû¡¾×óÉÏ½Ç¡¿';
+        StatusBar1.Panels[8].Text := 'æ‹–åŠ¨è°ƒæ•´ã€å·¦ä¸Šè§’ã€‘';
       end;
     end;
   end;
@@ -2010,7 +2010,7 @@ begin
   Close;
 end;
 
-// ÊÇ·ñÊ¹ÓÃXSB×Ö·û
+// æ˜¯å¦ä½¿ç”¨XSBå­—ç¬¦
 procedure TRecogForm_.CheckBox2Click(Sender: TObject);
 begin
   myDraw;
@@ -2023,7 +2023,7 @@ var
 begin
   CanClose := False;
   if Image1.Visible then begin
-    bt := MessageBox(Handle, 'Ó¦ÓÃĞÂµÄÊ¶±ğ»á¸²¸ÇÒÑÓĞµÄ±à¼­£¬ÊÇ·ñÓ¦ÓÃ£¿', '¾¯¸æ', MB_ICONWARNING + MB_YESNOCANCEL);
+    bt := MessageBox(Handle, 'åº”ç”¨æ–°çš„è¯†åˆ«ä¼šè¦†ç›–å·²æœ‰çš„ç¼–è¾‘ï¼Œæ˜¯å¦åº”ç”¨ï¼Ÿ', 'è­¦å‘Š', MB_ICONWARNING + MB_YESNOCANCEL);
     if bt = idYES then begin
        Tag := 1;
        CanClose := True;
@@ -2068,77 +2068,77 @@ end;
 procedure TRecogForm_.ScrollBox1MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  StatusBar1.Panels[8].Text := '¡¾Ctrl + ÒÆ¶¯Êó±ê¡¿£¬¿ÉÒÔÁÙÊ±ÆÁ±ÎÄ³¸ñ×ÓµÄÊ¶±ğ£¬¡¾Shift + ÒÆ¶¯Êó±ê¡¿£¬¿ÉÒÔÁÙÊ±ÆÁ±ÎÄ³¸ñ×ÓµÄÍ¬ÀàÊ¶±ğ£¡';
+  StatusBar1.Panels[8].Text := 'ã€Ctrl + ç§»åŠ¨é¼ æ ‡ã€‘ï¼Œå¯ä»¥ä¸´æ—¶å±è”½æŸæ ¼å­çš„è¯†åˆ«ï¼Œã€Shift + ç§»åŠ¨é¼ æ ‡ã€‘ï¼Œå¯ä»¥ä¸´æ—¶å±è”½æŸæ ¼å­çš„åŒç±»è¯†åˆ«ï¼';
 end;
 
 procedure TRecogForm_.Panel1MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := '¡¾Ctrl + ÒÆ¶¯Êó±ê¡¿£¬¿ÉÒÔÁÙÊ±ÆÁ±ÎÄ³¸ñ×ÓµÄÊ¶±ğ£¬¡¾Shift + ÒÆ¶¯Êó±ê¡¿£¬¿ÉÒÔÁÙÊ±ÆÁ±ÎÄ³¸ñ×ÓµÄÍ¬ÀàÊ¶±ğ£¡';
+  StatusBar1.Panels[8].Text := 'ã€Ctrl + ç§»åŠ¨é¼ æ ‡ã€‘ï¼Œå¯ä»¥ä¸´æ—¶å±è”½æŸæ ¼å­çš„è¯†åˆ«ï¼Œã€Shift + ç§»åŠ¨é¼ æ ‡ã€‘ï¼Œå¯ä»¥ä¸´æ—¶å±è”½æŸæ ¼å­çš„åŒç±»è¯†åˆ«ï¼';
 end;
 
 procedure TRecogForm_.img_WallMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := img_Wall.Hint + '£¬¡¾×ó¼ü¡¿Ê¶±ğ»ò±à¼­£¬¡¾ÓÒ¼ü¡¿Îª²Á³ı';
+  StatusBar1.Panels[8].Text := img_Wall.Hint + 'ï¼Œã€å·¦é”®ã€‘è¯†åˆ«æˆ–ç¼–è¾‘ï¼Œã€å³é”®ã€‘ä¸ºæ“¦é™¤';
 end;
 
 procedure TRecogForm_.img_BoxMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := img_Box.Hint + '£¬¡¾×ó¼ü¡¿Ê¶±ğ»ò±à¼­£¬¡¾ÓÒ¼ü¡¿Îª²Á³ı';
+  StatusBar1.Panels[8].Text := img_Box.Hint + 'ï¼Œã€å·¦é”®ã€‘è¯†åˆ«æˆ–ç¼–è¾‘ï¼Œã€å³é”®ã€‘ä¸ºæ“¦é™¤';
 end;
 
 procedure TRecogForm_.img_BoxGoalMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := img_BoxGoal.Hint + '£¬¡¾×ó¼ü¡¿Ê¶±ğ»ò±à¼­£¬¡¾ÓÒ¼ü¡¿Îª²Á³ı';
+  StatusBar1.Panels[8].Text := img_BoxGoal.Hint + 'ï¼Œã€å·¦é”®ã€‘è¯†åˆ«æˆ–ç¼–è¾‘ï¼Œã€å³é”®ã€‘ä¸ºæ“¦é™¤';
 end;
 
 procedure TRecogForm_.img_GoalMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := img_Goal.Hint + '£¬¡¾×ó¼ü¡¿Ê¶±ğ»ò±à¼­£¬¡¾ÓÒ¼ü¡¿Îª²Á³ı';
+  StatusBar1.Panels[8].Text := img_Goal.Hint + 'ï¼Œã€å·¦é”®ã€‘è¯†åˆ«æˆ–ç¼–è¾‘ï¼Œã€å³é”®ã€‘ä¸ºæ“¦é™¤';
 end;
 
 procedure TRecogForm_.img_PlayerMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := img_Player.Hint + '£¬¡¾×ó¼ü¡¿Ê¶±ğ»ò±à¼­£¬¡¾ÓÒ¼ü¡¿Îª²Á³ı';
+  StatusBar1.Panels[8].Text := img_Player.Hint + 'ï¼Œã€å·¦é”®ã€‘è¯†åˆ«æˆ–ç¼–è¾‘ï¼Œã€å³é”®ã€‘ä¸ºæ“¦é™¤';
 end;
 
 procedure TRecogForm_.img_FloorMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := img_Floor.Hint + '£¬¡¾×ó¡¢ÓÒ¼ü¡¿¾ù¿É';
+  StatusBar1.Panels[8].Text := img_Floor.Hint + 'ï¼Œã€å·¦ã€å³é”®ã€‘å‡å¯';
 end;
 
 procedure TRecogForm_.img_SelectMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := '½øÈë¡°µ÷Õû±ß¿ò¡±Ä£Ê½£¬¡¾×ó¼üË«»÷¡¿¿É¿ìËÙÖ¸¶¨¡°×óÉÏ½Ç¡±£»¡¾ÓÒ¼üµ¥»÷¡¿¿É¿ìËÙÖ¸¶¨¡°ÓÒÏÂ½Ç¡±';
+  StatusBar1.Panels[8].Text := 'è¿›å…¥â€œè°ƒæ•´è¾¹æ¡†â€æ¨¡å¼ï¼Œã€å·¦é”®åŒå‡»ã€‘å¯å¿«é€ŸæŒ‡å®šâ€œå·¦ä¸Šè§’â€ï¼›ã€å³é”®å•å‡»ã€‘å¯å¿«é€ŸæŒ‡å®šâ€œå³ä¸‹è§’â€';
 end;
 
 procedure TRecogForm_.CheckBox2MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := 'Ê¹ÓÃ XSB ×Ö·ûÏÔÊ¾Ê¶±ğ³öÀ´µÄÔªËØ';
+  StatusBar1.Panels[8].Text := 'ä½¿ç”¨ XSB å­—ç¬¦æ˜¾ç¤ºè¯†åˆ«å‡ºæ¥çš„å…ƒç´ ';
 end;
 
 procedure TRecogForm_.CheckBox1MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := '½øÈë¡°ÊÖ¶¯±à¼­¡±Ä£Ê½';
+  StatusBar1.Panels[8].Text := 'è¿›å…¥â€œæ‰‹åŠ¨ç¼–è¾‘â€æ¨¡å¼';
 end;
 
 procedure TRecogForm_.sb_OpenMouseMove(Sender: TObject; Shift: TShiftState;
@@ -2189,7 +2189,7 @@ begin
   Image1.Tag := 1;
   isShiftDown := False;
   Map_Left.SetFocus;
-  StatusBar1.Panels[8].Text := 'ÊäÈë»òÎ¢µ÷¡¾×ó±ß½ç¡¿';
+  StatusBar1.Panels[8].Text := 'è¾“å…¥æˆ–å¾®è°ƒã€å·¦è¾¹ç•Œã€‘';
 end;
 
 procedure TRecogForm_.SpeedButton3MouseMove(Sender: TObject;
@@ -2204,7 +2204,7 @@ begin
   Image1.Tag := 3;
   isShiftDown := False;
   Map_Right.SetFocus;
-  StatusBar1.Panels[8].Text := 'ÊäÈë»òÎ¢µ÷¡¾ÓÒ±ß½ç¡¿';
+  StatusBar1.Panels[8].Text := 'è¾“å…¥æˆ–å¾®è°ƒã€å³è¾¹ç•Œã€‘';
 end;
 
 procedure TRecogForm_.SpeedButton1MouseMove(Sender: TObject;
@@ -2219,7 +2219,7 @@ begin
   Image1.Tag := 2;
   isShiftDown := False;
   Map_Top.SetFocus;
-  StatusBar1.Panels[8].Text := 'ÊäÈë»òÎ¢µ÷¡¾ÉÏ±ß½ç¡¿';
+  StatusBar1.Panels[8].Text := 'è¾“å…¥æˆ–å¾®è°ƒã€ä¸Šè¾¹ç•Œã€‘';
 end;
 
 procedure TRecogForm_.SpeedButton4MouseMove(Sender: TObject;
@@ -2234,7 +2234,7 @@ begin
   Image1.Tag := 4;
   isShiftDown := False;
   Map_Bottom.SetFocus;
-  StatusBar1.Panels[8].Text := 'ÊäÈë»òÎ¢µ÷¡¾ÏÂ±ß½ç¡¿';
+  StatusBar1.Panels[8].Text := 'è¾“å…¥æˆ–å¾®è°ƒã€ä¸‹è¾¹ç•Œã€‘';
 end;
 
 procedure TRecogForm_.SpeedButton2MouseMove(Sender: TObject;
@@ -2249,7 +2249,7 @@ begin
   Image1.Tag := 6;
   isShiftDown := False;
   Map_RowHeight.SetFocus;
-  StatusBar1.Panels[8].Text := 'ÊäÈë»òÎ¢µ÷¡¾ĞĞ¸ß¡¿';
+  StatusBar1.Panels[8].Text := 'è¾“å…¥æˆ–å¾®è°ƒã€è¡Œé«˜ã€‘';
 end;
 
 procedure TRecogForm_.Map_ColWidthMouseMove(Sender: TObject;
@@ -2258,7 +2258,7 @@ begin
   Image1.Tag := 5;
   isShiftDown := False;
   Map_ColWidth.SetFocus;
-  StatusBar1.Panels[8].Text := 'ÊäÈë»òÎ¢µ÷¡¾ÁĞ¿í¡¿';
+  StatusBar1.Panels[8].Text := 'è¾“å…¥æˆ–å¾®è°ƒã€åˆ—å®½ã€‘';
 end;
 
 procedure TRecogForm_.sb_ScaleMouseMove(Sender: TObject;
@@ -2310,7 +2310,7 @@ procedure TRecogForm_.Panel3MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := '¡¾Ctrl + ÒÆ¶¯Êó±ê¡¿£¬¿ÉÒÔÁÙÊ±ÆÁ±ÎÄ³¸ñ×ÓµÄÊ¶±ğ£¬¡¾Shift + ÒÆ¶¯Êó±ê¡¿£¬¿ÉÒÔÁÙÊ±ÆÁ±ÎÄ³¸ñ×ÓµÄÍ¬ÀàÊ¶±ğ£¡';
+  StatusBar1.Panels[8].Text := 'ã€Ctrl + ç§»åŠ¨é¼ æ ‡ã€‘ï¼Œå¯ä»¥ä¸´æ—¶å±è”½æŸæ ¼å­çš„è¯†åˆ«ï¼Œã€Shift + ç§»åŠ¨é¼ æ ‡ã€‘ï¼Œå¯ä»¥ä¸´æ—¶å±è”½æŸæ ¼å­çš„åŒç±»è¯†åˆ«ï¼';
 end;
 
 procedure TRecogForm_.FormDestroy(Sender: TObject);
@@ -2325,43 +2325,43 @@ end;
 
 procedure TRecogForm_.TrackBar2Change(Sender: TObject);
 begin
-  Label7.Caption := 'ÏàËÆ¶È: ' + IntToStr(TrackBar2.Position) + '%';
-  StatusBar1.Panels[8].Text := 'ÏàËÆ¶È£¬ÊÇÖ¸Í¼¿éÔÚÔìĞÍ·½ÃæµÄÏàËÆ³Ì¶È£¡';
+  Label7.Caption := 'ç›¸ä¼¼åº¦: ' + IntToStr(TrackBar2.Position) + '%';
+  StatusBar1.Panels[8].Text := 'ç›¸ä¼¼åº¦ï¼Œæ˜¯æŒ‡å›¾å—åœ¨é€ å‹æ–¹é¢çš„ç›¸ä¼¼ç¨‹åº¦ï¼';
 end;
 
 procedure TRecogForm_.Label7MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := 'ÏàËÆ¶È£¬ÊÇÖ¸Í¼¿éÔÚÔìĞÍ·½ÃæµÄÏàËÆ³Ì¶È£¡';
+  StatusBar1.Panels[8].Text := 'ç›¸ä¼¼åº¦ï¼Œæ˜¯æŒ‡å›¾å—åœ¨é€ å‹æ–¹é¢çš„ç›¸ä¼¼ç¨‹åº¦ï¼';
 end;
 
 procedure TRecogForm_.Label9MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := '»Ò¶ÈÈİ²î£¬Ö¸Í¼¿éµÄÆ½¾ù»Ò¶È¶Ô±ÈÊ±ÔÊĞíµÄÎó²î·¶Î§£¡';
+  StatusBar1.Panels[8].Text := 'ç°åº¦å®¹å·®ï¼ŒæŒ‡å›¾å—çš„å¹³å‡ç°åº¦å¯¹æ¯”æ—¶å…è®¸çš„è¯¯å·®èŒƒå›´ï¼';
 end;
 
 procedure TRecogForm_.CheckBox3MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := 'ÊÇ·ñ±È¶ÔÏàËÆ¶È£¡';
+  StatusBar1.Panels[8].Text := 'æ˜¯å¦æ¯”å¯¹ç›¸ä¼¼åº¦ï¼';
 end;
 
 procedure TRecogForm_.CheckBox4MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := 'É«µ÷ÊÇ·ñ²ÎÓë±È¶Ô£¡';
+  StatusBar1.Panels[8].Text := 'è‰²è°ƒæ˜¯å¦å‚ä¸æ¯”å¯¹ï¼';
 end;
 
 procedure TRecogForm_.CheckBox5MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := '»Ò¶ÈÊÇ·ñ²ÎÓë±È¶Ô£¡';
+  StatusBar1.Panels[8].Text := 'ç°åº¦æ˜¯å¦å‚ä¸æ¯”å¯¹ï¼';
 end;
 
 // Set UnDoReDo
@@ -2383,7 +2383,7 @@ begin
   else rUnDoList.Add(str);
 end;
 
-// Set UnDo¡¢ReDo
+// Set UnDoã€ReDo
 procedure TRecogForm_.SetXSB(str: string);
 var
   i, j, nRows, nCols: Integer;
@@ -2434,7 +2434,7 @@ procedure TRecogForm_.Image3MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
   Image1.Tag := 0;
-  StatusBar1.Panels[8].Text := 'Ñù±¾²Î¿¼';
+  StatusBar1.Panels[8].Text := 'æ ·æœ¬å‚è€ƒ';
 end;
 
 procedure TRecogForm_.Image3Click(Sender: TObject);

@@ -1,4 +1,4 @@
-unit EditorInf_;
+ï»¿unit EditorInf_;
 
 interface
 
@@ -44,14 +44,14 @@ end;
 
 procedure TEditorInfForm_.FormCreate(Sender: TObject);
 begin
-  Caption := '¹Ø¿¨×ÊÁÏ';
+  Caption := 'å…³å¡èµ„æ–™';
 
-  Label1.Caption := '±êÌâ£º';
-  Label2.Caption := '×÷Õß£º';
-  Label3.Caption := 'ËµÃ÷£º';
+  Label1.Caption := 'æ ‡é¢˜ï¼š';
+  Label2.Caption := 'ä½œè€…ï¼š';
+  Label3.Caption := 'è¯´æ˜ï¼š';
 
-  Button1.Caption := 'È·¶¨(&O)';
-  Button2.Caption := 'È¡Ïû(&C)';
+  Button1.Caption := 'ç¡®å®š(&O)';
+  Button2.Caption := 'å–æ¶ˆ(&C)';
 end;
 
 end.

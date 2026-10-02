@@ -1,4 +1,4 @@
-unit LoadSkin;
+ï»¿unit LoadSkin;
 
 interface
 
@@ -27,10 +27,10 @@ type
     { Public declarations }
     SkinFileName: string;
 
-    procedure BrightnessChange(const SrcBmp, DestBmp: TBitmap; ValueChange: integer);  // Í¼ÔªÁÁ¶Èµ÷Õû
+    procedure BrightnessChange(const SrcBmp, DestBmp: TBitmap; ValueChange: integer);  // å›¾å…ƒäº®åº¦è°ƒæ•´
 
-    procedure LoadDefaultSkin();                       // Ä¬ÈÏµÄ¼òµ¥Æ¤·ô
-    function  LoadSkin(FileName:string):boolean;       // ¼ÓÔØÍæ¼Ò×Ô¶¨ÒåµÄÆ¤·ô
+    procedure LoadDefaultSkin();                       // é»˜è®¤çš„ç®€å•çš®è‚¤
+    function  LoadSkin(FileName:string):boolean;       // åŠ è½½ç©å®¶è‡ªå®šä¹‰çš„çš®è‚¤
     procedure MyBMPFree(pic: TBitmap);
 
   end;
@@ -38,22 +38,22 @@ type
 var
   LoadSkinForm: TLoadSkinForm;
 
-  // ÏÖ³¡Æ¤·ô
+  // ç°åœºçš®è‚¤
   WallPic, FloorPic, GoalPic, ManPic, ManGoalPic, BoxPic, BoxGoalPic: TBitmap;
-  WallPic_lurd, WallPic_lr, WallPic_l, WallPic_r, WallPic_ud, WallPic_u, WallPic_d, WallPic_lu, WallPic_ld, WallPic_ru, WallPic_rd, WallPic_lur, WallPic_ldr, WallPic_uld, WallPic_urd, WallPic_top: TBitmap;        // ÎŞ·ìÇ½±Ú
-  FloorPic2, GoalPic2, ManPic2, ManGoalPic2, BoxPic2, BoxGoalPic2: TBitmap;  // ¸ßÁÁÍ¼Ôª
-  MaskPic: TBitmap;  // Ñ¡Ôñµ¥Ôª¸ñÑÚÍ¼
+  WallPic_lurd, WallPic_lr, WallPic_l, WallPic_r, WallPic_ud, WallPic_u, WallPic_d, WallPic_lu, WallPic_ld, WallPic_ru, WallPic_rd, WallPic_lur, WallPic_ldr, WallPic_uld, WallPic_urd, WallPic_top: TBitmap;        // æ— ç¼å¢™å£
+  FloorPic2, GoalPic2, ManPic2, ManGoalPic2, BoxPic2, BoxGoalPic2: TBitmap;  // é«˜äº®å›¾å…ƒ
+  MaskPic: TBitmap;  // é€‰æ‹©å•å…ƒæ ¼æ©å›¾
 
-  SkinSize      : Integer;            // Æ¤·ôÔªËØ³ß´ç
-  LineColor     : TColor;             // ¸ñÏßÑÕÉ«
-  isFloorLine   : Boolean;            // µØ°åÊÇ·ñ»­Ïß
-  isGoalLine    : Boolean;            // Ä¿±êµãÊÇ·ñ»­Ïß
-  isManLine     : Boolean;            // ÈËÊÇ·ñ»­Ïß
-  isManGoalLine : Boolean;            // ÈËÔÚÄ¿±êµãÊÇ·ñ»­Ïß
-  isBoxLine     : Boolean;            // Ïä×ÓÊÇ·ñ»­Ïß
-  isBoxGoalLine : Boolean;            // Ïä×ÓÔÚÄ¿±êµãÊÇ·ñ»­Ïß
+  SkinSize      : Integer;            // çš®è‚¤å…ƒç´ å°ºå¯¸
+  LineColor     : TColor;             // æ ¼çº¿é¢œè‰²
+  isFloorLine   : Boolean;            // åœ°æ¿æ˜¯å¦ç”»çº¿
+  isGoalLine    : Boolean;            // ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
+  isManLine     : Boolean;            // äººæ˜¯å¦ç”»çº¿
+  isManGoalLine : Boolean;            // äººåœ¨ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
+  isBoxLine     : Boolean;            // ç®±å­æ˜¯å¦ç”»çº¿
+  isBoxGoalLine : Boolean;            // ç®±å­åœ¨ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
   
-  isSeamless  : Boolean;              // ÊÇ·ñÎŞ·ìÇ½±Ú
+  isSeamless  : Boolean;              // æ˜¯å¦æ— ç¼å¢™å£
 
 implementation
 
@@ -73,7 +73,7 @@ begin
   end;
 end;
 
-// ËÑË÷Ö¸¶¨Ä¿Â¼ÏÂµÄÎÄ¼ş
+// æœç´¢æŒ‡å®šç›®å½•ä¸‹çš„æ–‡ä»¶
 procedure FindPathFiles(const APath: string; AFiles: TStrings; const APropty: String = '*.*'; IsAddPath: Boolean = False);
 var
   FS: TSearchRec;
@@ -92,32 +92,32 @@ begin
   end;
 end;
 
-// È¡µÃ Skins ÎÄ¼ş¼ĞÏÂµÄ .bmp ¸ñÊ½ÎÄµµÁĞ±í
+// å–å¾— Skins æ–‡ä»¶å¤¹ä¸‹çš„ .bmp æ ¼å¼æ–‡æ¡£åˆ—è¡¨
 procedure TLoadSkinForm.FormShow(Sender: TObject);
 begin
-   // Ã¿´ÎÏÔÊ¾´°¿ÚÊ±£¬ĞèÒª¶ÔÏÂÁĞ±äÁ¿³õÊ¼»¯
+   // æ¯æ¬¡æ˜¾ç¤ºçª—å£æ—¶ï¼Œéœ€è¦å¯¹ä¸‹åˆ—å˜é‡åˆå§‹åŒ–
    ListBox1.Items.Clear;
    FindPathFiles(ExtractFilePath(Application.ExeName) + 'Skins\', ListBox1.Items, '*.bmp', false);
    Image1.Canvas.Brush.Color := clBlack;
    Image1.Canvas.FillRect(R);
-   Button2.Enabled := False;  // ÉĞÎ´Ñ¡ÔñÆ¤·ôÎÄµµ£¬ OK °´Å¥ÎŞĞ§
+   Button2.Enabled := False;  // å°šæœªé€‰æ‹©çš®è‚¤æ–‡æ¡£ï¼Œ OK æŒ‰é’®æ— æ•ˆ
    SkinFileName := '';
-   Label4.Caption := '';   // µ±Ç°Ñ¡ÖĞµÄÍ¼Æ¬ÎÄµµµÄ²ÎÊı
+   Label4.Caption := '';   // å½“å‰é€‰ä¸­çš„å›¾ç‰‡æ–‡æ¡£çš„å‚æ•°
 end;
 
 procedure TLoadSkinForm.FormCreate(Sender: TObject);
 begin
-  Caption := '¸ü»»Æ¤·ô';
-  Label1.Caption := 'Æ¤·ôÁĞ±í£º';
-  Label2.Caption := 'Ô¤ÀÀ£º';
-  Label3.Caption := 'ËµÃ÷£ºÆ¤·ô°üº¬8¸ñÔª¸ñ£¬·ÖÉÏÏÂÁ½ĞĞ£¬Ã¿ĞĞ4¸ñ£¬·Ö±ğÎª£ºµØ°å¡¢ÈË¡¢Ïä×Ó¡¢Ç½±Ú¼°Ä¿±êµã¡¢ÈËÔÚÄ¿±êµã¡¢Ïä×ÓÔÚÄ¿±êµã¡¢Ç½±ÚÀ©Õ¹¡£ÆäÖĞÇ½±ÚÀ©Õ¹ÊÇÎªÎŞ·ìÇ½±Ú×¼±¸µÄ£¬·ñÔò£¬ÓëÉÏ¸ñÏàÍ¬¼´¿É¡£Ôª¸ñ³ß´çĞèÔÚ£¨20-200£©ÏñËØÖ®¼ä¡£µØ°å¸ñ×óÉÏ½ÇÏñËØµÄÑÕÉ«×÷ÎªÍø¸ñÏßµÄÑÕÉ«¡£';
-  Button1.Caption := 'È¡Ïû(&C)';
-  Button2.Caption := 'È·¶¨(&O)';
+  Caption := 'æ›´æ¢çš®è‚¤';
+  Label1.Caption := 'çš®è‚¤åˆ—è¡¨ï¼š';
+  Label2.Caption := 'é¢„è§ˆï¼š';
+  Label3.Caption := 'è¯´æ˜ï¼šçš®è‚¤åŒ…å«8æ ¼å…ƒæ ¼ï¼Œåˆ†ä¸Šä¸‹ä¸¤è¡Œï¼Œæ¯è¡Œ4æ ¼ï¼Œåˆ†åˆ«ä¸ºï¼šåœ°æ¿ã€äººã€ç®±å­ã€å¢™å£åŠç›®æ ‡ç‚¹ã€äººåœ¨ç›®æ ‡ç‚¹ã€ç®±å­åœ¨ç›®æ ‡ç‚¹ã€å¢™å£æ‰©å±•ã€‚å…¶ä¸­å¢™å£æ‰©å±•æ˜¯ä¸ºæ— ç¼å¢™å£å‡†å¤‡çš„ï¼Œå¦åˆ™ï¼Œä¸ä¸Šæ ¼ç›¸åŒå³å¯ã€‚å…ƒæ ¼å°ºå¯¸éœ€åœ¨ï¼ˆ20-200ï¼‰åƒç´ ä¹‹é—´ã€‚åœ°æ¿æ ¼å·¦ä¸Šè§’åƒç´ çš„é¢œè‰²ä½œä¸ºç½‘æ ¼çº¿çš„é¢œè‰²ã€‚';
+  Button1.Caption := 'å–æ¶ˆ(&C)';
+  Button2.Caption := 'ç¡®å®š(&O)';
 
-  // ´´½¨´°¿ÚÊ±µÄ³õÊ¼»¯
+  // åˆ›å»ºçª—å£æ—¶çš„åˆå§‹åŒ–
   R := Rect(0, 0, Image1.Width, Image1.Height);
 
-  // ´´½¨Æ¤·ô±äÁ¿
+  // åˆ›å»ºçš®è‚¤å˜é‡
   FloorPic       :=TBitmap.Create;
   GoalPic        :=TBitmap.Create;
   ManPic         :=TBitmap.Create;
@@ -155,9 +155,9 @@ begin
   
   WallPic_top    :=TBitmap.Create;
 
-  // ¼ÓÔØÆ¤·ô
+  // åŠ è½½çš®è‚¤
   if not LoadSkin(AppPath + 'Skins\' + curSkinFileName) then begin
-     LoadDefaultSkin();         // Ê¹ÓÃÄ¬ÈÏµÄ¼òµ¥Æ¤·ô
+     LoadDefaultSkin();         // ä½¿ç”¨é»˜è®¤çš„ç®€å•çš®è‚¤
   end;
 end;
 
@@ -182,23 +182,23 @@ begin
         size := w div 4;
 
         if (w <> h * 2) or ((w mod 4) <> 0) or (w < 80) or (w > 800 ) then begin
-            Button2.Enabled := False;  // Æ¤·ôÎÄµµ¸ñÊ½²»·ûºÏÒªÇó£¬ OK °´Å¥ÎŞĞ§
-            Label4.Caption := 'Ôª¸ñ³ß´ç: ' + IntToStr(size) + 'ÏñËØ';
+            Button2.Enabled := False;  // çš®è‚¤æ–‡æ¡£æ ¼å¼ä¸ç¬¦åˆè¦æ±‚ï¼Œ OK æŒ‰é’®æ— æ•ˆ
+            Label4.Caption := 'å…ƒæ ¼å°ºå¯¸: ' + IntToStr(size) + 'åƒç´ ';
         end
         else begin
-            Button2.Enabled := True;  // Æ¤·ôÎÄµµ¸ñÊ½ÕıÈ·£¬ OK °´Å¥ÓĞĞ§
-            Label4.Caption := 'Ôª¸ñ³ß´ç: ' + IntToStr(size) + 'ÏñËØ';
+            Button2.Enabled := True;  // çš®è‚¤æ–‡æ¡£æ ¼å¼æ­£ç¡®ï¼Œ OK æŒ‰é’®æœ‰æ•ˆ
+            Label4.Caption := 'å…ƒæ ¼å°ºå¯¸: ' + IntToStr(size) + 'åƒç´ ';
         end;
         
         MyBMPFree(pic);
     except
-      Button2.Enabled := False;  // Æ¤·ôÎÄµµ´íÎó£¬ OK °´Å¥ÎŞĞ§
+      Button2.Enabled := False;  // çš®è‚¤æ–‡æ¡£é”™è¯¯ï¼Œ OK æŒ‰é’®æ— æ•ˆ
       Label4.Caption := ' ';
     end;
   end;
 end;
 
-// Í¼ÔªÁÁ¶Èµ÷Õû
+// å›¾å…ƒäº®åº¦è°ƒæ•´
 procedure TLoadSkinForm.BrightnessChange(const SrcBmp, DestBmp: TBitmap; ValueChange: integer);
 var
   i, j: integer;
@@ -229,26 +229,26 @@ begin
   end;
 end;
 
-// Ä¬ÈÏÆ¤·ô£¬½ö½öÊÇ¼¸¸ö¼òµ¥µÄ¼¸ºÎÍ¼Ïñ
+// é»˜è®¤çš®è‚¤ï¼Œä»…ä»…æ˜¯å‡ ä¸ªç®€å•çš„å‡ ä½•å›¾åƒ
 procedure TLoadSkinForm.LoadDefaultSkin();
 begin
   SkinSize   := 50;
   isSeamless := False;
-  LineColor  := clInactiveCaptionText;  // ¸ñÏßÑÕÉ«
-  isFloorLine   := true;            // µØ°åÊÇ·ñ»­Ïß
-  isGoalLine    := true;            // Ä¿±êµãÊÇ·ñ»­Ïß
-  isManLine     := true;            // ÈËÊÇ·ñ»­Ïß
-  isManGoalLine := true;            // ÈËÔÚÄ¿±êµãÊÇ·ñ»­Ïß
-  isBoxLine     := true;            // Ïä×ÓÊÇ·ñ»­Ïß
-  isBoxGoalLine := true;            // Ïä×ÓÔÚÄ¿±êµãÊÇ·ñ»­Ïß
+  LineColor  := clInactiveCaptionText;  // æ ¼çº¿é¢œè‰²
+  isFloorLine   := true;            // åœ°æ¿æ˜¯å¦ç”»çº¿
+  isGoalLine    := true;            // ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
+  isManLine     := true;            // äººæ˜¯å¦ç”»çº¿
+  isManGoalLine := true;            // äººåœ¨ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
+  isBoxLine     := true;            // ç®±å­æ˜¯å¦ç”»çº¿
+  isBoxGoalLine := true;            // ç®±å­åœ¨ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
 
-  // µØ°å
+  // åœ°æ¿
   FloorPic.Width   := SkinSize;
   FloorPic.Height  := SkinSize;
   FloorPic.Canvas.Brush.Color := clBlack;
   FloorPic.Canvas.FillRect(Rect(0, 0, SkinSize, SkinSize));
 
-  // Ä¿±êµã
+  // ç›®æ ‡ç‚¹
   GoalPic.Width   := SkinSize;
   GoalPic.Height  := SkinSize;
   GoalPic.Canvas.Brush.Color := clBlack;
@@ -256,7 +256,7 @@ begin
   GoalPic.Canvas.Brush.Color := $959A18;
   GoalPic.Canvas.Ellipse(12, 12, SkinSize-12, SkinSize-12);
 
-  // Íæ¼Ò
+  // ç©å®¶
   ManPic.Width   := SkinSize;
   ManPic.Height  := SkinSize;
   ManPic.Canvas.Brush.Color := clBlack;
@@ -264,7 +264,7 @@ begin
   ManPic.Canvas.Brush.Color := $000198;
   ManPic.Canvas.Ellipse(5, 5, SkinSize-5, SkinSize-5);
 
-  // Íæ¼Ò¡¢Ä¿±êµã
+  // ç©å®¶ã€ç›®æ ‡ç‚¹
   ManGoalPic.Width   := SkinSize;
   ManGoalPic.Height  := SkinSize;
   ManGoalPic.Canvas.Brush.Color := clBlack;
@@ -274,7 +274,7 @@ begin
   ManGoalPic.Canvas.Brush.Color := $959A18;
   ManGoalPic.Canvas.Ellipse(12, 12, SkinSize-12, SkinSize-12);
 
-  // Ïä×Ó
+  // ç®±å­
   BoxPic.Width   := SkinSize;
   BoxPic.Height  := SkinSize;
   BoxPic.Canvas.Brush.Color := clBlack;
@@ -282,7 +282,7 @@ begin
   BoxPic.Canvas.Brush.Color:=$378CCF;
   BoxPic.Canvas.FillRect(Rect(1, 1, SkinSize-1, SkinSize-1));
 
-  // Ïä×Ó¡¢Ä¿±êµã
+  // ç®±å­ã€ç›®æ ‡ç‚¹
   BoxGoalPic.Width   := SkinSize;
   BoxGoalPic.Height  := SkinSize;
   BoxGoalPic.Canvas.Brush.Color := clBlack;
@@ -290,13 +290,13 @@ begin
   BoxGoalPic.Canvas.Brush.Color := $959A18;
   BoxGoalPic.Canvas.FillRect(Rect(1, 1, SkinSize-1, SkinSize-1));
 
-  // Ç½±Ú
+  // å¢™å£
   WallPic.Width   := SkinSize;
   WallPic.Height  := SkinSize;
   WallPic.Canvas.Brush.Color := $73655F;
   WallPic.Canvas.FillRect(Rect(0, 0, SkinSize, SkinSize));
   
-  // ¸ßÁÁÍ¼Ôª
+  // é«˜äº®å›¾å…ƒ
   FloorPic2.Width := SkinSize;
   FloorPic2.Height := SkinSize;
   GoalPic2.Width := SkinSize;
@@ -317,7 +317,7 @@ begin
   BrightnessChange(BoxGoalPic, BoxGoalPic2, -10);
 end;
 
-// ¼ÓÔØÆ¤·ô
+// åŠ è½½çš®è‚¤
 function TLoadSkinForm.LoadSkin(FileName:string):boolean;
 var
   pic: TBitmap;
@@ -355,19 +355,19 @@ begin
     FloorPic.Canvas.CopyMode := SRCCOPY;
     FloorPic.Canvas.CopyRect(R2, pic.Canvas, R1);
 
-    c1            := FloorPic.Canvas.Pixels[1, 1];    // È¡µØ°åÍ¼ÔªµÄ[1, 1]ÏñËØµÄÑÕÉ«×÷ÎªÊÇ·ñ»­¸ñÏßµÄ±È½ÏÑÕÉ«
-    LineColor     := FloorPic.Canvas.Pixels[0, 0];    // È¡µØ°åÍ¼ÔªµÄ[0, 0]ÏñËØµÄÑÕÉ«×÷Îª¸ñÏßÑÕÉ«
+    c1            := FloorPic.Canvas.Pixels[1, 1];    // å–åœ°æ¿å›¾å…ƒçš„[1, 1]åƒç´ çš„é¢œè‰²ä½œä¸ºæ˜¯å¦ç”»æ ¼çº¿çš„æ¯”è¾ƒé¢œè‰²
+    LineColor     := FloorPic.Canvas.Pixels[0, 0];    // å–åœ°æ¿å›¾å…ƒçš„[0, 0]åƒç´ çš„é¢œè‰²ä½œä¸ºæ ¼çº¿é¢œè‰²
     isFloorLine   := LineColor <> c1;
-    c2            := FloorPic.Canvas.Pixels[1, 0];    // ÒÀ´ÎÏòÓÒÈ¡µØ°åÍ¼ÔªµÄÏñËØµÄÑÕÉ«×÷ÎªÄ¿±êµã¡¢ÈË¡¢ÈËÔÚÄ¿±êµã¡¢Ïä×Ó¡¢Ïä×ÓÔÚÄ¿±êµãÍ¼ÔªÊÇ·ñ»­¸ñÏßµÄ±È½ÏÑÕÉ«
-    isGoalLine    := c1 <> c2;                        // Ä¿±êµãÊÇ·ñ»­Ïß
+    c2            := FloorPic.Canvas.Pixels[1, 0];    // ä¾æ¬¡å‘å³å–åœ°æ¿å›¾å…ƒçš„åƒç´ çš„é¢œè‰²ä½œä¸ºç›®æ ‡ç‚¹ã€äººã€äººåœ¨ç›®æ ‡ç‚¹ã€ç®±å­ã€ç®±å­åœ¨ç›®æ ‡ç‚¹å›¾å…ƒæ˜¯å¦ç”»æ ¼çº¿çš„æ¯”è¾ƒé¢œè‰²
+    isGoalLine    := c1 <> c2;                        // ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
     c2            := FloorPic.Canvas.Pixels[2, 0];
-    isManLine     := c1 <> c2;                        // ÈËÊÇ·ñ»­Ïß
+    isManLine     := c1 <> c2;                        // äººæ˜¯å¦ç”»çº¿
     c2            := FloorPic.Canvas.Pixels[3, 0];
-    isManGoalLine := c1 <> c2;                        // ÈËÔÚÄ¿±êµãÊÇ·ñ»­Ïß
+    isManGoalLine := c1 <> c2;                        // äººåœ¨ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
     c2            := FloorPic.Canvas.Pixels[4, 0];
-    isBoxLine     := c1 <> c2;                        // Ïä×ÓÊÇ·ñ»­Ïß
+    isBoxLine     := c1 <> c2;                        // ç®±å­æ˜¯å¦ç”»çº¿
     c2            := FloorPic.Canvas.Pixels[5, 0];
-    isBoxGoalLine := c1 <> c2            ;            // Ïä×ÓÔÚÄ¿±êµãÊÇ·ñ»­Ïß
+    isBoxGoalLine := c1 <> c2            ;            // ç®±å­åœ¨ç›®æ ‡ç‚¹æ˜¯å¦ç”»çº¿
 
     // Goal
     R1 := Rect(0, size, size, size*2);
@@ -404,7 +404,7 @@ begin
     BoxGoalPic.Canvas.CopyMode := SRCCOPY;
     BoxGoalPic.Canvas.CopyRect(R2, pic.Canvas, R1);
 
-    // ¸ßÁÁÍ¼Ôª
+    // é«˜äº®å›¾å…ƒ
     FloorPic2.Width := size;
     FloorPic2.Height := size;
     GoalPic2.Width := size;
@@ -438,13 +438,13 @@ begin
     WallPic_lurd.Canvas.CopyMode := SRCCOPY;
     WallPic_lurd.Canvas.CopyRect(R2, pic.Canvas, R1);
 
-    // ÒÔÏÂÎªÆ´½ÓÎŞ·ìÇ½±Ú
+    // ä»¥ä¸‹ä¸ºæ‹¼æ¥æ— ç¼å¢™å£
     s_4  := size div 4;
 
     isSeamless := False;
 
-    // ¼ì²éÆ¤·ôÖĞµÄÁ½¸öÇ½±ÚÔª¸ñ£¬¿´ÊÇ·ñÊ¹ÓÃÁËÎŞ·ìÇ½±Ú
-    // ½ö±È½ÏµÚÒ»ĞĞµÄ°ëĞĞÖĞ¶ÔÓ¦µÄÏñËØµã£¬Èô°üº¬²»Í¬µÄÏñËØµã£¬ÔòÊÓÎªÊ¹ÓÃÁËÎŞ·ìÇ½±Ú
+    // æ£€æŸ¥çš®è‚¤ä¸­çš„ä¸¤ä¸ªå¢™å£å…ƒæ ¼ï¼Œçœ‹æ˜¯å¦ä½¿ç”¨äº†æ— ç¼å¢™å£
+    // ä»…æ¯”è¾ƒç¬¬ä¸€è¡Œçš„åŠè¡Œä¸­å¯¹åº”çš„åƒç´ ç‚¹ï¼Œè‹¥åŒ…å«ä¸åŒçš„åƒç´ ç‚¹ï¼Œåˆ™è§†ä¸ºä½¿ç”¨äº†æ— ç¼å¢™å£
     for i := 0 to size div 2 do begin
         c1 := WallPic.Canvas.Pixels[i, 0];
         c2 := WallPic_lurd.Canvas.Pixels[i, 0];
@@ -456,9 +456,9 @@ begin
 
     end;
 
-    // ÈôÆ¤·ôÊ¹ÓÃÁËÎŞ·ìÇ½±Ú
+    // è‹¥çš®è‚¤ä½¿ç”¨äº†æ— ç¼å¢™å£
     if isSeamless then begin
-       // Ë®Æ½ -- ³ß´ç
+       // æ°´å¹³ -- å°ºå¯¸
        WallPic_lr.Width := size;
        WallPic_lr.Height := size;
        WallPic_l.Width := size;
@@ -466,7 +466,7 @@ begin
        WallPic_r.Width := size;
        WallPic_r.Height := size;
 
-       // ´¹Ö± -- ³ß´ç
+       // å‚ç›´ -- å°ºå¯¸
        WallPic_ud.Width := size;
        WallPic_ud.Height := size;
        WallPic_u.Width := size;
@@ -474,7 +474,7 @@ begin
        WallPic_d.Width := size;
        WallPic_d.Height := size;
 
-       // ËÄ½Ç -- ³ß´ç
+       // å››è§’ -- å°ºå¯¸
        WallPic_lu.Width := size;
        WallPic_lu.Height := size;
        WallPic_ld.Width := size;
@@ -484,7 +484,7 @@ begin
        WallPic_rd.Width := size;
        WallPic_rd.Height := size;
 
-       // ËÄ±ß -- ³ß´ç
+       // å››è¾¹ -- å°ºå¯¸
        WallPic_lur.Width := size;
        WallPic_lur.Height := size;
        WallPic_ldr.Width := size;
@@ -494,11 +494,11 @@ begin
        WallPic_urd.Width := size;
        WallPic_urd.Height := size;
 
-       // ¶¥ -- ³ß´ç
+       // é¡¶ -- å°ºå¯¸
        WallPic_top.Width := size;
        WallPic_top.Height := size;
 
-       // Ë®Æ½¡¢´¹Ö± -- Ô¤±¸Í¼
+       // æ°´å¹³ã€å‚ç›´ -- é¢„å¤‡å›¾
        WallPic_lr.Canvas.Draw(0, 0, WallPic);
        WallPic_l.Canvas.Draw(0, 0, WallPic);
        WallPic_r.Canvas.Draw(0, 0, WallPic);
@@ -506,17 +506,17 @@ begin
        WallPic_u.Canvas.Draw(0, 0, WallPic);
        WallPic_d.Canvas.Draw(0, 0, WallPic);
 
-       // ËÄ±ß -- Ô¤±¸Í¼
+       // å››è¾¹ -- é¢„å¤‡å›¾
        WallPic_lur.Canvas.Draw(0, 0, WallPic_lurd);
        WallPic_ldr.Canvas.Draw(0, 0, WallPic_lurd);
        WallPic_uld.Canvas.Draw(0, 0, WallPic_lurd);
        WallPic_urd.Canvas.Draw(0, 0, WallPic_lurd);
 
-       // ¶¥ -- Ô¤±¸Í¼
+       // é¡¶ -- é¢„å¤‡å›¾
        WallPic_top.Canvas.Draw(0, 0, WallPic_lurd);
 
-       // Æ´½ÓÎŞ·ìÇ½±ÚÔª¿é
-       // Ë®Æ½·½ÏòµÄ 3 ¿é
+       // æ‹¼æ¥æ— ç¼å¢™å£å…ƒå—
+       // æ°´å¹³æ–¹å‘çš„ 3 å—
        R1 := Rect(s_4, 0, s_4 * 2, size);
        R2 := Rect(0, 0, s_4, size);
        WallPic_lr.Canvas.CopyMode := SRCCOPY;
@@ -529,7 +529,7 @@ begin
        WallPic_r.Canvas.CopyMode := SRCCOPY;
        WallPic_r.Canvas.CopyRect(R2, WallPic.Canvas, R1);
 
-       // ´¹Ö±·½ÏòµÄ 3 ¿é
+       // å‚ç›´æ–¹å‘çš„ 3 å—
        R1 := Rect(0, s_4, size, s_4 * 2);
        R2 := Rect(0, 0, size, s_4);
        WallPic_ud.Canvas.CopyMode := SRCCOPY;
@@ -542,7 +542,7 @@ begin
        WallPic_d.Canvas.CopyMode := SRCCOPY;
        WallPic_d.Canvas.CopyRect(R2, WallPic.Canvas, R1);
 
-       // ËÄ±ß
+       // å››è¾¹
        WallPic_uld.Canvas.CopyMode := SRCCOPY;
        R2 := Rect(size - s_4, 0, size, size);
        WallPic_uld.Canvas.CopyRect(R2, WallPic_ud.Canvas, R2);
@@ -559,13 +559,13 @@ begin
        R2 := Rect(0, 0, size, s_4);
        WallPic_ldr.Canvas.CopyRect(R2, WallPic_lr.Canvas, R2);
 
-       // ËÄ½Ç -- Ô¤±¸Í¼
+       // å››è§’ -- é¢„å¤‡å›¾
        WallPic_lu.Canvas.Draw(0, 0, WallPic_lur);
        WallPic_ld.Canvas.Draw(0, 0, WallPic_ldr);
        WallPic_ru.Canvas.Draw(0, 0, WallPic_lur);
        WallPic_rd.Canvas.Draw(0, 0, WallPic_ldr);
 
-       // ËÄ½Ç
+       // å››è§’
        WallPic_lu.Canvas.CopyMode := SRCCOPY;
        R2 := Rect(size - s_4, 0, size, size);
        WallPic_lu.Canvas.CopyRect(R2, WallPic_ud.Canvas, R2);
@@ -590,7 +590,7 @@ begin
        R1 := Rect(0, 0, s_4, s_4);
        WallPic_rd.Canvas.CopyRect(R1, WallPic.Canvas, R1);
 
-       // ¶¥
+       // é¡¶
        WallPic_top.Canvas.CopyMode := SRCCOPY;
        R1 := Rect(s_4, s_4, s_4 * 2, s_4 * 2);
        R2 := Rect(0, 0, s_4, s_4);
@@ -616,7 +616,7 @@ end;
 
 procedure TLoadSkinForm.FormDestroy(Sender: TObject);
 begin
-  // ÊÍ·ÅÄÚ´æ
+  // é‡Šæ”¾å†…å­˜
   MyBMPFree(FloorPic);
   MyBMPFree(GoalPic);
   MyBMPFree(ManPic);

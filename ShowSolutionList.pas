@@ -1,4 +1,4 @@
-unit ShowSolutionList;
+锘縰nit ShowSolutionList;
 
 interface
 
@@ -44,12 +44,12 @@ implementation
 
 procedure TShowSolutuionList.WebBrowser1NewWindow2(Sender: TObject; var ppDisp: IDispatch; var Cancel: WordBool);
 begin 
-  Cancel := True; //禁止弹出窗口
+  Cancel := True; //绂佹寮瑰嚭绐楀彛
 end;
 
 procedure TShowSolutuionList.FormCreate(Sender: TObject);
 begin
-  Caption := '比赛答案提交列表';
+  Caption := '姣旇禌绛旀鎻愪氦鍒楄〃';
 end;
 
 procedure TShowSolutuionList.FormShow(Sender: TObject);

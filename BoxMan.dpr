@@ -1,4 +1,4 @@
-program BoxMan;
+ï»¿program BoxMan;
 
 uses
   Forms,
@@ -23,7 +23,7 @@ uses
 
 {$R *.RES}
 
-// ±ÜÃâ¹Ø±Õ³ÌĞò³öÏÖ¡°runtime error 216 at xxxxxxx"µÄ´íÎóÌáÊ¾
+// é¿å…å…³é—­ç¨‹åºå‡ºç°â€œruntime error 216 at xxxxxxx"çš„é”™è¯¯æç¤º
 procedure Halt0;
 begin
   Halt;
@@ -43,7 +43,7 @@ begin
 
    Application.Run;
 
-   // ±ÜÃâ¹Ø±Õ³ÌĞò³öÏÖ¡°runtime error 216 at xxxxxxx"µÄ´íÎóÌáÊ¾
+   // é¿å…å…³é—­ç¨‹åºå‡ºç°â€œruntime error 216 at xxxxxxx"çš„é”™è¯¯æç¤º
    asm
       xor edx, edx
       push ebp
