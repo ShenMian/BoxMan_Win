@@ -7330,7 +7330,6 @@ object RecogForm_: TRecogForm_
     Top = 66
   end
   object PopupMenu1: TPopupMenu
-    AutoHotkeys = maManual
     Left = 153
     Top = 66
     object B_Top: TMenuItem

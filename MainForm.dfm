@@ -695,7 +695,6 @@ object main: Tmain
     Top = 89
   end
   object pmBoardBK: TPopupMenu
-    AutoHotkeys = maManual
     Left = 583
     Top = 40
     object pmGoal: TMenuItem
@@ -778,7 +777,6 @@ object main: Tmain
     end
   end
   object pmSolution: TPopupMenu
-    AutoHotkeys = maManual
     Left = 24
     Top = 89
     object N2: TMenuItem
@@ -836,7 +834,6 @@ object main: Tmain
     end
   end
   object pmState: TPopupMenu
-    AutoHotkeys = maManual
     Left = 76
     Top = 89
     object sa_Lurd: TMenuItem
@@ -875,12 +872,10 @@ object main: Tmain
     end
   end
   object pm_Later: TPopupMenu
-    AutoHotkeys = maManual
     Left = 49
     Top = 16
   end
   object pm_Up_Bt: TPopupMenu
-    AutoHotkeys = maManual
     Left = 149
     Top = 19
     object N12: TMenuItem
@@ -897,7 +892,6 @@ object main: Tmain
     end
   end
   object pm_Down_Bt: TPopupMenu
-    AutoHotkeys = maManual
     Left = 179
     Top = 19
     object N13: TMenuItem
@@ -914,7 +908,6 @@ object main: Tmain
     end
   end
   object pm_UnDo_Bt: TPopupMenu
-    AutoHotkeys = maManual
     Left = 211
     Top = 19
     object N14: TMenuItem
@@ -931,7 +924,6 @@ object main: Tmain
     end
   end
   object pm_ReDo_Bt: TPopupMenu
-    AutoHotkeys = maManual
     Left = 241
     Top = 20
     object N17: TMenuItem

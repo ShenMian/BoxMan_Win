@@ -6,7 +6,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, LogFile,
-  Dialogs, StdCtrls, ExtCtrls, Registry, Buttons, FileCtrl, StrUtils;
+  Dialogs, StdCtrls, ExtCtrls, Registry, Buttons, FileCtrl, StrUtils, VclFileCtrl;
 
 type
   TMyOpenFile = class(TForm)

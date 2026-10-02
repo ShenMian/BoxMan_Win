@@ -3,7 +3,6 @@ object BrowseForm: TBrowseForm
   Top = 131
   Width = 602
   Height = 433
-  HorzScrollBar.Style = ssFlat
   Caption = #27983#35272
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

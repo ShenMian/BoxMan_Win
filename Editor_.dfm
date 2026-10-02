@@ -3411,7 +3411,6 @@ object EditorForm_: TEditorForm_
       end>
   end
   object PopupMenu1: TPopupMenu
-    AutoHotkeys = maManual
     Left = 216
     Top = 49
     object N1: TMenuItem
@@ -3448,12 +3447,10 @@ object EditorForm_: TEditorForm_
     Top = 49
   end
   object PopupMenu2: TPopupMenu
-    AutoHotkeys = maManual
     Left = 264
     Top = 51
   end
   object PopupMenu3: TPopupMenu
-    AutoHotkeys = maManual
     Left = 312
     Top = 51
     object N8: TMenuItem
@@ -3462,7 +3459,6 @@ object EditorForm_: TEditorForm_
     end
   end
   object PopupMenu4: TPopupMenu
-    AutoHotkeys = maManual
     Left = 360
     Top = 51
     object N9: TMenuItem
