@@ -54,13 +54,17 @@
 | --- | --- |
 | `BoxMan.dpr` / `BoxMan.lpi` | 主程序入口（同一程序的两套工程文件） |
 | `BoxManEditor.dpr` | 关卡编辑器 |
-| `AppEvnts.pas`、`IdHTTP.pas`、`PsAPI.pas`、`SHDocVw.pas`、`OleCtrls.pas`、`VclFileCtrl.pas` | LCL 缺少的 Delphi 单元兼容层 |
+| `AppEvnts.pas`、`IdHTTP.pas`、`PsAPI.pas`、`OleCtrls.pas`、`VclFileCtrl.pas` | LCL 缺少的 Delphi 单元兼容层 |
+| `SHDocVw.pas` | `TWebBrowser` 封装（基于 `SHDocVw_1_1_TLB.pas`） |
+| `SHDocVw_1_1_TLB.pas` | 由 IE 类型库（ieframe.dll）用 `importtl` 生成的 IE 控件绑定 |
 
 构建输出目录 `lib/` 已在 `.gitignore` 中忽略。
 
-### 已知问题
+### 浏览器控件（查看提交列表）
 
-- `TWebBrowser`（`SHDocVw.pas`）目前为占位实现，不会显示比赛答案列表网页，需接入真实 IE 宿主后才可用。
+该窗口的 `TWebBrowser` 通过 LazActiveX 包（Lazarus 自带）承载 IE 的
+WebBrowser ActiveX 控件，因此运行时需要系统已安装 Internet Explorer 组件。
+已设置 `Silent` 模式以屏蔽 IE 弹出的脚本错误与安全警告对话框。
 
 ## 版本说明
 

@@ -24,10 +24,13 @@
       <FormatVersion Value="2"/>
       <CommandLineParams Value=""/>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
         <PackageName Value="LCL"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LazActiveX"/>
+      </Item2>
     </RequiredPackages>
     <Units Count="1">
       <Unit0>

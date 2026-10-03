@@ -1,48 +1,32 @@
 unit SHDocVw;
-{ Compatibility shim for Delphi's SHDocVw/TWebBrowser (IE ActiveX control).
+{ TWebBrowser —— 基于 IE ActiveX 控件的浏览器封装。
 
-  NOTE: This is a compile-time stub. It provides the members the project uses
-  (Navigate/GoBack/GoForward/Refresh/LocationURL + events) and renders a plain
-  placeholder surface. It does NOT embed Internet Explorer, so the "solution
-  list" web page will not be displayed. Replacing this with a real IE host
-  (e.g. via the LazActiveX package's TActiveXContainer) is a follow-up task. }
+  实现方式：以 importtl 从 IE 类型库（ieframe.dll / SHDocVw）生成的
+  SHDocVw_1_1_TLB 中的 TAxcWebBrowser（TActiveXContainer 派生类）为基类，
+  在其上补齐本工程所用到的成员：Navigate / GoBack / GoForward / Refresh /
+  LocationURL。事件（OnStatusTextChange、OnNewWindow2 等）由基类提供。 }
 
 {$mode delphi}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, Controls, Graphics, Windows, ActiveX;
+  Classes, SysUtils, Controls, ActiveX, Variants,
+  SHDocVw_1_1_TLB;
 
 type
-  TWebBrowserStatusTextChange = procedure(Sender: TObject;
-    const Text: WideString) of object;
-  TWebBrowserNewWindow2 = procedure(Sender: TObject; var ppDisp: IDispatch;
-    var Cancel: WordBool) of object;
-
-  TWebBrowser = class(TCustomControl)
+  TWebBrowser = class(TAxcWebBrowser)
   private
-    FLocationURL: string;
-    FOnStatusTextChange: TWebBrowserStatusTextChange;
-    FOnNewWindow2: TWebBrowserNewWindow2;
-    procedure SetLocationURL(const AValue: string);
-  protected
-    procedure Paint; override;
+    function GetLocationURL: string;
   public
     constructor Create(AOwner: TComponent); override;
+    procedure Loaded; override;
     procedure Navigate(const URL: string);
     procedure GoBack;
     procedure GoForward;
-    property LocationURL: string read FLocationURL write SetLocationURL;
-  published
-    property OnStatusTextChange: TWebBrowserStatusTextChange
-      read FOnStatusTextChange write FOnStatusTextChange;
-    property OnNewWindow2: TWebBrowserNewWindow2
-      read FOnNewWindow2 write FOnNewWindow2;
-    property Align;
-    property TabOrder;
-    property TabStop;
-    property Visible;
+    // 覆盖 TControl.Refresh（非虚方法），改为刷新网页
+    procedure Refresh; reintroduce;
+    property LocationURL: string read GetLocationURL;
   end;
 
 implementation
@@ -50,39 +34,57 @@ implementation
 constructor TWebBrowser.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FLocationURL := '';
 end;
 
-procedure TWebBrowser.SetLocationURL(const AValue: string);
+procedure TWebBrowser.Loaded;
 begin
-  FLocationURL := AValue;
-end;
-
-procedure TWebBrowser.Paint;
-begin
-  Canvas.Brush.Color := clWhite;
-  Canvas.FillRect(ClientRect);
-  Canvas.Brush.Style := bsClear;
-  Canvas.Font.Color := clGray;
-  Canvas.TextOut(8, 8, 'WebBrowser (Lazarus stub) - no IE control embedded');
+  inherited Loaded;
+  // TActiveXContainer 需要通过 Active := True 触发 Attach（嵌入并就地激活 IE 控件），
+  // 之后 Navigate 等方法才能正常工作。
+  if not Active then
+    Active := True;
+  // 屏蔽 IE 弹出的对话框（脚本错误、混合内容安全警告等）。
+  if Assigned(OleServer) then
+    OleServer.Silent := True;
 end;
 
 procedure TWebBrowser.Navigate(const URL: string);
+var
+  Flags, TargetFrameName, PostData, Headers: OleVariant;
 begin
-  FLocationURL := URL;
-  if Assigned(FOnStatusTextChange) then
-    FOnStatusTextChange(Self, WideString(URL));
-  Invalidate;
+  if not Assigned(OleServer) then
+    Exit;
+  Flags := EmptyParam;
+  TargetFrameName := EmptyParam;
+  PostData := EmptyParam;
+  Headers := EmptyParam;
+  OleServer.Navigate(WideString(URL), Flags, TargetFrameName, PostData, Headers);
 end;
 
 procedure TWebBrowser.GoBack;
 begin
-  { no history in the stub }
+  if Assigned(OleServer) then
+    OleServer.GoBack;
 end;
 
 procedure TWebBrowser.GoForward;
 begin
-  { no history in the stub }
+  if Assigned(OleServer) then
+    OleServer.GoForward;
+end;
+
+procedure TWebBrowser.Refresh;
+begin
+  if Assigned(OleServer) then
+    OleServer.Refresh;
+end;
+
+function TWebBrowser.GetLocationURL: string;
+begin
+  if Assigned(OleServer) then
+    Result := string(OleServer.LocationURL)
+  else
+    Result := '';
 end;
 
 initialization
