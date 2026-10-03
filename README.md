@@ -6,6 +6,62 @@
 2. 本软件中使用到的图片素材来源于网络，版权归原作者所有。
 3. 本软件中附带的关卡文件，版权归关卡原作者所有。
 
+## 编译方式
+
+本工程支持两种编译方式：Free Pascal / Lazarus（推荐，64 位）与原版 Delphi 7（32 位）。
+
+### 方式一：Free Pascal / Lazarus（64 位，推荐）
+
+1. 安装 Lazarus（自带 FPC 与 LCL）。Windows 下可用 scoop：
+
+   ```bat
+   scoop install lazarus
+   ```
+
+   也可从 https://www.lazarus-ide.org/ 下载安装。
+
+2. 命令行编译：
+
+   ```bat
+   lazbuild BoxMan.lpi
+   ```
+
+   若 lazbuild 找不到 Lazarus 目录，可显式指定（路径换成你自己的）：
+
+   ```bat
+   lazbuild --lazarusdir="D:\apps\Scoop\apps\lazarus\current" BoxMan.lpi
+   ```
+
+   也可用 Lazarus IDE 打开 `BoxMan.lpi`，直接按 F9 编译运行。
+
+3. 编译输出：`BoxMan.exe`（64 位 GUI 程序）。
+
+4. 运行时依赖：`sqlite3_x64.dll`（64 位 SQLite 运行库），必须与 `BoxMan.exe` 放在同一目录。
+   工程内已附带官方 3.53.4 win-x64 版本。
+
+### 方式二：Delphi 7（32 位，原版）
+
+1. 用 Delphi 7 打开 `BoxMan.dpr`（或 `BoxManEditor.dpr`）编译。
+2. 源码为 **UTF-8 with BOM**，Delphi 7 可正确识别中文，请勿去掉 BOM。
+3. 运行时依赖 `sqlite3.dll`（32 位，工程内附带）。
+
+> **注意**：32 位与 64 位使用不同的 SQLite 运行库。`SQLite3.pas` 会按目标架构自动选择
+> （64 位用 `sqlite3_x64.dll`，其余用 `sqlite3.dll`），两者不要互相覆盖。
+
+### 工程文件说明
+
+| 文件 | 用途 |
+| --- | --- |
+| `BoxMan.dpr` / `BoxMan.lpi` | 主程序入口（同一程序的两套工程文件） |
+| `BoxManEditor.dpr` | 关卡编辑器 |
+| `AppEvnts.pas`、`IdHTTP.pas`、`PsAPI.pas`、`SHDocVw.pas`、`OleCtrls.pas`、`VclFileCtrl.pas` | LCL 缺少的 Delphi 单元兼容层 |
+
+构建输出目录 `lib/` 已在 `.gitignore` 中忽略。
+
+### 已知问题
+
+- `TWebBrowser`（`SHDocVw.pas`）目前为占位实现，不会显示比赛答案列表网页，需接入真实 IE 宿主后才可用。
+
 ## 版本说明
 
 ### V2.9，2020-09-09
