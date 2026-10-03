@@ -12,7 +12,7 @@
       <SessionStorage Value="InProjectDir"/>
       <Title Value="BoxManEditor"/>
       <UseXPManifest Value="True"/>
-      <Icon Value="BoxMan.ico"/>
+      <Icon Value="BoxManEditor.ico"/>
     </General>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
