@@ -1,0 +1,41 @@
+program BoxManEditor;
+
+{ Lazarus/Free Pascal port of the original Delphi 7 project.
+  Converted from BoxManEditor.dpr. }
+
+{$mode delphi}{$H+}
+
+uses
+  Interfaces,
+  Forms,
+  Editor_ in 'Editor_.pas' {EditorForm_},
+  EditorInf_ in 'EditorInf_.pas' {EditorInfForm_},
+  Recog_ in 'Recog_.pas' {RecogForm_},
+  LoadSkin in 'LoadSkin.pas' {LoadSkinForm},
+  EditorHelp in 'EditorHelp.pas' {EditorHelpForm},
+  TrialUnit in 'TrialUnit.pas' {TrialForm};
+
+{$R *.res}
+
+// 避免关闭程序出现“runtime error 216 at xxxxxxx"的错误提示
+procedure Halt0;
+begin
+  Halt;
+end;
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TEditorForm_, EditorForm_);
+  Application.CreateForm(TEditorInfForm_, EditorInfForm_);
+  Application.CreateForm(TRecogForm_, RecogForm_);
+  Application.CreateForm(TLoadSkinForm, LoadSkinForm);
+  Application.CreateForm(TEditorHelpForm, EditorHelpForm);
+  Application.CreateForm(TTrialForm, TrialForm);
+
+  Application.Run;
+
+  { The original Delphi .dpr installed a Win32 SEH handler here to suppress
+    "runtime error 216". That hack is Delphi-specific and unnecessary under
+    FPC, so it is intentionally omitted. }
+  Halt0;
+end.

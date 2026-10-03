@@ -20,10 +20,11 @@
 
    也可从 https://www.lazarus-ide.org/ 下载安装。
 
-2. 命令行编译：
+2. 命令行编译（游戏主程序和关卡编辑器是两个工程）：
 
    ```bat
    lazbuild BoxMan.lpi
+   lazbuild BoxManEditor.lpi
    ```
 
    若 lazbuild 找不到 Lazarus 目录，可显式指定（路径换成你自己的）：
@@ -32,12 +33,13 @@
    lazbuild --lazarusdir="D:\apps\Scoop\apps\lazarus\current" BoxMan.lpi
    ```
 
-   也可用 Lazarus IDE 打开 `BoxMan.lpi`，直接按 F9 编译运行。
+   也可用 Lazarus IDE 打开 `BoxMan.lpi` / `BoxManEditor.lpi`，直接按 F9 编译运行。
 
-3. 编译输出：`BoxMan.exe`（64 位 GUI 程序）。
+3. 编译输出：`BoxMan.exe`（游戏主程序）与 `BoxManEditor.exe`（关卡编辑器），均为 64 位 GUI 程序。
 
-4. 运行时依赖：`sqlite3_x64.dll`（64 位 SQLite 运行库），必须与 `BoxMan.exe` 放在同一目录。
-   工程内已附带官方 3.53.4 win-x64 版本。
+4. 运行时依赖：`sqlite3_x64.dll`（64 位 SQLite 运行库，**游戏主程序需要**，
+   必须与 `BoxMan.exe` 放在同一目录）。工程内已附带官方 3.53.4 win-x64 版本。
+   关卡编辑器不依赖 SQLite。
 
 ### 方式二：Delphi 7（32 位，原版）
 
@@ -52,8 +54,8 @@
 
 | 文件 | 用途 |
 | --- | --- |
-| `BoxMan.dpr` / `BoxMan.lpi` | 主程序入口（同一程序的两套工程文件） |
-| `BoxManEditor.dpr` | 关卡编辑器 |
+| `BoxMan.dpr` / `BoxMan.lpi` | 游戏主程序入口 |
+| `BoxManEditor.dpr` / `BoxManEditor.lpi` | 关卡编辑器入口 |
 | `AppEvnts.pas`、`IdHTTP.pas`、`PsAPI.pas`、`OleCtrls.pas`、`VclFileCtrl.pas` | LCL 缺少的 Delphi 单元兼容层 |
 | `SHDocVw.pas` | `TWebBrowser` 封装（基于 `SHDocVw_1_1_TLB.pas`） |
 | `SHDocVw_1_1_TLB.pas` | 由 IE 类型库（ieframe.dll）用 `importtl` 生成的 IE 控件绑定 |

@@ -14,7 +14,7 @@
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, jpeg, pngimage, Clipbrd, 
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, {$IFNDEF FPC}jpeg, pngimage, {$ENDIF}Clipbrd, 
   Dialogs, ExtCtrls, Buttons, ImgList, ExtDlgs, Menus, Math, StdCtrls, Spin, DateUtils,
   ComCtrls;
 
