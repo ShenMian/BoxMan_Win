@@ -2,6 +2,17 @@
 
 本文件记录“推箱快手Windows版”的版本变更，版本号沿用原项目的 `V主版本.次版本` 命名。
 
+## v2.9-beta.1，2026-10-04
+
+1. 源码转为 UTF-8 with BOM 编码；
+2. 移植到 Free Pascal / Lazarus，实现 64 位编译；
+3. 64 位运行支持：改用官方 64 位 `sqlite3_x64.dll`（关卡编辑器不依赖 SQLite）；
+4. 实现真实 `TWebBrowser`（IE ActiveX 控件），并设置 `Silent` 模式屏蔽脚本错误与安全警告；
+5. 移植关卡编辑器 `BoxManEditor` 到 Lazarus（64 位）；
+6. 修复 `BoxManEditor.exe` 图标丢失的问题；
+7. 新增 GitHub Actions CI/CD：自动编译两个工程、打包 `BoxMan-win64.zip` 并发布 Release，预发布标签自动标记为 prerelease；
+8. 文档：README 补充编译方式、自动构建与发布说明；`.gitignore` 忽略发布打包输出。
+
 ## V2.9，2020-09-09
 
 1. 新增用鼠标旋转关卡地图的方法；
