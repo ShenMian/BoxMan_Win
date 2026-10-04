@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**/*.md"
+      - ".gitignore"
+  pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - ".gitignore"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (Windows x64)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Lazarus / FPC
+        uses: gcarreno/setup-lazarus@v3
+        with:
+          lazarus-version: stable
+
+      - name: Build game and editor
+        shell: pwsh
+        run: |
+          lazbuild -B BoxMan.lpi
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          lazbuild -B BoxManEditor.lpi
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Check build output
+        shell: pwsh
+        run: |
+          foreach ($f in 'BoxMan.exe', 'BoxManEditor.exe') {
+            if (-not (Test-Path $f)) { throw "$f was not produced" }
+            Get-Item $f | Select-Object Name, Length
+          }
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: BoxMan-win64
+          path: |
+            BoxMan.exe
+            BoxManEditor.exe
+          if-no-files-found: error
+          retention-days: 14

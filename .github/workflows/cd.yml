@@ -1,0 +1,65 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - "v*"
+      - "V*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create (e.g. V2.10)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Package and release (Windows x64)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Lazarus / FPC
+        uses: gcarreno/setup-lazarus@v3
+        with:
+          lazarus-version: stable
+
+      - name: Build game and editor
+        shell: pwsh
+        run: |
+          lazbuild -B BoxMan.lpi
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          lazbuild -B BoxManEditor.lpi
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Assemble Windows package
+        shell: pwsh
+        run: |
+          $pkg = 'dist\BoxMan'
+          New-Item -ItemType Directory -Force -Path $pkg | Out-Null
+          Copy-Item BoxMan.exe, BoxManEditor.exe, sqlite3_x64.dll, BoxManHelp.txt $pkg
+          foreach ($dir in 'Image', 'Skins', 'Levels') {
+            if (Test-Path $dir) { Copy-Item -Recurse $dir $pkg }
+          }
+          Compress-Archive -Path $pkg -DestinationPath BoxMan-win64.zip -Force
+          Get-Item BoxMan-win64.zip | Select-Object Name, Length
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BoxMan-win64
+          path: BoxMan-win64.zip
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: ${{ github.event.inputs.tag || github.ref_name }}
+          files: BoxMan-win64.zip
+          generate_release_notes: true
+          draft: false

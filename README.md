@@ -1,5 +1,8 @@
 # 推箱快手Windows版
 
+[![CI](https://github.com/ShenMian/BoxMan_Win/actions/workflows/ci.yml/badge.svg)](https://github.com/ShenMian/BoxMan_Win/actions/workflows/ci.yml)
+[![CD](https://github.com/ShenMian/BoxMan_Win/actions/workflows/cd.yml/badge.svg)](https://github.com/ShenMian/BoxMan_Win/actions/workflows/cd.yml)
+
 ## 版权说明
 
 1. 本软件中的部分代码，采用或参考了网上的开源代码，在此表示感谢。
@@ -61,6 +64,20 @@
 | `SHDocVw_1_1_TLB.pas` | 由 IE 类型库（ieframe.dll）用 `importtl` 生成的 IE 控件绑定 |
 
 构建输出目录 `lib/` 已在 `.gitignore` 中忽略。
+
+## 自动构建与发布
+
+仓库使用 GitHub Actions：
+
+- **CI**（`.github/workflows/ci.yml`）：向 `main` 推送或提交 PR 时，在 Windows 上安装
+  Lazarus/FPC 并编译 `BoxMan.lpi` 与 `BoxManEditor.lpi`，构建产物可在该次运行的
+  Artifacts 中下载。
+- **CD**（`.github/workflows/cd.yml`）：推送形如 `V2.10` / `v2.10` 的标签（或在 Actions
+  页面手动触发并填写标签）时，编译并打包 `BoxMan-win64.zip`，随后自动创建对应的
+  GitHub Release 并附上该压缩包。
+
+发布包内容：`BoxMan.exe`、`BoxManEditor.exe`、`sqlite3_x64.dll`、`BoxManHelp.txt`，
+以及 `Image/`、`Skins/`、`Levels/` 资源目录。
 
 ### 浏览器控件（查看提交列表）
 
