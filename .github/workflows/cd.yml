@@ -62,4 +62,5 @@ jobs:
           name: ${{ github.event.inputs.tag || github.ref_name }}
           files: BoxMan-win64.zip
           generate_release_notes: true
+          prerelease: ${{ contains(github.event.inputs.tag || github.ref_name, '-') }}
           draft: false
