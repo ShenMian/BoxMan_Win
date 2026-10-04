@@ -38,3 +38,7 @@ modules/
 /lib/
 /*.compiled
 /backup/
+
+# Release/packaging output
+/dist/
+/BoxMan-win64.zip
